@@ -1,8 +1,9 @@
-#include <date.h>
+#include "00load.h"
 #include <stdio.h>
 
 int main(){
-  Date d = createDate(1,2,2017);
-  printf("Dia: %i\n", get_day(d));
+
+  TAD_community com = load(NULL, "../../android");
+
   return 0;
 } 
