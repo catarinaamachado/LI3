@@ -36,5 +36,3 @@ typedef struct TCD_community{
   GHashTable * questions;
   GPtrArray * day;  //BUG: algoritmo do tempo indices e datas
 } TCD_community;
-
-//g_ptr_array_new ();
