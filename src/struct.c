@@ -1,13 +1,12 @@
 #include <gmodule.h>
 
-
 typedef struct users {
   char * shortbio;
   char * username;
   int reputation;
   int n_posts;
-  int next_write;       //              if(next_write == 9) next_write = 0 else next_write++;
-  //BUG: problem array ultimos 10 posts
+  int next_write;       //if(next_write == 9) next_write = 0 else next_write++;
+  int last_10posts[10];
 } * Users;
 
 typedef struct questions {
