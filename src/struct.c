@@ -7,7 +7,7 @@ typedef struct users {
   int n_posts;
   int next_write;       //if(next_write == 9) next_write = 0 else next_write++;
   int last_10posts[10];
-} * Users;
+} Users;
 
 typedef struct questions {
   int post_id;
@@ -17,24 +17,24 @@ typedef struct questions {
   int n_answers;
   int n_answer_votes;
   GArray * answers;
-} * Questions;
+} Questions;
 
 typedef struct answers{
   int answer_id;
   int score;
-} * Answers;
+} Answers;
 
 typedef struct day{
   int n_questions;
   int n_answers;
   GSList questions;
   GSList answers;
-} * Day;
+} Day;
 
 typedef struct TCD_community{
-  GArray * users;
+  GPtrArray * users;
   GHashTable * questions;
-  GArray * day;  //BUG: algoritmo do tempo indices e datas
+  GPtrArray * day;  //BUG: algoritmo do tempo indices e datas
 } * TCD_community;
 
 //g_array_new (FALSE, FALSE, sizeof(int));
