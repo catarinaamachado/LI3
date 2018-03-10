@@ -22,40 +22,30 @@ static void processPosts(TAD_community com, xmlTextReaderPtr reader) {
 
             Questions * pointer = g_hash_table_lookup (com->questions, GINT_TO_POINTER(a));
 
+            sprintf(buf, "%s\n", (xmlTextReaderGetAttribute(reader, BAD_CAST("AnswerCount"))));
+
             if(pointer == NULL) {
                 pointer = malloc(sizeof(Questions));
 
                 pointer->post_id = a;
 
-                sprintf(buf, "%s\n", (xmlTextReaderGetAttribute(reader, BAD_CAST("OwnerUserId"))));
-                pointer->user_id = atoi(buf);
-
-                sprintf(buf, "%s\n", (xmlTextReaderGetAttribute(reader, BAD_CAST("AnswerCount"))));
                 pointer->n_answers = atoi(buf);
                 pointer->answers = g_ptr_array_sized_new(pointer->n_answers);
 
-                sprintf(pointer->title, "%s\n", (xmlTextReaderGetAttribute(reader, BAD_CAST("Title"))));
-                sprintf(pointer->tags, "%s\n", (xmlTextReaderGetAttribute(reader, BAD_CAST("Tags"))));
-
                 pointer->n_answer_votes = 0;
-
-                g_hash_table_insert(com->questions, GINT_TO_POINTER(pointer->post_id), pointer);
             }
 
             else {
-                sprintf(buf, "%s\n", (xmlTextReaderGetAttribute(reader, BAD_CAST("OwnerUserId"))));
-                pointer->user_id = atoi(buf);
-
-                 sprintf(buf, "%s\n", (xmlTextReaderGetAttribute(reader, BAD_CAST("AnswerCount"))));
                 pointer->n_answers = atoi(buf);
-
-                sprintf(pointer->title, "%s\n", (xmlTextReaderGetAttribute(reader, BAD_CAST("Title"))));
-                sprintf(pointer->tags, "%s\n", (xmlTextReaderGetAttribute(reader, BAD_CAST("Tags"))));
-
-                pointer->n_answer_votes = 0;
-
-                g_hash_table_insert(com->questions, GINT_TO_POINTER(pointer->post_id), pointer);
             }
+
+            sprintf(buf, "%s\n", (xmlTextReaderGetAttribute(reader, BAD_CAST("OwnerUserId"))));
+            pointer->user_id = atoi(buf);
+
+            sprintf(pointer->title, "%s\n", (xmlTextReaderGetAttribute(reader, BAD_CAST("Title"))));
+            sprintf(pointer->tags, "%s\n", (xmlTextReaderGetAttribute(reader, BAD_CAST("Tags"))));
+
+            g_hash_table_insert(com->questions, GINT_TO_POINTER(pointer->post_id), pointer);
         }
 
         else {
@@ -89,7 +79,7 @@ static void processPosts(TAD_community com, xmlTextReaderPtr reader) {
                 q->post_id = atoi(buf);
     
                 q->answers = g_ptr_array_new();
-                q->n_answer_votes += votes;
+                q->n_answer_votes = votes;
 
                 g_ptr_array_add(q->answers, pointer);
 
