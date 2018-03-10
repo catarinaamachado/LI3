@@ -11,26 +11,32 @@ static void processPosts(TAD_community com, xmlTextReaderPtr reader) {
     int a;
     char buf[100];        
 
-    if (xmlTextReaderNodeType(reader) == 1 && xmlTextReaderGetAttribute(reader, BAD_CAST("Id")) != 0) {
-        Questions * pointer = malloc(sizeof(Questions));
+    if (xmlTextReaderNodeType(reader) == 1) {
 
-        sprintf(buf, "%s\n", (xmlTextReaderGetAttribute(reader, BAD_CAST("Id"))));
-        a = atoi(buf);
-        pointer->post_id = a;
+        sprintf(buf, "%s\n", (xmlTextReaderGetAttribute(reader, BAD_CAST("PostTypeId"))));
 
-        sprintf(buf, "%s\n", (xmlTextReaderGetAttribute(reader, BAD_CAST("OwnerUserId"))));
-        a = atoi(buf);
-        pointer->user_id = a;
+        if( !strcmp(buf, "1\n") && xmlTextReaderGetAttribute(reader, BAD_CAST("Id")) != 0) {
 
-        sprintf(pointer->title, "%s\n", (xmlTextReaderGetAttribute(reader, BAD_CAST("Title"))));
-        sprintf(pointer->tags, "%s\n", (xmlTextReaderGetAttribute(reader, BAD_CAST("Tags"))));
+            Questions * pointer = malloc(sizeof(Questions));
 
-        pointer->n_answers = 0;
-        pointer->n_answer_votes = 0;
+            sprintf(buf, "%s\n", (xmlTextReaderGetAttribute(reader, BAD_CAST("Id"))));
+            a = atoi(buf);
+            pointer->post_id = a;
 
-        pointer->answers = g_ptr_array_new();
+            sprintf(buf, "%s\n", (xmlTextReaderGetAttribute(reader, BAD_CAST("OwnerUserId"))));
+            a = atoi(buf);
+            pointer->user_id = a;
 
-        g_hash_table_insert(com->questions, &(pointer->post_id), pointer);
+            sprintf(pointer->title, "%s\n", (xmlTextReaderGetAttribute(reader, BAD_CAST("Title"))));
+            sprintf(pointer->tags, "%s\n", (xmlTextReaderGetAttribute(reader, BAD_CAST("Tags"))));
+
+            pointer->n_answers = 0;
+            pointer->n_answer_votes = 0;
+
+            pointer->answers = g_ptr_array_new();
+
+            g_hash_table_insert(com->questions, GINT_TO_POINTER(pointer->post_id), pointer);
+        }
     }
 
     xmlFree(xmlTextReaderName(reader));
