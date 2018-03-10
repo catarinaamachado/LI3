@@ -87,7 +87,6 @@ static void processPosts(TAD_community com, xmlTextReaderPtr reader) {
 
                 sprintf(buf, "%s\n", (xmlTextReaderGetAttribute(reader, BAD_CAST("ParentId"))));
                 q->post_id = atoi(buf);
-                printf("%d\n", q->post_id);
     
                 q->answers = g_ptr_array_new();
                 q->n_answer_votes += votes;
