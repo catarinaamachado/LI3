@@ -10,7 +10,7 @@ int main(){
 
   TAD_community com = init();
 
-  com = load(NULL, "../../android");
+  com = load(com, "../../android");
   
   free(com);
   
