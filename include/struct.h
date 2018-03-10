@@ -15,7 +15,7 @@ typedef struct questions {
   char title[150];
   char tags[1000];  //assuming a max size //TODO: funcao que separa a string com as todas tags num array de strings
   int n_answers;
-  int n_answer_votes;
+  int n_answer_votes; //numero total de votos de todas as respostas de uma dada pergunta
   GPtrArray * answers;
 } Questions;
 
