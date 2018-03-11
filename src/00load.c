@@ -24,17 +24,18 @@ TAD_community load(TAD_community com, char* dump_path) {
 
     int size = sizeof(char) * strlen(dump_path);
 
-    char * posts = malloc(size + 10*sizeof(char));
-    strcpy(posts, dump_path);
-    strcat(posts, "Posts.xml");
-    FILE * p = fopen(posts,"r");
-    read_xmlfile(p, "Posts.xml");
-
     char * users = malloc(size + 10*sizeof(char));
     strcpy(users, dump_path);
     strcat(users, "Users.xml");
     FILE * u = fopen(users,"r");
     read_xmlfile(u, "Users.xml");
+
+
+    char * posts = malloc(size + 10*sizeof(char));
+    strcpy(posts, dump_path);
+    strcat(posts, "Posts.xml");
+    FILE * p = fopen(posts,"r");
+    read_xmlfile(p, "Posts.xml");
 
     char * votes = malloc(size + 10*sizeof(char));
     strcpy(votes, dump_path);
@@ -176,7 +177,10 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
 
             pointer->user_id = atoi((const char *)attributes[owner_id]);
 
+            pointer->title = malloc(sizeof(char) * (strlen((const char *)attributes[title])+2));
             sprintf(pointer->title, "%s\n", (const char *)attributes[title]);
+
+            pointer->tags = malloc(sizeof(char) * (strlen((const char *)attributes[tags])+2));
             sprintf(pointer->tags, "%s\n", (const char *)attributes[tags]);
 
             g_hash_table_insert(structure->questions, GINT_TO_POINTER(pointer->post_id), pointer);
@@ -201,8 +205,11 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
                 q = malloc(sizeof(Questions));
 
                 q->user_id=0;
-                strcpy(q->title, "");
-                strcpy(q->tags, "");
+
+                q->title = 0;
+
+                q->tags = 0;
+                
                 q->n_answers=1;
 
                 q->post_id = atoi((const char *)attributes[parentid]);
