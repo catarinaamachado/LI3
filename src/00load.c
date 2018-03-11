@@ -103,23 +103,46 @@ xmlSAXHandler make_sax_handler (char *dump_file_name){
 
 //Extrai os atributos necessários do user
 static void OnStartElementUsers(void *ctx, const xmlChar *element_name, const xmlChar **attributes) {
-    int i;
+    int i, user_id, id, reputation, name, about;
+    id = reputation = name = about = 0;
 
     if (attributes != NULL) {
+        
         for (i = 0;(attributes[i] != NULL);i++) {
-          if(strncmp((const char *)attributes[i], "Id", 2) == 0 ||
-             strncmp((const char *)attributes[i], "Reputation", 10) == 0 ||
-             strncmp((const char *)attributes[i], "DisplayName", 11) == 0 ||
-             strncmp((const char *)attributes[i], "AboutMe", 7) == 0) {
-	          //fprintf(stdout, "%s = ", attributes[i]);
-            i++;
-	          if (attributes[i] != NULL) {
-	             //fprintf(stdout, "%s ", attributes[i]);
-             }
-          }
-	      }
+            if(strncmp((const char *)attributes[i], "Id", 2) == 0)
+                id = ++i;
+
+            else if(strncmp((const char *)attributes[i], "Reputation", 10) == 0)
+                reputation = ++i;
+
+            else if(strncmp((const char *)attributes[i], "DisplayName", 11) == 0)
+                name = ++i;
+
+            else if(strncmp((const char *)attributes[i], "AboutMe", 7) == 0)
+                about = ++i;
+        }
+
+        if((user_id = atoi((const char *)attributes[id])) != -1) {
+            Users * pointer = malloc(sizeof(Users));
+
+            pointer->username = malloc(sizeof(char) * (strlen((const char *)attributes[name])+2));
+            sprintf(pointer->username, "%s\n", (const char *)attributes[name]);
+
+            if(about != 0) { 
+                pointer->shortbio = malloc(sizeof(char) * (strlen((const char *)attributes[about])+2));
+                sprintf(pointer->shortbio, "%s\n", (const char *)attributes[about]);
+            }
+
+            else {
+                pointer->shortbio = malloc(sizeof(char));
+                strcpy(pointer->shortbio, "");
+            }
+
+            pointer->reputation = atoi((const char *)attributes[reputation]);
+            
+            g_hash_table_insert(structure->users, GINT_TO_POINTER(user_id), pointer);
+        }
     }
-    //fprintf(stdout, "\n");
 }
 
 static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xmlChar **attributes) {

@@ -1,6 +1,7 @@
 #include <gmodule.h>
 
 typedef struct users {
+  int user_id;
   char * shortbio;
   char * username;
   int reputation;
@@ -34,7 +35,7 @@ typedef struct day{
 } Day;
 
 typedef struct TCD_community{
-  GPtrArray * users;
+  GHashTable * users;
   GHashTable * questions;
   GHashTable * answers; //hash table com as respostas
   GPtrArray * day;  //BUG: algoritmo do tempo indices e datas
