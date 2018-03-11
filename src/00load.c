@@ -127,7 +127,7 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
     id = post_type_id = owner_id = title = tags = answer_count = score = parentid = 0;
 
     if (attributes != NULL) {
-        
+
         for (i = 0;(attributes[i] != NULL);i++) {
             if(strncmp((const char *)attributes[i], "Id", 2) == 0)
                 id = ++i;
@@ -140,7 +140,7 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
 
             else if(strncmp((const char *)attributes[i], "Title", 5) == 0)
                 title = ++i;
-            
+
             else if(strncmp((const char *)attributes[i], "Tags", 4) == 0)
                 tags = ++i;
 
@@ -193,6 +193,10 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
 
             int votes = atoi((const char *)attributes[score]);
             pointer->score = votes;
+            pointer->total_voters = 0; //inicializa votantes a zero
+            pointer->voters_id = g_array_new(FALSE, FALSE, sizeof(gint));  //inicializa o array dos voters
+
+            g_hash_table_insert(structure->answers, GINT_TO_POINTER(pointer->answer_id), pointer); //insere uma resposta na hash table das answers
 
             int parent_id = atoi((const char *)attributes[parentid]);
             Questions * q = g_hash_table_lookup(structure->questions, GINT_TO_POINTER(parent_id));
@@ -209,7 +213,7 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
                 q->title = 0;
 
                 q->tags = 0;
-                
+
                 q->n_answers=1;
 
                 q->post_id = atoi((const char *)attributes[parentid]);
@@ -228,22 +232,38 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
 
 
 static void OnStartElementVotes(void *ctx, const xmlChar *element_name, const xmlChar **attributes) {
-    int i;
+    int i, a, post_id, vote_type_id, user_id;
+    post_id = vote_type_id = user_id = 0;
 
 
     if (attributes != NULL) {
-        for (i = 0;(attributes[i] != NULL);i++) {
-          if(strncmp((const char *)attributes[i], "Id", 2) == 0 ||
-             strncmp((const char *)attributes[i], "PostId", 6) == 0 ||
-             strncmp((const char *)attributes[i], "VoteTypeId", 10) == 0 ||
-             strncmp((const char *)attributes[i], "UserId", 6) == 0) {
-	          //fprintf(stdout, "%s = ", attributes[i]);
-            i++;
-	          if (attributes[i] != NULL) {
-	            // fprintf(stdout, "%s ", attributes[i]);
-            }
+
+        for (i = 0; (attributes[i] != NULL); i++) {
+          if(strncmp((const char *)attributes[i], "PostId", 6) == 0)
+            post_id = i++;
+
+          else if (strncmp((const char *)attributes[i], "VoteTypeId", 10) == 0)
+            vote_type_id = i++;
+
+          else if (strncmp((const char *)attributes[i], "UserId", 6) == 0)
+            user_id = i++;
+       }
+
+       if( !strncmp((const char *)attributes[vote_type_id], "5", 1)) {
+
+          a = atoi((const char *)attributes[post_id]);
+
+          Answers * pointer = g_hash_table_lookup (structure->answers, GINT_TO_POINTER(a));
+
+          if(pointer != NULL) { // se der null é porque a resposta não existe e, por isso, não lhe posso associar um voto
+
+              pointer->total_voters++;
+
+              g_array_append_val(pointer->voters_id, attributes[user_id]);
           }
-	      }
-    }
-    //fprintf(stdout, "\n");
+
+        }
+
+      }
+
 }

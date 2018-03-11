@@ -23,7 +23,7 @@ int main(){
       printf("Q: Id: %d, User id: %d, Title: %s", q->post_id, q->user_id, q->title);
 
       for(int l = 0; l < q->n_answers; l++) {
-        
+
         a = g_ptr_array_index(q->answers, l);
 
         if(a != NULL)
@@ -35,8 +35,8 @@ int main(){
   }
 
 
-
+  //TODO criar função para libertar a memória de todas as estruturas
   free(com);
-  
+
   return 0;
-} 
+}

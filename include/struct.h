@@ -22,6 +22,8 @@ typedef struct questions {
 typedef struct answers{
   int answer_id;
   int score;
+  int total_voters; //numero total de users que votaram naquela resposta
+  GArray * voters_id; // array com os users que votaram na resposta
 } Answers;
 
 typedef struct day{
@@ -34,5 +36,6 @@ typedef struct day{
 typedef struct TCD_community{
   GPtrArray * users;
   GHashTable * questions;
+  GHashTable * answers; //hash table com as respostas
   GPtrArray * day;  //BUG: algoritmo do tempo indices e datas
 } TCD_community;
