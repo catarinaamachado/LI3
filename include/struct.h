@@ -6,8 +6,7 @@ typedef struct users {
   char * username;
   int reputation;
   int n_posts;
-  int next_write;       //if(next_write == 9) next_write = 0 else next_write++;
-  int last_10posts[10];
+  GArray * last_10posts;
 } Users;
 
 typedef struct questions {

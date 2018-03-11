@@ -30,7 +30,6 @@ TAD_community load(TAD_community com, char* dump_path) {
     FILE * u = fopen(users,"r");
     read_xmlfile(u, "Users.xml");
 
-
     char * posts = malloc(size + 10*sizeof(char));
     strcpy(posts, dump_path);
     strcat(posts, "Posts.xml");
@@ -122,26 +121,30 @@ static void OnStartElementUsers(void *ctx, const xmlChar *element_name, const xm
                 about = ++i;
         }
 
-        if((user_id = atoi((const char *)attributes[id])) != -1) {
-            Users * pointer = malloc(sizeof(Users));
+        user_id = atoi((const char *)attributes[id]);
 
-            pointer->username = malloc(sizeof(char) * (strlen((const char *)attributes[name])+2));
-            sprintf(pointer->username, "%s\n", (const char *)attributes[name]);
+        Users * pointer = malloc(sizeof(Users));
 
-            if(about != 0) { 
-                pointer->shortbio = malloc(sizeof(char) * (strlen((const char *)attributes[about])+2));
-                sprintf(pointer->shortbio, "%s\n", (const char *)attributes[about]);
-            }
+        pointer->username = malloc(sizeof(char) * (strlen((const char *)attributes[name])+2));
+        sprintf(pointer->username, "%s\n", (const char *)attributes[name]);
 
-            else {
-                pointer->shortbio = malloc(sizeof(char));
-                strcpy(pointer->shortbio, "");
-            }
-
-            pointer->reputation = atoi((const char *)attributes[reputation]);
-            
-            g_hash_table_insert(structure->users, GINT_TO_POINTER(user_id), pointer);
+        if(about != 0) { 
+            pointer->shortbio = malloc(sizeof(char) * (strlen((const char *)attributes[about])+2));
+            sprintf(pointer->shortbio, "%s\n", (const char *)attributes[about]);
         }
+
+        else {
+            pointer->shortbio = malloc(sizeof(char));
+            strcpy(pointer->shortbio, "\n");
+        }
+
+        pointer->reputation = atoi((const char *)attributes[reputation]);
+        pointer->n_posts = 0;
+        pointer->user_id = user_id;
+
+        pointer->last_10posts = g_array_sized_new(FALSE, TRUE, sizeof(int), 10);
+            
+        g_hash_table_insert(structure->users, GINT_TO_POINTER(user_id), pointer);
     }
 }
 
@@ -250,6 +253,20 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
             }
         }
 
+        if(owner_id) {
+            int oid = atoi((const char *)attributes[owner_id]);
+            Users * u = g_hash_table_lookup(structure->users, GINT_TO_POINTER(oid));
+
+            if(u != NULL) {
+                u->n_posts++;
+
+                int postId = atoi((const char *)attributes[id]);
+                g_array_prepend_val(u->last_10posts, postId);
+
+                if(u->n_posts > 10)
+                    g_array_remove_index(u->last_10posts, 10);
+            }
+        }
     }
 }
 
