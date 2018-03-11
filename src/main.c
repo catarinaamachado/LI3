@@ -11,9 +11,7 @@ int main(){
 
   TAD_community com = init();
 
-  com = load(com, "../../android");
-
-
+  com = load(com, "../android/");
 
   Questions * q;
   Answers * a;
