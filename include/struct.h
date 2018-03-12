@@ -1,7 +1,7 @@
 #include <gmodule.h>
 
 typedef struct users {
-  int user_id;
+  long user_id;
   char * shortbio;
   char * username;
   int reputation;
@@ -11,7 +11,7 @@ typedef struct users {
 
 typedef struct questions {
   int post_id;
-  int user_id;
+  long user_id;
   char * title;
   char * tags;  //assuming a max size //TODO: funcao que separa a string com as todas tags num array de strings
   int n_answers;

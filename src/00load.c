@@ -102,8 +102,10 @@ xmlSAXHandler make_sax_handler (char *dump_file_name){
 
 //Extrai os atributos necessários do user
 static void OnStartElementUsers(void *ctx, const xmlChar *element_name, const xmlChar **attributes) {
-    int i, user_id, id, reputation, name, about;
+    int i, id, reputation, name, about;
     id = reputation = name = about = 0;
+
+    long user_id;
 
     if (attributes != NULL) {
         
@@ -121,7 +123,7 @@ static void OnStartElementUsers(void *ctx, const xmlChar *element_name, const xm
                 about = ++i;
         }
 
-        user_id = atoi((const char *)attributes[id]);
+        user_id = atol((const char *)attributes[id]);
 
         Users * pointer = malloc(sizeof(Users));
 
@@ -201,7 +203,7 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
                 pointer->n_answers = atoi((const char *)attributes[answer_count]);
             }
 
-            pointer->user_id = atoi((const char *)attributes[owner_id]);
+            pointer->user_id = atol((const char *)attributes[owner_id]);
 
             pointer->title = malloc(sizeof(char) * (strlen((const char *)attributes[title])+2));
             sprintf(pointer->title, "%s\n", (const char *)attributes[title]);
