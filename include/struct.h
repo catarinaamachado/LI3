@@ -26,23 +26,26 @@ typedef struct questions {
   GPtrArray * answers;
 } Questions;
 
-typedef struct answers{
+typedef struct answers {
   int answer_id;
   int score;
   int total_voters; //numero total de users que votaram naquela resposta
   GArray * voters_id; // array com os users que votaram na resposta
 } Answers;
 
-typedef struct day{
+typedef struct day {   //int da forma "DDMMAAAA"
+  int day;
+  int month;  //provavelmente apagar depois estas 3 variáveis
+  int year;
   int n_questions;
   int n_answers;
-  GSList questions;
-  GSList answers;
+  GPtrArray * questions;
+  GPtrArray * answers;
 } Day;
 
-typedef struct TCD_community{
+typedef struct TCD_community {
   GHashTable * users;
   GHashTable * questions;
   GHashTable * answers; //hash table com as respostas
-  GPtrArray * day;  //BUG: algoritmo do tempo indices e datas
+  GHashTable * day; //hash table com os dias
 } TCD_community;
