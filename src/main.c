@@ -15,6 +15,7 @@ int main(){
   Questions * q;
   Answers * a;
   Users * u;
+  Day * d;
 
   // for (int i = 0; i <= 187278; i++) {
   //   q = g_hash_table_lookup (com->questions, GINT_TO_POINTER(i));
@@ -49,27 +50,49 @@ int main(){
   //       for (int l = 0; l < u->n_posts && l < 10; l++) {
   //         postDate pd = g_array_index(u->last_10posts, postDate, l);
   //         printf("Post Id: %ld\n", pd->post_id);
-  //         printf("%d-%d-%d\n%d:%d:%d.%d\n\n", 
+  //         printf("%d-%d-%d\n%d:%d:%d.%d\n\n",
   //                   pd->year, pd->month, pd->day, pd->hour, pd->min, pd->sec, pd->mili);
-        
+
   //       }
 
   //       printf("\n\n");
   //     }
   //   }
 
+
   USER us;
-  us = get_user_info(com, 152);
+  us = get_user_info(com, 3);
 
   printf("User 3\nBio:\n%s\n", get_bio(us));
 
   long * posts = get_10_latest_posts(us);
 
   for (int i = 0; i < 10 && posts[i] != -1; i++) {
-  
+
     printf("Post: %ld\n", posts[i]);
-  
+
   }
+
+
+ for (int i = 0; i <= 3122017; i++) {
+   d = g_hash_table_lookup (com->day, GINT_TO_POINTER(i));
+
+   if(d != NULL) {
+     printf("Dia:%d Mês:%d Ano:%d\nNr de perguntas: %d\nNr de respostas: %d\n",
+     d->day, d-> month, d->year, d->n_questions, d->n_answers);
+
+     for(int l = 0; l < d->n_answers; l++) {
+
+       a = g_ptr_array_index(d->answers, l);
+
+       if(a != NULL)
+         printf("  A: Id: %d, Score: %d\n", a->answer_id, a->score);
+     }
+
+   printf("\n\n");
+   }
+ }
+
 
   //TODO criar função para libertar a memória de todas as estruturas
   free(com);
