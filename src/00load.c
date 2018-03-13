@@ -49,6 +49,14 @@ TAD_community load(TAD_community com, char* dump_path) {
     return structure;
 }
 
+//para concatenar a data num unico inteiro
+int concatenate(int x, int y) {
+    int pow = 10;
+    while(y >= pow)
+        pow *= 10;
+    return x * pow + y;
+}
+
 
 int read_xmlfile(FILE *file, char *dump_file_name) {
     char chars[1024];
@@ -108,7 +116,7 @@ static void OnStartElementUsers(void *ctx, const xmlChar *element_name, const xm
     long user_id;
 
     if (attributes != NULL) {
-        
+
         for (i = 0;(attributes[i] != NULL);i++) {
             if(strncmp((const char *)attributes[i], "Id", 2) == 0)
                 id = ++i;
@@ -130,7 +138,7 @@ static void OnStartElementUsers(void *ctx, const xmlChar *element_name, const xm
         pointer->username = malloc(sizeof(char) * (strlen((const char *)attributes[name])+2));
         sprintf(pointer->username, "%s\n", (const char *)attributes[name]);
 
-        if(about != 0) { 
+        if(about != 0) {
             pointer->shortbio = malloc(sizeof(char) * (strlen((const char *)attributes[about])+2));
             sprintf(pointer->shortbio, "%s\n", (const char *)attributes[about]);
         }
@@ -145,13 +153,13 @@ static void OnStartElementUsers(void *ctx, const xmlChar *element_name, const xm
         pointer->user_id = user_id;
 
         pointer->last_10posts = g_array_sized_new(FALSE, TRUE, sizeof(postDate), 10);
-            
+
         g_hash_table_insert(structure->users, GINT_TO_POINTER(user_id), pointer);
     }
 }
 
 static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xmlChar **attributes) {
-    int i, a, id, post_type_id, owner_id, title, tags, answer_count, score, parentid, date;
+    int i, a, id, post_type_id, owner_id, title, tags, answer_count, score, parentid, date, dateInteger;
     id = post_type_id = owner_id = title = tags = answer_count = score = parentid = date = 0;
 
     if (attributes != NULL) {
@@ -185,13 +193,37 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
                 date = ++i;
         }
 
-        if( !strncmp((const char *)attributes[post_type_id], "1", 1)) {
 
+        postDate pd = malloc(sizeof(struct postAndDate));
+
+        pd->post_id = atol((const char *)attributes[id]);
+        sscanf((const char *)attributes[date], "%d-%d-%dT%d:%d:%d.%d\n",
+            &pd->year, &pd->month, &pd->day, &pd->hour, &pd->min, &pd->sec, &pd->mili);
+
+        dateInteger = concatenate(pd->day, pd->month);
+        dateInteger = concatenate(dateInteger, pd->year);
+
+        Day * pointerDay = g_hash_table_lookup (structure->day, GINT_TO_POINTER(dateInteger));
+
+        if(pointerDay == NULL) { //se o dia ainda nao existe na hash table
+          pointerDay = malloc(sizeof(Day));
+
+          pointerDay->n_questions = 0;
+          pointerDay->questions = g_ptr_array_new();
+          pointerDay->n_answers = 0;
+          pointerDay->answers = g_ptr_array_new();
+        }
+
+        pointerDay->day = pd->day;
+        pointerDay->month = pd->month;
+        pointerDay->year = pd->year;
+
+        if( !strncmp((const char *)attributes[post_type_id], "1", 1)) { //trata-se de uma pergunta
             a = atoi((const char *)attributes[id]);
 
             Questions * pointer = g_hash_table_lookup (structure->questions, GINT_TO_POINTER(a));
 
-            if(pointer == NULL) {
+            if(pointer == NULL) { //se a pergunta nao existe (caso em que resposta vem antes da pergunta, e se cria a pergunta vazia)
                 pointer = malloc(sizeof(Questions));
 
                 pointer->post_id = a;
@@ -215,9 +247,13 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
             sprintf(pointer->tags, "%s\n", (const char *)attributes[tags]);
 
             g_hash_table_insert(structure->questions, GINT_TO_POINTER(pointer->post_id), pointer);
+
+            pointerDay->n_questions += 1;
+            g_ptr_array_add(pointerDay->questions, pointer);
+
         }
 
-        else {
+        else {  // se for uma resposta
             Answers * pointer = malloc(sizeof(Answers));
 
             pointer->answer_id = atoi((const char *)attributes[id]);
@@ -232,7 +268,7 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
             int parent_id = atoi((const char *)attributes[parentid]);
             Questions * q = g_hash_table_lookup(structure->questions, GINT_TO_POINTER(parent_id));
 
-            if(q != NULL) {
+            if(q != NULL) {  // se a pergunta existe
                 q->n_answer_votes += votes;
                 g_ptr_array_add(q->answers, pointer);
             }
@@ -256,20 +292,21 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
 
                 g_hash_table_insert(structure->questions, GINT_TO_POINTER(q->post_id), q);
             }
+
+            pointerDay->n_answers += 1;
+            g_ptr_array_add(pointerDay->answers, pointer);
         }
 
-        if(owner_id) {
+
+            g_hash_table_insert (structure->day, GINT_TO_POINTER(dateInteger), pointerDay);
+
+
+        if(owner_id) {  //acrescentar posts aos ids
             int oid = atoi((const char *)attributes[owner_id]);
             Users * u = g_hash_table_lookup(structure->users, GINT_TO_POINTER(oid));
 
             if(u != NULL) {
                 u->n_posts++;
-
-                postDate pd = malloc(sizeof(struct postAndDate));
-
-                pd->post_id = atol((const char *)attributes[id]);
-                sscanf((const char *)attributes[date], "%d-%d-%dT%d:%d:%d.%d\n", 
-                    &pd->year, &pd->month, &pd->day, &pd->hour, &pd->min, &pd->sec, &pd->mili);
 
                 g_array_append_val(u->last_10posts, pd);
             }

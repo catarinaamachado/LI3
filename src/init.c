@@ -12,7 +12,7 @@ TAD_community init() {
 
     com->questions = g_hash_table_new (g_direct_hash, g_direct_equal);
 
-    com->day = g_ptr_array_sized_new(3000);
+    com->day = g_hash_table_new(g_direct_hash, g_direct_equal);
 
     com->answers = g_hash_table_new(g_direct_hash, g_direct_equal);
 
