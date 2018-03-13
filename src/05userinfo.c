@@ -38,7 +38,7 @@ USER get_user_info(TAD_community com, long id){
     for (i = 0; i < n_posts && i < 10; i++)
         pd[i] = g_array_index(user->last_10posts, postDate , n_posts - i -1);
 
-    for (int l = 0; l <= i; l++)
+    for (int l = 0; l <= i && l < n_posts; l++)
         posts[l] = pd[l]->post_id;   
     
     posts[i] = -1;
