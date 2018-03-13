@@ -144,15 +144,15 @@ static void OnStartElementUsers(void *ctx, const xmlChar *element_name, const xm
         pointer->n_posts = 0;
         pointer->user_id = user_id;
 
-        pointer->last_10posts = g_array_sized_new(FALSE, TRUE, sizeof(int), 10);
+        pointer->last_10posts = g_array_sized_new(FALSE, TRUE, sizeof(postDate), 10);
             
         g_hash_table_insert(structure->users, GINT_TO_POINTER(user_id), pointer);
     }
 }
 
 static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xmlChar **attributes) {
-    int i, a, id, post_type_id, owner_id, title, tags, answer_count, score, parentid;
-    id = post_type_id = owner_id = title = tags = answer_count = score = parentid = 0;
+    int i, a, id, post_type_id, owner_id, title, tags, answer_count, score, parentid, date;
+    id = post_type_id = owner_id = title = tags = answer_count = score = parentid = date = 0;
 
     if (attributes != NULL) {
 
@@ -180,6 +180,9 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
 
             else if(strncmp((const char *)attributes[i], "ParentId", 8) == 0)
                 parentid = ++i;
+
+            else if(strncmp((const char *)attributes[i], "CreationDate", 12) == 0)
+                date = ++i;
         }
 
         if( !strncmp((const char *)attributes[post_type_id], "1", 1)) {
@@ -262,11 +265,13 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
             if(u != NULL) {
                 u->n_posts++;
 
-                int postId = atoi((const char *)attributes[id]);
-                g_array_prepend_val(u->last_10posts, postId);
+                postDate pd = malloc(sizeof(struct postAndDate));
 
-                if(u->n_posts > 10)
-                    g_array_remove_index(u->last_10posts, 10);
+                pd->post_id = atol((const char *)attributes[id]);
+                sscanf((const char *)attributes[date], "%d-%d-%dT%d:%d:%d.%d\n", 
+                    &pd->year, &pd->month, &pd->day, &pd->hour, &pd->min, &pd->sec, &pd->mili);
+
+                g_array_append_val(u->last_10posts, pd);
             }
         }
     }

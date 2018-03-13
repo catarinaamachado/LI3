@@ -1,5 +1,12 @@
 #include <gmodule.h>
 
+typedef struct postAndDate {
+    long post_id;
+    int year, month, day, hour, min, sec, mili;
+} postAndDate;
+
+typedef postAndDate * postDate;
+
 typedef struct users {
   long user_id;
   char * shortbio;
