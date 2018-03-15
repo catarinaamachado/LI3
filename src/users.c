@@ -80,3 +80,33 @@ void appendPost(Users u, postDate pd) {
 void initLastPosts(Users u) {
     u->last_posts = g_array_sized_new(FALSE, TRUE, sizeof(postDate), 10);
 }
+
+postDate getPDindex(Users u, int l) {
+    postDate pd = g_array_index(u->last_posts, postDate, l);
+
+    return pd;
+}
+
+
+static gint sortDate (postDate a, postDate b) {
+    if (getPDYear(a) < getPDYear(b))
+        return -1;
+    else if (getPDMonth(a) < getPDMonth(b))
+        return -1;
+    else if (getPDDay(a) < getPDDay(b))
+        return -1;
+    else if (getPDHour(a) < getPDHour(b))
+        return -1;
+    else if (getPDMin(a) < getPDMin(b))
+        return -1;
+    else if (getPDSec(a) < getPDSec(b))
+        return -1;
+    else if (getPDMili(a) < getPDMili(b))
+        return -1;
+
+    return 1;
+}
+
+void sortPosts(Users u) {
+    g_array_sort(u->last_posts, (GCompareFunc)sortDate);
+}

@@ -1,6 +1,3 @@
-#ifndef __POSTDATE_H__
-#define __POSTDATE_H__
-
 typedef struct postAndDate * postDate;
 
 int getPDSize();
@@ -8,20 +5,18 @@ int getPDSize();
 long getPostId(postDate pd);
 void setPostId(postDate pd, long i);
 
-int getYear(postDate pd);
+int getPDYear(postDate pd);
 
-int getMonth(postDate pd);
+int getPDMonth(postDate pd);
 
-int getDay(postDate pd);
+int getPDDay(postDate pd);
 
-int getHour(postDate pd);
+int getPDHour(postDate pd);
 
-int getMin(postDate pd);
+int getPDMin(postDate pd);
 
-int getSec(postDate pd);
+int getPDSec(postDate pd);
 
-int getMili(postDate pd);
+int getPDMili(postDate pd);
 
 void setDate(postDate pd, char * date);
-
-#endif

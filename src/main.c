@@ -3,39 +3,33 @@
 #include <gmodule.h>
 
 #include "00load.h"
-#include <struct.h>
+#include "struct.h"
 
-int main(){
+int main(int argc, char const *argv[]){
 
   TAD_community com = init();
 
   com = load(com, "../android/");
 
-  Users u;
+  USER us;
+  long id = atol(argv[1]);
+  us = get_user_info(com, id);
 
-  // for (int i = 1; i <= 245699; i++) {
-  //     u = lookUsers(com, i);
+  if (us != NULL) {
 
-  //     if(u != NULL) {
-  //       printf("Id: %ld\nName: %s\nBio: %s\nReputation: %d", getUserId(u), getUsername(u), getBio(u), getReputation(u));
-  //       printf("\n");
+    printf("User %ld\nBio:\n%s\n", id, get_bio(us));
 
-  //       printf("NP: %d\n", getNPosts(u));
+    long * posts = get_10_latest_posts(us);
 
+    for (int i = 0; i < 10 && posts[i] != -1; i++) {
 
-  //       // for (int l = 0; l < getNPosts(u) && l < 10; l++) {
+      printf("Post: %ld\n", posts[i]);
 
-  //       //   postDate pd = g_array_index(u->last_posts, postDate, l);
+    }
+  }
 
-  //       //   printf("Post Id: %ld\n", gt);
-  //       //   // printf("%d-%d-%d\n%d:%d:%d.%d\n\n",
-  //       //   //           pd->year, pd->month, pd->day, pd->hour, pd->min, pd->sec, pd->mili);
-
-  //       // }
-
-  //       printf("\n\n");
-  //     }
-  //   }
+  else
+    printf("No user\n");
 
   free(com);
 

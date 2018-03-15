@@ -27,3 +27,5 @@ void initLastPosts(Users u);
 
 void appendPost(Users u, postDate pd);
 void initLastPosts(Users u);
+postDate getPDindex(Users u, int l);
+void sortPosts(Users u);

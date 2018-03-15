@@ -20,31 +20,31 @@ void setPostId(postDate pd, long i) {
     pd->post_id = i;
 }
 
-int getYear(postDate pd) {
+int getPDYear(postDate pd) {
     return pd->year;
 }
 
-int getMonth(postDate pd) {
+int getPDMonth(postDate pd) {
     return pd->month;
 }
 
-int getDay(postDate pd) {
+int getPDDay(postDate pd) {
     return pd->day;
 }
 
-int getHour(postDate pd) {
+int getPDHour(postDate pd) {
     return pd->hour;
 }
 
-int getMin(postDate pd) {
+int getPDMin(postDate pd) {
     return pd->min;
 }
 
-int getSec(postDate pd) {
+int getPDSec(postDate pd) {
     return pd->sec;
 }
 
-int getMili(postDate pd) {
+int getPDMili(postDate pd) {
     return pd->mili;
 }
 
