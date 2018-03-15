@@ -12,7 +12,7 @@ int main(int argc, char const *argv[]){
   com = load(com, "../android/");
 
   USER us;
-  long id = atol(argv[1]);
+  long id = 123;//atol(argv[1]);
   us = get_user_info(com, id);
 
   if (us != NULL) {
