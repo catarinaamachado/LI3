@@ -105,7 +105,7 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
         setPostId(pd, atol((char *)attributes[id]));
 
         setDate(pd, (char *)attributes[date]);
-        
+
         // dateInteger = concatenate(getDay(pd), getMonth(pd));
         // dateInteger = concatenate(dateInteger, getYear(pd));
 
@@ -176,7 +176,7 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
 
                 addAnswers(q, pointer);
             }
-            
+
             else {
                 q = malloc(sizeQuestions());
 
@@ -230,13 +230,13 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
 
 //         for (i = 0; (attributes[i] != NULL); i++) {
 //           if(strncmp((const char *)attributes[i], "PostId", 6) == 0)
-//             post_id = i++;
+//             post_id = ++i;
 
 //           else if (strncmp((const char *)attributes[i], "VoteTypeId", 10) == 0)
-//             vote_type_id = i++;
+//             vote_type_id = ++i;
 
 //           else if (strncmp((const char *)attributes[i], "UserId", 6) == 0)
-//             user_id = i++;
+//             user_id = ++i;
 //        }
 
 //        if( !strncmp((const char *)attributes[vote_type_id], "5", 1)) {
@@ -249,7 +249,9 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
 
 //               pointer->total_voters++;
 
-//               g_array_append_val(pointer->voters_id, attributes[user_id]);
+//                 int num = atoi((const char *)attributes[user_id]);
+
+//               g_array_append_val(pointer->voters_id, num);
 //           }
 
 //         }

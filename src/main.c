@@ -11,6 +11,7 @@ int main(int argc, char const *argv[]){
 
   com = load(com, "../android/");
 
+/*
   USER us;
   long id = 123;//atol(argv[1]);
   us = get_user_info(com, id);
@@ -30,6 +31,15 @@ int main(int argc, char const *argv[]){
 
   else
     printf("No user\n");
+
+
+
+  STR_pair ola = info_from_post(com, 197);
+  char * fst = get_fst_str(ola);
+  char * snd = get_snd_str(ola);
+
+  printf("Title: %s\nUsername: %s\n", fst, snd);
+*/
 
   free(com);
 
