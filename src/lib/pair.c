@@ -74,5 +74,3 @@ long get_snd_long(LONG_pair pair) {
 void free_long_pair(LONG_pair pair) {
     free(pair);
 }
-
-
