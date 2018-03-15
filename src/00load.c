@@ -316,7 +316,7 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
 
 
 static void OnStartElementVotes(void *ctx, const xmlChar *element_name, const xmlChar **attributes) {
-    int i, a, post_id, vote_type_id, user_id;
+    int i, a, num, post_id, vote_type_id, user_id;
     post_id = vote_type_id = user_id = 0;
 
 
@@ -324,13 +324,13 @@ static void OnStartElementVotes(void *ctx, const xmlChar *element_name, const xm
 
         for (i = 0; (attributes[i] != NULL); i++) {
           if(strncmp((const char *)attributes[i], "PostId", 6) == 0)
-            post_id = i++;
+            post_id = ++i;
 
           else if (strncmp((const char *)attributes[i], "VoteTypeId", 10) == 0)
-            vote_type_id = i++;
+            vote_type_id = ++i;
 
           else if (strncmp((const char *)attributes[i], "UserId", 6) == 0)
-            user_id = i++;
+            user_id = ++i;
        }
 
        if( !strncmp((const char *)attributes[vote_type_id], "5", 1)) {
@@ -343,7 +343,13 @@ static void OnStartElementVotes(void *ctx, const xmlChar *element_name, const xm
 
               pointer->total_voters++;
 
-              g_array_append_val(pointer->voters_id, attributes[user_id]);
+              num = atoi((const char *)attributes[user_id]);
+
+              for(int i = 0; attributes[user_id] != 0 ; i++)
+                  printf("O número é: %d\n", num);
+
+              g_array_append_val(pointer->voters_id, num);
+
           }
 
         }

@@ -59,7 +59,7 @@ int main(){
   //     }
   //   }
 
-
+/*
   USER us;
   us = get_user_info(com, 3);
 
@@ -93,6 +93,18 @@ int main(){
    }
  }
 
+
+STR_pair ola;
+
+ ola = info_from_post(com, 197);
+
+ char * first = get_fst_str(ola);
+
+ char *snd = get_snd_str(ola);
+
+if(first != NULL)
+printf("  Titulo: %s\n Nome do utilizador: %s\n", first, snd);
+*/
 
   //TODO criar função para libertar a memória de todas as estruturas
   free(com);
