@@ -150,6 +150,8 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
 
             setTags(pointer, (char *)attributes[tags]);
 
+            setQDate(pointer, (char *)attributes[date]);
+
             insertQuestion(structure, getQuestionId(pointer), pointer);
 
             //pointerDay->n_questions += 1; //TODO:

@@ -16,3 +16,7 @@ Questions lookQuestion(TAD_community t, long id);
 void insertQuestion(TAD_community t, long id, Questions pointer);
 
 void insertAnswers(TAD_community t, long id, Answers pointer);
+
+guint getNumberOfQuestions(TAD_community t);
+
+GList * getQuestions(TAD_community t);

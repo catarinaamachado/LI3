@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <gmodule.h>
 
 #include "postDate.h"
 
@@ -7,6 +8,25 @@ typedef struct postAndDate {
     long post_id;
     int year, month, day, hour, min, sec, mili;
 } postAndDate;
+
+gint sortDate (postDate a, postDate b) {
+    if (getPDYear(a) < getPDYear(b))
+        return -1;
+    else if (getPDMonth(a) < getPDMonth(b))
+        return -1;
+    else if (getPDDay(a) < getPDDay(b))
+        return -1;
+    else if (getPDHour(a) < getPDHour(b))
+        return -1;
+    else if (getPDMin(a) < getPDMin(b))
+        return -1;
+    else if (getPDSec(a) < getPDSec(b))
+        return -1;
+    else if (getPDMili(a) < getPDMili(b))
+        return -1;
+
+    return 1;
+}
 
 int getPDSize() {
     return sizeof(struct postAndDate);
