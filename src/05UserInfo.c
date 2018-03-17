@@ -1,7 +1,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "05UserInfo.h"
+#include "struct.h"
 
 USER get_user_info(TAD_community com, long id) {
     int i, n_posts;
