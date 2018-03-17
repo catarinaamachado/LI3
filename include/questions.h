@@ -44,4 +44,8 @@ void initAnswers(Questions q);
 
 void addAnswers(Questions q, Answers a);
 
+long getAnswerUserIdAtIndex(Questions q, int index);
+
+GPtrArray getQAnswers(Questions q);
+
 gint sortQDate (Questions aq, Questions bq);

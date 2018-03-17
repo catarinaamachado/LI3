@@ -1,0 +1,44 @@
+#include "struct.h"
+
+static int participateAnswers(Questions q, long id) {
+    int size = getNAnswers(q);
+
+    for (int i = 0; i < size; i++)
+        if (id == getAnswerUserIdAtIndex(q, i))
+            return 1;
+    
+    return 0;
+}
+
+LONG_list both_participated(TAD_community com, long id1, long id2, int N) {
+    LONG_list ll = create_list(N);
+
+    GList * l;
+
+    int i = 0, id1P = 0, id2P = 0, qid;
+
+    for (l = getQuestions(com); N-i > 0 && l != NULL; l = l->next) {
+        Questions q = l->data;
+
+        qid = getQuestionId(q);
+
+        if(qid == id1)
+            id1P = 1;
+        else
+            id1P = participateAnswers(q, id1);
+
+        if(qid == id2)
+            id2P = 1;
+        else
+            id2P = participateAnswers(q, id2);
+
+
+        if(id1P && id2P){
+            set_list(ll, i, getQuestionId(q));
+            i++;
+        }
+
+    }
+
+    return ll;
+}

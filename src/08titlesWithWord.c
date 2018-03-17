@@ -7,11 +7,11 @@
 LONG_list contains_word(TAD_community com, char* word, int N) {
     LONG_list ll = create_list(N);
 
-    GList * l, * k;
+    GList * l;
 
     int i = 0;
 
-    for (l = k = getQuestions(com); N-i > 0 && l != NULL; l = l->next) {
+    for (l = getQuestions(com); N-i > 0 && l != NULL; l = l->next) {
         Questions q = l->data;
 
         char * title = getTitle(q);
@@ -23,7 +23,5 @@ LONG_list contains_word(TAD_community com, char* word, int N) {
 
     }
 
-     g_list_free(k);
-    
     return ll;
 }

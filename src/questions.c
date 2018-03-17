@@ -115,6 +115,10 @@ void addAnswers(Questions q, Answers a) {
     g_ptr_array_add(q->answers, a);
 }
 
+long getAnswerUserIdAtIndex(Questions q, int index) {
+    return getAUserId(g_ptr_array_index(q->answers, index));
+}
+
 gint sortQDate (Questions aq, Questions bq) {
     postDate a = aq->pd;
     postDate b = bq->pd; 

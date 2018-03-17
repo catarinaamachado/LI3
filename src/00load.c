@@ -144,7 +144,8 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
                 setNAnswers(pointer, atoi((char *)attributes[answer_count]));
             }
 
-            setQUserId(pointer, atol((const char *)attributes[owner_id]));
+            if(owner_id != 0)
+                setQUserId(pointer, atol((const char *)attributes[owner_id]));
 
             setTitle(pointer, (char *)attributes[title]);
 
@@ -162,6 +163,7 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
             Answers pointer = malloc(sizeAnswers());
 
             setAnswerId(pointer, atol((const char *)attributes[id]));
+            setAUserId(pointer, atol((const char *)attributes[owner_id]));
 
             int votes = atoi((const char *)attributes[score]);
             setScore(pointer, votes);

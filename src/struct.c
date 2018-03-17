@@ -6,6 +6,7 @@
 typedef struct TCD_community {
   GHashTable * users;
   GHashTable * questions;
+  GList * questionsList;
   GHashTable * answers; //hash table com as respostas
   GHashTable * day; //hash table com os dias
 } TCD_community;
@@ -55,9 +56,14 @@ guint getNumberOfQuestions(TAD_community t) {
 }
 
 GList * getQuestions(TAD_community t) {
+  if(t->questionsList != NULL)
+    return t->questionsList;
+    
   GList * q = g_hash_table_get_values(t->questions);
 
   q = g_list_sort(q, (GCompareFunc)sortQDate);
+
+  t->questionsList = q;
 
   return q;
 }
