@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <gmodule.h>
 
-#include "00load.h"
 #include "struct.h"
 
 int main(int argc, char const *argv[]){
