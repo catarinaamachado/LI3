@@ -104,22 +104,20 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
         long indexDay = g_date_days_between(begin_stackOverflow, d);
 
         Day pointerDay = lookDay(structure, indexDay);
-        Day pointerDayAux = pointerDay;
+        // Day pointerDayAux = pointerDay;
         
-        if(pointerDay == NULL) {
-            pointerDay = malloc(sizeDay());
+        // if(pointerDay == NULL) {
+        //     pointerDay = malloc(sizeDay());
 
-            setDAYNQuestions(pointerDay, 0);
-            initDAYQuestions(pointerDay);
-            setDAYNAnswers(pointerDay, 0);
-            initDAYAnswers(pointerDay);
+        //     initDAYQuestions(pointerDay);
+        //     initDAYAnswers(pointerDay);
 
             setDay(pointerDay, getPDDay(pd));
             setMonth(pointerDay, getPDMonth(pd));
             setYear(pointerDay, getPDYear(pd));
 
-            setCENAS(pointerDay, indexDay); //FIXME:
-        }
+        //     setCENAS(pointerDay, indexDay); //FIXME:
+        // }
 
         if( !strncmp((const char *)attributes[post_type_id], "1", 1)) { //trata-se de uma pergunta
             a = atol((const char *)attributes[id]);
@@ -150,7 +148,6 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
             insertQuestion(structure, getQuestionId(pointer), pointer);
 
 
-            setDAYNQuestions(pointerDay, getDAYNQuestions(pointerDay) + 1);
             addDAYQuestions(pointerDay, pointer);
         }
 
@@ -197,19 +194,15 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
                 insertQuestion(structure, getQuestionId(q), q);
             }
 
-            setDAYNAnswers(pointerDay, getDAYNAnswers(pointerDay) + 1);
+
             addDAYAnswers(pointerDay, pointer);
         }
 
 
 
-        if (pointerDayAux == NULL) {
-            insertDay(structure, indexDay, pointerDay);
-              
-            if (pointerDay != NULL && indexDay == 728) {
-                printf("ID: %ld --- %d %d %d\n", atol((char *)attributes[id]), getDay(pointerDay), getMonth(pointerDay), getYear(pointerDay));
-            }
-        }
+        // if (pointerDayAux == NULL) {            
+        //     insertDay(structure, indexDay, pointerDay);
+        // }
 
         if(owner_id) {  //acrescentar posts aos ids
             long oid = atol((const char *)attributes[owner_id]);

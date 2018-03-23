@@ -69,17 +69,37 @@ void setDAYNAnswers(Day d, int n_answers) {
 }
 
 void initDAYAnswers(Day d) {
-    d->answers = g_ptr_array_sized_new(d->n_answers);
+    d->n_answers = 0;
+    d->answers = g_ptr_array_new();
 }
 
 void addDAYAnswers(Day d, Answers a) {
+    d->n_answers++;
     g_ptr_array_add(d->answers, a);
 }
 
 void initDAYQuestions(Day d) {
-    d->questions = g_ptr_array_sized_new(d->n_questions);
+    d->n_questions = 0;
+    d->questions = g_ptr_array_new();
 }
 
 void addDAYQuestions(Day d, Questions q) {
+    d->n_questions++;
     g_ptr_array_add(d->questions, q);
+}
+
+static void printQuestion(Questions q) {
+    printf("%ld\n", getQuestionId(q));
+}
+
+void getDAYQuestion(Day d) {
+    g_ptr_array_foreach(d->questions, (GFunc)printQuestion, NULL);
+}
+
+static void printAnswer(Answers a) {
+    printf("%ld\n", getAnswerId(a));
+}
+
+void getDAYAnswer(Day d) {
+    g_ptr_array_foreach(d->answers, (GFunc)printAnswer, NULL);
 }

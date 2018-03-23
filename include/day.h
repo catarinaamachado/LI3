@@ -39,3 +39,7 @@ void addDAYAnswers(Day d, Answers a);
 void initDAYQuestions(Day d);
 
 void addDAYQuestions(Day d, Questions q);
+
+void getDAYQuestion(Day d);
+
+void getDAYAnswer(Day d);

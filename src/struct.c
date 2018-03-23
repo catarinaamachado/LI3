@@ -22,6 +22,22 @@ TAD_community init() {
   com->day = g_ptr_array_sized_new(3650);
   g_ptr_array_set_size (com->day, 3650);
 
+  for (int i = 0; i < 3650; i++) {
+    Day pointerDay = malloc(sizeDay());
+
+    initDAYQuestions(pointerDay);
+    initDAYAnswers(pointerDay);
+
+
+    setDay(pointerDay, 0);
+    setMonth(pointerDay, 0);
+    setYear(pointerDay, 0);
+
+    setCENAS(pointerDay, i); //FIXME:
+
+    g_ptr_array_insert(com->day, i, pointerDay);
+  }
+
   com->answers = g_hash_table_new(g_direct_hash, g_direct_equal);
 
   return com;

@@ -18,7 +18,7 @@ int main(int argc, char const *argv[]){
   printf("%d\n", oi);
 
 
-  for(int i = 728; i < 729; i++){
+  for(int i = 728; i < 735; i++){
     Day diiiias = lookDay(com, i);
 
     if(diiiias != NULL) {
@@ -27,7 +27,15 @@ int main(int argc, char const *argv[]){
       int ano = getYear(diiiias);
       int teste = getCENAS(diiiias);
 
-      printf("Para i = %d: dia %d, mês %d, ano %d. %d\n", i, dia, mes, ano, teste);
+      printf("\n\nPara i = %d: %d-%d-%d  %d\n", i, dia, mes, ano, teste);
+
+      printf("Q:%d A:%d\n", getDAYNQuestions(diiiias), getDAYNAnswers(diiiias));
+
+      printf("Questions:\n");
+      getDAYQuestion(diiiias);
+
+      printf("Answers:\n");
+      getDAYAnswer(diiiias);
     }
 
     diiiias = NULL;
