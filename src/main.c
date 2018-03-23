@@ -11,6 +11,29 @@ int main(int argc, char const *argv[]){
 
   com = load(com, "../android/");
 
+  Day diiiias;
+
+  GDate * do1 = g_date_new_dmy(15, 9, 2008);
+  GDate * do2 = g_date_new_dmy(13, 9, 2010);
+  int oi = g_date_days_between(do1, do2);
+
+  printf("%d\n", oi);
+
+
+  for(int i = 728; i < 735; i++){
+    diiiias = lookDay(com, i);
+
+    int dia = getDay(diiiias);
+    int mes = getMonth(diiiias);
+    int ano = getYear(diiiias);
+    int teste = getCENAS(diiiias);
+
+    if(diiiias != NULL){
+       printf("Para i = %d: dia %d, mês %d, ano %d. %d\n", i, dia, mes, ano, teste);
+     }
+  }
+
+
 /*
   USER us;
   long id = 123;//atol(argv[1]);

@@ -7,7 +7,7 @@ typedef struct TCD_community {
   GHashTable * users;
   GHashTable * questions;
   GHashTable * answers; //hash table com as respostas
-  GHashTable * day; //hash table com os dias
+  GPtrArray * day;
 } TCD_community;
 
 TAD_community init() {
@@ -19,7 +19,8 @@ TAD_community init() {
 
   com->questions = g_hash_table_new (g_direct_hash, g_direct_equal);
 
-  com->day = g_hash_table_new(g_direct_hash, g_direct_equal);
+  com->day = g_ptr_array_sized_new(3650);
+  g_ptr_array_set_size (com->day, 3650);
 
   com->answers = g_hash_table_new(g_direct_hash, g_direct_equal);
 
@@ -46,4 +47,13 @@ void insertQuestion(TAD_community t, long id, Questions pointer) {
 
 void insertAnswers(TAD_community t, long id, Answers pointer) {
   g_hash_table_insert(t->answers, GINT_TO_POINTER(id), pointer);
+}
+
+Day lookDay(TAD_community t, long indexDay){
+  Day d = g_ptr_array_index(t->day, indexDay);
+  return d;
+}
+
+void insertDay(TAD_community t, long indexDay, Day pointer) {
+  g_ptr_array_insert(t->day, indexDay, pointer);
 }

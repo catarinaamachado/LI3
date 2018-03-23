@@ -9,14 +9,7 @@
 #include "postDate.h"
 
 static TAD_community structure;
-
-//para concatenar a data num unico inteiro
-static int concatenate(int x, int y) {
-    int pow = 10;
-    while(y >= pow)
-        pow *= 10;
-    return x * pow + y;
-}
+static GDate * begin_stackOverflow;
 
 //Extrai os atributos necessários do user
 static void OnStartElementUsers(void *ctx, const xmlChar *element_name, const xmlChar **attributes) {
@@ -64,7 +57,7 @@ static void OnStartElementUsers(void *ctx, const xmlChar *element_name, const xm
 }
 
 static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xmlChar **attributes) {
-    int i, id, post_type_id, owner_id, title, tags, answer_count, score, parentid, date, dateInteger;
+    int i, id, post_type_id, owner_id, title, tags, answer_count, score, parentid, date;
     id = post_type_id = owner_id = title = tags = answer_count = score = parentid = date = 0;
     long a;
 
@@ -106,23 +99,26 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
 
         setDate(pd, (char *)attributes[date]);
 
-        // dateInteger = concatenate(getDay(pd), getMonth(pd));
-        // dateInteger = concatenate(dateInteger, getYear(pd));
 
-        // Day * pointerDay = g_hash_table_lookup (structure->day, GINT_TO_POINTER(dateInteger)); //TODO:
+        GDate * d = g_date_new_dmy(getPDDay(pd), getPDMonth(pd), getPDYear(pd));
+        long indexDay = g_date_days_between(begin_stackOverflow, d);
 
-        // if(pointerDay == NULL) { //se o dia ainda nao existe na hash table
-        //   pointerDay = malloc(sizeof(Day));
+        Day pointerDay = lookDay(structure, indexDay);
 
-        //   pointerDay->n_questions = 0;
-        //   pointerDay->questions = g_ptr_array_new();
-        //   pointerDay->n_answers = 0;
-        //   pointerDay->answers = g_ptr_array_new();
-        // }
+        if(pointerDay == NULL) {
+          pointerDay = malloc(sizeDay());
 
-        // pointerDay->day = pd->day;
-        // pointerDay->month = pd->month;
-        // pointerDay->year = pd->year;
+          setDAYNQuestions(pointerDay, 0);
+          initDAYQuestions(pointerDay);
+          setDAYNAnswers(pointerDay, 0);
+          initDAYAnswers(pointerDay);
+        }
+
+        setDay(pointerDay, getPDDay(pd));
+        setMonth(pointerDay, getPDMonth(pd));
+        setYear(pointerDay, getPDYear(pd));
+
+        setCENAS(pointerDay, indexDay); //FIXME
 
         if( !strncmp((const char *)attributes[post_type_id], "1", 1)) { //trata-se de uma pergunta
             a = atol((const char *)attributes[id]);
@@ -152,8 +148,9 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
 
             insertQuestion(structure, getQuestionId(pointer), pointer);
 
-            //pointerDay->n_questions += 1; //TODO:
-            //g_ptr_array_add(pointerDay->questions, pointer);
+
+            setDAYNQuestions(pointerDay, getDAYNQuestions(pointerDay) + 1);
+            addDAYQuestions(pointerDay, pointer);
         }
 
         else {  // se for uma resposta
@@ -199,13 +196,12 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
                 insertQuestion(structure, getQuestionId(q), q);
             }
 
-            //pointerDay->n_answers += 1;
-            //g_ptr_array_add(pointerDay->answers, pointer);
+            setDAYNAnswers(pointerDay, getDAYNAnswers(pointerDay) + 1);
+            addDAYAnswers(pointerDay, pointer);
         }
 
 
-        //g_hash_table_insert (structure->day, GINT_TO_POINTER(dateInteger), pointerDay);
-
+        insertDay(structure, indexDay, pointerDay);
 
         if(owner_id) {  //acrescentar posts aos ids
             long oid = atol((const char *)attributes[owner_id]);
@@ -312,6 +308,8 @@ static int read_xmlfile(FILE *file, char *dump_file_name) {
 
 TAD_community load(TAD_community com, char* dump_path) {
     structure = com;
+
+    begin_stackOverflow = g_date_new_dmy (15, 9, 2008);
 
     int size = sizeof(char) * strlen(dump_path);
 
