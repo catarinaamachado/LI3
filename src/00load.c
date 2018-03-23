@@ -105,7 +105,7 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
 
         Day pointerDay = lookDay(structure, indexDay);
         // Day pointerDayAux = pointerDay;
-        
+
         // if(pointerDay == NULL) {
         //     pointerDay = malloc(sizeDay());
 
@@ -139,11 +139,14 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
                 setNAnswers(pointer, atoi((char *)attributes[answer_count]));
             }
 
-            setQUserId(pointer, atol((const char *)attributes[owner_id]));
+            if(owner_id != 0)
+                setQUserId(pointer, atol((const char *)attributes[owner_id]));
 
             setTitle(pointer, (char *)attributes[title]);
 
             setTags(pointer, (char *)attributes[tags]);
+
+            setQDate(pointer, (char *)attributes[date]);
 
             insertQuestion(structure, getQuestionId(pointer), pointer);
 
@@ -155,6 +158,7 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
             Answers pointer = malloc(sizeAnswers());
 
             setAnswerId(pointer, atol((const char *)attributes[id]));
+            setAUserId(pointer, atol((const char *)attributes[owner_id]));
 
             int votes = atoi((const char *)attributes[score]);
             setScore(pointer, votes);
@@ -200,7 +204,7 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
 
 
 
-        // if (pointerDayAux == NULL) {            
+        // if (pointerDayAux == NULL) {
         //     insertDay(structure, indexDay, pointerDay);
         // }
 

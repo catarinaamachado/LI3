@@ -4,9 +4,11 @@
 #include <string.h>
 
 #include "questions.h"
+#include "postDate.h"
 
 typedef struct questions {
   long post_id;
+  postDate pd;
   long user_id;
   char * title;
   char * tags;
@@ -26,6 +28,21 @@ long getQuestionId(Questions q) {
 void setQuestionId(Questions q, long id) {
     q->post_id = id;
 }
+
+void setQDate(Questions q, char * date) {
+    q->pd = malloc(getPDSize());
+
+     setDate(q->pd, date);
+}
+
+char * getQDate(Questions q) {
+    char * date = malloc(sizeof(char) * 12);
+
+    sprintf(date, "%d:%d:%d", getPDYear(q->pd), getPDMonth(q->pd), getPDDay(q->pd));
+
+    return date;
+}
+
 
 long getQUserId(Questions q) {
     return q->user_id;
@@ -97,4 +114,51 @@ void initAnswers(Questions q) {
 
 void addAnswers(Questions q, Answers a) {
     g_ptr_array_add(q->answers, a);
+}
+
+long getAnswerUserIdAtIndex(Questions q, int index) {
+    return getAUserId(g_ptr_array_index(q->answers, index));
+}
+
+
+gint sortQDate (Questions aq, Questions bq) {
+      postDate a = aq->pd;
+      postDate b = bq->pd;
+
+      if (getPDYear(a) < getPDYear(b))
+          return 1;
+      else if (getPDYear(a) > getPDYear(b))
+          return -1;
+
+      else if (getPDMonth(a) < getPDMonth(b))
+          return 1;
+      else if (getPDMonth(a) > getPDMonth(b))
+          return -1;
+
+      else if (getPDDay(a) < getPDDay(b))
+          return 1;
+      else if (getPDDay(a) > getPDDay(b))
+          return -1;
+
+      else if (getPDHour(a) < getPDHour(b))
+          return 1;
+      else if (getPDHour(a) > getPDHour(b))
+          return -1;
+
+      else if (getPDMin(a) < getPDMin(b))
+         return 1;
+      else if (getPDMin(a) > getPDMin(b))
+         return -1;
+
+      else if (getPDSec(a) < getPDSec(b))
+         return 1;
+      else if (getPDSec(a) > getPDSec(b))
+         return -1;
+
+      else if (getPDMili(a) < getPDMili(b))
+         return 1;
+      else if (getPDMili(a) > getPDMili(b))
+         return -1;
+
+      return 1;
 }
