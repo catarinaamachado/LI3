@@ -1,4 +1,9 @@
 #include <gmodule.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "day.h"
 
 typedef struct day {
   int day;
@@ -8,60 +13,84 @@ typedef struct day {
   int n_answers;
   GPtrArray * questions;
   GPtrArray * answers;
-} Day;
+} day;
 
-int getDay(Day * day) {
-    return day->day;
+int sizeDay() {
+    return sizeof(struct day);
 }
 
-void setDay(Day * day, int newDay) {
-    day->day = newDay;
+int getDay(Day d) {
+    return d->day;
 }
 
-int getMonth(Day * day) {
-    return day->month;
+void setDay(Day d, int newDay) {
+    d->day = newDay;
 }
 
-void setMonth(Day * day, int newMonth) {
-    day->month = newMonth;
+int getMonth(Day d) {
+    return d->month;
 }
 
-int getYear(Day * day) {
-    return day->year;
+void setMonth(Day d, int newMonth) {
+    d->month = newMonth;
 }
 
-void setYear(Day * day, int newYear) {
-    day->year = newYear;
+int getYear(Day d) {
+    return d->year;
 }
 
-int getN_questions(Day * day) {
-    return day->n_questions;
+void setYear(Day d, int newYear) {
+    d->year = newYear;
 }
 
-void setN_questions(Day * day, int n_questions) {
-    day->n_questions = n_questions;
+int getDAYNQuestions(Day d) {
+    return d->n_questions;
 }
 
-int getN_answers(Day * day) {
-    return day->n_answers;
+void setDAYNQuestions(Day d, int n_questions) {
+    d->n_questions = n_questions;
 }
 
-void setN_answers(Day * day, int n_answers) {
-    day->n_answers = n_answers;
+int getDAYNAnswers(Day d) {
+    return d->n_answers;
 }
 
-GPtrArray * getQuestionsDay(Day * day) {
-    return day->questions;
+void setDAYNAnswers(Day d, int n_answers) {
+    d->n_answers = n_answers;
 }
 
-void setQuestionsDay(Day * day, GPtrArray * newQuestions) {
-    day->questions = newQuestions;
+void initDAYAnswers(Day d) {
+    d->n_answers = 0;
+    d->answers = g_ptr_array_new();
 }
 
-GPtrArray * getAnswersDay(Day * day) { //FIXME
-    return day->answers;
+void addDAYAnswers(Day d, Answers a) {
+    d->n_answers++;
+    g_ptr_array_add(d->answers, a);
 }
 
-void setAnswersDay(Day * day, GPtrArray * newAnswers) { //FIXME
-    day->answers = newAnswers;
+void initDAYQuestions(Day d) {
+    d->n_questions = 0;
+    d->questions = g_ptr_array_new();
+}
+
+void addDAYQuestions(Day d, Questions q) {
+    d->n_questions++;
+    g_ptr_array_add(d->questions, q);
+}
+
+static void printQuestion(Questions q) {
+    printf("%ld\n", getQuestionId(q));
+}
+
+void getDAYQuestion(Day d) {
+    g_ptr_array_foreach(d->questions, (GFunc)printQuestion, NULL);
+}
+
+static void printAnswer(Answers a) {
+    printf("%ld\n", getAnswerId(a));
+}
+
+void getDAYAnswer(Day d) {
+    g_ptr_array_foreach(d->answers, (GFunc)printAnswer, NULL);
 }

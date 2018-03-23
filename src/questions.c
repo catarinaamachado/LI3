@@ -11,7 +11,7 @@ typedef struct questions {
   postDate pd;
   long user_id;
   char * title;
-  char * tags; //TODO: funcao que separa a string com as todas tags num array de strings
+  char * tags;
   int n_answers;
   int n_answer_votes;
   GPtrArray * answers;

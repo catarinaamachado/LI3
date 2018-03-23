@@ -4,6 +4,7 @@
 #include "users.h"
 #include "questions.h"
 #include "postDate.h"
+#include "day.h"
 
 TAD_community init();
 
@@ -20,3 +21,7 @@ void insertAnswers(TAD_community t, long id, Answers pointer);
 guint getNumberOfQuestions(TAD_community t);
 
 GList * getQuestions(TAD_community t);
+
+Day lookDay(TAD_community t, long indexDay);
+
+void insertDay(TAD_community t, long indexDay, Day pointer);

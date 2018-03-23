@@ -55,6 +55,6 @@ int getAnswerCommentAtIndex(Questions q, int index);
 //
 int getAnswerIdAtIndex(Questions q, int index);
 
-GPtrArray getQAnswers(Questions q); // onde está esta????
+GPtrArray getQAnswers(Questions q);
 
 gint sortQDate (Questions aq, Questions bq);

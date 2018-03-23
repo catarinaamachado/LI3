@@ -35,7 +35,7 @@ char * getBio(Users u) {
 void setBio(Users u, char * bio) {
     char * shortbio = malloc(sizeof(char) * (strlen(bio)+2));
     strcpy(shortbio, bio);
-    
+
     u->shortbio = shortbio;
 }
 
@@ -98,7 +98,7 @@ static gint sortDate (postDate a, postDate b) {
         return -1;
     else if (getPDMonth(a) > getPDMonth(b))
         return 1;
-        
+
     else if (getPDDay(a) < getPDDay(b))
         return -1;
     else if (getPDDay(a) > getPDDay(b))
@@ -121,7 +121,7 @@ static gint sortDate (postDate a, postDate b) {
 
     else if (getPDMili(a) < getPDMili(b))
         return -1;
-    
+
     else if (getPDMili(a) > getPDMili(b))
         return 1;
 

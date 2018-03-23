@@ -3,7 +3,6 @@
 #include "struct.h"
 
 
-
  /* Dado o identificador de um post, a função devolve
   o título do post e o nome de utilizador do autor;
  */

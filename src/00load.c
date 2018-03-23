@@ -9,14 +9,7 @@
 #include "postDate.h"
 
 static TAD_community structure;
-
-//para concatenar a data num unico inteiro
-static int concatenate(int x, int y) {
-    int pow = 10;
-    while(y >= pow)
-        pow *= 10;
-    return x * pow + y;
-}
+static GDate * begin_stackOverflow;
 
 //Extrai os atributos necessários do user
 static void OnStartElementUsers(void *ctx, const xmlChar *element_name, const xmlChar **attributes) {
@@ -65,7 +58,7 @@ static void OnStartElementUsers(void *ctx, const xmlChar *element_name, const xm
 
 static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xmlChar **attributes) {
     int i, id, post_type_id, owner_id, title, tags, answer_count, score, comment_count, favorite_count;
-    int parentid, date, dateInteger;
+    int parentid, date;
     long a;
 
     post_type_id = parentid = owner_id = title = tags = answer_count = date = 0;
@@ -114,23 +107,12 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
 
         setDate(pd, (char *)attributes[date]);
 
-        // dateInteger = concatenate(getDay(pd), getMonth(pd));
-        // dateInteger = concatenate(dateInteger, getYear(pd));
 
-        // Day * pointerDay = g_hash_table_lookup (structure->day, GINT_TO_POINTER(dateInteger)); //TODO:
+        GDate * d = g_date_new_dmy(getPDDay(pd), getPDMonth(pd), getPDYear(pd));
+        long indexDay = g_date_days_between(begin_stackOverflow, d);
 
-        // if(pointerDay == NULL) { //se o dia ainda nao existe na hash table
-        //   pointerDay = malloc(sizeof(Day));
+        Day pointerDay = lookDay(structure, indexDay);
 
-        //   pointerDay->n_questions = 0;
-        //   pointerDay->questions = g_ptr_array_new();
-        //   pointerDay->n_answers = 0;
-        //   pointerDay->answers = g_ptr_array_new();
-        // }
-
-        // pointerDay->day = pd->day;
-        // pointerDay->month = pd->month;
-        // pointerDay->year = pd->year;
 
         if( !strncmp((const char *)attributes[post_type_id], "1", 1)) { //trata-se de uma pergunta
             a = atol((const char *)attributes[id]);
@@ -163,14 +145,14 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
 
             insertQuestion(structure, getQuestionId(pointer), pointer);
 
-            //pointerDay->n_questions += 1; //TODO:
-            //g_ptr_array_add(pointerDay->questions, pointer);
+            addDAYQuestions(pointerDay, pointer);
         }
 
         else if(parentid != 0) {  // se for uma resposta e tiver uma pergunta associada (há respostas em que o parent id não existe)
             Answers pointer = malloc(sizeAnswers());
 
             setAnswerId(pointer, atol((const char *)attributes[id]));
+            setAUserId(pointer, atol((const char *)attributes[owner_id]));
 
             if(owner_id != 0) { // há respostas sem OwnerUserId
                 setAUserId(pointer, atol((const char *)attributes[owner_id]));
@@ -184,12 +166,10 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
 
             setCommentCount(pointer, atoi((const char *)attributes[comment_count])); //
 
-
             insertAnswers(structure, getAnswerId(pointer), pointer);
 
             long parent_id = atol((const char *)attributes[parentid]);
             Questions q = lookQuestion(structure, parent_id);
-
 
 
             if(q != NULL) {  // se a pergunta existe
@@ -219,13 +199,9 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
 
                 insertQuestion(structure, getQuestionId(q), q);
              }
-           }
 
-
-            //pointerDay->n_answers += 1;
-            //g_ptr_array_add(pointerDay->answers, pointer);
-
-        //g_hash_table_insert (structure->day, GINT_TO_POINTER(dateInteger), pointerDay);
+            addDAYAnswers(pointerDay, pointer);
+        }
 
 
         if(owner_id != 0) {  //acrescentar posts aos ids
@@ -242,7 +218,6 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
 }
 
 
-
 static xmlSAXHandler make_sax_handler (char *dump_file_name){
     xmlSAXHandler SAXHander;
 
@@ -253,7 +228,6 @@ static xmlSAXHandler make_sax_handler (char *dump_file_name){
       SAXHander.startElement = OnStartElementUsers;
     if (strncmp(dump_file_name, "Posts.xml", 9) == 0)
       SAXHander.startElement = OnStartElementPosts;
-
 
     return SAXHander;
 }
@@ -294,6 +268,8 @@ static int read_xmlfile(FILE *file, char *dump_file_name) {
 TAD_community load(TAD_community com, char* dump_path) {
     structure = com;
 
+    begin_stackOverflow = g_date_new_dmy (15, 9, 2008);
+
     int size = sizeof(char) * strlen(dump_path);
 
     char * users = malloc(size + 10*sizeof(char));
@@ -307,7 +283,6 @@ TAD_community load(TAD_community com, char* dump_path) {
     strcat(posts, "Posts.xml");
     FILE * p = fopen(posts,"r");
     read_xmlfile(p, "Posts.xml");
-
 
     fclose(u);
     fclose(p);
