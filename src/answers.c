@@ -8,8 +8,6 @@ typedef struct answers {
   int score;
   int favorite_count; //número de favoritos recebidos pela resposta (query 10)
   int comment_count; //número de comentários recebidos pela resposta (query 10);
-  int total_voters;//
-  GArray * voters_id;//
 } answers;
 
 int sizeAnswers() {
@@ -58,20 +56,4 @@ int getCommentCount(Answers a) {
 //query 10
 void setCommentCount(Answers a, int c) {
     a->comment_count = c;
-}
-
-int getTotalVoters(Answers a) {
-    return a->total_voters;
-}
-
-void setTotalVoters(Answers a, int t) {
-    a->total_voters = t;
-}
-
-GArray * getVotersId(Answers a) { //FIXME:
-    return a->voters_id;
-}
-
-void setVotersId(Answers a, GArray * p) { //FIXME:
-    a->voters_id = p;
 }

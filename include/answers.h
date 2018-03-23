@@ -23,11 +23,3 @@ int getCommentCount(Answers a);
 void setCommentCount(Answers a, int c);
 
 void setScore(Answers a, int s);
-
-int getTotalVoters(Answers a);
-
-void setTotalVoters(Answers a, int t);
-
-GArray * getVotersId(Answers a);
-
-void setVotersId(Answers a, GArray * p);

@@ -39,11 +39,12 @@ int main(int argc, char const *argv[]){
     printf("%ld\n\n", v);
   }
 
-  */
+
 
   LONG_list list = better_answer(com, 9);
 
   printf("%ld\n", get_list(list,0));
+  */
 
   free(com);
 
