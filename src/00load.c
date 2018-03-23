@@ -203,8 +203,13 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
 
 
 
-        if (pointerDayAux == NULL) 
+        if (pointerDayAux == NULL) {
             insertDay(structure, indexDay, pointerDay);
+              
+            if (pointerDay != NULL && indexDay == 728) {
+                printf("ID: %ld --- %d %d %d\n", atol((char *)attributes[id]), getDay(pointerDay), getMonth(pointerDay), getYear(pointerDay));
+            }
+        }
 
         if(owner_id) {  //acrescentar posts aos ids
             long oid = atol((const char *)attributes[owner_id]);

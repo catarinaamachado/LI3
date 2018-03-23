@@ -18,7 +18,7 @@ int main(int argc, char const *argv[]){
   printf("%d\n", oi);
 
 
-  for(int i = 728; i < 735; i++){
+  for(int i = 728; i < 729; i++){
     Day diiiias = lookDay(com, i);
 
     if(diiiias != NULL) {
