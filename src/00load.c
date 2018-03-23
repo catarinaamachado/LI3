@@ -104,21 +104,22 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
         long indexDay = g_date_days_between(begin_stackOverflow, d);
 
         Day pointerDay = lookDay(structure, indexDay);
-
+        Day pointerDayAux = pointerDay;
+        
         if(pointerDay == NULL) {
-          pointerDay = malloc(sizeDay());
+            pointerDay = malloc(sizeDay());
 
-          setDAYNQuestions(pointerDay, 0);
-          initDAYQuestions(pointerDay);
-          setDAYNAnswers(pointerDay, 0);
-          initDAYAnswers(pointerDay);
+            setDAYNQuestions(pointerDay, 0);
+            initDAYQuestions(pointerDay);
+            setDAYNAnswers(pointerDay, 0);
+            initDAYAnswers(pointerDay);
+
+            setDay(pointerDay, getPDDay(pd));
+            setMonth(pointerDay, getPDMonth(pd));
+            setYear(pointerDay, getPDYear(pd));
+
+            setCENAS(pointerDay, indexDay); //FIXME:
         }
-
-        setDay(pointerDay, getPDDay(pd));
-        setMonth(pointerDay, getPDMonth(pd));
-        setYear(pointerDay, getPDYear(pd));
-
-        setCENAS(pointerDay, indexDay); //FIXME
 
         if( !strncmp((const char *)attributes[post_type_id], "1", 1)) { //trata-se de uma pergunta
             a = atol((const char *)attributes[id]);
@@ -201,7 +202,9 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
         }
 
 
-        insertDay(structure, indexDay, pointerDay);
+
+        if (pointerDayAux == NULL) 
+            insertDay(structure, indexDay, pointerDay);
 
         if(owner_id) {  //acrescentar posts aos ids
             long oid = atol((const char *)attributes[owner_id]);
