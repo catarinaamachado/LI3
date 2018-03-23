@@ -11,22 +11,21 @@ int main(int argc, char const *argv[]){
   com = load(com, "../android/");
 
   GDate * do1 = g_date_new_dmy(15, 9, 2008);
-  GDate * do2 = g_date_new_dmy(28, 7, 2010);
+  GDate * do2 = g_date_new_dmy(24, 11, 2010);
   int oi = g_date_days_between(do1, do2);
 
   printf("%d\n", oi);
 
 
-  for(int i = 681; i < 690; i++){
+  for(int i = 800; i < 801; i++){
     Day diiiias = lookDay(com, i);
 
     if(diiiias != NULL) {
       int dia = getDay(diiiias);
       int mes = getMonth(diiiias);
       int ano = getYear(diiiias);
-      int teste = getCENAS(diiiias);
 
-      printf("\n\nPara i = %d: %d-%d-%d  %d\n", i, dia, mes, ano, teste);
+      printf("\n\nPara i = %d: %d-%d-%d\n", i, dia, mes, ano);
 
       printf("Q:%d A:%d\n", getDAYNQuestions(diiiias), getDAYNAnswers(diiiias));
 

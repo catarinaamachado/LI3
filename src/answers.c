@@ -6,8 +6,6 @@ typedef struct answers {
   long user_id;
   long answer_id;
   int score;
-  int total_voters;//
-  GArray * voters_id;//
 } answers;
 
 int sizeAnswers() {
@@ -21,7 +19,6 @@ long getAUserId(Answers a) {
 void setAUserId(Answers a, long id) {
     a->user_id = id;
 }
-
 
 long getAnswerId(Answers a) {
     return a->answer_id;
@@ -37,20 +34,4 @@ int getScore(Answers a) {
 
 void setScore(Answers a, int s) {
     a->score = s;
-}
-
-int getTotalVoters(Answers a) {
-    return a->total_voters;
-}
-
-void setTotalVoters(Answers a, int t) {
-    a->total_voters = t;
-}
-
-GArray * getVotersId(Answers a) { //FIXME:
-    return a->voters_id;
-}
-
-void setVotersId(Answers a, GArray * p) { //FIXME:
-    a->voters_id = p;
 }

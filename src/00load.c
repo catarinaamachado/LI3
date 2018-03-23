@@ -104,20 +104,6 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
         long indexDay = g_date_days_between(begin_stackOverflow, d);
 
         Day pointerDay = lookDay(structure, indexDay);
-        // Day pointerDayAux = pointerDay;
-
-        // if(pointerDay == NULL) {
-        //     pointerDay = malloc(sizeDay());
-
-        //     initDAYQuestions(pointerDay);
-        //     initDAYAnswers(pointerDay);
-
-            setDay(pointerDay, getPDDay(pd));
-            setMonth(pointerDay, getPDMonth(pd));
-            setYear(pointerDay, getPDYear(pd));
-
-        //     setCENAS(pointerDay, indexDay); //FIXME:
-        // }
 
         if( !strncmp((const char *)attributes[post_type_id], "1", 1)) { //trata-se de uma pergunta
             a = atol((const char *)attributes[id]);
@@ -162,8 +148,6 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
 
             int votes = atoi((const char *)attributes[score]);
             setScore(pointer, votes);
-            //setTotalVoters(pointer, 0);
-            //pointer->voters_id = g_array_new(FALSE, FALSE, sizeof(gint));  //inicializa o array dos voters
 
             insertAnswers(structure, getAnswerId(pointer), pointer);
 
@@ -203,11 +187,6 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
         }
 
 
-
-        // if (pointerDayAux == NULL) {
-        //     insertDay(structure, indexDay, pointerDay);
-        // }
-
         if(owner_id) {  //acrescentar posts aos ids
             long oid = atol((const char *)attributes[owner_id]);
             Users u = lookUsers(structure, oid);
@@ -222,46 +201,6 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
 }
 
 
-// static void OnStartElementVotes(void *ctx, const xmlChar *element_name, const xmlChar **attributes) {
-//     int i, a, post_id, vote_type_id, user_id;
-//     post_id = vote_type_id = user_id = 0;
-
-
-//     if (attributes != NULL) {
-
-//         for (i = 0; (attributes[i] != NULL); i++) {
-//           if(strncmp((const char *)attributes[i], "PostId", 6) == 0)
-//             post_id = ++i;
-
-//           else if (strncmp((const char *)attributes[i], "VoteTypeId", 10) == 0)
-//             vote_type_id = ++i;
-
-//           else if (strncmp((const char *)attributes[i], "UserId", 6) == 0)
-//             user_id = ++i;
-//        }
-
-//        if( !strncmp((const char *)attributes[vote_type_id], "5", 1)) {
-
-//           a = atoi((const char *)attributes[post_id]);
-
-//           Answers * pointer = g_hash_table_lookup (structure->answers, GINT_TO_POINTER(a));
-
-//           if(pointer != NULL) { // se der null é porque a resposta não existe e, por isso, não lhe posso associar um voto
-
-//               pointer->total_voters++;
-
-//                 int num = atoi((const char *)attributes[user_id]);
-
-//               g_array_append_val(pointer->voters_id, num);
-//           }
-
-//         }
-
-//       }
-
-// }
-
-
 static xmlSAXHandler make_sax_handler (char *dump_file_name){
     xmlSAXHandler SAXHander;
 
@@ -272,8 +211,6 @@ static xmlSAXHandler make_sax_handler (char *dump_file_name){
       SAXHander.startElement = OnStartElementUsers;
     if (strncmp(dump_file_name, "Posts.xml", 9) == 0)
       SAXHander.startElement = OnStartElementPosts;
-    // if (strncmp(dump_file_name, "Votes.xml", 9) == 0)
-    //   SAXHander.startElement = OnStartElementVotes;
 
     return SAXHander;
 }
@@ -330,15 +267,8 @@ TAD_community load(TAD_community com, char* dump_path) {
     FILE * p = fopen(posts,"r");
     read_xmlfile(p, "Posts.xml");
 
-    // char * votes = malloc(size + 10*sizeof(char));
-    // strcpy(votes, dump_path);
-    // strcat(votes, "Votes.xml");
-    // FILE * v = fopen(votes,"r");
-    // read_xmlfile(v, "Votes.xml");
-
     fclose(u);
     fclose(p);
-    // fclose(v);
 
     return structure;
 }

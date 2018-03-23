@@ -6,10 +6,6 @@
 
 typedef struct day * Day;
 
-void setCENAS(Day d, int NEW);
-
-int getCENAS(Day d);
-
 int sizeDay();
 
 int getDay(Day d);

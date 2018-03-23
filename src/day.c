@@ -11,18 +11,9 @@ typedef struct day {
   int year;
   int n_questions;
   int n_answers;
-  int test_index;
   GPtrArray * questions;
   GPtrArray * answers;
 } day;
-
-void setCENAS(Day d, int NEW) {
-    d->test_index = NEW;
-}
-
-int getCENAS(Day d) {
-    return d->test_index;
-}
 
 int sizeDay() {
     return sizeof(struct day);
