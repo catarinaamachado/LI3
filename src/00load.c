@@ -64,9 +64,12 @@ static void OnStartElementUsers(void *ctx, const xmlChar *element_name, const xm
 }
 
 static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xmlChar **attributes) {
-    int i, id, post_type_id, owner_id, title, tags, answer_count, score, parentid, date, dateInteger;
-    id = post_type_id = owner_id = title = tags = answer_count = score = parentid = date = 0;
+    int i, id, post_type_id, owner_id, title, tags, answer_count, score, comment_count, favorite_count;
+    int parentid, date, dateInteger;
     long a;
+
+    post_type_id = parentid = owner_id = title = tags = answer_count = date = 0;
+    id = score = comment_count = -1;
 
     if (attributes != NULL) {
 
@@ -92,13 +95,18 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
             else if(strncmp((const char *)attributes[i], "Score", 5) == 0)
                 score = ++i;
 
+            else if(strncmp((const char *)attributes[i], "CommentCount", 12) == 0) //
+                comment_count= ++i;
+
+            else if(strncmp((const char *)attributes[i], "FavoriteCount", 13) == 0) //
+                favorite_count= ++i;
+
             else if(strncmp((const char *)attributes[i], "ParentId", 8) == 0)
                 parentid = ++i;
 
             else if(strncmp((const char *)attributes[i], "CreationDate", 12) == 0)
                 date = ++i;
         }
-
 
         postDate pd = malloc(getPDSize());
 
@@ -159,21 +167,30 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
             //g_ptr_array_add(pointerDay->questions, pointer);
         }
 
-        else {  // se for uma resposta
+        else if(parentid != 0) {  // se for uma resposta e tiver uma pergunta associada (há respostas em que o parent id não existe)
             Answers pointer = malloc(sizeAnswers());
 
             setAnswerId(pointer, atol((const char *)attributes[id]));
-            setAUserId(pointer, atol((const char *)attributes[owner_id]));
+
+            if(owner_id != 0) { // há respostas sem OwnerUserId
+                setAUserId(pointer, atol((const char *)attributes[owner_id]));
+            }
+            else setAUserId(pointer, 0);
 
             int votes = atoi((const char *)attributes[score]);
             setScore(pointer, votes);
-            //setTotalVoters(pointer, 0);
-            //pointer->voters_id = g_array_new(FALSE, FALSE, sizeof(gint));  //inicializa o array dos voters
+
+            setFavoriteCount(pointer, 0); //porque favorite_count não existe nas respostas
+
+            setCommentCount(pointer, atoi((const char *)attributes[comment_count])); //
+
 
             insertAnswers(structure, getAnswerId(pointer), pointer);
 
             long parent_id = atol((const char *)attributes[parentid]);
             Questions q = lookQuestion(structure, parent_id);
+
+
 
             if(q != NULL) {  // se a pergunta existe
                 setNAnswerVotes(q, getNAnswerVotes(q) + votes);
@@ -201,17 +218,17 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
                 addAnswers(q, pointer);
 
                 insertQuestion(structure, getQuestionId(q), q);
-            }
+             }
+           }
+
 
             //pointerDay->n_answers += 1;
             //g_ptr_array_add(pointerDay->answers, pointer);
-        }
-
 
         //g_hash_table_insert (structure->day, GINT_TO_POINTER(dateInteger), pointerDay);
 
 
-        if(owner_id) {  //acrescentar posts aos ids
+        if(owner_id != 0) {  //acrescentar posts aos ids
             long oid = atol((const char *)attributes[owner_id]);
             Users u = lookUsers(structure, oid);
 
@@ -225,45 +242,6 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
 }
 
 
-// static void OnStartElementVotes(void *ctx, const xmlChar *element_name, const xmlChar **attributes) {
-//     int i, a, post_id, vote_type_id, user_id;
-//     post_id = vote_type_id = user_id = 0;
-
-
-//     if (attributes != NULL) {
-
-//         for (i = 0; (attributes[i] != NULL); i++) {
-//           if(strncmp((const char *)attributes[i], "PostId", 6) == 0)
-//             post_id = ++i;
-
-//           else if (strncmp((const char *)attributes[i], "VoteTypeId", 10) == 0)
-//             vote_type_id = ++i;
-
-//           else if (strncmp((const char *)attributes[i], "UserId", 6) == 0)
-//             user_id = ++i;
-//        }
-
-//        if( !strncmp((const char *)attributes[vote_type_id], "5", 1)) {
-
-//           a = atoi((const char *)attributes[post_id]);
-
-//           Answers * pointer = g_hash_table_lookup (structure->answers, GINT_TO_POINTER(a));
-
-//           if(pointer != NULL) { // se der null é porque a resposta não existe e, por isso, não lhe posso associar um voto
-
-//               pointer->total_voters++;
-
-//                 int num = atoi((const char *)attributes[user_id]);
-
-//               g_array_append_val(pointer->voters_id, num);
-//           }
-
-//         }
-
-//       }
-
-// }
-
 
 static xmlSAXHandler make_sax_handler (char *dump_file_name){
     xmlSAXHandler SAXHander;
@@ -275,8 +253,7 @@ static xmlSAXHandler make_sax_handler (char *dump_file_name){
       SAXHander.startElement = OnStartElementUsers;
     if (strncmp(dump_file_name, "Posts.xml", 9) == 0)
       SAXHander.startElement = OnStartElementPosts;
-    // if (strncmp(dump_file_name, "Votes.xml", 9) == 0)
-    //   SAXHander.startElement = OnStartElementVotes;
+
 
     return SAXHander;
 }
@@ -331,15 +308,9 @@ TAD_community load(TAD_community com, char* dump_path) {
     FILE * p = fopen(posts,"r");
     read_xmlfile(p, "Posts.xml");
 
-    // char * votes = malloc(size + 10*sizeof(char));
-    // strcpy(votes, dump_path);
-    // strcat(votes, "Votes.xml");
-    // FILE * v = fopen(votes,"r");
-    // read_xmlfile(v, "Votes.xml");
 
     fclose(u);
     fclose(p);
-    // fclose(v);
 
     return structure;
 }

@@ -25,7 +25,7 @@ int main(int argc, char const *argv[]){
   char * snd = get_snd_str(ola);
 
   printf("Title: %s\nUsername: %s\n", fst, snd);
-*/
+
 
   // LONG_list ll = contains_word(com, "root", 10);
   // for(int i = 0; i < 10; i++) {
@@ -38,6 +38,12 @@ int main(int argc, char const *argv[]){
     long v = get_list(ll, i);
     printf("%ld\n\n", v);
   }
+
+  */
+
+  LONG_list list = better_answer(com, 9);
+
+  printf("%ld\n", get_list(list,0));
 
   free(com);
 
