@@ -57,9 +57,12 @@ static void OnStartElementUsers(void *ctx, const xmlChar *element_name, const xm
 }
 
 static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xmlChar **attributes) {
-    int i, id, post_type_id, owner_id, title, tags, answer_count, score, parentid, date;
-    id = post_type_id = owner_id = title = tags = answer_count = score = parentid = date = 0;
+    int i, id, post_type_id, owner_id, title, tags, answer_count, score, comment_count, favorite_count;
+    int parentid, date;
     long a;
+
+    post_type_id = parentid = owner_id = title = tags = answer_count = date = 0;
+    id = score = comment_count = -1;
 
     if (attributes != NULL) {
 
@@ -85,13 +88,18 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
             else if(strncmp((const char *)attributes[i], "Score", 5) == 0)
                 score = ++i;
 
+            else if(strncmp((const char *)attributes[i], "CommentCount", 12) == 0) //
+                comment_count= ++i;
+
+            else if(strncmp((const char *)attributes[i], "FavoriteCount", 13) == 0) //
+                favorite_count= ++i;
+
             else if(strncmp((const char *)attributes[i], "ParentId", 8) == 0)
                 parentid = ++i;
 
             else if(strncmp((const char *)attributes[i], "CreationDate", 12) == 0)
                 date = ++i;
         }
-
 
         postDate pd = malloc(getPDSize());
 
@@ -104,6 +112,7 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
         long indexDay = g_date_days_between(begin_stackOverflow, d);
 
         Day pointerDay = lookDay(structure, indexDay);
+
 
         if( !strncmp((const char *)attributes[post_type_id], "1", 1)) { //trata-se de uma pergunta
             a = atol((const char *)attributes[id]);
@@ -136,23 +145,32 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
 
             insertQuestion(structure, getQuestionId(pointer), pointer);
 
-
             addDAYQuestions(pointerDay, pointer);
         }
 
-        else {  // se for uma resposta
+        else if(parentid != 0) {  // se for uma resposta e tiver uma pergunta associada (há respostas em que o parent id não existe)
             Answers pointer = malloc(sizeAnswers());
 
             setAnswerId(pointer, atol((const char *)attributes[id]));
             setAUserId(pointer, atol((const char *)attributes[owner_id]));
 
+            if(owner_id != 0) { // há respostas sem OwnerUserId
+                setAUserId(pointer, atol((const char *)attributes[owner_id]));
+            }
+            else setAUserId(pointer, 0);
+
             int votes = atoi((const char *)attributes[score]);
             setScore(pointer, votes);
+
+            setFavoriteCount(pointer, 0); //porque favorite_count não existe nas respostas
+
+            setCommentCount(pointer, atoi((const char *)attributes[comment_count])); //
 
             insertAnswers(structure, getAnswerId(pointer), pointer);
 
             long parent_id = atol((const char *)attributes[parentid]);
             Questions q = lookQuestion(structure, parent_id);
+
 
             if(q != NULL) {  // se a pergunta existe
                 setNAnswerVotes(q, getNAnswerVotes(q) + votes);
@@ -180,14 +198,13 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
                 addAnswers(q, pointer);
 
                 insertQuestion(structure, getQuestionId(q), q);
-            }
-
+             }
 
             addDAYAnswers(pointerDay, pointer);
         }
 
 
-        if(owner_id) {  //acrescentar posts aos ids
+        if(owner_id != 0) {  //acrescentar posts aos ids
             long oid = atol((const char *)attributes[owner_id]);
             Users u = lookUsers(structure, oid);
 

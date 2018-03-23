@@ -17,24 +17,29 @@ typedef struct questions {
   GPtrArray * answers;
 } questions;
 
+
 int sizeQuestions() {
     return sizeof(struct questions);
 }
 
+// devolve o id da pergunta
 long getQuestionId(Questions q) {
     return q->post_id;
 }
 
+//Estabelece o o id da pergunta
 void setQuestionId(Questions q, long id) {
     q->post_id = id;
 }
 
+//Estabelece a data da pergunta
 void setQDate(Questions q, char * date) {
     q->pd = malloc(getPDSize());
 
-     setDate(q->pd, date);
+    setDate(q->pd, date);
 }
 
+//devolve a data da pergunta
 char * getQDate(Questions q) {
     char * date = malloc(sizeof(char) * 12);
 
@@ -43,15 +48,17 @@ char * getQDate(Questions q) {
     return date;
 }
 
-
+//devolve o id do utilizador
 long getQUserId(Questions q) {
     return q->user_id;
 }
 
+//Estabelece o id do utilizador
 void setQUserId(Questions q, long id) {
     q->user_id = id;
 }
 
+//Devovle o título de uma pergunta
 char * getTitle(Questions q) {
     char * title = malloc(sizeof(char) * (strlen(q->title)+2));
     strcpy(title, q->title);
@@ -59,6 +66,8 @@ char * getTitle(Questions q) {
     return title;
 }
 
+
+//Estabelece o título de uma pergunta
 void setTitle(Questions q, char * t) {
     if(t == NULL) {
         q->title = malloc(sizeof(char));
@@ -72,6 +81,7 @@ void setTitle(Questions q, char * t) {
     }
 }
 
+//Devolve a(s) tag(s) de uma pergunta
 char * getTags(Questions q) {
     char * tags = malloc(sizeof(char) * (strlen(q->tags)+2));
     strcpy(tags, q->tags);
@@ -79,6 +89,7 @@ char * getTags(Questions q) {
     return tags;
 }
 
+//Estabelece a(s) tag(s) de uma pergunta
 void setTags(Questions q, char * t) {
     if(t == NULL) {
         q->tags = malloc(sizeof(char));
@@ -92,13 +103,17 @@ void setTags(Questions q, char * t) {
     }
 }
 
+//Devovle o número de respostas associadas a determinada pergunta
 int getNAnswers(Questions q) {
     return q->n_answers;
 }
 
+//Estabelece o número de respostas associadas a determinada pergunta
 void setNAnswers(Questions q, int n) {
     q->n_answers = n;
 }
+
+
 
 int getNAnswerVotes(Questions q) {
     return q->n_answer_votes;
@@ -108,57 +123,83 @@ void setNAnswerVotes(Questions q, int n) {
     q->n_answer_votes = n;
 }
 
+// cria um novo GPtrArray com as respostas de determinada pergunta
 void initAnswers(Questions q) {
     q->answers = g_ptr_array_sized_new(q->n_answers);
 }
 
+//Adiciona uma resposta ao GPtrArray Answers
 void addAnswers(Questions q, Answers a) {
     g_ptr_array_add(q->answers, a);
 }
 
+/* Devolve o id do utilizador que deu a resposta contida no GPtrArray,
+mais precisamente no índice do array dado pela variável index
+*/
 long getAnswerUserIdAtIndex(Questions q, int index) {
     return getAUserId(g_ptr_array_index(q->answers, index));
 }
 
+//
+int getAnswerScoreAtIndex(Questions q, int index) {
+   return getScore(g_ptr_array_index(q->answers, index));
+}
 
+//
+int getAnswerFavoriteAtIndex(Questions q, int index) {
+   return getFavoriteCount(g_ptr_array_index(q->answers, index));
+}
+
+//
+int getAnswerCommentAtIndex(Questions q, int index) {
+   return getCommentCount(g_ptr_array_index(q->answers, index));
+}
+
+//
+int getAnswerIdAtIndex(Questions q, int index) {
+   return getAnswerId(g_ptr_array_index(q->answers, index));
+}
+
+
+// Ordena as perguntas por data
 gint sortQDate (Questions aq, Questions bq) {
-      postDate a = aq->pd;
-      postDate b = bq->pd;
+    postDate a = aq->pd;
+    postDate b = bq->pd;
 
-      if (getPDYear(a) < getPDYear(b))
-          return 1;
-      else if (getPDYear(a) > getPDYear(b))
-          return -1;
+    if (getPDYear(a) < getPDYear(b))
+        return 1;
+    else if (getPDYear(a) > getPDYear(b))
+        return -1;
 
-      else if (getPDMonth(a) < getPDMonth(b))
-          return 1;
-      else if (getPDMonth(a) > getPDMonth(b))
-          return -1;
+    else if (getPDMonth(a) < getPDMonth(b))
+        return 1;
+    else if (getPDMonth(a) > getPDMonth(b))
+        return -1;
 
-      else if (getPDDay(a) < getPDDay(b))
-          return 1;
-      else if (getPDDay(a) > getPDDay(b))
-          return -1;
+    else if (getPDDay(a) < getPDDay(b))
+        return 1;
+    else if (getPDDay(a) > getPDDay(b))
+        return -1;
 
-      else if (getPDHour(a) < getPDHour(b))
-          return 1;
-      else if (getPDHour(a) > getPDHour(b))
-          return -1;
+    else if (getPDHour(a) < getPDHour(b))
+        return 1;
+    else if (getPDHour(a) > getPDHour(b))
+        return -1;
 
-      else if (getPDMin(a) < getPDMin(b))
-         return 1;
-      else if (getPDMin(a) > getPDMin(b))
-         return -1;
+    else if (getPDMin(a) < getPDMin(b))
+        return 1;
+    else if (getPDMin(a) > getPDMin(b))
+        return -1;
 
-      else if (getPDSec(a) < getPDSec(b))
-         return 1;
-      else if (getPDSec(a) > getPDSec(b))
-         return -1;
+    else if (getPDSec(a) < getPDSec(b))
+        return 1;
+    else if (getPDSec(a) > getPDSec(b))
+        return -1;
 
-      else if (getPDMili(a) < getPDMili(b))
-         return 1;
-      else if (getPDMili(a) > getPDMili(b))
-         return -1;
+    else if (getPDMili(a) < getPDMili(b))
+        return 1;
+    else if (getPDMili(a) > getPDMili(b))
+        return -1;
 
-      return 1;
+    return 1;
 }

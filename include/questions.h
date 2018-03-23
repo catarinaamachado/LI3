@@ -46,7 +46,15 @@ void addAnswers(Questions q, Answers a);
 
 long getAnswerUserIdAtIndex(Questions q, int index);
 
-GPtrArray getQAnswers(Questions q);
+//
+int getAnswerScoreAtIndex(Questions q, int index);
+//
+int getAnswerFavoriteAtIndex(Questions q, int index);
+//
+int getAnswerCommentAtIndex(Questions q, int index);
+//
+int getAnswerIdAtIndex(Questions q, int index);
 
+GPtrArray getQAnswers(Questions q);
 
 gint sortQDate (Questions aq, Questions bq);

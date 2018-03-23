@@ -2,15 +2,6 @@
 
 #include "struct.h"
 
- /*
-struct str_pair {
-   char* fst; apontador para o titulo
-   char* snd; apontador para o nome do usuário
-};
-*/
-
-//typedef struct TCD_community * TAD_community;
-
 
  /* Dado o identificador de um post, a função devolve
   o título do post e o nome de utilizador do autor;

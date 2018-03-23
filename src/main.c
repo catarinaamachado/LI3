@@ -47,20 +47,9 @@ int main(int argc, char const *argv[]){
 
   if (us != NULL) {
 
-    printf("User %ld\nBio:\n%s\n", id, get_bio(us));
-
-    long * posts = get_10_latest_posts(us);
-
-    for (int i = 0; i < 10 && posts[i] != -1; i++) {
-
-      printf("Post: %ld\n", posts[i]);
-
-    }
-  }
-
-  else
-    printf("No user\n");
-
+  //   printf("%ld\n", getQuestionId(q));
+  //   printf("%s\n\n", getQDate(q));i++;}
+  // }
 
 
   STR_pair ola = info_from_post(com, 197);
@@ -68,7 +57,26 @@ int main(int argc, char const *argv[]){
   char * snd = get_snd_str(ola);
 
   printf("Title: %s\nUsername: %s\n", fst, snd);
-*/
+
+
+  // LONG_list ll = contains_word(com, "root", 10);
+  // for(int i = 0; i < 10; i++) {
+  //   long v = get_list(ll, i);
+  //   printf("%ld\n\n", v);
+  // }
+  int n = 3;
+  LONG_list ll = both_participated(com, 4, 4, n);
+  for(int i = 0; i < n; i++) {
+    long v = get_list(ll, i);
+    printf("%ld\n\n", v);
+  }
+
+
+
+  LONG_list list = better_answer(com, 9);
+
+  printf("%ld\n", get_list(list,0));
+  */
 
   free(com);
 

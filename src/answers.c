@@ -6,6 +6,8 @@ typedef struct answers {
   long user_id;
   long answer_id;
   int score;
+  int favorite_count; //número de favoritos recebidos pela resposta (query 10)
+  int comment_count; //número de comentários recebidos pela resposta (query 10);
 } answers;
 
 int sizeAnswers() {
@@ -34,4 +36,24 @@ int getScore(Answers a) {
 
 void setScore(Answers a, int s) {
     a->score = s;
+}
+
+//query 10
+int getFavoriteCount(Answers a) {
+    return a->favorite_count;
+}
+
+//query 10
+void setFavoriteCount(Answers a, int f) {
+     a->favorite_count = f;
+}
+
+//query 10
+int getCommentCount(Answers a) {
+    return a->comment_count;
+}
+
+//query 10
+void setCommentCount(Answers a, int c) {
+    a->comment_count = c;
 }
