@@ -11,6 +11,7 @@ int main(int argc, char const *argv[]){
   com = load(com, "../android/");
 
 
+
   //test query 3
   Date date1 = createDate(1, 9, 2010);
   Date date2 = createDate(1, 9, 2010);
@@ -19,14 +20,28 @@ int main(int argc, char const *argv[]){
 
   printf("Query 3: %ld questions; %ld answers\n", get_fst_long(query3), get_snd_long(query3));
 
+
   //test query 6
   printf("\nQuery 6:\n");
-  LONG_list query6 = most_voted_answers(com, 5, date1, date2);
+  LONG_list query6 = most_voted_answers(com, 2, date1, date2);
 
-  for(int i = 0; i < 5; i++){
+  for(int i = 0; i < 2; i++){
     long a = get_list(query6, i);
     printf("ID Answer%d: %ld\n", i+1, a);
   }
+
+  //test query 7
+  printf("\nQuery 7:\n");
+  LONG_list query7 = most_answered_questions(com, 2, date1, date2);
+
+  for(int i = 0; i < 2; i++){
+    long a = get_list(query7, i);
+    printf("ID Question%d: %ld\n", i+1, a);
+  }
+
+
+
+
 
 /*
   //test day struct
