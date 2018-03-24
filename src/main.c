@@ -19,6 +19,15 @@ int main(int argc, char const *argv[]){
 
   printf("Query 3: %ld questions; %ld answers\n", get_fst_long(query3), get_snd_long(query3));
 
+  //test query 6
+  printf("\nQuery 6:\n");
+  LONG_list query6 = most_voted_answers(com, 5, date1, date2);
+
+  for(int i = 0; i < 5; i++){
+    long a = get_list(query6, i);
+    printf("ID Answer%d: %ld\n", i+1, a);
+  }
+
 /*
   //test day struct
   GDate * do1 = g_date_new_dmy(15, 9, 2008);
