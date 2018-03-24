@@ -58,3 +58,5 @@ int getAnswerIdAtIndex(Questions q, int index);
 GPtrArray getQAnswers(Questions q);
 
 gint sortQDate (Questions aq, Questions bq);
+
+void sortMoreAnswers(GPtrArray * total_questions);

@@ -113,8 +113,6 @@ void setNAnswers(Questions q, int n) {
     q->n_answers = n;
 }
 
-
-
 int getNAnswerVotes(Questions q) {
     return q->n_answer_votes;
 }
@@ -202,4 +200,21 @@ gint sortQDate (Questions aq, Questions bq) {
         return -1;
 
     return 1;
+}
+
+//query 7
+static gint sortPlusAnswers(Questions * q1, Questions * q2) {
+  int nAnswers_q1 = 0, nAnswers_q2 = 0;
+  nAnswers_q1 = getNAnswers(*q1);
+  nAnswers_q2 = getNAnswers(*q2);
+
+    if(nAnswers_q1 < nAnswers_q2)
+      return 1;
+    else
+      return -1;
+}
+
+//query 7
+void sortMoreAnswers(GPtrArray * total_questions) {
+  g_ptr_array_sort(total_questions, (GCompareFunc)sortPlusAnswers);
 }

@@ -98,3 +98,7 @@ void getDAYAnswer(Day d) {
 Answers getDAYAnswerAtIndex(Day d, int index) {
     return g_ptr_array_index(d->answers, index);
 }
+
+Questions getDAYQuestionAtIndex(Day d, int index) {
+    return g_ptr_array_index(d->questions, index);
+}
