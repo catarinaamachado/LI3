@@ -15,8 +15,6 @@ Para isso, deverá usar a função de média ponderada abaixo:
 */
 
 LONG_list better_answer(TAD_community com, int id) {
-
-
   int i, total_answers, answer_id, reputation, max = 0;
   double total;
 

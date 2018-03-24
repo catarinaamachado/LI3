@@ -167,7 +167,7 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
             else
                 setFavoriteCount(pointer, atoi((const char *)attributes[favorite_count])); //se o favorite_count existir nas respostas
 
-            setCommentCount(pointer, atoi((const char *)attributes[comment_count])); //
+            setCommentCount(pointer, atoi((const char *)attributes[comment_count]));
 
             insertAnswers(structure, getAnswerId(pointer), pointer);
 

@@ -1,5 +1,4 @@
 #include <gmodule.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -78,19 +77,24 @@ void addDAYQuestions(Day d, Questions q) {
     d->n_questions++;
     g_ptr_array_add(d->questions, q);
 }
-
+/*
 static void printQuestion(Questions q) {
     printf("%ld\n", getQuestionId(q));
 }
-
+//
 void getDAYQuestion(Day d) {
     g_ptr_array_foreach(d->questions, (GFunc)printQuestion, NULL);
 }
-
+//
 static void printAnswer(Answers a) {
     printf("%ld\n", getAnswerId(a));
 }
-
+//
 void getDAYAnswer(Day d) {
     g_ptr_array_foreach(d->answers, (GFunc)printAnswer, NULL);
+}
+*/
+
+Answers getDAYAnswerAtIndex(Day d, int index) {
+    return g_ptr_array_index(d->answers, index);
 }

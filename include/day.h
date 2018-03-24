@@ -1,5 +1,3 @@
-#include <gmodule.h>
-
 #include "interface.h"
 #include "answers.h"
 #include "questions.h"
@@ -39,3 +37,5 @@ void addDAYQuestions(Day d, Questions q);
 void getDAYQuestion(Day d);
 
 void getDAYAnswer(Day d);
+
+Answers getDAYAnswerAtIndex(Day d, int index);

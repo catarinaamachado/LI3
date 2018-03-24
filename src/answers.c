@@ -7,7 +7,7 @@ typedef struct answers {
   long answer_id;
   int score;
   int favorite_count; //número de favoritos recebidos pela resposta (query 10)
-  int comment_count; //número de comentários recebidos pela resposta (query 10);
+  int comment_count; //número de comentários recebidos pela resposta (query 10)
 } answers;
 
 int sizeAnswers() {
@@ -56,4 +56,21 @@ int getCommentCount(Answers a) {
 //query 10
 void setCommentCount(Answers a, int c) {
     a->comment_count = c;
+}
+
+//query 6
+static gint sortVotes(Answers * a1, Answers * a2) {
+  int votes_a1 = 0, votes_a2 = 0;
+  votes_a1 = getScore(*a1);
+  votes_a2 = getScore(*a2);
+
+    if(votes_a1 < votes_a2)
+      return 1;
+    else
+      return -1;
+}
+
+//query 6
+void sortAnswersVotes(GPtrArray * total_answers) {
+  g_ptr_array_sort(total_answers, (GCompareFunc)sortVotes);
 }

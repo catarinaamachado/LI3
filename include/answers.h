@@ -23,3 +23,5 @@ int getCommentCount(Answers a);
 void setCommentCount(Answers a, int c);
 
 void setScore(Answers a, int s);
+
+void sortAnswersVotes(GPtrArray * total_answers);

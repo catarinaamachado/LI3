@@ -88,7 +88,7 @@ postDate getPDindex(Users u, int l) {
 }
 
 
-static gint sortDate (postDate a, postDate b) {
+static gint sortDate(postDate a, postDate b) {
     if (getPDYear(a) < getPDYear(b))
         return -1;
     else if (getPDYear(a) > getPDYear(b))
