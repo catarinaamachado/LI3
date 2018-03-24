@@ -82,12 +82,12 @@ int main(int argc, char const *argv[]){
     printf("%ld\n\n", v);
   }
 
+*/
 
+  LONG_list list = better_answer(com, 4);
+  if (list != NULL)
+    printf("%ld\n", get_list(list,0));
 
-  LONG_list list = better_answer(com, 9);
-
-  printf("%ld\n", get_list(list,0));
-  */
 
   free(com);
 

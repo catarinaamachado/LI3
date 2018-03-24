@@ -62,7 +62,7 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
     long a;
 
     post_type_id = parentid = owner_id = title = tags = answer_count = date = 0;
-    id = score = comment_count = -1;
+    id = score = favorite_count = comment_count = -1;
 
     if (attributes != NULL) {
 
@@ -162,7 +162,10 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
             int votes = atoi((const char *)attributes[score]);
             setScore(pointer, votes);
 
-            setFavoriteCount(pointer, 0); //porque favorite_count não existe nas respostas
+            if(favorite_count == -1)
+                setFavoriteCount(pointer, 0); //quando favorite_count não existe nas respostas
+            else
+                setFavoriteCount(pointer, atoi((const char *)attributes[favorite_count])); //se o favorite_count existir nas respostas
 
             setCommentCount(pointer, atoi((const char *)attributes[comment_count])); //
 
