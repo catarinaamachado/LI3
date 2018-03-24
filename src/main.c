@@ -14,7 +14,7 @@ int main(int argc, char const *argv[]){
 
   //test query 3
   Date date1 = createDate(1, 9, 2010);
-  Date date2 = createDate(1, 9, 2010);
+  Date date2 = createDate(1, 9, 2014);
 
   LONG_pair query3 = total_posts(com, date1, date2);
 
@@ -40,18 +40,31 @@ int main(int argc, char const *argv[]){
   }
 
 
-
-
-
-/*
-  //test day struct
+  //test query 4
+  printf("\nExperiencias\n");
   GDate * do1 = g_date_new_dmy(15, 9, 2008);
-  GDate * do2 = g_date_new_dmy(24, 11, 2010);
+  GDate * do2 = g_date_new_dmy(1, 9, 2010);
   int oi = g_date_days_between(do1, do2);
 
-  printf("%d\n", oi);
+  printf("Um indice: %d\n", oi);
 
 
+  Day d = lookDay(com, oi);
+
+  char * cenas;
+  cenas = getTags(getDAYQuestionAtIndex(d, 0));
+
+  printf("Tags de um dia: %s\n", cenas);
+
+  printf("\nQuery 4:\n");
+  LONG_list query4 = questions_with_tag(com, "contacts", date1, date2);
+  for(int i = 0; i < 20; i++){
+    long a = get_list(query4, i);
+    printf("ID Question%d: %ld\n", i+1, a);
+  }
+
+  //test day struct
+/*
   for(int i = 800; i < 801; i++){
     Day diiiias = lookDay(com, i);
 
