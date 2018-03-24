@@ -1,5 +1,3 @@
-#include <stdlib.h>
-
 #include "struct.h"
 
 
@@ -25,7 +23,7 @@ STR_pair info_from_post(TAD_community com, int id) {
 
    Users user = lookUsers(com, user_id);
 
-   if ( user == NULL) {
+   if (user == NULL) {
       return title_username;
     }
 

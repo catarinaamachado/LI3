@@ -10,6 +10,17 @@ int main(int argc, char const *argv[]){
 
   com = load(com, "../android/");
 
+
+  //test query 3
+  Date date1 = createDate(1, 9, 2010);
+  Date date2 = createDate(1, 9, 2010);
+
+  LONG_pair query3 = total_posts(com, date1, date2);
+
+  printf("Query 3: %ld questions; %ld answers\n", get_fst_long(query3), get_snd_long(query3));
+
+/*
+  //test day struct
   GDate * do1 = g_date_new_dmy(15, 9, 2008);
   GDate * do2 = g_date_new_dmy(24, 11, 2010);
   int oi = g_date_days_between(do1, do2);
@@ -40,7 +51,7 @@ int main(int argc, char const *argv[]){
   }
 
 
-/*
+
   USER us;
   long id = 123;//atol(argv[1]);
   us = get_user_info(com, id);

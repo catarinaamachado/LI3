@@ -3,11 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-
 #include "struct.h"
-
-
-
 
 /*
 Dado o ID de uma pergunta, obter a melhor resposta.
