@@ -5,12 +5,12 @@
 /*
 Dado um intervalo de tempo arbitrário,
 devolver os IDs das N respostas com mais votos,
-em ordem decrescente do número de votos;
+em ordem decrescente do número de votos
 */
 
 LONG_list most_voted_answers(TAD_community com, int N, Date begin, Date end) {
   LONG_list ll = create_list(1);
-  int n_days, count_day, n_answers, answer_id, i;
+  int n_days, count_day, n_answers, answer_id, i, sizeTA = 0;;
 
   GDate * begin_stackOverflow = g_date_new_dmy (15, 9, 2008);
   GDate * beginDate = g_date_new_dmy(get_day(begin), get_month(begin), get_year(begin));
@@ -25,6 +25,7 @@ LONG_list most_voted_answers(TAD_community com, int N, Date begin, Date end) {
   while(n_days >= 0){
     Day d = lookDay(com, count_day);
     n_answers = getDAYNAnswers(d);
+    sizeTA += n_answers;
 
     for (i = 0; i < n_answers; i++){
       info_answer = getDAYAnswerAtIndex(d, i);
@@ -35,6 +36,8 @@ LONG_list most_voted_answers(TAD_community com, int N, Date begin, Date end) {
   }
 
   sortAnswersVotes(total_answers);
+
+  if (N > sizeTA) N = sizeTA;
 
   for(i = 0; ((i < N) && (info_answer != NULL)); i++){
     info_answer = g_ptr_array_index(total_answers, i);
