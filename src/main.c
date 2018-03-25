@@ -11,7 +11,7 @@ int main(int argc, char const *argv[]){
   com = load(com, "../android/");
 
 
-
+/*
   //test query 3
   Date date1 = createDate(1, 9, 2010);
   Date date2 = createDate(1, 9, 2014);
@@ -62,7 +62,7 @@ int main(int argc, char const *argv[]){
     long a = get_list(query4, i);
     printf("ID Question%d: %ld\n", i+1, a);
   }
-
+*/
   //test day struct
 /*
   for(int i = 800; i < 801; i++){
@@ -119,11 +119,19 @@ int main(int argc, char const *argv[]){
     printf("%ld\n\n", v);
   }
 
-*/
 
+//teste query 10
   LONG_list list = better_answer(com, 4);
   if (list != NULL)
     printf("%ld\n", get_list(list,0));
+*/
+
+
+//teste query 2
+  LONG_list list = top_most_active(com, 50);
+
+  for(int i = 0; i < 50; i++)
+    printf("%ld\n", get_list(list, i));
 
 
   free(com);

@@ -20,6 +20,8 @@ void insertAnswers(TAD_community t, long id, Answers pointer);
 
 guint getNumberOfQuestions(TAD_community t);
 
+GHashTable * getHashTableUsers(TAD_community t);
+
 GList * getQuestions(TAD_community t);
 
 Day lookDay(TAD_community t, long indexDay);

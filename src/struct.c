@@ -78,6 +78,11 @@ guint getNumberOfQuestions(TAD_community t) {
     return size;
 }
 
+//devolve o endereço da HashTable users.
+GHashTable * getHashTableUsers(TAD_community t) {
+  return t->users;
+}
+
 GList * getQuestions(TAD_community t) {
     if(t->questionsList != NULL)
         return t->questionsList;
