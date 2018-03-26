@@ -5,6 +5,7 @@
 #include "questions.h"
 #include "postDate.h"
 #include "day.h"
+#include "tags.h"
 
 TAD_community init();
 
@@ -27,3 +28,5 @@ GList * getQuestions(TAD_community t);
 Day lookDay(TAD_community t, long indexDay);
 
 void insertDay(TAD_community t, long indexDay, Day pointer);
+
+void insertTag(TAD_community t, PtrTags tag);

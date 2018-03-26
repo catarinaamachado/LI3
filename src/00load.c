@@ -7,6 +7,7 @@
 #include "struct.h"
 #include "users.h"
 #include "postDate.h"
+#include "tags.h"
 
 static TAD_community structure;
 static GDate * begin_stackOverflow;
@@ -221,6 +222,35 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
 }
 
 
+/*
+Função que extrai os elementos necessários das tags para preencher a
+respetiva estruturas de dados.
+*/
+static void OnStartElementTags(void *ctx, const xmlChar *element_name, const xmlChar **attributes) {
+  int id, tagname, i;
+
+  if (attributes != NULL) {
+
+      for (i = 0;(attributes[i] != NULL);i++) {
+          if(strncmp((const char *)attributes[i], "Id", 2) == 0)
+              id = ++i;
+
+          else if(strncmp((const char *)attributes[i], "TagName", 7) == 0)
+              tagname = ++i;
+      }
+
+      PtrTags pointer = malloc(getTagsSize());
+
+      int tag_id = atoi((const char *)attributes[id]);
+      setTagId(pointer, tag_id);
+
+      setTagName(pointer, (const char *)attributes[tagname]);
+      setTagValue(pointer, 0);
+
+      insertTag(structure, pointer);
+  }
+}
+
 static xmlSAXHandler make_sax_handler (char *dump_file_name){
     xmlSAXHandler SAXHander;
 
@@ -231,6 +261,8 @@ static xmlSAXHandler make_sax_handler (char *dump_file_name){
       SAXHander.startElement = OnStartElementUsers;
     if (strncmp(dump_file_name, "Posts.xml", 9) == 0)
       SAXHander.startElement = OnStartElementPosts;
+    if (strncmp(dump_file_name, "Tags.xml", 8) == 0)
+      SAXHander.startElement = OnStartElementTags;
 
     return SAXHander;
 }
@@ -280,15 +312,24 @@ TAD_community load(TAD_community com, char* dump_path) {
     strcat(users, "Users.xml");
     FILE * u = fopen(users,"r");
     read_xmlfile(u, "Users.xml");
+    fclose(u);
+    free(users);
 
     char * posts = malloc(size + 10*sizeof(char));
     strcpy(posts, dump_path);
     strcat(posts, "Posts.xml");
     FILE * p = fopen(posts,"r");
     read_xmlfile(p, "Posts.xml");
-
-    fclose(u);
     fclose(p);
+    free(posts);
+
+    char * tags = malloc(size + 10*sizeof(char));
+    strcpy(tags, dump_path);
+    strcat(tags, "Tags.xml");
+    FILE * t = fopen(tags,"r");
+    read_xmlfile(t, "Tags.xml");
+    fclose(t);
+    free(tags);
 
     return structure;
 }

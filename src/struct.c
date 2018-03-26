@@ -9,6 +9,7 @@ typedef struct TCD_community {
   GList * questionsList;
   GHashTable * answers;
   GPtrArray * day;
+  GPtrArray * tags; //tags
 } TCD_community;
 
 TAD_community init() {
@@ -22,6 +23,8 @@ TAD_community init() {
 
   com->day = g_ptr_array_sized_new(3650);
   g_ptr_array_set_size (com->day, 3650);
+
+  com->tags = g_ptr_array_sized_new(100);
 
   GDate * actualDate = g_date_new_dmy (15, 9, 2008);
   int day, month, year;
@@ -103,4 +106,15 @@ Day lookDay(TAD_community t, long indexDay){
 
 void insertDay(TAD_community t, long indexDay, Day pointer) {
   g_ptr_array_insert(t->day, indexDay, pointer);
+}
+
+
+PtrTags lookTag(TAD_community t, int index){
+  PtrTags tag = g_ptr_array_index(t->tags, index);
+
+  return tag;
+}
+
+void insertTag(TAD_community t, PtrTags tag) {
+  g_ptr_array_add (t->tags, tag);
 }
