@@ -275,9 +275,7 @@ static xmlSAXHandler make_sax_handler (char *dump_file_name){
     return SAXHander;
 }
 
-/*
 
-*/
 static int read_xmlfile(FILE *file, char *dump_file_name) {
     char chars[1024];
     int result = fread(chars, 1, 4, file); //lê 4 bytes de f e coloca em chars

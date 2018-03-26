@@ -1,15 +1,25 @@
 #include "struct.h"
 
+
+/*
+Função que verifica se determinado utilizador respondeu a determinada questão.
+*/
 static int participateAnswers(Questions q, long id) {
     int size = getNAnswers(q);
 
     for (int i = 0; i < size; i++)
         if (id == getAnswerUserIdAtIndex(q, i))
             return 1;
-    
+
     return 0;
 }
 
+
+/*
+Dados os IDs de dois utilizadores, devolver as últimas
+N perguntas (cronologia inversa) em que participaram dois utilizadores específicos.
+Note que os utilizadores podem ter participado via pergunta ou respostas.
+*/
 LONG_list both_participated(TAD_community com, long id1, long id2, int N) {
     LONG_list ll = create_list(N);
 

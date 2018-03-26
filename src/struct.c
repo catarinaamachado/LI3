@@ -3,6 +3,11 @@
 #include "struct.h"
 #include "interface.h"
 
+
+/*
+Estrutura de dados que armazena informação relativa a todas as estruturas
+de elementos necessários para responder às 11 interrogações.
+*/
 typedef struct TCD_community {
   GHashTable * users;
   GHashTable * questions;
@@ -12,6 +17,10 @@ typedef struct TCD_community {
   GPtrArray * tags; //tags
 } TCD_community;
 
+
+/*
+Função que inicializa a estrutura TCD_community
+*/
 TAD_community init() {
   TAD_community com;
 
@@ -53,39 +62,62 @@ TAD_community init() {
   return com;
 }
 
+/*
+Função que procura um user na tabela de hash designada users
+*/
 Users lookUsers(TAD_community t, long id) {
   Users u = g_hash_table_lookup(t->users, GINT_TO_POINTER(id));
   return u;
 }
 
+/*
+Função que insere um user na tabela de hash designada users
+*/
 void insertUser(TAD_community t, long id, Users pointer) {
   g_hash_table_insert(t->users, GINT_TO_POINTER(id), pointer);
 }
 
+/*
+Função que procura uma pergunta na tabela de hash designada questions
+*/
 Questions lookQuestion(TAD_community t, long id) {
   Questions q = g_hash_table_lookup(t->questions, GINT_TO_POINTER(id));
   return q;
 }
 
+/*
+Função que insere uma pergunta na tabela de hash questions
+*/
 void insertQuestion(TAD_community t, long id, Questions pointer) {
   g_hash_table_insert(t->questions, GINT_TO_POINTER(id), pointer);
 }
 
+/*
+Função que insere uma resposta na tabela de hash designada answers
+*/
 void insertAnswers(TAD_community t, long id, Answers pointer) {
   g_hash_table_insert(t->answers, GINT_TO_POINTER(id), pointer);
 }
 
+/*
+Função que devolve o número de perguntas armazenadas na tabela de hash questions
+*/
 guint getNumberOfQuestions(TAD_community t) {
     guint size = g_hash_table_size(t->questions);
 
     return size;
 }
 
-//devolve o endereço da HashTable users.
+/*
+Função que devolve o endereço da tabela de hash users.
+*/
 GHashTable * getHashTableUsers(TAD_community t) {
   return t->users;
 }
 
+/*
+Função que devolve um apontador para uma lista de perguntas
+*/
 GList * getQuestions(TAD_community t) {
     if(t->questionsList != NULL)
         return t->questionsList;
@@ -99,22 +131,35 @@ GList * getQuestions(TAD_community t) {
     return q;
 }
 
+/*
+Função que devolve o apontador para o dia contido num determinado índice
+do GPtrArray day.
+*/
 Day lookDay(TAD_community t, long indexDay){
   Day d = g_ptr_array_index(t->day, indexDay);
   return d;
 }
 
+/*
+Função que insere uma data no GPtrArray day.
+*/
 void insertDay(TAD_community t, long indexDay, Day pointer) {
   g_ptr_array_insert(t->day, indexDay, pointer);
 }
 
-
+/*
+Função que devolve o apontador para uma tag contida num determinado índice
+do GPtrArray tags.
+*/
 PtrTags lookTag(TAD_community t, int index){
   PtrTags tag = g_ptr_array_index(t->tags, index);
 
   return tag;
 }
 
+/*
+Função que adiciona uma tag ao GPtrarray tags
+*/
 void insertTag(TAD_community t, PtrTags tag) {
   g_ptr_array_add (t->tags, tag);
 }

@@ -4,6 +4,10 @@
 
 #include "struct.h"
 
+/*
+Dado uma palavra, devolver uma lista com os IDs de
+N perguntas cujos títulos a contenham, ordenados por cronologia inversa;
+*/
 LONG_list contains_word(TAD_community com, char* word, int N) {
     LONG_list ll = create_list(N);
 
