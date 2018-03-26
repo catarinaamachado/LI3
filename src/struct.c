@@ -12,7 +12,6 @@ typedef struct TCD_community {
   GHashTable * users;
   GHashTable * questions;
   GList * questionsList;
-  GHashTable * answers;
   GPtrArray * day;
   GPtrArray * tags; //tags
 } TCD_community;
@@ -57,8 +56,6 @@ TAD_community init() {
     g_date_add_days(actualDate, 1);
   }
 
-  com->answers = g_hash_table_new(g_direct_hash, g_direct_equal);
-
   return com;
 }
 
@@ -93,13 +90,6 @@ void insertQuestion(TAD_community t, long id, Questions pointer) {
 }
 
 /*
-Função que insere uma resposta na tabela de hash designada answers
-*/
-void insertAnswers(TAD_community t, long id, Answers pointer) {
-  g_hash_table_insert(t->answers, GINT_TO_POINTER(id), pointer);
-}
-
-/*
 Função que devolve o número de perguntas armazenadas na tabela de hash questions
 */
 guint getNumberOfQuestions(TAD_community t) {
@@ -116,7 +106,7 @@ GHashTable * getHashTableUsers(TAD_community t) {
 }
 
 /*
-Função que devolve um apontador para uma lista de perguntas
+Função que devolve um apontador para uma lista de perguntas ordenada por data
 */
 GList * getQuestions(TAD_community t) {
     if(t->questionsList != NULL)
