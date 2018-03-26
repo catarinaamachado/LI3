@@ -4,7 +4,15 @@
 
 typedef struct users * Users;
 
+typedef struct totalPosts * PtrTotalPosts;
+
 int getUsersSize();
+
+int getTotalPosts(PtrTotalPosts n_post);
+void setTotalPosts(PtrTotalPosts total_posts, int n_posts);
+
+int getTotalPostsUserId(PtrTotalPosts total_post);
+void setTotalPostsUserId(PtrTotalPosts total_posts, long user_id);
 
 long getUserId(Users u);
 void setUserId(Users u, long i);

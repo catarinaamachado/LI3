@@ -1,7 +1,5 @@
 #include <gmodule.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+
 
 #include "struct.h"
 
@@ -15,8 +13,8 @@ Para isso, deverá usar a função de média ponderada abaixo:
 */
 
 LONG_list better_answer(TAD_community com, int id) {
-  int i, total_answers, answer_id, reputation, max = 0;
-  double total;
+  int i, total_answers, answer_id, reputation;
+  double total, max = 0;
 
   Questions question = lookQuestion(com, (long)id);
 

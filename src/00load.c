@@ -12,7 +12,10 @@
 static TAD_community structure;
 static GDate * begin_stackOverflow;
 
-//Extrai os atributos necessários do user
+/*
+Função que extrai os elementos necessários do utilizador para preencher as
+respetivas estruturas de dados.
+*/
 static void OnStartElementUsers(void *ctx, const xmlChar *element_name, const xmlChar **attributes) {
     int i, id, reputation, name, about;
     id = reputation = name = about = 0;
@@ -57,6 +60,11 @@ static void OnStartElementUsers(void *ctx, const xmlChar *element_name, const xm
     }
 }
 
+
+/*
+Função que extrai os elementos necessários dos posts para preencher as
+respetivas estruturas de dados.
+*/
 static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xmlChar **attributes) {
     int i, id, post_type_id, owner_id, title, tags, answer_count, score, comment_count, favorite_count;
     int parentid, date;
@@ -208,7 +216,7 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
         }
 
 
-        if(owner_id != 0) {  //acrescentar posts aos ids
+        if(owner_id != 0) {  //se o owner id existe, acrescenta posts aos utilizadores
             long oid = atol((const char *)attributes[owner_id]);
             Users u = lookUsers(structure, oid);
 
@@ -267,6 +275,9 @@ static xmlSAXHandler make_sax_handler (char *dump_file_name){
     return SAXHander;
 }
 
+/*
+
+*/
 static int read_xmlfile(FILE *file, char *dump_file_name) {
     char chars[1024];
     int result = fread(chars, 1, 4, file); //lê 4 bytes de f e coloca em chars
@@ -282,8 +293,7 @@ static int read_xmlfile(FILE *file, char *dump_file_name) {
     Inicializa o Sax;
     Informa quais são as callbacks a serem chamadas e verifica o encoding;
     */
-    xmlParserCtxtPtr ctxt = xmlCreatePushParserCtxt(
-        &SAXHander, NULL, chars, result, NULL);
+    xmlParserCtxtPtr ctxt = xmlCreatePushParserCtxt(&SAXHander, NULL, chars, result, NULL);
 
     while ((result = fread(chars, 1, sizeof(chars), file)) > 0) {
         if(xmlParseChunk(ctxt, chars, result, 0)) {
@@ -303,7 +313,7 @@ static int read_xmlfile(FILE *file, char *dump_file_name) {
 TAD_community load(TAD_community com, char* dump_path) {
     structure = com;
 
-    begin_stackOverflow = g_date_new_dmy (15, 9, 2008);
+    begin_stackOverflow = g_date_new_dmy (15, 9, 2008); //aloca um GDate e define uma data
 
     int size = sizeof(char) * strlen(dump_path);
 

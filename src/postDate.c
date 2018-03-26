@@ -9,6 +9,8 @@ typedef struct postAndDate {
     int year, month, day, hour, min, sec, mili;
 } postAndDate;
 
+
+
 gint sortDate (postDate a, postDate b) {
     if (getPDYear(a) < getPDYear(b))
         return -1;

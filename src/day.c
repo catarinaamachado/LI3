@@ -4,6 +4,9 @@
 
 #include "day.h"
 
+
+
+
 typedef struct day {
   int day;
   int month;
