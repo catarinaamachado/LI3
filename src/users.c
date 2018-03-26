@@ -17,54 +17,46 @@ typedef struct users {
   GArray * last_posts;
 } users;
 
-
-/*
-Estrutura de dados que armazena o id do utilizador e o número de posts que este publicou
-*/
-typedef struct totalPosts {
-  long user_id;
-  int n_posts;
-} totalPosts;
-
 /*
 Devolve o número total de posts de um utilizador, sendo passado como parametro
 um apontador para totalPosts
-*/
+
 int getTotalPosts(PtrTotalPosts n_post) {
   return n_post->n_posts;
 }
 
-/*
+
 Devolve o id de um utilizador, sendo passado como parametro
 um apontador para totalPosts
-*/
+
 int getTotalPostsUserId(PtrTotalPosts n_post) {
   return n_post->user_id;
 }
 
-/*
+
 Estabelece o número de posts a figurar na estrutura totalPosts.
-*/
+
 void setTotalPosts(PtrTotalPosts total_posts, int n_posts) {
   total_posts->n_post = n_posts;
 }
 
 
-/*
+
 Estabelece o id do utilizador a figurar na estrutura totalPosts.
-*/
+
 void setTotalPostsUserId(PtrTotalPosts total_posts, long user_id) {
   total_posts->user_id = user_id;
 }
 
 
-/*
+
 Devolve um apontador para a estrutura totalPosts e inicializa o array
 com a estrutura totalPosts
-*/
+
 PtrTotalPosts initTotalPosts() {
    return g_array_new (FALSE, FALSE, sizeof (totalPosts));
 }
+*/
 
 /*
 Devolve o tamanho da estrutura dos users.
