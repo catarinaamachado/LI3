@@ -24,34 +24,10 @@ int main(int argc, char const *argv[]){
   printf("Tags de uma question: %s\n", all_tags);
   // <contacts><nexus-one><2.2-froyo><sms>
 
-  int post_id1 = 938;
-  int post_id2 = 941;
-  int post_id3 = 944;
 
-  Questions question1 = lookQuestion(com, post_id1);
-  Questions question2 = lookQuestion(com, post_id2);
-  Questions question3 = lookQuestion(com, post_id3);
-
-  long utilizador1 = getQUserId(question1);
-  long utilizador2 = getQUserId(question2);
-  long utilizador3 = getQUserId(question3);
-
-  printf("U1: %ld; U2: %ld; U3: %ld\n", utilizador1, utilizador2, utilizador3);
-
-  Users user1 = lookUsers(com, utilizador1);
-  // Users user2 = lookUsers(com, utilizador2);
-  // Users user3 = lookUsers(com, utilizador3);
-  //
-   int reputacao1 = getReputation(user1);
-  // int reputacao2 = getReputation(user2);
-  // int reputacao3 = getReputation(user3);
-
-   printf("R1: %d\n", reputacao1);
-
-
-  //test query 11
+  //test query 11 FIXME SOMETHING IS WRONG
   Date date1 = createDate(8, 9, 2010);
-  Date date2 = createDate(8, 9, 2011);
+  Date date2 = createDate(8, 12, 2011);
 
   LONG_list list = most_used_best_rep(com, 10, date1, date2);
   if (list != NULL){
@@ -93,8 +69,6 @@ int main(int argc, char const *argv[]){
   //
 
 
-
-
   //test query 3
   Date date3 = createDate(1, 9, 2010);
   Date date4 = createDate(1, 9, 2017);
@@ -112,7 +86,32 @@ int main(int argc, char const *argv[]){
     long a = get_list(query6, i);
     printf("ID Answer%d: %ld\n", i+1, a);
   }
+
 /*
+  int post_id1 = 938;
+  int post_id2 = 941;
+  int post_id3 = 944;
+
+  Questions question1 = lookQuestion(com, post_id1);
+  Questions question2 = lookQuestion(com, post_id2);
+  Questions question3 = lookQuestion(com, post_id3);
+
+  long utilizador1 = getQUserId(question1);
+  long utilizador2 = getQUserId(question2);
+  long utilizador3 = getQUserId(question3);
+
+  printf("U1: %ld; U2: %ld; U3: %ld\n", utilizador1, utilizador2, utilizador3);
+
+  Users user1 = lookUsers(com, utilizador1);
+  // Users user2 = lookUsers(com, utilizador2);
+  // Users user3 = lookUsers(com, utilizador3);
+  //
+   int reputacao1 = getReputation(user1);
+  // int reputacao2 = getReputation(user2);
+  // int reputacao3 = getReputation(user3);
+
+   printf("R1: %d\n", reputacao1);
+
   //test query 7
   printf("\nQuery 7:\n");
   LONG_list query7 = most_answered_questions(com, 2, date1, date2);

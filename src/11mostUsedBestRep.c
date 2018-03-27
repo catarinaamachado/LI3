@@ -24,7 +24,9 @@ Em ordem decrescente do número de vezes em que a tag foi usada.
 */
 LONG_list most_used_best_rep(TAD_community com, int N, Date begin, Date end){
   LONG_list ll = create_list(1);
-  int n_days, count_day, n_questions, user_id, i, flag, sizePTRarray_users = 0, tag_id, tag_length, sizePTRarray_tags = 0;
+  int n_days, count_day, n_questions, i, flag;
+  int user_id, sizePTRarray_users = 0;
+  int tag_id, tag_length, sizePTRarray_tags = 0;
   char * all_tags;
 
   GDate * begin_stackOverflow = g_date_new_dmy (15, 9, 2008);
@@ -41,7 +43,7 @@ LONG_list most_used_best_rep(TAD_community com, int N, Date begin, Date end){
   Users info_user;
 
 
-  //descobrir N utilizadores com maior reputação
+  //descobrir os N utilizadores com maior reputação
   while(n_days >= 0){
     Day d = lookDay(com, count_day);
     n_questions = getDAYNQuestions(d);
@@ -115,10 +117,12 @@ LONG_list most_used_best_rep(TAD_community com, int N, Date begin, Date end){
     count_day++; n_days--;
   }
 
+
   sortTags(total_tags);
 
   if (N > sizePTRarray_tags) N = sizePTRarray_tags;
 
+  //escrever na long list as referências das N tags
   if(info_tag != NULL){
 
     for(i = 0; i < N; i++){
