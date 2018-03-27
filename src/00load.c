@@ -173,16 +173,15 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
             int votes = atoi((const char *)attributes[score]);
             setScore(pointer, votes);
 
-            if(favorite_count == -1)
-                setFavoriteCount(pointer, 0); //quando favorite_count não existe nas respostas
-            else
-                setFavoriteCount(pointer, atoi((const char *)attributes[favorite_count])); //se o favorite_count existir nas respostas
+            setUpVotes(pointer, 0); //inicializa os up votes da resposta a zero
+            setDownVotes(pointer, 0);
 
             setCommentCount(pointer, atoi((const char *)attributes[comment_count]));
 
-
             long parent_id = atol((const char *)attributes[parentid]);
             Questions q = lookQuestion(structure, parent_id);
+
+            insertAnswers(structure, getAnswerId(pointer), pointer);
 
 
             if(q != NULL) {  // se a pergunta existe
@@ -260,6 +259,45 @@ static void OnStartElementTags(void *ctx, const xmlChar *element_name, const xml
   }
 }
 
+
+static void OnStartElementVotes(void *ctx, const xmlChar *element_name, const xmlChar **attributes) {
+    int i, post_id, id_post, vote_type_id;
+    post_id = vote_type_id = 0;
+
+     if (attributes != NULL) {
+
+         for (i = 0; (attributes[i] != NULL); i++) {
+           if(strncmp((const char *)attributes[i], "PostId", 6) == 0)
+             post_id = ++i;
+
+           else if (strncmp((const char *)attributes[i], "VoteTypeId", 10) == 0)
+             vote_type_id = ++i;
+
+        }
+
+        if( !strncmp((const char *)attributes[vote_type_id], "2", 1) || //UpMod
+            !strncmp((const char *)attributes[vote_type_id], "3", 1)) { //DownMod
+
+           id_post = atoi((const char *)attributes[post_id]);
+
+           Answers answer = lookAnswer(structure, id_post);
+
+
+           if(answer != NULL) { // se der null é porque a resposta não existe e, por isso, não lhe posso associar um voto
+
+              if(!strncmp((const char *)attributes[vote_type_id], "2", 1))
+                incrementUpVotes(answer);
+
+              if(!strncmp((const char *)attributes[vote_type_id], "3", 1))
+                incremenDownVotes(answer);
+
+          }
+         }
+
+       }
+
+}
+
 static xmlSAXHandler make_sax_handler (char *dump_file_name){
     xmlSAXHandler SAXHander;
 
@@ -272,6 +310,8 @@ static xmlSAXHandler make_sax_handler (char *dump_file_name){
       SAXHander.startElement = OnStartElementPosts;
     if (strncmp(dump_file_name, "Tags.xml", 8) == 0)
       SAXHander.startElement = OnStartElementTags;
+    if (strncmp(dump_file_name, "Votes.xml", 9) == 0)
+      SAXHander.startElement = OnStartElementVotes;
 
     return SAXHander;
 }
@@ -341,6 +381,14 @@ TAD_community load(TAD_community com, char* dump_path) {
     read_xmlfile(t, "Tags.xml");
     fclose(t);
     free(tags);
+
+    char * votes = malloc(size + 10*sizeof(char));
+    strcpy(votes, dump_path);
+    strcat(votes, "Votes.xml");
+    FILE * v = fopen(tags,"r");
+    read_xmlfile(t, "Votes.xml");
+    fclose(v);
+    free(votes);
 
     return structure;
 }

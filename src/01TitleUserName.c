@@ -1,8 +1,11 @@
 #include "struct.h"
 
 
- /* Dado o identificador de um post, a função devolve
-  o título do post e o nome de utilizador do autor;
+ /*
+Dado o identificador de um post, a função deve retornar
+o título do post e o nome (não o ID) de utilizador do autor. Se o post
+for uma resposta, a função deverá retornar informações (título e utilizador)
+da pergunta correspondente;
  */
 
 STR_pair info_from_post(TAD_community com, int id) {

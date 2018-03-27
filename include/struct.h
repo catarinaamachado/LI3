@@ -32,3 +32,7 @@ void insertDay(TAD_community t, long indexDay, Day pointer);
 Tags lookTag(TAD_community t, char * tagName);
 
 void insertTag(TAD_community t, char * tagName, Tags tag);
+
+void insertAnswers(TAD_community t, long id, Answers pointer);
+
+Answers lookAnswer(TAD_community t, long id);

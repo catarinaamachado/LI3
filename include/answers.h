@@ -14,9 +14,17 @@ void setAUserId(Answers a, long id);
 
 int getScore(Answers a);
 
-int getFavoriteCount(Answers a);
+int getDownVotes(Answers a);
 
-void setFavoriteCount(Answers a, int f);
+void setUpVotes(Answers a, int upvotes);
+
+void setDownVotes(Answers a, int downvotes);
+
+int incrementUpVotes(Answers a);
+
+int incremenDownVotes(Answers a);
+
+int getFavoriteCount(Answers a);
 
 int getCommentCount(Answers a);
 

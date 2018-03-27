@@ -187,14 +187,6 @@ int getAnswerScoreAtIndex(Questions q, int index) {
 }
 
 /*
-Função que devolve o número de favoritos obtido pela resposta contida no GPtrArray,
-mais precisamente no índice do array dado pela variável index.
-*/
-int getAnswerFavoriteAtIndex(Questions q, int index) {
-   return getFavoriteCount(g_ptr_array_index(q->answers, index));
-}
-
-/*
 Função que devolve o número de comentários obtido pela resposta contida no GPtrArray,
 mais precisamente no índice do array dado pela variável index.
 */

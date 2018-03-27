@@ -39,7 +39,6 @@ LONG_list better_answer(TAD_community com, int id) {
 
        total = (getAnswerScoreAtIndex(question, i) * 0.45) +
                (reputation * 0.25) +
-               (getAnswerFavoriteAtIndex(question, i) * 0.2) +
                (getAnswerCommentAtIndex(question, i) * 0.1);
 
 

@@ -11,6 +11,7 @@ de elementos necessários para responder às 11 interrogações.
 typedef struct TCD_community {
   GHashTable * users;
   GHashTable * questions;
+  GHashTable * answers;
   GList * questionsList;
   GPtrArray * day;
   GHashTable * tags;
@@ -55,6 +56,8 @@ TAD_community init() {
 
     g_date_add_days(actualDate, 1);
   }
+
+  com->answers = g_hash_table_new(g_direct_hash, g_direct_equal);
 
   return com;
 }
@@ -152,4 +155,21 @@ Função que adiciona uma tag à hash table tags.
 */
 void insertTag(TAD_community t, char * tagName, Tags tag) {
   g_hash_table_insert(t->tags, g_strdup(tagName), tag);
+}
+
+
+/*
+Função que insere uma resposta na tabela de hash designada answers
+*/
+void insertAnswers(TAD_community t, long id, Answers pointer) {
+  g_hash_table_insert(t->answers, GINT_TO_POINTER(id), pointer);
+}
+
+
+/*
+Função que procura uma resposta na tabela de hash designada answers.
+*/
+ Answers lookAnswer(TAD_community t, long id) {
+   Answers answer = g_hash_table_lookup(t->answers, GINT_TO_POINTER(id));
+  return answer;
 }
