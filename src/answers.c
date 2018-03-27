@@ -12,7 +12,6 @@ typedef struct answers {
   int score;
   int up_votes;
   int down_votes;
-  //int favorite_count; //número de favoritos recebidos pela resposta (query 10)
   int comment_count; //número de comentários recebidos pela resposta (query 10)
 } answers;
 
@@ -52,14 +51,14 @@ void setAnswerId(Answers a, long id) {
 }
 
 /*
-Função que devolve o número de votos de uma resposta
+Função que devolve o score de uma resposta
 */
 int getScore(Answers a) {
     return a->score;
 }
 
 /*
-Função que estabelece os votos de determinada resposta
+Função que estabelece o score de determinada resposta
 */
 void setScore(Answers a, int s) {
     a->score = s;
@@ -68,7 +67,7 @@ void setScore(Answers a, int s) {
 /*
 Função que devolve o número de up votes de uma resposta
 */
-int getUPVotes(Answers a) {
+int getUpVotes(Answers a) {
     return a->up_votes;
 }
 
@@ -92,6 +91,15 @@ Função que estabelece o número de down votes de uma resposta
 void setDownVotes(Answers a, int downvotes) {
      a->down_votes = downvotes;
 }
+
+
+/*
+Função que devolve o número total de votos de uma resposta
+*/
+int getTotalVotes(Answers a) {
+    return getUpVotes(a) - getDownVotes(a);
+}
+
 
 /*
 Função que incrementa os up votes de uma resposta

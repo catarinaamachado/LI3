@@ -269,14 +269,14 @@ static void OnStartElementVotes(void *ctx, const xmlChar *element_name, const xm
          for (i = 0; (attributes[i] != NULL); i++) {
            if(strncmp((const char *)attributes[i], "PostId", 6) == 0)
              post_id = ++i;
-
            else if (strncmp((const char *)attributes[i], "VoteTypeId", 10) == 0)
              vote_type_id = ++i;
-
         }
 
-        if( !strncmp((const char *)attributes[vote_type_id], "2", 1) || //UpMod
-            !strncmp((const char *)attributes[vote_type_id], "3", 1)) { //DownMod
+        if(vote_type_id != 0 &&
+           (!strncmp((const char *)attributes[vote_type_id], "2", 1) || //UpMod
+            !strncmp((const char *)attributes[vote_type_id], "3", 1))) { //DownMod
+
 
            id_post = atoi((const char *)attributes[post_id]);
 
@@ -290,7 +290,6 @@ static void OnStartElementVotes(void *ctx, const xmlChar *element_name, const xm
 
               if(!strncmp((const char *)attributes[vote_type_id], "3", 1))
                 incremenDownVotes(answer);
-
           }
          }
 
@@ -385,7 +384,7 @@ TAD_community load(TAD_community com, char* dump_path) {
     char * votes = malloc(size + 10*sizeof(char));
     strcpy(votes, dump_path);
     strcat(votes, "Votes.xml");
-    FILE * v = fopen(tags,"r");
+    FILE * v = fopen(votes,"r");
     read_xmlfile(t, "Votes.xml");
     fclose(v);
     free(votes);

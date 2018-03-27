@@ -14,11 +14,15 @@ void setAUserId(Answers a, long id);
 
 int getScore(Answers a);
 
+int getUpVotes(Answers a);
+
 int getDownVotes(Answers a);
 
 void setUpVotes(Answers a, int upvotes);
 
 void setDownVotes(Answers a, int downvotes);
+
+int getTotalVotes(Answers a);
 
 int incrementUpVotes(Answers a);
 

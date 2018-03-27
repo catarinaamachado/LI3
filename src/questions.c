@@ -186,6 +186,15 @@ int getAnswerScoreAtIndex(Questions q, int index) {
    return getScore(g_ptr_array_index(q->answers, index));
 }
 
+
+/*
+Função que devolve os votos recebidos pela resposta contida no GPtrArray,
+mais precisamente no índice do array dado pela variável index.
+*/
+int getAnswerVotesAtIndex(Questions q, int index) {
+   return getTotalVotes(g_ptr_array_index(q->answers, index));
+}
+
 /*
 Função que devolve o número de comentários obtido pela resposta contida no GPtrArray,
 mais precisamente no índice do array dado pela variável index.

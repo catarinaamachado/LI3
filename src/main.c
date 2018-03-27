@@ -11,7 +11,7 @@ int main(int argc, char const *argv[]){
   TAD_community com = init();
 
   com = load(com, "../android/");
-
+/*
   GDate * do1 = g_date_new_dmy(15, 9, 2008);
   GDate * do2 = g_date_new_dmy(1, 9, 2010);
   int oi = g_date_days_between(do1, do2);
@@ -87,7 +87,7 @@ int main(int argc, char const *argv[]){
     printf("ID Answer%d: %ld\n", i+1, a);
   }
 
-/*
+
   int post_id1 = 938;
   int post_id2 = 941;
   int post_id3 = 944;
@@ -201,18 +201,18 @@ int main(int argc, char const *argv[]){
   }
 
 
-//teste query 10
-  LONG_list list = better_answer(com, 4);
-  if (list != NULL)
-    printf("%ld\n", get_list(list,0));
-
-
 //teste query 2
   LONG_list list = top_most_active(com, 50);
 
   for(int i = 0; i < 50; i++)
     printf("%ld\n", get_list(list, i));
 */
+
+//teste query 10
+  LONG_list lista = better_answer(com, 100);
+  if (lista != NULL)
+    printf("%ld\n", get_list(lista,0));
+
 
   free(com);
 
