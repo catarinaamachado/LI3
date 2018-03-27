@@ -12,9 +12,8 @@ typedef struct TCD_community {
   GHashTable * users;
   GHashTable * questions;
   GList * questionsList;
-  GHashTable * answers;
   GPtrArray * day;
-  GPtrArray * tags; //tags
+  GHashTable * tags;
 } TCD_community;
 
 
@@ -28,14 +27,14 @@ TAD_community init() {
 
   com->users =  g_hash_table_new(g_direct_hash, g_direct_equal);
 
-  com->questions = g_hash_table_new (g_direct_hash, g_direct_equal);
+  com->questions = g_hash_table_new(g_direct_hash, g_direct_equal);
 
   com->day = g_ptr_array_sized_new(3650);
   g_ptr_array_set_size (com->day, 3650);
 
-  com->tags = g_ptr_array_sized_new(100);
+  com->tags = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 
-  GDate * actualDate = g_date_new_dmy (15, 9, 2008);
+  GDate * actualDate = g_date_new_dmy(15, 9, 2008);
   int day, month, year;
 
   for (int i = 0; i < 3650; i++) {
@@ -56,8 +55,6 @@ TAD_community init() {
 
     g_date_add_days(actualDate, 1);
   }
-
-  com->answers = g_hash_table_new(g_direct_hash, g_direct_equal);
 
   return com;
 }
@@ -93,13 +90,6 @@ void insertQuestion(TAD_community t, long id, Questions pointer) {
 }
 
 /*
-Função que insere uma resposta na tabela de hash designada answers
-*/
-void insertAnswers(TAD_community t, long id, Answers pointer) {
-  g_hash_table_insert(t->answers, GINT_TO_POINTER(id), pointer);
-}
-
-/*
 Função que devolve o número de perguntas armazenadas na tabela de hash questions
 */
 guint getNumberOfQuestions(TAD_community t) {
@@ -116,7 +106,7 @@ GHashTable * getHashTableUsers(TAD_community t) {
 }
 
 /*
-Função que devolve um apontador para uma lista de perguntas
+Função que devolve um apontador para uma lista de perguntas ordenada por data
 */
 GList * getQuestions(TAD_community t) {
     if(t->questionsList != NULL)
@@ -141,7 +131,7 @@ Day lookDay(TAD_community t, long indexDay){
 }
 
 /*
-Função que insere uma data no GPtrArray day.
+Função que insere o apontador do respetivo dia no GPtrArray day.
 */
 void insertDay(TAD_community t, long indexDay, Day pointer) {
   g_ptr_array_insert(t->day, indexDay, pointer);
@@ -149,17 +139,17 @@ void insertDay(TAD_community t, long indexDay, Day pointer) {
 
 /*
 Função que devolve o apontador para uma tag contida num determinado índice
-do GPtrArray tags.
+da hash table tags.
 */
-PtrTags lookTag(TAD_community t, int index){
-  PtrTags tag = g_ptr_array_index(t->tags, index);
+Tags lookTag(TAD_community t, char * tagName) {
+  Tags tag = g_hash_table_lookup(t->tags, g_strdup(tagName));
 
   return tag;
 }
 
 /*
-Função que adiciona uma tag ao GPtrarray tags
+Função que adiciona uma tag à hash table tags
 */
-void insertTag(TAD_community t, PtrTags tag) {
-  g_ptr_array_add (t->tags, tag);
+void insertTag(TAD_community t, char * tagName, Tags tag) {
+  g_hash_table_insert(t->tags, g_strdup(tagName), tag);
 }

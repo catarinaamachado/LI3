@@ -130,24 +130,6 @@ void addDAYQuestions(Day d, Questions q) {
     d->n_questions++;
     g_ptr_array_add(d->questions, q);
 }
-/*
-static void printQuestion(Questions q) {
-    printf("%ld\n", getQuestionId(q));
-}
-//
-void getDAYQuestion(Day d) {
-    g_ptr_array_foreach(d->questions, (GFunc)printQuestion, NULL);
-}
-//
-static void printAnswer(Answers a) {
-    printf("%ld\n", getAnswerId(a));
-}
-//
-void getDAYAnswer(Day d) {
-    g_ptr_array_foreach(d->answers, (GFunc)printAnswer, NULL);
-}
-*/
-
 
 /*
 Função que devolve um apontador para uma resposta que se encontra

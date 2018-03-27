@@ -145,6 +145,8 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
 
             if(owner_id != 0)
                 setQUserId(pointer, atol((const char *)attributes[owner_id]));
+            else
+               setQUserId(pointer, -1); //não tem owner_id, então fica com id = -1
 
             setTitle(pointer, (char *)attributes[title]);
 
@@ -177,8 +179,6 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
                 setFavoriteCount(pointer, atoi((const char *)attributes[favorite_count])); //se o favorite_count existir nas respostas
 
             setCommentCount(pointer, atoi((const char *)attributes[comment_count]));
-
-            insertAnswers(structure, getAnswerId(pointer), pointer);
 
             long parent_id = atol((const char *)attributes[parentid]);
             Questions q = lookQuestion(structure, parent_id);
@@ -247,7 +247,7 @@ static void OnStartElementTags(void *ctx, const xmlChar *element_name, const xml
               tagname = ++i;
       }
 
-      PtrTags pointer = malloc(getTagsSize());
+      Tags pointer = malloc(getTagsSize());
 
       int tag_id = atoi((const char *)attributes[id]);
       setTagId(pointer, tag_id);
@@ -255,7 +255,7 @@ static void OnStartElementTags(void *ctx, const xmlChar *element_name, const xml
       setTagName(pointer, (const char *)attributes[tagname]);
       setTagValue(pointer, 0);
 
-      insertTag(structure, pointer);
+      insertTag(structure, getTagName(pointer), pointer);
   }
 }
 
@@ -275,7 +275,9 @@ static xmlSAXHandler make_sax_handler (char *dump_file_name){
     return SAXHander;
 }
 
+/*
 
+*/
 static int read_xmlfile(FILE *file, char *dump_file_name) {
     char chars[1024];
     int result = fread(chars, 1, 4, file); //lê 4 bytes de f e coloca em chars

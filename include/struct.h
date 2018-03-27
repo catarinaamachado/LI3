@@ -29,4 +29,6 @@ Day lookDay(TAD_community t, long indexDay);
 
 void insertDay(TAD_community t, long indexDay, Day pointer);
 
-void insertTag(TAD_community t, PtrTags tag);
+Tags lookTag(TAD_community t, char * tagName);
+
+void insertTag(TAD_community t, char * tagName, Tags tag);

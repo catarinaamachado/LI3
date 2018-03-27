@@ -1,17 +1,18 @@
-typedef struct tags * PtrTags;
+typedef struct tags * Tags;
 
 
 int getTagsSize();
 
-int getTagId(PtrTags tag);
-void setTagId(PtrTags tag, int id);
+int getTagId(Tags tag);
+void setTagId(Tags tag, int id);
+
+char * getTagName(Tags tag);
+void setTagName(Tags tag, const char * name);
 
 
-char * getTagName(PtrTags tag);
-void setTagName(PtrTags tag, const char * name);
+int getTagValue(Tags tag);
+void setTagValue(Tags tag, int value);
 
+void incrementTagValue(Tags tag);
 
-int getTagValue(PtrTags tag);
-void setTagValue(PtrTags tag, int value);
-
-int incrementTagValue(PtrTags tag);
+void sortTags(GPtrArray * total_tags);
