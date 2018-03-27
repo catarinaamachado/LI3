@@ -10,6 +10,8 @@ typedef struct answers {
   long user_id;
   long answer_id;
   int score;
+  int up_votes;
+  int down_votes;
   int favorite_count; //número de favoritos recebidos pela resposta (query 10)
   int comment_count; //número de comentários recebidos pela resposta (query 10)
 } answers;
