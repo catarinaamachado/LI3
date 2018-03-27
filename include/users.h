@@ -4,15 +4,28 @@
 
 typedef struct users * Users;
 
-//typedef struct totalPosts * PtrTotalPosts;
+typedef struct totalPosts * PtrTotalPosts;
 
 int getUsersSize();
+int getTotalPostsSize();
 
-/*int getTotalPosts(PtrTotalPosts n_post);
-void setTotalPosts(PtrTotalPosts total_posts, int n_posts);
+int getTotalNPosts(PtrTotalPosts n_post);
+void setTotalNPosts(PtrTotalPosts total_posts, int n_posts);
 
 int getTotalPostsUserId(PtrTotalPosts total_post);
-void setTotalPostsUserId(PtrTotalPosts total_posts, long user_id);*/
+void setTotalPostsUserId(PtrTotalPosts total_posts, long user_id);
+
+GArray * initArrayTotalPosts();
+
+void insertTotalPostsArray(GArray * array, int user_id, int n_posts);
+
+void sortArrayTotalPosts(GArray * array);
+
+long getTotalPostsUserIdAtIndex(GArray * array, int index);
+
+//int getTotalPostsAtIndex(GArray * array, int index);
+
+void freeArrayTotalPosts(GArray * array);
 
 long getUserId(Users u);
 void setUserId(Users u, long i);

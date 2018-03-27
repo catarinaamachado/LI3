@@ -261,7 +261,10 @@ static void OnStartElementTags(void *ctx, const xmlChar *element_name, const xml
   }
 }
 
-
+/*
+Função que extrai os elementos necessários dos votos para preencher a
+respetiva estruturas de dados.
+*/
 static void OnStartElementVotes(void *ctx, const xmlChar *element_name, const xmlChar **attributes) {
     int i, post_id, id_post, vote_type_id;
     post_id = vote_type_id = 0;

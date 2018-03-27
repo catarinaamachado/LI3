@@ -194,14 +194,6 @@ int main(int argc, char const *argv[]){
     printf("%ld\n\n", v);
   }
 
-
-//teste query 2
-  LONG_list list = top_most_active(com, 50);
-
-  for(int i = 0; i < 50; i++)
-    printf("%ld\n", get_list(list, i));
-
-
 //teste query 10
   LONG_list lista = better_answer(com, 100);
   if (lista != NULL)
@@ -216,8 +208,16 @@ char * snd = get_snd_str(ola);
 printf("Title: %s\nUsername: %s\n", fst, snd);
 */
 
+//teste query 2
+  LONG_list list = top_most_active(com, 50);
 
-  free(com);
+  for(int i = 0; i < 50; i++)
+    printf("%ld\n", get_list(list, i));
+
+
+
+
+  //free(com);
 
   return 0;
 }

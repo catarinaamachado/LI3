@@ -28,9 +28,9 @@ void setDownVotes(Answers a, int downvotes);
 
 int getTotalVotes(Answers a);
 
-int incrementUpVotes(Answers a);
+void incrementUpVotes(Answers a);
 
-int incremenDownVotes(Answers a);
+void incremenDownVotes(Answers a);
 
 int getFavoriteCount(Answers a);
 

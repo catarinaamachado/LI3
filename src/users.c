@@ -17,46 +17,121 @@ typedef struct users {
   GArray * last_posts;
 } users;
 
+
 /*
-Devolve o número total de posts de um utilizador, sendo passado como parametro
+Estrutura de dados que armazena o id do utilizador e a quantidade
+de posts que este publicou. Esta estrutura será relevante para
+responder à interrogação 2.
+*/
+typedef struct totalPosts {
+  long user_id;
+  int n_posts;
+} totalPosts;
+
+
+/*
+Função que devolve o tamanho da estrutura dos totalPosts.
+*/
+int getTotalPostsSize() {
+    return sizeof(struct totalPosts);
+}
+
+/*
+Função que devolve o número total de posts de um utilizador, sendo passado como parametro
 um apontador para totalPosts
-
-int getTotalPosts(PtrTotalPosts n_post) {
-  return n_post->n_posts;
+*/
+int getTotalNPosts(PtrTotalPosts total_post) {
+  return total_post->n_posts;
 }
 
-
-Devolve o id de um utilizador, sendo passado como parametro
+/*
+Função que devolve o id de um utilizador, sendo passado como parametro
 um apontador para totalPosts
-
-int getTotalPostsUserId(PtrTotalPosts n_post) {
-  return n_post->user_id;
+*/
+int getTotalPostsUserId(PtrTotalPosts total_post) {
+  return total_post->user_id;
 }
 
-
-Estabelece o número de posts a figurar na estrutura totalPosts.
-
-void setTotalPosts(PtrTotalPosts total_posts, int n_posts) {
-  total_posts->n_post = n_posts;
+/*
+Função que estabelece o número de posts da estrutura totalPosts.
+*/
+void setTotalNPosts(PtrTotalPosts total_posts, int n_posts) {
+  total_posts->n_posts = n_posts;
 }
 
-
-
-Estabelece o id do utilizador a figurar na estrutura totalPosts.
-
+/*
+Função que estabelece o id do utilizador a figurar na estrutura totalPosts.
+*/
 void setTotalPostsUserId(PtrTotalPosts total_posts, long user_id) {
   total_posts->user_id = user_id;
 }
 
+/*
+Função que insere num GArray os dois campos da estrutura totalPosts.
+*/
+void insertTotalPostsArray(GArray * array, int user_id, int n_posts) {
+  totalPosts total;
 
+  total.user_id = user_id;
+  total.n_posts = n_posts;
 
-Devolve um apontador para a estrutura totalPosts e inicializa o array
-com a estrutura totalPosts
+  g_array_append_val(array, total);
+}
 
-PtrTotalPosts initTotalPosts() {
-   return g_array_new (FALSE, FALSE, sizeof (totalPosts));
+/*
+Função que devolve o id de um user, contido na estrutura totalPosts,
+que se encontra numa determinada posição de um GArray.
+*/
+long getTotalPostsUserIdAtIndex(GArray * array, int index) {
+   totalPosts total;
+
+   total = g_array_index(array, totalPosts, index);
+
+   return total.user_id;
+}
+/*
+//Função utilizada só para testar
+int getTotalPostsAtIndex(GArray * array, int index) {
+  totalPosts total;
+
+  total = g_array_index(array, totalPosts, index);
+
+  return total.n_posts;
 }
 */
+
+/*
+Função que inicializa um GArray com a estrutura totalPosts.
+*/
+GArray * initArrayTotalPosts() {
+    return g_array_new(FALSE, FALSE, getTotalPostsSize());
+}
+
+/*
+Função que compara o número de posts de duas posições da estutura totalPost
+*/
+gint compare_func(gconstpointer n_posts_a, gconstpointer n_posts_b) {
+  PtrTotalPosts a = (PtrTotalPosts) n_posts_a;
+  PtrTotalPosts b = (PtrTotalPosts) n_posts_b;
+
+//se a < b return n.º negativo se a = b return 0 e se a > b return n.º positivo
+  return getTotalNPosts(b) - getTotalNPosts(a);
+}
+
+/*
+Função que ordena um GArray por ordem decrescente do número de posts.
+*/
+void sortArrayTotalPosts(GArray * array) {
+
+  g_array_sort(array, (GCompareFunc)compare_func);
+}
+
+/*
+Função que liberta o espaço de memória ocupada pelo GArray.
+*/
+void freeArrayTotalPosts(GArray * array) {
+  g_array_free (array, TRUE);
+}
 
 /*
 Devolve o tamanho da estrutura dos users.

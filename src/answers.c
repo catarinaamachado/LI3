@@ -107,7 +107,6 @@ void setDownVotes(Answers a, int downvotes) {
      a->down_votes = downvotes;
 }
 
-
 /*
 Função que devolve o número total de votos de uma resposta
 */
@@ -119,15 +118,15 @@ int getTotalVotes(Answers a) {
 /*
 Função que incrementa os up votes de uma resposta
 */
-int incrementUpVotes(Answers a) {
-    return a->up_votes++;
+void incrementUpVotes(Answers a) {
+    a->up_votes++;
 }
 
 /*
 Função que incrementa os down votes de uma resposta
 */
-int incremenDownVotes(Answers a) {
-    return a->down_votes++;
+void incremenDownVotes(Answers a) {
+     a->down_votes++;
 }
 
 /*
