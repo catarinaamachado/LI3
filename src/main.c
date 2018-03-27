@@ -1,8 +1,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <gmodule.h>
+#include <string.h>
 
 #include "struct.h"
+
 
 int main(int argc, char const *argv[]){
 
@@ -10,26 +12,165 @@ int main(int argc, char const *argv[]){
 
   com = load(com, "../android/");
 
+  GDate * do1 = g_date_new_dmy(15, 9, 2008);
+  GDate * do2 = g_date_new_dmy(1, 9, 2010);
+  int oi = g_date_days_between(do1, do2);
 
-/*
+  Day d = lookDay(com, oi);
+
+  char * all_tags;
+  all_tags = getTags(getDAYQuestionAtIndex(d, 0));
+
+  printf("Tags de uma question: %s\n", all_tags);
+  // <contacts><nexus-one><2.2-froyo><sms>
+
+  int post_id1 = 938;
+  int post_id2 = 941;
+  int post_id3 = 944;
+
+  Questions question1 = lookQuestion(com, post_id1);
+  Questions question2 = lookQuestion(com, post_id2);
+  Questions question3 = lookQuestion(com, post_id3);
+
+  long utilizador1 = getQUserId(question1);
+  long utilizador2 = getQUserId(question2);
+  long utilizador3 = getQUserId(question3);
+
+  printf("U1: %ld; U2: %ld; U3: %ld\n", utilizador1, utilizador2, utilizador3);
+
+  Users user1 = lookUsers(com, utilizador1);
+  // Users user2 = lookUsers(com, utilizador2);
+  // Users user3 = lookUsers(com, utilizador3);
+  //
+   int reputacao1 = getReputation(user1);
+  // int reputacao2 = getReputation(user2);
+  // int reputacao3 = getReputation(user3);
+
+   printf("R1: %d\n", reputacao1);
+
+
+  //test query 11
+  Date date1 = createDate(8, 9, 2010);
+  Date date2 = createDate(8, 9, 2011);
+
+  LONG_list list = most_used_best_rep(com, 10, date1, date2);
+  if (list != NULL){
+    for(int i = 0; i < 10; i++)
+      printf("%ld\n", get_list(list, i));
+  }
+
+
+
+  // int t = strlen(all_tags);
+
+  // for(int i = 0; i < t; i++){
+  //   printf("nao li isto. tamanho: %d\n", t);
+  //   char * tentativa = separaTags2(all_tags + i);
+  //   printf("%s\n", tentativa);
+  //   i += strlen(tentativa) + 1;
+  //   int t2 = strlen(tentativa);
+  //   printf("li isto. tamanho: %d\n", t2);
+  // }
+
+  // char * tentativa = separaTags2(all_tags);
+  // printf("%s\n", tentativa);
+  // int leng = strlen(tentativa);
+  // printf("%d\n", leng);
+  // char * tentativa2 = separaTags2(all_tags + leng + 2);
+  // printf("%s\n", tentativa2);
+
+  // char* token;
+  // token = strtok(string, "<");
+  // while (token != NULL) {
+  //   printf("%s\n", token);
+  //   token = strtok(NULL, ",");
+  // }
+
+
+  // GDate * do1 = g_date_new_dmy(15, 9, 2008);
+  // GDate * do2 = g_date_new_dmy(1, 9, 2010);
+  // int oi = g_date_days_between(do1, do2);
+  //
+  // Day d = lookDay(com, oi);
+
+  // int palavra, index_tag, letra;
+  //
+  // char * all_tags;
+  // char * tag;
+  // all_tags = getTags(getDAYQuestionAtIndex(d, 0));
+  //
+  // printf("Tags de uma question: %s\n", all_tags);
+  // // <contacts><nexus-one><2.2-froyo><sms>
+  // char testePalavra = all_tags[0];
+  // printf("%d\n", strcmp(&(testePalavra), "<"));
+  //
+  // testePalavra = all_tags[0];
+
+  // //separar as tags e atualizar na hashtable o numero de ocorrencias
+  // for(palavra = 0; strcmp(&(testePalavra), "\0") != 0; palavra++){
+  //   printf("teste palavra %d\n", palavra);
+  //   index_tag = 0;
+  //   for(letra = palavra; strcmp(&(testePalavra), ">") != 0; letra++){
+  //     printf("teste letra %d\n", letra);
+  //     //cria a tag individual
+  //     if(strcmp(&(testePalavra), "<") != 0){
+  //       tag[index_tag] = all_tags[letra];
+  //       index_tag++;
+  //     }
+  //     testePalavra = all_tags[letra + 1];
+  //   }
+  //   printf("consegui sair do ciclo letra\n");
+  // //  tag[index_tag] = "\0";
+  //   printf("%s\n", tag); //aqui tem erro porque palavra nao termina
+  //   //continuar a procurar as outras tags utlizadas na pergunta
+  //   tag = NULL;
+  //   palavra = letra + 1;
+  // }
+
+
+
+
+  //test estrutura tags
+  // Tags tagsS;
+  // int tag_id = 0;
+  // int tag_value;
+  // char * tag_name = "sms";
+  //
+  // printf("\n\n");
+  //
+  // for(int i = 0; i < 2 ; i++){
+  //   tagsS = lookTag(com, tag_name);
+  //   if (tagsS != NULL){
+  //     tag_id = getTagId(tagsS);
+  //     tag_name = getTagName(tagsS);
+  //     tag_value = getTagValue(tagsS);
+  //     printf("Id: %d Nome: %s Value: %d\n", tag_id, tag_name, tag_value);
+  //     tag_name = "contacts";
+  //   }
+  // }
+  //
+
+
+
+
   //test query 3
-  Date date1 = createDate(1, 9, 2010);
-  Date date2 = createDate(1, 9, 2014);
+  Date date3 = createDate(1, 9, 2010);
+  Date date4 = createDate(1, 9, 2017);
 
-  LONG_pair query3 = total_posts(com, date1, date2);
+  LONG_pair query3 = total_posts(com, date3, date4);
 
   printf("Query 3: %ld questions; %ld answers\n", get_fst_long(query3), get_snd_long(query3));
 
 
   //test query 6
   printf("\nQuery 6:\n");
-  LONG_list query6 = most_voted_answers(com, 2, date1, date2);
+  LONG_list query6 = most_voted_answers(com, 2, date3, date4);
 
   for(int i = 0; i < 2; i++){
     long a = get_list(query6, i);
     printf("ID Answer%d: %ld\n", i+1, a);
   }
-
+/*
   //test query 7
   printf("\nQuery 7:\n");
   LONG_list query7 = most_answered_questions(com, 2, date1, date2);
@@ -88,7 +229,6 @@ int main(int argc, char const *argv[]){
   }
 
 
-
   USER us;
   long id = 123;//atol(argv[1]);
   us = get_user_info(com, id);
@@ -124,7 +264,6 @@ int main(int argc, char const *argv[]){
   LONG_list list = better_answer(com, 4);
   if (list != NULL)
     printf("%ld\n", get_list(list,0));
-*/
 
 
 //teste query 2
@@ -132,7 +271,7 @@ int main(int argc, char const *argv[]){
 
   for(int i = 0; i < 50; i++)
     printf("%ld\n", get_list(list, i));
-
+*/
 
   free(com);
 
