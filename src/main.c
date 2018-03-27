@@ -218,18 +218,18 @@ char * fst = get_fst_str(ola);
 char * snd = get_snd_str(ola);
 
 printf("Title: %s\nUsername: %s\n", fst, snd);
-*/
+
 
 //teste query 2
   LONG_list list = top_most_active(com, 50);
 
   for(int i = 0; i < 50; i++)
     printf("%ld\n", get_list(list, i));
+*/
 
 
 
-
-  //free(com);
+  free(com);
 
   return 0;
 }
