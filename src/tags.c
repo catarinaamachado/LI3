@@ -5,7 +5,7 @@
 #include "tags.h"
 
 /*
-Estrutura com o identificador da tag, o nome da tag e um parametro diferenciador
+Estrutura com o identificador da tag, o nome da tag e um parametro diferenciador.
 */
 typedef struct tags {
   int id;
@@ -15,28 +15,28 @@ typedef struct tags {
 
 
 /*
-Função que devolve o tamanho da estrutura tags
+Função que devolve o tamanho da estrutura tags.
 */
 int getTagsSize() {
   return sizeof(struct tags);
 }
 
 /*
-Função que devolve o id da tag
+Função que devolve o id da tag.
 */
 int getTagId(Tags tag) {
   return tag->id;
 }
 
 /*
-Função que estabelece o id da tag
+Função que estabelece o id da tag.
 */
 void setTagId(Tags tag, int id) {
   tag->id = id;
 }
 
 /*
-Função que devolve o nome da tag
+Função que devolve o nome da tag.
 */
 char * getTagName(Tags tag) {
   char * name = malloc(sizeof(char) * (strlen(tag->nameTag)+2));
@@ -46,7 +46,7 @@ char * getTagName(Tags tag) {
 }
 
 /*
-Função que estabelece o nome da tag
+Função que estabelece o nome da tag.
 */
 void setTagName(Tags tag, const char * name){
   char * nameTag = malloc(sizeof(char) * (strlen(name)+2));
@@ -57,21 +57,21 @@ void setTagName(Tags tag, const char * name){
 
 
 /*
-Função que devolve o valor do parametro value
+Função que devolve o valor do parametro value.
 */
 int getTagValue(Tags tag) {
   return tag->value;
 }
 
 /*
-Função que estabelece o valor do parametro value
+Função que estabelece o valor do parametro value.
 */
 void setTagValue(Tags tag, int value) {
   tag->value = value;
 }
 
 /*
-Função que incrementa em uma unidade o parametro value
+Função que incrementa em uma unidade o parametro value.
 */
 void incrementTagValue(Tags tag) {
   tag->value = tag->value + 1;

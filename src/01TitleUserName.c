@@ -5,12 +5,10 @@
   o título do post e o nome de utilizador do autor;
  */
 
-
 STR_pair info_from_post(TAD_community com, int id) {
    STR_pair title_username;
    int user_id;
    title_username = create_str_pair(NULL, NULL);
-
 
 
    Questions question = lookQuestion(com, (long)id);

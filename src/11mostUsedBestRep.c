@@ -1,17 +1,14 @@
 #include <gmodule.h>
 #include <string.h>
 #include <stdlib.h>
-#include <stdio.h>
-#include <stdio.h>
 
 #include "struct.h"
 
-/*
-Dado um intervalo arbitrário de tempo,
-devolver as N tags mais usadas pelos N utilizadores com melhor reputação.
-Em ordem decrescente do número de vezes em que a tag foi usada.
-*/
 
+/*
+Função que devolve a primeira tag (individual)
+do conjunto de tags passado como argumento
+*/
 char * separaTags(char * all_tags){
   char * token;
   token = strtok(all_tags, "><");
@@ -20,6 +17,11 @@ char * separaTags(char * all_tags){
 }
 
 
+/*
+Dado um intervalo arbitrário de tempo,
+devolver as N tags mais usadas pelos N utilizadores com melhor reputação.
+Em ordem decrescente do número de vezes em que a tag foi usada.
+*/
 LONG_list most_used_best_rep(TAD_community com, int N, Date begin, Date end){
   LONG_list ll = create_list(1);
   int n_days, count_day, n_questions, user_id, i, flag, sizePTRarray_users = 0, tag_id, tag_length, sizePTRarray_tags = 0;

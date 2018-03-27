@@ -50,7 +50,7 @@ void setAnswerId(Answers a, long id) {
 }
 
 /*
-Função que devolve número de votos de uma resposta
+Função que devolve o número de votos de uma resposta
 */
 int getScore(Answers a) {
     return a->score;
@@ -92,7 +92,7 @@ void setCommentCount(Answers a, int c) {
 }
 
 /*
-Função que compara os votos de duas respostas.
+Função que compara os votos de duas respostas
 query 6
 */
 static gint sortVotes(Answers * a1, Answers * a2) {
@@ -108,7 +108,7 @@ static gint sortVotes(Answers * a1, Answers * a2) {
 
 
 /*
-Função que ordena os votos das respostas por ordem decrescente do número de votos.
+Função que ordena os votos das respostas por ordem decrescente do número de votos
 query 6
 */
 void sortAnswersVotes(GPtrArray * total_answers) {

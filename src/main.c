@@ -72,65 +72,7 @@ int main(int argc, char const *argv[]){
   //   printf("li isto. tamanho: %d\n", t2);
   // }
 
-  // char * tentativa = separaTags2(all_tags);
-  // printf("%s\n", tentativa);
-  // int leng = strlen(tentativa);
-  // printf("%d\n", leng);
-  // char * tentativa2 = separaTags2(all_tags + leng + 2);
-  // printf("%s\n", tentativa2);
 
-  // char* token;
-  // token = strtok(string, "<");
-  // while (token != NULL) {
-  //   printf("%s\n", token);
-  //   token = strtok(NULL, ",");
-  // }
-
-
-  // GDate * do1 = g_date_new_dmy(15, 9, 2008);
-  // GDate * do2 = g_date_new_dmy(1, 9, 2010);
-  // int oi = g_date_days_between(do1, do2);
-  //
-  // Day d = lookDay(com, oi);
-
-  // int palavra, index_tag, letra;
-  //
-  // char * all_tags;
-  // char * tag;
-  // all_tags = getTags(getDAYQuestionAtIndex(d, 0));
-  //
-  // printf("Tags de uma question: %s\n", all_tags);
-  // // <contacts><nexus-one><2.2-froyo><sms>
-  // char testePalavra = all_tags[0];
-  // printf("%d\n", strcmp(&(testePalavra), "<"));
-  //
-  // testePalavra = all_tags[0];
-
-  // //separar as tags e atualizar na hashtable o numero de ocorrencias
-  // for(palavra = 0; strcmp(&(testePalavra), "\0") != 0; palavra++){
-  //   printf("teste palavra %d\n", palavra);
-  //   index_tag = 0;
-  //   for(letra = palavra; strcmp(&(testePalavra), ">") != 0; letra++){
-  //     printf("teste letra %d\n", letra);
-  //     //cria a tag individual
-  //     if(strcmp(&(testePalavra), "<") != 0){
-  //       tag[index_tag] = all_tags[letra];
-  //       index_tag++;
-  //     }
-  //     testePalavra = all_tags[letra + 1];
-  //   }
-  //   printf("consegui sair do ciclo letra\n");
-  // //  tag[index_tag] = "\0";
-  //   printf("%s\n", tag); //aqui tem erro porque palavra nao termina
-  //   //continuar a procurar as outras tags utlizadas na pergunta
-  //   tag = NULL;
-  //   palavra = letra + 1;
-  // }
-
-
-
-
-  //test estrutura tags
   // Tags tagsS;
   // int tag_id = 0;
   // int tag_value;

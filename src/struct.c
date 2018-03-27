@@ -18,7 +18,7 @@ typedef struct TCD_community {
 
 
 /*
-Função que inicializa a estrutura TCD_community
+Função que inicializa a estrutura TCD_community.
 */
 TAD_community init() {
   TAD_community com;
@@ -60,7 +60,7 @@ TAD_community init() {
 }
 
 /*
-Função que procura um user na tabela de hash designada users
+Função que procura um user na tabela de hash designada users.
 */
 Users lookUsers(TAD_community t, long id) {
   Users u = g_hash_table_lookup(t->users, GINT_TO_POINTER(id));
@@ -68,14 +68,14 @@ Users lookUsers(TAD_community t, long id) {
 }
 
 /*
-Função que insere um user na tabela de hash designada users
+Função que insere um user na tabela de hash designada users.
 */
 void insertUser(TAD_community t, long id, Users pointer) {
   g_hash_table_insert(t->users, GINT_TO_POINTER(id), pointer);
 }
 
 /*
-Função que procura uma pergunta na tabela de hash designada questions
+Função que procura uma pergunta na tabela de hash designada questions.
 */
 Questions lookQuestion(TAD_community t, long id) {
   Questions q = g_hash_table_lookup(t->questions, GINT_TO_POINTER(id));
@@ -83,14 +83,14 @@ Questions lookQuestion(TAD_community t, long id) {
 }
 
 /*
-Função que insere uma pergunta na tabela de hash questions
+Função que insere uma pergunta na tabela de hash questions.
 */
 void insertQuestion(TAD_community t, long id, Questions pointer) {
   g_hash_table_insert(t->questions, GINT_TO_POINTER(id), pointer);
 }
 
 /*
-Função que devolve o número de perguntas armazenadas na tabela de hash questions
+Função que devolve o número de perguntas armazenadas na tabela de hash questions.
 */
 guint getNumberOfQuestions(TAD_community t) {
     guint size = g_hash_table_size(t->questions);
@@ -106,7 +106,7 @@ GHashTable * getHashTableUsers(TAD_community t) {
 }
 
 /*
-Função que devolve um apontador para uma lista de perguntas ordenada por data
+Função que devolve um apontador para uma lista de perguntas ordenada por data.
 */
 GList * getQuestions(TAD_community t) {
     if(t->questionsList != NULL)
@@ -148,7 +148,7 @@ Tags lookTag(TAD_community t, char * tagName) {
 }
 
 /*
-Função que adiciona uma tag à hash table tags
+Função que adiciona uma tag à hash table tags.
 */
 void insertTag(TAD_community t, char * tagName, Tags tag) {
   g_hash_table_insert(t->tags, g_strdup(tagName), tag);

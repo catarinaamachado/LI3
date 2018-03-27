@@ -228,3 +228,25 @@ Função que ordena os posts do utilizador de acordo com a sua data,
 void sortPosts(Users u) {
     g_array_sort(u->last_posts, (GCompareFunc)sortDate);
 }
+
+/*
+Função que compara as reputações de dois users recebidos como parametro.
+*/
+static gint sortReputation(Users * u1, Users * u2) {
+  int rep1, rep2;
+  rep1 = getReputation(*u1);
+  rep2 = getReputation(*u2);
+
+    if(rep1 < rep2)
+      return 1;
+    else
+      return -1;
+}
+
+/*
+Função que ordena os users de acordo com a sua reputação,
+(do user com maior reputação para o user com menos).
+*/
+void sortUsersReputation(GPtrArray * total_users) {
+  g_ptr_array_sort(total_users, (GCompareFunc)sortReputation);
+}
