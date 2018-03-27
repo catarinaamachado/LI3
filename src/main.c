@@ -11,6 +11,31 @@ int main(int argc, char const *argv[]){
   TAD_community com = init();
 
   com = load(com, "../android/");
+
+
+  //test query 6
+
+  Date date3 = createDate(1, 9, 2010);
+  Date date4 = createDate(1, 9, 2010);
+
+  printf("\nQuery 6:\n");
+  LONG_list query6 = most_voted_answers(com, 6, date3, date4);
+
+  for(int i = 0; i < 6; i++){
+    long a = get_list(query6, i);
+    printf("ID Answer%d: %ld\n", i+1, a);
+  }
+
+  // Answers ola;
+  //
+  // for(int i = 0; i < 20; i++){
+  //   ola = lookAnswer(com, i);
+  //   if(ola != NULL){
+  //     printf("%d: UP VOTES %d; DOWN VOTES %d\n", i, getUpVotes(ola), getDownVotes(ola));
+  //   }
+  // }
+
+
 /*
   GDate * do1 = g_date_new_dmy(15, 9, 2008);
   GDate * do2 = g_date_new_dmy(1, 9, 2010);
@@ -70,22 +95,9 @@ int main(int argc, char const *argv[]){
 
 
   //test query 3
-  Date date3 = createDate(1, 9, 2010);
-  Date date4 = createDate(1, 9, 2017);
-
   LONG_pair query3 = total_posts(com, date3, date4);
 
   printf("Query 3: %ld questions; %ld answers\n", get_fst_long(query3), get_snd_long(query3));
-
-
-  //test query 6
-  printf("\nQuery 6:\n");
-  LONG_list query6 = most_voted_answers(com, 2, date3, date4);
-
-  for(int i = 0; i < 2; i++){
-    long a = get_list(query6, i);
-    printf("ID Answer%d: %ld\n", i+1, a);
-  }
 
 
   int post_id1 = 938;

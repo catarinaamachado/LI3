@@ -119,15 +119,15 @@ int getTotalVotes(Answers a) {
 /*
 Função que incrementa os up votes de uma resposta
 */
-int incrementUpVotes(Answers a) {
-    return a->up_votes++;
+void incrementUpVotes(Answers a) {
+  a->up_votes++;
 }
 
 /*
 Função que incrementa os down votes de uma resposta
 */
-int incremenDownVotes(Answers a) {
-    return a->down_votes++;
+void incremenDownVotes(Answers a) {
+  a->down_votes++;
 }
 
 /*
@@ -150,8 +150,8 @@ query 6
 */
 static gint sortVotes(Answers * a1, Answers * a2) {
   int votes_a1 = 0, votes_a2 = 0;
-  votes_a1 = getScore(*a1);
-  votes_a2 = getScore(*a2);
+  votes_a1 = getTotalVotes(*a1);
+  votes_a2 = getTotalVotes(*a2);
 
     if(votes_a1 < votes_a2)
       return 1;
