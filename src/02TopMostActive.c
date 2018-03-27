@@ -39,6 +39,7 @@ LONG_list top_most_active(TAD_community com, int N){
 
   garray = g_array_new (FALSE, FALSE, sizeof (totalPosts));
 
+
   GHashTable * hash_table_users = getHashTableUsers(com);
 
   g_hash_table_iter_init (&iter, hash_table_users);

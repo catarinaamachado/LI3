@@ -180,6 +180,7 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
 
             setCommentCount(pointer, atoi((const char *)attributes[comment_count]));
 
+
             long parent_id = atol((const char *)attributes[parentid]);
             Questions q = lookQuestion(structure, parent_id);
 
