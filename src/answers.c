@@ -149,8 +149,8 @@ query 6
 */
 static gint sortVotes(Answers * a1, Answers * a2) {
   int votes_a1 = 0, votes_a2 = 0;
-  votes_a1 = getScore(*a1);
-  votes_a2 = getScore(*a2);
+  votes_a1 = getTotalVotes(*a1);
+  votes_a2 = getTotalVotes(*a2);
 
     if(votes_a1 < votes_a2)
       return 1;
