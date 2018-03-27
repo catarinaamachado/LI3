@@ -9,6 +9,7 @@ Estrutura dos posts respostas
 typedef struct answers {
   long user_id;
   long answer_id;
+  long parent_id; // a que pergunta pertence
   int score;
   int up_votes;
   int down_votes;
@@ -48,6 +49,20 @@ Função que estabelece o id da resposta
 */
 void setAnswerId(Answers a, long id) {
     a->answer_id = id;
+}
+
+/*
+Função que devolve o id da pergunta a que a resposta se refere
+*/
+long getParentId(Answers a) {
+    return a->parent_id;
+}
+
+/*
+Função que estabelece o id da pergunta a que a resposta se refere
+*/
+void setParentId(Answers a, long id) {
+    a->parent_id = id;
 }
 
 /*

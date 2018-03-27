@@ -14,6 +14,10 @@ void setAUserId(Answers a, long id);
 
 int getScore(Answers a);
 
+long getParentId(Answers a);
+
+void setParentId(Answers a, long id);
+
 int getUpVotes(Answers a);
 
 int getDownVotes(Answers a);

@@ -181,12 +181,6 @@ int main(int argc, char const *argv[]){
   // }
 
 
-  STR_pair ola = info_from_post(com, 197);
-  char * fst = get_fst_str(ola);
-  char * snd = get_snd_str(ola);
-
-  printf("Title: %s\nUsername: %s\n", fst, snd);
-
 
   // LONG_list ll = contains_word(com, "root", 10);
   // for(int i = 0; i < 10; i++) {
@@ -206,12 +200,21 @@ int main(int argc, char const *argv[]){
 
   for(int i = 0; i < 50; i++)
     printf("%ld\n", get_list(list, i));
-*/
+
 
 //teste query 10
   LONG_list lista = better_answer(com, 100);
   if (lista != NULL)
     printf("%ld\n", get_list(lista,0));
+
+
+//teste query 1
+STR_pair ola = info_from_post(com, 158);
+char * fst = get_fst_str(ola);
+char * snd = get_snd_str(ola);
+
+printf("Title: %s\nUsername: %s\n", fst, snd);
+*/
 
 
   free(com);

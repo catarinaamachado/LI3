@@ -165,6 +165,8 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
             setAnswerId(pointer, atol((const char *)attributes[id]));
             setAUserId(pointer, atol((const char *)attributes[owner_id]));
 
+            setParentId(pointer, atol((const char *)attributes[parentid])); // atribuir o id da pergunta à resposta
+
             if(owner_id != 0) { // há respostas sem OwnerUserId
                 setAUserId(pointer, atol((const char *)attributes[owner_id]));
             }

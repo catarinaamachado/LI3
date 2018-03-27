@@ -11,26 +11,28 @@ da pergunta correspondente;
 STR_pair info_from_post(TAD_community com, int id) {
    STR_pair title_username;
    int user_id;
+   long parent_id;
    title_username = create_str_pair(NULL, NULL);
 
 
    Questions question = lookQuestion(com, (long)id);
 
-   if (question == NULL) {
-      return title_username;
+    if (question == NULL) {
+      Answers answer = lookAnswer(com, (long)id);
+      if (answer != NULL) {
+        parent_id = getParentId(answer);
+        question = lookQuestion(com, (long)parent_id);
+      }
     }
 
-   user_id = getQUserId(question);
-
-   Users user = lookUsers(com, user_id);
-
-   if (user == NULL) {
-      return title_username;
-    }
-
-
-   title_username = create_str_pair(getTitle(question), getUsername(user));
-
+   if (question != NULL) {
+      user_id = getQUserId(question);
+      Users user = lookUsers(com, user_id);
+      if (user == NULL) {
+        return title_username;
+      }
+      title_username = create_str_pair(getTitle(question), getUsername(user));
+   }
 
    return title_username;
 
