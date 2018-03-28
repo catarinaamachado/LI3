@@ -25,8 +25,9 @@ Em ordem decrescente do número de vezes em que a tag foi usada.
 LONG_list most_used_best_rep(TAD_community com, int N, Date begin, Date end){
   LONG_list ll = create_list(1);
   int n_days, count_day, n_questions, i, flag;
-  int user_id, sizePTRarray_users = 0;
-  int tag_id, tag_length, sizePTRarray_tags = 0;
+  long user_id, tag_id;
+  int sizePTRarray_users = 0;
+  int tag_length, sizePTRarray_tags = 0;
   char * all_tags;
 
   GDate * begin_stackOverflow = g_date_new_dmy (15, 9, 2008);

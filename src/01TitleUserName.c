@@ -8,7 +8,7 @@ for uma resposta, a função deverá retornar informações (título e utilizado
 da pergunta correspondente;
  */
 
-STR_pair info_from_post(TAD_community com, int id) {
+STR_pair info_from_post(TAD_community com, long id) {
    STR_pair title_username;
    int user_id;
    long parent_id;

@@ -10,7 +10,8 @@ em ordem decrescente do número de votos
 
 LONG_list most_voted_answers(TAD_community com, int N, Date begin, Date end) {
   LONG_list ll = create_list(1);
-  int n_days, count_day, n_answers, answer_id, i, sizeTA = 0;;
+  int n_days, count_day, n_answers, i, sizeTA = 0;;
+  long answer_id;
 
   GDate * begin_stackOverflow = g_date_new_dmy (15, 9, 2008);
   GDate * beginDate = g_date_new_dmy(get_day(begin), get_month(begin), get_year(begin));

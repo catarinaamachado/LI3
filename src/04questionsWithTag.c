@@ -12,7 +12,8 @@ O retorno da função deverá ser uma lista com os IDs das perguntas ordenadas e
 
 LONG_list questions_with_tag(TAD_community com, char* tag, Date begin, Date end){
   LONG_list ll = create_list(1);
-  int n_days, count_day, n_questions, question_id, i, index_ll = 0;
+  int n_days, count_day, n_questions, i, index_ll = 0;
+  long question_id;
   char * dayTags;
 
   GDate * begin_stackOverflow = g_date_new_dmy (15, 9, 2008);

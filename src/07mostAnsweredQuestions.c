@@ -10,7 +10,8 @@ em ordem decrescente do número de respostas
 
 LONG_list most_answered_questions(TAD_community com, int N, Date begin, Date end) {
   LONG_list ll = create_list(1);
-  int n_days, count_day, n_questions, question_id, i, sizeTQ = 0;
+  int n_days, count_day, n_questions, i, sizeTQ = 0;
+  long question_id;
 
   GDate * begin_stackOverflow = g_date_new_dmy (15, 9, 2008);
   GDate * beginDate = g_date_new_dmy(get_day(begin), get_month(begin), get_year(begin));
