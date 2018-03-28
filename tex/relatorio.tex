@@ -1,0 +1,156 @@
+\documentclass[a4paper]{report}
+
+\usepackage[utf8]{inputenc}
+\usepackage[portuges]{babel}
+\usepackage{graphicx}
+\usepackage{a4wide}
+\usepackage[pdftex]{hyperref}
+\usepackage{float}
+
+\title{Projeto de Laboratórios de Informática III\\Grupo 1}
+\author{Catarina Machado (a81047) \and Cecília Soares (a34900) \and João Vilaça (a82339)}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\chapter{Estrutura de Dados}
+%\label{sec:estruturadedados}
+
+\chapter{Queries}
+%\label{sec:queries}
+
+\section{Query 1}
+\label{sec:query1}
+
+\section{Query 2}
+\label{sec:query2}
+
+\section{Query 3}
+\label{sec:query3}
+
+\textbf{“Dado um intervalo de tempo arbitrário,
+obter o número total de posts (identificando perguntas e respostas separadamente) neste período.”}
+
+Uma vez que na nossa estrutura Day já temos uma variável que nos diz o número total de perguntas
+e o número total de respostas efetuadas num determinado dia, para sabermos o
+número total de cada uma delas durante um intervalo de tempo criámos duas novas
+variáveis na nossa função da query 3: \textsf{'n\_questions'} e \textsf{'n\_answers'},
+e incrementámo-las com o valor das perguntas e respostas efetuadas, respetivamente,
+durante os dias passados como parâmetro.
+
+No final de percorridos todos os dias, adicionamos as duas variáveis da nossa função a um LONG\_pair, e retornamo-lo.
+
+
+\section{Query 4}
+\label{sec:query4}
+
+\textbf{“Dado um intervalo de tempo arbitrário, retornar todas as perguntas contendo uma determinada tag.
+O retorno da função deverá ser uma lista com os IDs das perguntas ordenadas em cronologia inversa."}
+
+Para esta query, tirando partido da nossa estrutura Day, que tem um GPtrArray com
+os apontadores das perguntas do dia em questão, começamos por percorrer cada pergunta desse array
+da última data passada como parâmetro e comparamos as suas tags com a tag passada como argumento.
+Deste modo, se a pergunta tiver a tag desejada inserimos o seu ID numa LONG\_list.
+Vamos percorrendo os dias da “Date end” para a “Date begin”.
+
+No final de consultarmos todas as perguntas do intervalo de tempo temos a LONG\_list preenchida.
+Esta LONG\_list tem os IDs das perguntas ordenadas por cronologia inversa uma vez que
+vamos preenchendo a lista do dia mais recente para o dia mais antigo.
+
+
+
+\section{Query 5}
+\label{sec:query5}
+
+\section{Query 6}
+\label{sec:query6}
+
+\textbf{“Dado um intervalo de tempo arbitrário, devolver os IDs das N respostas
+com mais votos, em ordem decrescente do número de votos; O número de votos deverá
+ser obtido pela diferença entre Up Votes (UpMod6) e Down Votes (DownMod)."}
+
+Nesta query utilizamos um GPtrArray auxiliar. Ao percorrer os dias do intervalo
+de tempo fornecido como parâmetro inserimos no array auxiliar os apontadores das
+respostas que iam aparecendo.
+
+Depois de percorrer todos os dias temos um array auxiliar com todas as respostas
+efetuadas nesse intervalo de tempo. Consequentemente, ordenamos o array pelo número
+de votos (no inicio do array está a resposta com mais votos e no fim a resposta com menos votos).
+
+Para sabermos as N respostas com mais votos, consultamos o nosso array auxiliar
+e retiramos dele o ID das primeiras N respostas que aparecem.
+
+Assim, temos a LONG\_list pedida, por ordem decrescente do número de votos.
+
+
+
+\section{Query 7}
+\label{sec:query7}
+
+\textbf{“Dado um intervalo de tempo arbitrário, devolver as IDs das N perguntas
+com mais respostas, em ordem decrescente do número de respostas."}
+
+Para a resolução desta query também recorremos a um array auxiliar, porém
+desta vez com apontadores para perguntas.
+
+Utilizamos o mesmo raciocínio da Query 6, mas agora fomos percorrendo o intervalo
+de tempo e adicionando ao nosso array auxiliar os apontadores para as perguntas.
+No fim do array preenchido, ordenamo-lo segundo o critério de maior número de respostas.
+
+Retiramos os primeiros N elementos do array e devolvemos os determinados IDs
+numa LONG\_list, que se encontra então ordenada decrescentemente segundo o número de respostas.
+
+
+\section{Query 8}
+\label{sec:query8}
+
+\section{Query 9}
+\label{sec:query9}
+
+\section{Query 10}
+\label{sec:query10}
+
+\section{Query 11}
+\label{sec:query11}
+
+\textbf{“Dado um intervalo arbitrário de tempo, devolver os identificadores das N tags
+mais usadas pelos N utilizadores com melhor reputação. Em ordem decrescente do número
+de vezes em que a tag foi usada."}
+
+Para esta query utilizamos 2 arrays auxiliares, um para guardar apontadores de tags
+e outro para armazenar apontadores de users.
+
+Numa primeira fase, e percorrendo todos os dias do intervalo de tempo,
+preenchemos o array auxiliar de users com todos os users que fizeram perguntas
+nesse intervalo de tempo (sem repetições). Depois disso, ordenamos o array segundo
+o critério de melhor reputação.
+
+Removemos do array todos os elementos (apontadores de users) a partir da posição N.
+Assim, temos um array com os N users com melhor reputação.
+
+Depois disso, numa segunda fase, voltamos a percorrer todos os dias do intervalo
+de tempo e agora tivemos em atenção as perguntas, mais precisamente as suas tags.
+Se a pergunta tiver sido efetuada por um user com melhor reputação (ver se existe
+o user que fez essa pergunta no nosso array auxiliar de users), pegamos nas tags
+dessa pergunta (ainda todas juntas numa só string) e separamo-las de modo a termos
+todas as tags individuais.
+
+Na nossa estrutura de Tags temos uma variável \textsf{‘value’}, com o valor 0,
+que é utilizada somente para esta query. Incrementamos essa variável para cada
+uma das tags contidas na pergunta. Adicionamos o apontador para essa tag ao nosso
+array auxiliar (tendo em atenção se já a tínhamos adicionado ou não ao array).
+
+No final de percorridos todos os dias, todas as perguntas e respetivas tags
+temos um array de apontadores de tags, com todas as tags que apareceram durante
+esse intervalo de tempo e que foram feitas por algum dos N users com melhor reputação,
+com o seu respetivo número de ocorrências (armazenado na variável \textsf{‘value’}).
+
+Ordenamos esse array pelo número de ocorrências (do maior para o menor) e
+colocamos numa LONG\_list os primeiros N identificadores das tags desse array.
+
+
+\end{document}
