@@ -12,7 +12,7 @@ int main(int argc, char const *argv[]){
 
   com = load(com, "../android/");
 
-
+/*
   //test query 6
   Date date3 = createDate(1, 9, 2010);
   Date date4 = createDate(1, 9, 2010);
@@ -32,7 +32,7 @@ int main(int argc, char const *argv[]){
     long a = get_list(query4, i);
     printf("ID Question%d: %ld\n", i+1, a);
   }
-
+ */
   //printf("%d\n", g_date_days_between(date3, date4));
 
   // Answers ola;
@@ -173,9 +173,11 @@ printf("Title: %s\nUsername: %s\n", fst, snd);
 
   for(int i = 0; i < 50; i++)
     printf("%ld\n", get_list(list, i));
+
+//teste query 10
+  long melhor = better_answer(com, 4);
+    printf("%ld\n", melhor);
 */
-
-
 
   free(com);
 

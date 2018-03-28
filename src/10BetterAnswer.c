@@ -12,20 +12,20 @@ Para isso, deverá usar a função de média ponderada abaixo:
 (número de comentários recebidos pela resposta × 0.1)
 */
 
-LONG_list better_answer(TAD_community com, int id) {
-  int i, total_answers, answer_id, reputation;
+long better_answer(TAD_community com, long id) {
+  int i, total_answers, reputation;
+  long answer_id;
   double total, max = 0.0;
 
-  Questions question = lookQuestion(com, (long)id);
+  Questions question = lookQuestion(com, id);
 
 
   if (question == NULL) {
-     return NULL;
+     return -1;
    }
 
   total_answers = getNAnswers(question);
 
-  LONG_list better_answer = create_list(1);
 
   for(i = 0; i < total_answers; i++) {
        Users user = lookUsers(com, getAnswerUserIdAtIndex(question, i));
@@ -61,8 +61,7 @@ LONG_list better_answer(TAD_community com, int id) {
 
    }
 
-   set_list(better_answer, 0, answer_id);
 
 
-  return better_answer;
+  return answer_id;
 }
