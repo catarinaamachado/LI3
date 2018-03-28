@@ -14,7 +14,6 @@ int main(int argc, char const *argv[]){
 
 
   //test query 6
-
   Date date3 = createDate(1, 9, 2010);
   Date date4 = createDate(1, 9, 2010);
 
@@ -25,6 +24,16 @@ int main(int argc, char const *argv[]){
     long a = get_list(query6, i);
     printf("ID Answer%d: %ld\n", i+1, a);
   }
+
+  //test query 4
+  printf("\nQuery 4:\n");
+  LONG_list query4 = questions_with_tag(com, "contacts", date3, date4);
+  for(int i = 0; i < 20; i++){
+    long a = get_list(query4, i);
+    printf("ID Question%d: %ld\n", i+1, a);
+  }
+
+  //printf("%d\n", g_date_days_between(date3, date4));
 
   // Answers ola;
   //
@@ -59,19 +68,6 @@ int main(int argc, char const *argv[]){
     for(int i = 0; i < 10; i++)
       printf("%ld\n", get_list(list, i));
   }
-
-
-
-  // int t = strlen(all_tags);
-
-  // for(int i = 0; i < t; i++){
-  //   printf("nao li isto. tamanho: %d\n", t);
-  //   char * tentativa = separaTags2(all_tags + i);
-  //   printf("%s\n", tentativa);
-  //   i += strlen(tentativa) + 1;
-  //   int t2 = strlen(tentativa);
-  //   printf("li isto. tamanho: %d\n", t2);
-  // }
 
 
   // Tags tagsS;
@@ -131,54 +127,6 @@ int main(int argc, char const *argv[]){
   for(int i = 0; i < 2; i++){
     long a = get_list(query7, i);
     printf("ID Question%d: %ld\n", i+1, a);
-  }
-
-
-  //test query 4
-  printf("\nExperiencias\n");
-  GDate * do1 = g_date_new_dmy(15, 9, 2008);
-  GDate * do2 = g_date_new_dmy(1, 9, 2010);
-  int oi = g_date_days_between(do1, do2);
-
-  printf("Um indice: %d\n", oi);
-
-
-  Day d = lookDay(com, oi);
-
-  char * cenas;
-  cenas = getTags(getDAYQuestionAtIndex(d, 0));
-
-  printf("Tags de um dia: %s\n", cenas);
-
-  printf("\nQuery 4:\n");
-  LONG_list query4 = questions_with_tag(com, "contacts", date1, date2);
-  for(int i = 0; i < 20; i++){
-    long a = get_list(query4, i);
-    printf("ID Question%d: %ld\n", i+1, a);
-  }
-*/
-  //test day struct
-/*
-  for(int i = 800; i < 801; i++){
-    Day diiiias = lookDay(com, i);
-
-    if(diiiias != NULL) {
-      int dia = getDay(diiiias);
-      int mes = getMonth(diiiias);
-      int ano = getYear(diiiias);
-
-      printf("\n\nPara i = %d: %d-%d-%d\n", i, dia, mes, ano);
-
-      printf("Q:%d A:%d\n", getDAYNQuestions(diiiias), getDAYNAnswers(diiiias));
-
-      printf("Questions:\n");
-      getDAYQuestion(diiiias);
-
-      printf("Answers:\n");
-      getDAYAnswer(diiiias);
-    }
-
-    diiiias = NULL;
   }
 
 

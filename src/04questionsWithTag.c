@@ -20,7 +20,7 @@ LONG_list questions_with_tag(TAD_community com, char* tag, Date begin, Date end)
   GDate * endDate = g_date_new_dmy(get_day(end), get_month(end), get_year(end));
 
   n_days = g_date_days_between(beginDate, endDate);
-  count_day = g_date_days_between(begin_stackOverflow, beginDate);
+  count_day = g_date_days_between(begin_stackOverflow, endDate);
 
   while(n_days >= 0){
     Day d = lookDay(com, count_day);
@@ -37,7 +37,7 @@ LONG_list questions_with_tag(TAD_community com, char* tag, Date begin, Date end)
       }
     }
 
-    count_day++; n_days--;
+    count_day--; n_days--;
   }
 
   return ll;

@@ -4,7 +4,7 @@
 
 
 /*
-Estrutura dos posts respostas
+Estrutura dos posts respostas.
 */
 typedef struct answers {
   long user_id;
@@ -17,7 +17,7 @@ typedef struct answers {
 } answers;
 
 /*
-Função que devolve o tamanho da estrutura answers
+Função que devolve o tamanho da estrutura answers.
 */
 int sizeAnswers() {
     return sizeof(struct answers);
@@ -145,7 +145,7 @@ void setCommentCount(Answers a, int c) {
 
 /*
 Função que compara os votos de duas respostas
-query 6
+(query 6)
 */
 static gint sortVotes(Answers * a1, Answers * a2) {
   int votes_a1 = 0, votes_a2 = 0;
@@ -161,7 +161,7 @@ static gint sortVotes(Answers * a1, Answers * a2) {
 
 /*
 Função que ordena os votos das respostas por ordem decrescente do número de votos
-query 6
+(query 6)
 */
 void sortAnswersVotes(GPtrArray * total_answers) {
   g_ptr_array_sort(total_answers, (GCompareFunc)sortVotes);

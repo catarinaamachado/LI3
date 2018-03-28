@@ -84,7 +84,7 @@ void setDAYNQuestions(Day d, int n_questions) {
 }
 
 /*
-Função que devolve o número de resposta num dia.
+Função que devolve o número de respostas num dia.
 */
 int getDAYNAnswers(Day d) {
     return d->n_answers;
@@ -98,7 +98,7 @@ void setDAYNAnswers(Day d, int n_answers) {
 }
 
 /*
-Função que inicializa o GPtrArray answers, bem como número de respotas a zero.
+Função que inicializa o GPtrArray answers, bem como número de respostas a zero.
 */
 void initDAYAnswers(Day d) {
     d->n_answers = 0;

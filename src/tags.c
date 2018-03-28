@@ -79,6 +79,7 @@ void incrementTagValue(Tags tag) {
 
 /*
 Função que compara o número de ocorrências de duas tags recebidas como parametro.
+(query 11)
 */
 static gint sortOccurrencesTags(Tags * t1, Tags * t2) {
   int nOccur1, nOccur2;
@@ -94,6 +95,7 @@ static gint sortOccurrencesTags(Tags * t1, Tags * t2) {
 /*
 Função que ordena as tags de acordo com o número de vezes que elas aparecem,
 (da tag mais usada para a tag menos usada).
+(query 11)
 */
 void sortTags(GPtrArray * total_tags) {
   g_ptr_array_sort(total_tags, (GCompareFunc)sortOccurrencesTags);
