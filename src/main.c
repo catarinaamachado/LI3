@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "interface.h"
 
 int main(int argc, char const *argv[]){
@@ -30,8 +31,16 @@ int main(int argc, char const *argv[]){
     (void)d;
 
     //QUERY 5
-    long id5 = 0;
+    long id5 = 10;
     USER e = get_user_info(com, id5);
+    /*if(e != NULL) {
+        printf("User: %ld\nBio: %s\n", id5, get_bio(e));
+        long *l = get_10_latest_posts(e);
+        for (int i = 0; i < 10 && l[i] != -1; i++) {
+            printf("%ld\n", l[i]);
+        }
+    } else
+        printf("User: %ld doesn't exist\n", id5);*/
     (void)e;
 
     //QUERY 6
@@ -49,15 +58,21 @@ int main(int argc, char const *argv[]){
     (void)g;
 
     //QUERY 8
-    char word8[] = "";
-    int N8 = 0;
+    char word8[] = "android";
+    int N8 = 10;
     LONG_list h = contains_word(com, word8, N8);
+    /*printf("Last %d containing word %s:\n", N8, word8);
+    for (int l = 0; l < N8; l++)
+        printf("%d - %ld\n", l, get_list(h, l));*/
     (void)h;
 
     //QUERY 9
-    long id9u1, id9u2; id9u1 = id9u2 = 0;
-    int N9 = 0;
+    long id9u1, id9u2; id9u1 = id9u2 = 10;
+    int N9 = 10;
     LONG_list i = both_participated(com, id9u1, id9u2, N9);
+    /*printf("Last %d both %ld and %ld participated:\n", N9, id9u1, id9u2);
+    for (int l = 0; l < N9; l++)
+        printf("%d - %ld\n", l+1, get_list(h, l));*/
     (void)i;
 
     //QUERY 10
