@@ -140,7 +140,6 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
             }
 
             else {
-                setNAnswers(pointer, atoi((char *)attributes[answer_count]));
                 removeTmpQuestion(structure,pointer);
             }
 
@@ -154,6 +153,8 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
             setTags(pointer, (char *)attributes[tags]);
 
             setQDate(pointer, (char *)attributes[date]);
+
+            setNAnswers(pointer, 0);
 
             insertQuestion(structure, getQuestionId(pointer), pointer);
 
@@ -189,6 +190,8 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
 
             if(q != NULL) {  // se a pergunta existe
                 setNAnswerVotes(q, getNAnswerVotes(q) + votes);
+
+                setNAnswers(q, getNAnswers(q)+1);
 
                 addAnswers(q, pointer);
             }
