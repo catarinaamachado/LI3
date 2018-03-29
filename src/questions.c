@@ -46,9 +46,12 @@ void setQuestionId(Questions q, long id) {
 Função que estabelece a data da pergunta.
 */
 void setQDate(Questions q, char * date) {
-    q->pd = malloc(getPDSize());
-
-    setDate(q->pd, date);
+    if(date == 0)
+        q->pd = NULL;
+    else {
+        q->pd = malloc(getPDSize());
+        setDate(q->pd, date);
+    }
 }
 
 /*
@@ -90,12 +93,10 @@ char * getTitle(Questions q) {
 Função que estabelece o título de uma pergunta.
 */
 void setTitle(Questions q, char * t) {
-    if(t == NULL) {
-        q->title = malloc(sizeof(char));
-        strcpy(q->title, "\n");
-    }
+    if(t == NULL)
+        q->title = NULL;
     else {
-        char * title = malloc(sizeof(char) * (strlen(t)+2));
+        char * title = malloc(sizeof(char) * (strlen(t)+4));
         strcpy(title, t);
 
         q->title = title;
@@ -116,12 +117,10 @@ char * getTags(Questions q) {
 Função que estabelece a(s) tag(s) de uma pergunta.
 */
 void setTags(Questions q, char * t) {
-    if(t == NULL) {
-        q->tags = malloc(sizeof(char));
-        strcpy(q->tags, "\n");
-    }
+    if(t == NULL)
+        q->tags = NULL;
     else {
-        char * tags = malloc(sizeof(char) * (strlen(t)+2));
+        char * tags = malloc(sizeof(char) * (strlen(t)+4));
         strcpy(tags, t);
 
         q->tags = tags;
@@ -167,7 +166,9 @@ void initAnswers(Questions q) {
 Função que adiciona uma resposta ao GPtrArray Answers.
 */
 void addAnswers(Questions q, Answers a) {
-    g_ptr_array_add(q->answers, a);
+    Answers new = malloc(sizeAnswers());
+    memcpy(new, a, sizeAnswers());
+    g_ptr_array_add(q->answers, new);
 }
 
 /*
@@ -218,6 +219,11 @@ Função que ordena as perguntas por data.
 gint sortQDate (Questions aq, Questions bq) {
     postDate a = aq->pd;
     postDate b = bq->pd;
+
+    if(a == NULL)
+        return 1;
+    if(b == NULL)
+        return -1;
 
     if (getPDYear(a) < getPDYear(b))
         return 1;
@@ -278,4 +284,22 @@ Função que ordena um array pela ordem decrescente do maior número de resposta
 */
 void sortMoreAnswers(GPtrArray * total_questions) {
   g_ptr_array_sort(total_questions, (GCompareFunc)sortPlusAnswers);
+}
+
+void cleanQuestion(Questions q) {
+    if(q != NULL) {
+        if(q->pd != NULL)
+            free(q->pd);
+
+        if(q->title != NULL)
+            free(q->title);
+
+        if(q->tags != NULL)
+            free(q->tags);
+
+        g_ptr_array_set_free_func(q->answers, (GDestroyNotify)cleanAnswer);
+        g_ptr_array_free(q->answers, TRUE);
+
+        free(q);
+    }
 }

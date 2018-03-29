@@ -112,3 +112,11 @@ Função que estabelece a data de criação do post.
 void setDate(postDate pd, char * date) {
     sscanf(date, "%d-%d-%dT%d:%d:%d.%d\n", &pd->year, &pd->month, &pd->day, &pd->hour, &pd->min, &pd->sec, &pd->mili);
 }
+
+void cleanPD(postDate pd) {
+    free(pd);
+}
+
+void cleanPDp(postDate * pd) {
+    free(*pd);
+}

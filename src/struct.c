@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 
 #include "struct.h"
 #include "interface.h"
@@ -12,6 +13,7 @@ typedef struct TCD_community {
   GHashTable * users;
   GHashTable * questions;
   GHashTable * answers;
+  GPtrArray * tmp_questions;
   GList * questionsList;
   GPtrArray * day;
   GHashTable * tags;
@@ -26,14 +28,14 @@ TAD_community init() {
 
   com = malloc(sizeof(TCD_community));
 
-  com->users =  g_hash_table_new(g_direct_hash, g_direct_equal);
-
+  com->users =  g_hash_table_new_full(g_direct_hash, g_direct_equal, NULL, (GDestroyNotify)cleanUser);
   com->questions = g_hash_table_new(g_direct_hash, g_direct_equal);
+  com->answers = g_hash_table_new(g_direct_hash, g_direct_equal);
+  com->tmp_questions = g_ptr_array_new();
+  com->tags = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify)cleanTags);
 
   com->day = g_ptr_array_sized_new(3650);
   g_ptr_array_set_size (com->day, 3650);
-
-  com->tags = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 
   GDate * actualDate = g_date_new_dmy(15, 9, 2008);
   int day, month, year;
@@ -57,9 +59,9 @@ TAD_community init() {
     g_date_add_days(actualDate, 1);
   }
 
-  com->answers = g_hash_table_new(g_direct_hash, g_direct_equal);
+    g_date_free(actualDate);
 
-  return com;
+    return com;
 }
 
 /*
@@ -172,4 +174,31 @@ Função que procura uma resposta na tabela de hash designada answers.
  Answers lookAnswer(TAD_community t, long id) {
    Answers answer = g_hash_table_lookup(t->answers, GINT_TO_POINTER(id));
   return answer;
+}
+
+void addTmpQuestion(TAD_community t, Questions pointer) {
+    g_ptr_array_add(t->tmp_questions, pointer);
+}
+
+void removeTmpQuestion(TAD_community t, Questions pointer) {
+    g_ptr_array_remove(t->tmp_questions, pointer);
+}
+
+
+void cleanStruct(TAD_community com) {
+    g_hash_table_destroy(com->users);
+
+    g_hash_table_destroy(com->questions);
+
+    g_hash_table_destroy(com->answers);
+
+    g_ptr_array_set_free_func(com->tmp_questions, (GDestroyNotify)cleanQuestion);
+    g_ptr_array_free(com->tmp_questions, TRUE);
+
+    g_list_free(com->questionsList);
+
+    g_ptr_array_set_free_func(com->day, (GDestroyNotify)cleanDay);
+    g_ptr_array_free(com->day, TRUE);
+
+    g_hash_table_destroy(com->tags);
 }

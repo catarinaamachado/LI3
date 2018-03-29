@@ -119,7 +119,7 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
 
         GDate * d = g_date_new_dmy(getPDDay(pd), getPDMonth(pd), getPDYear(pd));
         long indexDay = g_date_days_between(begin_stackOverflow, d);
-
+        g_date_free(d);
         Day pointerDay = lookDay(structure, indexDay);
 
 
@@ -141,6 +141,7 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
 
             else {
                 setNAnswers(pointer, atoi((char *)attributes[answer_count]));
+                removeTmpQuestion(structure,pointer);
             }
 
             if(owner_id != 0)
@@ -196,22 +197,19 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
                 q = malloc(sizeQuestions());
 
                 setQUserId(q, 0);
-
                 setTitle(q, 0);
-
                 setTags(q, 0);
+                setQDate(q, 0);
 
                 setNAnswers(q, 1);
-
-                setQuestionId(q, atoi((const char *)attributes[parentid]));
+                setQuestionId(q, atol((const char *)attributes[parentid]));
 
                 initAnswers(q);
-
                 setNAnswerVotes(q, votes);
-
                 addAnswers(q, pointer);
 
                 insertQuestion(structure, getQuestionId(q), q);
+                addTmpQuestion(structure, q);
              }
 
             addDAYAnswers(pointerDay, pointer);
@@ -226,8 +224,10 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
                 incrementNPosts(u);
 
                 appendPost(u, pd);
-            }
-        }
+            } else
+                cleanPD(pd);
+        } else
+            cleanPD(pd);
     }
 }
 
@@ -257,7 +257,9 @@ static void OnStartElementTags(void *ctx, const xmlChar *element_name, const xml
       setTagName(pointer, (const char *)attributes[tagname]);
       setTagValue(pointer, 0);
 
-      insertTag(structure, getTagName(pointer), pointer);
+      char * tag = getTagName(pointer);
+      insertTag(structure, tag, pointer);
+      free(tag);
   }
 }
 
@@ -283,7 +285,7 @@ static void OnStartElementVotes(void *ctx, const xmlChar *element_name, const xm
             !strncmp((const char *)attributes[vote_type_id], "3", 1))) { //DownMod
 
 
-           id_post = atoi((const char *)attributes[post_id]);
+           id_post = atol((const char *)attributes[post_id]);
 
            Answers answer = lookAnswer(structure, id_post);
 

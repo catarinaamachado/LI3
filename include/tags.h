@@ -16,3 +16,5 @@ void setTagValue(Tags tag, int value);
 void incrementTagValue(Tags tag);
 
 void sortTags(GPtrArray * total_tags);
+
+void cleanTags(Tags t);

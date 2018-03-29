@@ -59,3 +59,5 @@ GPtrArray getQAnswers(Questions q);
 gint sortQDate (Questions aq, Questions bq);
 
 void sortMoreAnswers(GPtrArray * total_questions);
+
+void cleanQuestion(Questions q);
