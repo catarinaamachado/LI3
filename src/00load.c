@@ -66,11 +66,11 @@ Função que extrai os elementos necessários dos posts para preencher as
 respetivas estruturas de dados.
 */
 static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xmlChar **attributes) {
-    int i, id, post_type_id, owner_id, title, tags, answer_count, score, comment_count, favorite_count;
+    int i, id, post_type_id, owner_id, title, tags, score, comment_count, favorite_count;
     int parentid, date;
     long a;
 
-    post_type_id = parentid = owner_id = title = tags = answer_count = date = 0;
+    post_type_id = parentid = owner_id = title = tags = date = 0;
     id = score = favorite_count = comment_count = -1;
 
     if (attributes != NULL) {
@@ -90,9 +90,6 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
 
             else if(strncmp((const char *)attributes[i], "Tags", 4) == 0)
                 tags = ++i;
-
-            else if(strncmp((const char *)attributes[i], "AnswerCount", 11) == 0)
-                answer_count = ++i;
 
             else if(strncmp((const char *)attributes[i], "Score", 5) == 0)
                 score = ++i;
@@ -132,16 +129,12 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
                 pointer = malloc(sizeQuestions());
 
                 setQuestionId(pointer, a);
-
-                setNAnswers(pointer, atoi((char *)attributes[answer_count]));
+                setNAnswers(pointer, 0);
                 setNAnswerVotes(pointer, 0);
-
                 initAnswers(pointer);
             }
-
             else {
-                setNAnswers(pointer, atoi((char *)attributes[answer_count]));
-                removeTmpQuestion(structure,pointer);
+                removeTmpQuestion(structure, pointer);
             }
 
             if(owner_id != 0)
@@ -181,15 +174,14 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
 
             setCommentCount(pointer, atoi((const char *)attributes[comment_count]));
 
+            insertAnswers(structure, getAnswerId(pointer), pointer);
+
             long parent_id = atol((const char *)attributes[parentid]);
             Questions q = lookQuestion(structure, parent_id);
 
-            insertAnswers(structure, getAnswerId(pointer), pointer);
-
-
             if(q != NULL) {  // se a pergunta existe
                 setNAnswerVotes(q, getNAnswerVotes(q) + votes);
-
+                setNAnswers(q, getNAnswers(q) + 1);
                 addAnswers(q, pointer);
             }
 

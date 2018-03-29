@@ -1,5 +1,6 @@
 #include <gmodule.h>
 //#include<stdio.h>
+#include <assert.h>
 
 #include "struct.h"
 
@@ -25,7 +26,7 @@ long better_answer(TAD_community com, long id) {
    }
 
   total_answers = getNAnswers(question);
-
+  assert(total_answers == getAnswersArraySize(question)); // isto tem de dar 1 senão o programa estoura
 
   for(i = 0; i < total_answers; i++) {
        Users user = lookUsers(com, getAnswerUserIdAtIndex(question, i));
