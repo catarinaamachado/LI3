@@ -146,3 +146,15 @@ em determinado índice do GPtrArray questions.
 Questions getDAYQuestionAtIndex(Day d, int index) {
     return g_ptr_array_index(d->questions, index);
 }
+
+void cleanDay(Day d) {
+    if (d != NULL) {
+        g_ptr_array_set_free_func(d->questions, (GDestroyNotify)cleanQuestion);
+        g_ptr_array_free(d->questions, TRUE);
+
+        g_ptr_array_set_free_func(d->answers, (GDestroyNotify)cleanAnswer);
+        g_ptr_array_free(d->answers, TRUE);
+
+        free(d);
+    }
+}

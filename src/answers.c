@@ -1,4 +1,5 @@
 #include <gmodule.h>
+#include <stdlib.h>
 
 #include "answers.h"
 
@@ -165,4 +166,8 @@ Função que ordena os votos das respostas por ordem decrescente do número de v
 */
 void sortAnswersVotes(GPtrArray * total_answers) {
   g_ptr_array_sort(total_answers, (GCompareFunc)sortVotes);
+}
+
+void cleanAnswer(Answers a) {
+    free(a);
 }

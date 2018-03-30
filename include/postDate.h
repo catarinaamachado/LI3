@@ -20,3 +20,7 @@ int getPDSec(postDate pd);
 int getPDMili(postDate pd);
 
 void setDate(postDate pd, char * date);
+
+void cleanPD(postDate pd);
+
+void cleanPDp(postDate * pd);

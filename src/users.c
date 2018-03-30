@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <answers.h>
+#include <questions.h>
 
 #include "users.h"
 
@@ -324,4 +326,14 @@ Função que ordena os users de acordo com a sua reputação,
 */
 void sortUsersReputation(GPtrArray * total_users) {
   g_ptr_array_sort(total_users, (GCompareFunc)sortReputation);
+}
+
+void cleanUser(Users u) {
+    free(u->shortbio);
+    free(u->username);
+
+    g_array_set_clear_func(u->last_posts, (GDestroyNotify)cleanPDp);
+    g_array_free(u->last_posts, TRUE);
+
+    free(u);
 }

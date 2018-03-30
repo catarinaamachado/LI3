@@ -100,3 +100,8 @@ Função que ordena as tags de acordo com o número de vezes que elas aparecem,
 void sortTags(GPtrArray * total_tags) {
   g_ptr_array_sort(total_tags, (GCompareFunc)sortOccurrencesTags);
 }
+
+void cleanTags(Tags t) {
+  free(t->nameTag);
+  free(t);
+}

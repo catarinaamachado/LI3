@@ -25,19 +25,20 @@ LONG_list both_participated(TAD_community com, long id1, long id2, int N) {
 
     GList * l;
 
-    int i = 0, id1P = 0, id2P = 0, qid;
+    int i = 0, id1P = 0, id2P = 0;
+    long uid;
 
     for (l = getQuestions(com); N-i > 0 && l != NULL; l = l->next) {
         Questions q = l->data;
 
-        qid = getQuestionId(q);
+        uid = getQUserId(q);
 
-        if(qid == id1)
+        if(uid == id1)
             id1P = 1;
         else
             id1P = participateAnswers(q, id1);
 
-        if(qid == id2)
+        if(uid == id2)
             id2P = 1;
         else
             id2P = participateAnswers(q, id2);

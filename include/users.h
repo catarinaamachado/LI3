@@ -52,3 +52,5 @@ postDate getPDindex(Users u, int l);
 void sortPosts(Users u);
 
 void sortUsersReputation(GPtrArray * total_users);
+
+void cleanUser(Users u);

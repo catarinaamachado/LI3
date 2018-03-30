@@ -36,3 +36,9 @@ void insertTag(TAD_community t, char * tagName, Tags tag);
 void insertAnswers(TAD_community t, long id, Answers pointer);
 
 Answers lookAnswer(TAD_community t, long id);
+
+void addTmpQuestion(TAD_community t, Questions pointer);
+
+void removeTmpQuestion(TAD_community t, Questions pointer);
+
+void cleanStruct(TAD_community com);

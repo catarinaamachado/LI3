@@ -41,3 +41,5 @@ void getDAYAnswer(Day d);
 Answers getDAYAnswerAtIndex(Day d, int index);
 
 Questions getDAYQuestionAtIndex(Day d, int index);
+
+void cleanDay(Day d);
