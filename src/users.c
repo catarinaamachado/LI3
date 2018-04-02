@@ -311,13 +311,19 @@ Função que compara as reputações de dois users recebidos como parametro.
 */
 static gint sortReputation(Users * u1, Users * u2) {
   int rep1, rep2;
-  rep1 = getReputation(*u1);
-  rep2 = getReputation(*u2);
+  if ((*u1) != NULL)
+    rep1 = getReputation(*u1);
+  else
+    rep1 = 0;
+  if ((*u2) != NULL)
+    rep2 = getReputation(*u2);
+  else
+    rep2 = 0;
 
-    if(rep1 < rep2)
-      return 1;
-    else
-      return -1;
+  if(rep1 < rep2)
+    return 1;
+  else
+    return -1;
 }
 
 /*
