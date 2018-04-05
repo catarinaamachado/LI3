@@ -1,4 +1,4 @@
-#include <malloc.h>
+#include <stdlib.h>
 #include "struct.h"
 
 TAD_community clean(TAD_community com) {

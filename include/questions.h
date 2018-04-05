@@ -54,6 +54,8 @@ int getAnswerCommentAtIndex(Questions q, int index);
 
 int getAnswerIdAtIndex(Questions q, int index);
 
+int getAnswersArraySize(Questions q);
+
 GPtrArray getQAnswers(Questions q);
 
 gint sortQDate (Questions aq, Questions bq);

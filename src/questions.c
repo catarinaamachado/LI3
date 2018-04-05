@@ -212,6 +212,12 @@ int getAnswerIdAtIndex(Questions q, int index) {
    return getAnswerId(g_ptr_array_index(q->answers, index));
 }
 
+/*
+Função que devolve o tamanho do GPtrArray answers.
+*/
+int getAnswersArraySize(Questions q) {
+  return q->answers->len;
+}
 
 /*
 Função que ordena as perguntas por data.
