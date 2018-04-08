@@ -360,7 +360,7 @@ TAD_community load(TAD_community com, char* dump_path) {
 
     char * users = malloc(size + 10*sizeof(char));
     strcpy(users, dump_path);
-    strcat(users, "Users.xml");
+    strcat(users, "/Users.xml");
     FILE * u = fopen(users,"r");
     read_xmlfile(u, "Users.xml");
     fclose(u);
@@ -368,7 +368,7 @@ TAD_community load(TAD_community com, char* dump_path) {
 
     char * posts = malloc(size + 10*sizeof(char));
     strcpy(posts, dump_path);
-    strcat(posts, "Posts.xml");
+    strcat(posts, "/Posts.xml");
     FILE * p = fopen(posts,"r");
     read_xmlfile(p, "Posts.xml");
     fclose(p);
@@ -376,7 +376,7 @@ TAD_community load(TAD_community com, char* dump_path) {
 
     char * tags = malloc(size + 10*sizeof(char));
     strcpy(tags, dump_path);
-    strcat(tags, "Tags.xml");
+    strcat(tags, "/Tags.xml");
     FILE * t = fopen(tags,"r");
     read_xmlfile(t, "Tags.xml");
     fclose(t);
@@ -384,7 +384,7 @@ TAD_community load(TAD_community com, char* dump_path) {
 
     char * votes = malloc(size + 10*sizeof(char));
     strcpy(votes, dump_path);
-    strcat(votes, "Votes.xml");
+    strcat(votes, "/Votes.xml");
     FILE * v = fopen(votes,"r");
     read_xmlfile(t, "Votes.xml");
     fclose(v);
