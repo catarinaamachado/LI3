@@ -33,6 +33,7 @@ TAD_community init() {
   com->answers = g_hash_table_new(g_direct_hash, g_direct_equal);
   com->tmp_questions = g_ptr_array_new();
   com->tags = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify)cleanTags);
+  com->questionsList = NULL;
 
   com->day = g_ptr_array_sized_new(3650);
   g_ptr_array_set_size (com->day, 3650);
