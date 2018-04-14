@@ -38,15 +38,16 @@ LONG_list both_participated(TAD_community com, long id1, long id2, int N) {
         else
             id1P = participateAnswers(q, id1);
 
-        if(uid == id2)
-            id2P = 1;
-        else
-            id2P = participateAnswers(q, id2);
+        if(id1P) {
+            if(uid == id2)
+                id2P = 1;
+            else
+                id2P = participateAnswers(q, id2);
 
-
-        if(id1P && id2P){
-            set_list(ll, i, getQuestionId(q));
-            i++;
+            if(id2P) {
+                set_list(ll, i, getQuestionId(q));
+                i++;
+            }
         }
 
     }
