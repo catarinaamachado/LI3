@@ -9,20 +9,44 @@
 \usepackage{graphicx}
 \usepackage{indentfirst}
 
+
+\begin{document}
+
 \title{Projeto de Laboratórios de Informática III\\Grupo 1}
 \author{Catarina Machado (a81047) \and Cecília Soares (a34900) \and João Vilaça (a82339)}
 \date{\today}
 
+\begin{titlepage}
 
-\begin{document}
-
-\maketitle
+  %título
+  \thispagestyle{empty}
+  \begin{center}
+  \begin{minipage}{0.75\linewidth}
+      \centering
+  %engenharia logo
+      \includegraphics[width=0.4\textwidth]{eng.jpeg}\par\vspace{1cm}
+      \vspace{1.5cm}
+  %titulos
+      \href{https://www.uminho.pt/PT}{\scshape\LARGE Universidade do Minho} \par
+      \vspace{1cm}
+      \href{https://www.di.uminho.pt/}{\scshape\Large Departamento de Informática} \par
+      \vspace{1.5cm}
+  
+  \maketitle 
+      
+  \end{minipage}
+  \end{center}
+  \clearpage
+ 
+ \end{titlepage}
+ 
 
 \begin{abstract}
 O presente relatório descreve o projeto realizado no âmbito da disciplina de
-\emph {Laboratórios de Informática III} (LI3), ao longo do segundo semestre,
-do segundo ano, do Mestrado Integrado em Engenharia Informática da Universidade
-do Minho.
+\href{http://miei.di.uminho.pt/plano_estudos.html#laborat_rios_de_inform_tica_iii}
+{\emph {Laboratórios de Informática III} (LI3)}, ao longo do segundo semestre,
+do segundo ano, do \href{http://miei.di.uminho.pt}{Mestrado Integrado em Engenharia Informática}
+da \href{https://www.uminho.pt}{Universidade do Minho}.
 
 O objetivo do projeto foi desenvolver um sistema capaz de processar a informação
 contida em ficheiros XML para responder a um conjunto de interrogações de forma
@@ -37,9 +61,11 @@ adoptada.
 \chapter{Introdução}
 \label{ch:intro}
 
-O presente relatório foi elaborado no âmbito da unidade curricular \emph {Laboratórios
-de Informática 3} (LI3), ao longo do segundo semestre, do segundo ano, do Mestrado
-Integrado em Engenharia Informática da Universidade do Minho, e tem como objetivo
+O presente relatório foi elaborado no âmbito da unidade curricular
+\href{http://miei.di.uminho.pt/plano_estudos.html#laborat_rios_de_inform_tica_iii}
+{\emph {Laboratórios de Informática III} (LI3)}, ao longo do segundo semestre,
+do segundo ano, do \href{http://miei.di.uminho.pt}{Mestrado Integrado em Engenharia Informática}
+da \href{https://www.uminho.pt}{Universidade do Minho}, e tem como objetivo
 descrever as tarefas desenvolvidas para criar um sistema capaz de processar as
 informações contidas em ficheiros XML para responder a um conjunto de
 interrogações de forma eficiente, utilizando a linguagem de programação C.
@@ -53,8 +79,9 @@ armazenados em ficheiros XML, usando, para tal, a linguagem de programação
 imperativa C.
 
 Os ficheiros em formato XML que deveriam ser processados continham informação referente ao
-website \textit{Stack Overflow}. Este site foi criado em 2008 por Jeff Atwood e Joel
-Spolsky para que programadores e entusiastas possam expor as suas dúvidas e
+website \href{https://stackoverflow.com/}{\textit{Stack Overflow}}.
+Este site foi criado em 2008 por Jeff Atwood e Joel Spolsky para que programadores e
+entusiastas possam expor as suas dúvidas e
 dificuldades na área, funcionando como um fórum em que os usuários fazem
 perguntas e respondem a dúvidas dos seus pares. Além disso, podem ainda votar
 em questões e repostas que considerem pertinentes, obtendo pontos de reputação
@@ -140,7 +167,7 @@ Finalmente, na última etapa do projeto concentramo-nos em responder
 O código subjacente à solução proposta pode ser encontrado no repositório:
 
 \begin{center}
-\emph{https://github.com/dium-li3/Grupo1}.
+\href{https://github.com/dium-li3/Grupo1}{\emph{https://github.com/dium-li3/Grupo1}}.
 \end{center}
 
 O restante deste relatório está organizado da seguinte forma: o
@@ -369,7 +396,7 @@ informações que estão sendo processadas pelas ``callbacks''. \par
 A leitura e recolha dos dados contidos nos ficheiros XML estão implementadas no
 ficheiro 00load.c, o qual foi construído com tendo por base o código encontrado em:
 \begin{center}
-\emph{https://gist.github.com/cooldaemon/106870}.
+\href{https://gist.github.com/cooldaemon/106870}{\emph{https://gist.github.com/cooldaemon/106870}}.
 \end{center}
 
 Existem 4 ``callbacks'', isto é, todas as funções cujos nomes são
@@ -533,6 +560,16 @@ vamos preenchendo a lista do dia mais recente para o dia mais antigo.
 \subsection*{Query 5}
 \label{sec:query5}
 
+\textbf{“Dado um ID de utilizador,  devolver a informação do
+seu perfil (short bio) e os IDs dos seus 10 últimos posts (perguntas ou respostas),
+ordenados por cronologia inversa.”}
+
+Para responder a esta query fazemos uma procura por Id na GHashTable * users que devolve
+a estrutura do utilizador na qual está presente a informação do
+seu perfil, char * shortbio, e um vetor, GArray * last\_posts, com os seus últimos posts que são
+ordenados por cronologia inversa e do qual, em seguida, se copiam os 10 primeiros
+elementos.
+
 \subsection*{Query 6}
 \label{sec:query6}
 
@@ -575,8 +612,30 @@ numa LONG\_list, que se encontra então ordenada decrescentemente segundo o núm
 \subsection*{Query 8}
 \label{sec:query8}
 
+\textbf{"Dado uma palavra, devolver uma lista com os IDs de
+N perguntas cujos títulos a contenham, ordenados por cronologia inversa"}
+
+Nesta query, são copiadas todas as perguntas para uma lista, GList * l, que é iterada
+e na qual, em todas as perguntas até ao fim da lista ou até encontrar o número total de
+perguntas pedido, é verificado se o seu título contém a palavra dada e, em caso positivo,
+copia-se o Id para a estrutura a ser devolvida.
+
+
+
 \subsection*{Query 9}
 \label{sec:query9}
+
+\textbf{"Dados os IDs de dois utilizadores, devolver as últimas
+N perguntas (cronologia inversa) em que participaram dois utilizadores específicos. 
+Note que os utilizadores podem ter participado via pergunta ou respostas"}
+
+Nesta query, são copiadas todas as perguntas para uma lista, GList * l, que é iterada
+e na qual, em todas as perguntas até ao fim da lista ou até encontrar o número total de
+perguntas pedido, é verificado se o utilizador 1 criou ou respondeu a este post e, em
+caso positivo, verifica-se se o utilizador 2 criou ou respondeu a este post e, se
+também isto for verdade, copia-se o Id do post para a estrutura a ser devolvida.
+
+
 
 \subsection*{Query 10}
 \label{sec:query10}
