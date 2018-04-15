@@ -34,10 +34,11 @@ USER get_user_info(TAD_community com, long id) {
 
     posts[i] = -1;
 
-    char * bio = malloc(sizeof(char) * (strlen(getBio(user))+2));
-    strcpy(bio, getBio(user));
+    char * bio = getBio(user);
 
     USER u = create_user(bio, posts);
+
+    free(bio);
 
     return u;
 }

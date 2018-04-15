@@ -31,15 +31,15 @@
       \vspace{1cm}
       \href{https://www.di.uminho.pt/}{\scshape\Large Departamento de Informática} \par
       \vspace{1.5cm}
-  
-  \maketitle 
-      
+
+  \maketitle
+
   \end{minipage}
   \end{center}
   \clearpage
- 
+
  \end{titlepage}
- 
+
 
 \begin{abstract}
 O presente relatório descreve o projeto realizado no âmbito da disciplina de
@@ -198,10 +198,68 @@ typedef struct TCD_community {
 
 \end{verbatim}
 
-Explicar porquê optamos pelas hashtables e porquê optamos pelas demais Estruturas
-de dados e não optamos por outras??????
-Explicar porque há 3 diferentes formas de aceder a questions.
-Dizer quais são os elementos de cada estrutura.
+\textbf{Explicar porque há 3 diferentes formas de aceder a questions.}
+
+\vspace{0.4cm}
+
+Os dados necessários para responder às queries foram armazenados
+na estrutura TCD\_community, a estrutura de dados principal do nosso trabalho.
+Esta estrutura armazena outras 7 estruturas que serão explicitadas mais tarde.
+De modo a respondermos às queries da forma mais eficiente possível
+utilizamos estruturas de dados já existentes e, para isso, recorremos ao glib,
+uma biblioteca que fornece simples estruturas de dados para programas em C.
+
+\vspace{0.4cm}
+
+Em primeiro lugar, para as estruturas \textbf{users}, \textbf{questions},
+\textbf{answers} e \textbf{tags}
+utilizamos uma GHashTable para armazenar os dados.
+Uma vez que tantos os ids dos users, como os ids das questions, answers
+e tags não são sequenciais (os respetivos números identificadores não
+seguem uma ordem coerente pois existem “buracos”), se utilizássemos
+os ids como sendo os índices de um GPtrArray haveria muita memória desperdiçada,
+e por isso, não vimos nenhuma vantagem em utilizar arrays ou sets, nem
+utilizando algoritmos auxiliares como por exemplo o algoritmo de procura binária.
+
+No caso das árvores binárias, o tempo de procura e inserção no caso médio
+é logarítmico  e no pior caso linear, o que poderia ser uma opção viável,
+porém, concluímos que utilizando GHashTable, ou seja, hash tables, e
+recorrendo aos ids dos users, das questions e das answers, e ao nome da tag
+no caso das tags, como meio de procura dos elementos (chave da hash)
+conseguimos um tempo médio de inserção e procura (os dois métodos que
+mais utilizamos) constante, e no pior dos casos conseguimos um tempo linear
+ao tamanho do array, o que se traduz numa forma muito mais rápida e
+simples de trabalharmos o problema pois conseguimos aceder aos elementos da
+estrutura de dados muito eficientemente com o
+recurso a funções já existentes no glib.
+
+\vspace{0.4cm}
+
+Na estrutura \textbf{day} utilizamos um GPtrArray porque consideramos que seria
+a forma mais eficiente de percorrer os intervalos de tempo. Deste modo,
+a estratégia que utilizamos foi criar um array de apontadores onde o
+índice 0 corresponde à data de criação do stackoverflow (15/9/2008),
+o índice 1 ao dia seguinte, e assim sucessivamente. Assim, para percorrermos
+um intervalo de tempo basta determinar qual é o índice da data inicial do
+intervalo no array (e para isso utilizamos uma função do glib
+(g\_date\_days\_between) que nos diz quantos dias passaram entre 2 datas;
+neste caso, sabendo quantos dias passaram desde o início do stackoverflow
+até à data pretendida
+sabemos qual é o índice dessa data). Descobrimos também qual é o número de
+dias do intervalo de tempo. Depois disso, vamos ao GPtrArray, ao índice da
+data inicial, e vamos percorrendo as restantes datas até à data final
+bastando para isso incrementar 1 ao índice inicial até fazermos
+um número de iterações igual ao número de dias do intervalo de tempo.
+Com isto, conseguimos aceder às informações de qualquer dia e, consequentemente,
+de qualquer intervalo de tempo de uma forma muito rápida e direta,
+com um tempo de procura constante.
+
+\vspace{1cm}
+
+tmp\_questions ??
+questionsList ??
+
+
 
 \begin{verbatim}
 
@@ -216,7 +274,7 @@ typedef struct users {
 
 \end{verbatim}
 
-A estrutura de dados users contém o id do utilizador, o seu perfil, o seu nome,
+A estrutura de dados users contém o id do utilizador, a sua short bio, o seu nome,
 a sua reputação, o número total de posts desse utilizador (i.e. perguntas e respostas),
 bem como um GArray contendo todos os posts do utilizador (perguntas e respostas) no
 formato \textit{postAndDate}.
@@ -224,6 +282,7 @@ Esta estrutura encerra informações necessárias para responder às interrogaç
 5, 8 e 10.
 
 \begin{verbatim}
+
 
 typedef struct questions {
   long post_id;
@@ -246,8 +305,8 @@ pergunta no formato formato \textit{answers}.
 Esta estrutura encerra informações necessárias para responder às interrogações 1,
 4, 7, 8 e 11.
 
-
 \begin{verbatim}
+
 
 typedef struct answers {
   long user_id;
@@ -268,6 +327,7 @@ Esta estrutura encerra informações necessárias para responder às interrogaç
 
 \begin{verbatim}
 
+
 typedef struct day {
   int day;
   int month;
@@ -280,9 +340,16 @@ typedef struct day {
 
 \end{verbatim}
 
-
+A estrutura de dados day contém uma data e as informações relativas à mesma,
+nomeadamente o seu dia, mês, ano, o número de respostas e o
+número de perguntas efetuadas nesse dia, um GPtrArray com todas as perguntas
+desse dia no formato \textit{questions} e um GPtrArray com todas as respostas
+desse dia no formato \textit{answers}. Esta estrutura encerra informações
+necessárias para responder às interrogações 3, 4, 6, 7 e 11
+(interrogações que dizem respeito a intervalos arbitrários de tempo).
 
 \begin{verbatim}
+
 
 typedef struct postAndDate {
     long post_id;
@@ -291,8 +358,13 @@ typedef struct postAndDate {
 
 \end{verbatim}
 
+A estrutura de dados postAndDate contém o id do post e o ano, mês, dia,
+hora, minuto, segundo e milissegundo em que esse post
+(pergunta ou resposta) foi efetuado. Esta estrutura encerra informações
+necessárias para responder à interrogação 7.
 
 \begin{verbatim}
+
 
 typedef struct tags {
   int id;
@@ -302,7 +374,10 @@ typedef struct tags {
 
 \end{verbatim}
 
-
+A estrutura de dados tags contém o id que identifica a tag,
+o nome da tag e ainda uma variável que servirá para armazenar
+o número de ocorrências dessa tag durante um intervalo de tempo.
+Esta estrutura encerra informações necessárias para responder à interrogação 11.
 
 
 \chapter{Implementação}
@@ -626,7 +701,7 @@ copia-se o Id para a estrutura a ser devolvida.
 \label{sec:query9}
 
 \textbf{"Dados os IDs de dois utilizadores, devolver as últimas
-N perguntas (cronologia inversa) em que participaram dois utilizadores específicos. 
+N perguntas (cronologia inversa) em que participaram dois utilizadores específicos.
 Note que os utilizadores podem ter participado via pergunta ou respostas"}
 
 Nesta query, são copiadas todas as perguntas para uma lista, GList * l, que é iterada
