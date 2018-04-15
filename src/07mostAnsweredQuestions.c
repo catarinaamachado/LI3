@@ -48,5 +48,9 @@ LONG_list most_answered_questions(TAD_community com, int N, Date begin, Date end
     }
   }
 
+  g_date_free(begin_stackOverflow);
+  g_date_free(beginDate);
+  g_date_free(endDate);
+
   return ll;
 }

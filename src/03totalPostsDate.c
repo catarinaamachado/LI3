@@ -27,5 +27,9 @@ LONG_pair total_posts(TAD_community com, Date begin, Date end) {
   set_fst_long(total_QA, n_questions);
   set_snd_long(total_QA, n_answers);
 
+  g_date_free(begin_stackOverflow);
+  g_date_free(beginDate);
+  g_date_free(endDate);
+
   return total_QA;
 }
