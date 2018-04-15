@@ -1,3 +1,7 @@
+#ifndef __ANSWERS__
+#define __ANSWERS__
+
+
 #include <gmodule.h>
 
 typedef struct answers * Answers;
@@ -27,3 +31,6 @@ void setScore(Answers a, int s);
 void sortAnswersVotes(GPtrArray * total_answers);
 
 void cleanAnswer(Answers a);
+
+
+#endif

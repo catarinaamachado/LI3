@@ -1,3 +1,7 @@
+#ifndef __POSTDATE__
+#define __POSTDATE__
+
+
 typedef struct postAndDate * postDate;
 
 int getPDSize();
@@ -24,3 +28,6 @@ void setDate(postDate pd, char * date);
 void cleanPD(postDate pd);
 
 void cleanPDp(postDate * pd);
+
+
+#endif

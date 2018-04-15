@@ -1,3 +1,6 @@
+#ifndef __TAGS__
+#define __TAGS__
+
 typedef struct tags * Tags;
 
 
@@ -18,3 +21,6 @@ void incrementTagValue(Tags tag);
 void sortTags(GPtrArray * total_tags);
 
 void cleanTags(Tags t);
+
+
+#endif

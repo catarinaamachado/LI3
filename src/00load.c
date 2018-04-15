@@ -316,12 +316,11 @@ Função que carrega as estruturas de dados.
 */
 TAD_community load(TAD_community com, char* dump_path) {
     structure = com;
-
     begin_stackOverflow = g_date_new_dmy (15, 9, 2008); //aloca um GDate e define uma data
 
     int size = sizeof(char) * strlen(dump_path);
 
-    char * users = malloc(size + 10*sizeof(char));
+    char * users = malloc(size + 11 * sizeof(char));
     strcpy(users, dump_path);
     strcat(users, "/Users.xml");
     FILE * u = fopen(users,"r");
@@ -329,7 +328,7 @@ TAD_community load(TAD_community com, char* dump_path) {
     fclose(u);
     free(users);
 
-    char * posts = malloc(size + 10*sizeof(char));
+    char * posts = malloc(size + 11 * sizeof(char));
     strcpy(posts, dump_path);
     strcat(posts, "/Posts.xml");
     FILE * p = fopen(posts,"r");
@@ -337,7 +336,7 @@ TAD_community load(TAD_community com, char* dump_path) {
     fclose(p);
     free(posts);
 
-    char * tags = malloc(size + 10*sizeof(char));
+    char * tags = malloc(size + 10 * sizeof(char));
     strcpy(tags, dump_path);
     strcat(tags, "/Tags.xml");
     FILE * t = fopen(tags,"r");

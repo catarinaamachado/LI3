@@ -1,3 +1,7 @@
+#ifndef __QUESTIONS__
+#define __QUESTIONS__
+
+
 #include <gmodule.h>
 
 #include "interface.h"
@@ -61,3 +65,5 @@ gint sortQDate (Questions aq, Questions bq);
 void sortMoreAnswers(GPtrArray * total_questions);
 
 void cleanQuestion(Questions q);
+
+#endif

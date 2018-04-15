@@ -1,5 +1,5 @@
 #include <gmodule.h>
-//#include<stdio.h>
+#include<stdio.h>
 #include <assert.h>
 
 #include "struct.h"
@@ -38,24 +38,24 @@ long better_answer(TAD_community com, long id) {
          reputation = getReputation(user);
        }
 
-       /*
+
        printf("Id answer: %ld\n", (long)getAnswerIdAtIndex(question, i));
        printf("Reputação : %d %d\n", i, getReputation(user));
        printf("Score %d %d\n",i,  getAnswerScoreAtIndex(question, i));
        printf("Comments %d %d\n", i, getAnswerCommentAtIndex(question, i));
-       */
+
 
        total = (getAnswerScoreAtIndex(question, i) * 0.65) + // votos = score
                (reputation * 0.25) +
                (getAnswerCommentAtIndex(question, i) * 0.1);
 
 
-      //printf("Total: %f\n", total);
+      printf("Total: %f\n", total);
 
       if(total > max) {
           max = total;
           answer_id = getAnswerIdAtIndex(question, i);
-          //printf("Max: %f Id_answer: %ld\n", max, answer_id);
+          printf("Max: %f Id_answer: %ld\n", max, answer_id);
       }
 
    }

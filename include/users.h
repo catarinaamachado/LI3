@@ -1,3 +1,7 @@
+#ifndef __USERS__
+#define __USERS__
+
+
 #include <gmodule.h>
 
 #include "postDate.h"
@@ -54,3 +58,5 @@ void sortPosts(Users u);
 void sortUsersReputation(GPtrArray * total_users);
 
 void cleanUser(Users u);
+
+#endif

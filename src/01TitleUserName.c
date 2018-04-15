@@ -31,7 +31,7 @@ STR_pair info_from_post(TAD_community com, long id) {
       if (user == NULL) {
         return title_username;
       }
-      title_username = create_str_pair(getTitle(question), getUsername(user));
+      (set_fst_str(title_username, getTitle(question)),set_snd_str(title_username, getUsername(user)));
    }
 
    return title_username;
