@@ -259,6 +259,9 @@ postDate getPDindex(Users u, int l) {
 Função que compara as datas de dois posts recebidos como parametro.
 */
 static gint sortDate(postDate a, postDate b) {
+    if(a != NULL && b != NULL)
+        return 0;
+
     if (getPDYear(a) < getPDYear(b))
         return -1;
     else if (getPDYear(a) > getPDYear(b))
