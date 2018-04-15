@@ -6,23 +6,27 @@
 void testes(TAD_community com) {
 
 //QUERY 1
-long id1 = 4;
+long id1 = 4; //não existe
 STR_pair a1 = info_from_post(com, id1);
 printf("Titulo: %s  Username: %s\n", get_fst_str(a1), get_snd_str(a1));
 (void)a1;
-long id2 = 3;
+free_str_pair(a1);
+long id2 = 3; //pergunta
 STR_pair b1 = info_from_post(com, id2);
 printf("Titulo: %s  Username: %s\n", get_fst_str(b1), get_snd_str(b1));
 (void)b1;
-long id3 = 2;
+free_str_pair(b1);
+long id3 = 2; //resposta
 STR_pair c1 = info_from_post(com, id3);
 printf("Titulo: %s  Username: %s\n", get_fst_str(c1), get_snd_str(c1));
 (void)c1;
+free_str_pair(c1);
 
 //QUERY 2
-int N2 = 10;
+int N2 = 10; //numero de utilizadores com mais posts
 LONG_list b = top_most_active(com, N2);
 (void)b;
+free_list(b);
 
 //QUERY 3
 Date begin3 = createDate(15, 9, 2008);
@@ -83,12 +87,15 @@ for (int l = 0; l < N9; l++)
 (void)i;
 
 //QUERY 10
-long id10 = 23;
+long id10 = 4; //não existe
 long j = better_answer(com, id10);
 (void)j;
-long id11 = 1;
+long id11 = 5; //pergunta
 long j2 = better_answer(com, id11);
 (void)j2;
+long id12 = 10; //resposta
+long j3 = better_answer(com, id12);
+(void)j3;
 
 
 //QUERY 11
