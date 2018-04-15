@@ -9,7 +9,7 @@
 Função que devolve a primeira tag (individual)
 do conjunto de tags passado como argumento
 */
-char * separaTags(char * all_tags){
+char * separaTags(char * all_tags) {
   char * token;
   token = strtok(all_tags, "><");
 
@@ -22,7 +22,7 @@ Dado um intervalo arbitrário de tempo,
 devolver as N tags mais usadas pelos N utilizadores com melhor reputação.
 Em ordem decrescente do número de vezes em que a tag foi usada.
 */
-LONG_list most_used_best_rep(TAD_community com, int N, Date begin, Date end){
+LONG_list most_used_best_rep(TAD_community com, int N, Date begin, Date end) {
   LONG_list ll = create_list(1);
   int n_days, count_day, n_questions, i, flag;
   long user_id, tag_id;

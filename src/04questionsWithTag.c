@@ -10,7 +10,7 @@ retornar todas as perguntas contendo uma determinada tag.
 O retorno da função deverá ser uma lista com os IDs das perguntas ordenadas em cronologia inversa
 */
 
-LONG_list questions_with_tag(TAD_community com, char* tag, Date begin, Date end){
+LONG_list questions_with_tag(TAD_community com, char* tag, Date begin, Date end) {
   LONG_list ll = create_list(1);
   int n_days, count_day, n_questions, i, index_ll = 0;
   long question_id;

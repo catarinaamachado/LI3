@@ -7,7 +7,7 @@ Função que devolve o top N utilizadores com maior número
 de posts de sempre. Para isto, são considerados tanto perguntas
 quanto respostas dadas pelo respectivo utilizador;
 */
-LONG_list top_most_active(TAD_community com, int N){
+LONG_list top_most_active(TAD_community com, int N) {
   int i;
   GArray * garray;
   GHashTableIter iter;
@@ -36,6 +36,5 @@ LONG_list top_most_active(TAD_community com, int N){
 
     freeArrayTotalPosts(garray);
 
-return list;
-
+    return list;
 }
