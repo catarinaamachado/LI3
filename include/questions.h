@@ -48,8 +48,6 @@ long getAnswerUserIdAtIndex(Questions q, int index);
 
 int getAnswerScoreAtIndex(Questions q, int index);
 
-int getAnswerVotesAtIndex(Questions q, int index);
-
 int getAnswerCommentAtIndex(Questions q, int index);
 
 int getAnswerIdAtIndex(Questions q, int index);

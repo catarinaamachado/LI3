@@ -97,9 +97,6 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
             else if(strncmp((const char *)attributes[i], "CommentCount", 12) == 0) //
                 comment_count= ++i;
 
-            else if(strncmp((const char *)attributes[i], "FavoriteCount", 13) == 0) //
-                favorite_count= ++i;
-
             else if(strncmp((const char *)attributes[i], "ParentId", 8) == 0)
                 parentid = ++i;
 
@@ -170,9 +167,6 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
 
             int votes = atoi((const char *)attributes[score]);
             setScore(pointer, votes);
-
-            setUpVotes(pointer, 0); //inicializa os up votes da resposta a zero
-            setDownVotes(pointer, 0);
 
             setCommentCount(pointer, atoi((const char *)attributes[comment_count]));
 
@@ -258,46 +252,8 @@ static void OnStartElementTags(void *ctx, const xmlChar *element_name, const xml
 }
 
 /*
-Função que extrai os elementos necessários dos votos para preencher a
-respetiva estruturas de dados.
+Função que define as callbacks a serem chamadas e carrega a estrutura do SAX.
 */
-static void OnStartElementVotes(void *ctx, const xmlChar *element_name, const xmlChar **attributes) {
-    int i, post_id, id_post, vote_type_id;
-    post_id = vote_type_id = 0;
-
-     if (attributes != NULL) {
-
-         for (i = 0; (attributes[i] != NULL); i++) {
-           if(strncmp((const char *)attributes[i], "PostId", 6) == 0)
-             post_id = ++i;
-           else if (strncmp((const char *)attributes[i], "VoteTypeId", 10) == 0)
-             vote_type_id = ++i;
-        }
-
-        if(vote_type_id != 0 &&
-           (!strncmp((const char *)attributes[vote_type_id], "2", 1) || //UpMod
-            !strncmp((const char *)attributes[vote_type_id], "3", 1))) { //DownMod
-
-
-           id_post = atol((const char *)attributes[post_id]);
-
-           Answers answer = lookAnswer(structure, id_post);
-
-
-           if(answer != NULL) { // se der null é porque a resposta não existe e, por isso, não lhe posso associar um voto
-
-              if(!strncmp((const char *)attributes[vote_type_id], "2", 1))
-                incrementUpVotes(answer);
-
-              if(!strncmp((const char *)attributes[vote_type_id], "3", 1))
-                incremenDownVotes(answer);
-          }
-         }
-
-       }
-
-}
-
 static xmlSAXHandler make_sax_handler (char *dump_file_name){
     xmlSAXHandler SAXHander;
 
@@ -310,14 +266,18 @@ static xmlSAXHandler make_sax_handler (char *dump_file_name){
       SAXHander.startElement = OnStartElementPosts;
     if (strncmp(dump_file_name, "Tags.xml", 8) == 0)
       SAXHander.startElement = OnStartElementTags;
-    if (strncmp(dump_file_name, "Votes.xml", 9) == 0)
-      SAXHander.startElement = OnStartElementVotes;
 
     return SAXHander;
 }
 
 /*
-
+Função que verifica o encoding. De seguida, executa a função make_sax_handler,
+que define quais as callbacks a serem utilizadas pelo programa. Posteriormente,
+inicializa o SAX e vai lendo o conteúdo do ficheiro XML respectivo, passando a
+informação relevante para o buffer (chars) e, posteriormente, faz parser desse
+mesmo buffer.
+Note-se que quando esta função estiver a executar o parser dos dados, através da
+função xmlParseChunk chama as diversas callbacks sempre que se justifique.
 */
 static int read_xmlfile(FILE *file, char *dump_file_name) {
     char chars[1024];
@@ -351,6 +311,9 @@ static int read_xmlfile(FILE *file, char *dump_file_name) {
     return 0;
 }
 
+/*
+Função que carrega as estruturas de dados.
+*/
 TAD_community load(TAD_community com, char* dump_path) {
     structure = com;
 
@@ -381,14 +344,6 @@ TAD_community load(TAD_community com, char* dump_path) {
     read_xmlfile(t, "Tags.xml");
     fclose(t);
     free(tags);
-
-    char * votes = malloc(size + 10*sizeof(char));
-    strcpy(votes, dump_path);
-    strcat(votes, "/Votes.xml");
-    FILE * v = fopen(votes,"r");
-    read_xmlfile(t, "Votes.xml");
-    fclose(v);
-    free(votes);
 
     return structure;
 }

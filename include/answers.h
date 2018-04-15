@@ -18,22 +18,6 @@ long getParentId(Answers a);
 
 void setParentId(Answers a, long id);
 
-int getUpVotes(Answers a);
-
-int getDownVotes(Answers a);
-
-void setUpVotes(Answers a, int upvotes);
-
-void setDownVotes(Answers a, int downvotes);
-
-int getTotalVotes(Answers a);
-
-void incrementUpVotes(Answers a);
-
-void incremenDownVotes(Answers a);
-
-int getFavoriteCount(Answers a);
-
 int getCommentCount(Answers a);
 
 void setCommentCount(Answers a, int c);
