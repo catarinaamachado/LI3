@@ -1,3 +1,7 @@
+#ifndef __STRUCT__
+#define __STRUCT__
+
+
 #include <gmodule.h>
 
 #include "interface.h"
@@ -42,3 +46,6 @@ void addTmpQuestion(TAD_community t, Questions pointer);
 void removeTmpQuestion(TAD_community t, Questions pointer);
 
 void cleanStruct(TAD_community com);
+
+
+#endif

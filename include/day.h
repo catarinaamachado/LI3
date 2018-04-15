@@ -1,3 +1,7 @@
+#ifndef __DAY__
+#define __DAY__
+
+
 #include "interface.h"
 #include "answers.h"
 #include "questions.h"
@@ -43,3 +47,5 @@ Answers getDAYAnswerAtIndex(Day d, int index);
 Questions getDAYQuestionAtIndex(Day d, int index);
 
 void cleanDay(Day d);
+
+#endif
