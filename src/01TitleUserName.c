@@ -1,3 +1,5 @@
+#include <stdlib.h>
+
 #include "struct.h"
 
 
@@ -12,8 +14,7 @@ STR_pair info_from_post(TAD_community com, long id) {
    STR_pair title_username;
    int user_id;
    long parent_id;
-   title_username = create_str_pair(NULL, NULL);
-
+   char * title, * username;
 
    Questions question = lookQuestion(com, (long)id);
 
@@ -28,11 +29,20 @@ STR_pair info_from_post(TAD_community com, long id) {
    if (question != NULL) {
       user_id = getQUserId(question);
       Users user = lookUsers(com, user_id);
+
       if (user == NULL) {
-        return title_username;
+        return create_str_pair(NULL, NULL);
       }
-      (set_fst_str(title_username, getTitle(question)),set_snd_str(title_username, getUsername(user)));
+
+      title = getTitle(question);
+      username = getUsername(user);
+      title_username = create_str_pair(title, username);
+      
+      free(title);
+      free(username);
    }
+   else
+    return create_str_pair(NULL, NULL);
 
    return title_username;
  }

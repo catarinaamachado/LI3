@@ -3,6 +3,9 @@
 
 #include "testes.h"
 
+#include "tests/05test.c"
+#include "tests/08test.c"
+#include "tests/09test.c"
 
 
 void testes(TAD_community com) {
