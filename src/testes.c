@@ -84,29 +84,14 @@ free_list(d);
 // for(int i = 0; i < 1; i++)
 //   printf("Elemento %d: %ld\n", i, get_list(dd, i)); //logo, está vazia a lista
 // // //free_list(dd);
-char tag4_2[] = "applications"; //teste normal     *****É ESTE TESTE ISTO QUE DÁ ERRO******
-Date begin4_2 = createDate(13, 9, 2010);
-Date end4_2 = createDate(14, 9, 2010);
-LONG_list ddd = questions_with_tag(com, tag4_2, begin4_2, end4_2);
-(void)ddd;
-for(int i = 0; i < 10; i++)
-  printf("Elemento %d: %ld\n", i, get_list(ddd, i));
-free_list(ddd);
-printf("\n\n\n\n\n\n");
-
-//QUERY 5
-printf("QUERY 5\n");
-long id5 = 10;
-USER e = get_user_info(com, id5);
-if(e != NULL) {
-    printf("User: %ld\nBio: %s\n", id5, get_bio(e));
-    long *l = get_10_latest_posts(e);
-    for (int i = 0; i < 10 && l[i] != -1; i++) {
-        printf("%ld\n", l[i]);
-    }
-} else
-    printf("User: %ld doesn't exist\n", id5);
-(void)e;
+// char tag4_2[] = "applications"; //teste normal     *****É ESTE TESTE ISTO QUE DÁ ERRO******
+// Date begin4_2 = createDate(13, 9, 2010);
+// Date end4_2 = createDate(14, 9, 2010);
+// LONG_list ddd = questions_with_tag(com, tag4_2, begin4_2, end4_2);
+// (void)ddd;
+// for(int i = 0; i < 10; i++)
+//   printf("Elemento %d: %ld\n", i, get_list(ddd, i));
+// free_list(ddd);
 printf("\n\n\n\n\n\n");
 
 //QUERY 6
@@ -128,30 +113,6 @@ Date begin7 = createDate(15, 9, 2008);
 Date end7 = createDate(15, 9, 2008);
 LONG_list g = most_answered_questions(com, N7, begin7, end7);
 (void)g;
-printf("\n\n\n\n\n\n");
-
-//QUERY 8
-printf("QUERY 8\n");
-char word8[] = "android";
-int N8 = 10;
-LONG_list h = contains_word(com, word8, N8);
-//printf("Last %d containing word %s:\n", N8, word8);
-for (int l = 0; l < N8; l++)
-    //printf("%d - %ld\n", l, get_list(h, l));
-(void)h;
-free_list(h);
-printf("\n\n\n\n\n\n");
-
-//QUERY 9
-printf("QUERY 9\n");
-long id9u1, id9u2; id9u1 = id9u2 = 10;
-int N9 = 10;
-LONG_list i = both_participated(com, id9u1, id9u2, N9);
-//printf("Last %d both %ld and %ld participated:\n", N9, id9u1, id9u2);
-for (int l = 0; l < N9; l++)
-    //printf("%d - %ld\n", l+1, get_list(h, l));
-(void)i;
-free_list(i);
 printf("\n\n\n\n\n\n");
 
 //QUERY 10
