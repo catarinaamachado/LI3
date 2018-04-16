@@ -1,6 +1,7 @@
 #include <gmodule.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdlib.h>
 
 #include "struct.h"
 
@@ -23,7 +24,10 @@ devolver as N tags mais usadas pelos N utilizadores com melhor reputação.
 Em ordem decrescente do número de vezes em que a tag foi usada.
 */
 LONG_list most_used_best_rep(TAD_community com, int N, Date begin, Date end) {
-  LONG_list ll = create_list(1);
+  int capacity = 10;
+  int used = 0;
+  int *list = (int *) malloc(sizeof(int) * capacity);
+
   int n_days, count_day, n_questions, i, flag;
   long user_id, tag_id;
   int sizePTRarray_users = 0;
@@ -131,11 +135,18 @@ LONG_list most_used_best_rep(TAD_community com, int N, Date begin, Date end) {
 
       if (info_tag != NULL){
         tag_id = getTagId(info_tag);
-        set_list(ll, i, tag_id);
+
+        if(used == capacity){
+          capacity *= 2;
+          list = (int *) realloc(list, sizeof(int) * capacity);
+        }
+        list[used] = tag_id;
+        used++;
+
+    //    set_list(ll, i, tag_id);
       }
     }
   }
-
 
   //serve para voltar a por o value a 0 na estrutura original das tags
   for(i = 0; i < sizePTRarray_tags; i++){
@@ -145,6 +156,14 @@ LONG_list most_used_best_rep(TAD_community com, int N, Date begin, Date end) {
       setTagValue(info_tag, 0);
     }
   }
+
+  LONG_list ll = create_list(used);
+
+  for(sizePTRarray_tags = 0; sizePTRarray_tags < used; sizePTRarray_tags++){
+    set_list(ll, sizePTRarray_tags, list[sizePTRarray_tags]);
+  }
+
+  free(list);
 
   return ll;
 }

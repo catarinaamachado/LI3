@@ -1,5 +1,6 @@
 #include <gmodule.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include "struct.h"
 
@@ -7,11 +8,15 @@
 /*
 Dado um intervalo de tempo arbitrário,
 retornar todas as perguntas contendo uma determinada tag.
-O retorno da função deverá ser uma lista com os IDs das perguntas ordenadas em cronologia inversa
+O retorno da função deverá ser uma lista com os IDs das perguntas
+ordenadas em cronologia inversa
 */
 
 LONG_list questions_with_tag(TAD_community com, char* tag, Date begin, Date end) {
-  LONG_list ll = create_list(1);
+  int capacity = 10;
+  int used = 0;
+  int *list = (int *) malloc(sizeof(int) * capacity);
+
   int n_days, count_day, n_questions, i, index_ll = 0;
   long question_id;
   char * dayTags;
@@ -33,13 +38,24 @@ LONG_list questions_with_tag(TAD_community com, char* tag, Date begin, Date end)
 
       if(strstr(dayTags, tag)){
         question_id = getQuestionId(day_question);
-        set_list(ll, index_ll, question_id);
-        index_ll++;
+        if(used == capacity){
+          capacity *= 2;
+          list = (int *) realloc(list, sizeof(int) * capacity);
+        }
+        list[used] = question_id;
+        used++;
       }
     }
 
     count_day--; n_days--;
   }
 
+  LONG_list ll = create_list(used);
+
+  for(index_ll = 0; index_ll < used; index_ll++){
+    set_list(ll, index_ll, list[index_ll]);
+  }
+
+  free(list);
   return ll;
 }

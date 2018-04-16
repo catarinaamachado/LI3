@@ -1,4 +1,5 @@
 #include <gmodule.h>
+#include <stdlib.h>
 
 #include "struct.h"
 
@@ -9,7 +10,10 @@ em ordem decrescente do número de votos
 */
 
 LONG_list most_voted_answers(TAD_community com, int N, Date begin, Date end) {
-  LONG_list ll = create_list(1);
+  int capacity = 10;
+  int used = 0;
+  int *list = (int *) malloc(sizeof(int) * capacity);
+
   int n_days, count_day, n_answers, i, sizeTA = 0;;
   long answer_id;
 
@@ -44,13 +48,26 @@ LONG_list most_voted_answers(TAD_community com, int N, Date begin, Date end) {
     info_answer = g_ptr_array_index(total_answers, i);
     if (info_answer != NULL){
       answer_id = getAnswerId(info_answer);
-      set_list(ll, i, answer_id);
+      if(used == capacity){
+        capacity *= 2;
+        list = (int *) realloc(list, sizeof(int) * capacity);
+      }
+      list[used] = answer_id;
+      used++;
     }
   }
 
   g_date_free(begin_stackOverflow);
   g_date_free(beginDate);
   g_date_free(endDate);
+
+  LONG_list ll = create_list(used);
+
+  for(sizeTA = 0; sizeTA < used; sizeTA++){
+    set_list(ll, sizeTA, list[sizeTA]);
+  }
+
+  free(list);
 
   return ll;
 }

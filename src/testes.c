@@ -73,46 +73,66 @@ Date begin4 = createDate(15, 9, 2008);
 Date end4 = createDate(15, 9, 2008);
 LONG_list d = questions_with_tag(com, tag4, begin4, end4);
 (void)d;
-for(int i = 0; i < 1; i++)
-  printf("Elemento %d: %ld\n", i, get_list(d, i)); //logo, está vazia a lista
-free_list(d);
-// char tag4_1[] = "contacts"; //tag que nao existe
-// Date begin4_1 = createDate(15, 9, 2008);
-// Date end4_1 = createDate(16, 9, 2010);
-// LONG_list dd = questions_with_tag(com, tag4_1, begin4_1, end4_1);
-// (void)dd;
 // for(int i = 0; i < 1; i++)
-//   printf("Elemento %d: %ld\n", i, get_list(dd, i)); //logo, está vazia a lista
-// // //free_list(dd);
-// char tag4_2[] = "applications"; //teste normal     *****É ESTE TESTE ISTO QUE DÁ ERRO******
-// Date begin4_2 = createDate(13, 9, 2010);
-// Date end4_2 = createDate(14, 9, 2010);
-// LONG_list ddd = questions_with_tag(com, tag4_2, begin4_2, end4_2);
-// (void)ddd;
-// for(int i = 0; i < 10; i++)
-//   printf("Elemento %d: %ld\n", i, get_list(ddd, i));
-// free_list(ddd);
+//   printf("Elemento %d: %ld\n", i, get_list(d, i)); //isto dá erro, logo, está vazia a lista
+free_list(d);
+char tag4_1[] = "battery-life"; //teste normal
+Date begin4_1 = createDate(12, 8, 2010);
+Date end4_1 = createDate(12, 8, 2010);
+LONG_list dd = questions_with_tag(com, tag4_1, begin4_1, end4_1);
+(void)dd;
+for(int i = 0; i < 1; i++)
+  printf("Elemento %d: %ld\n\n", i, get_list(dd, i));
+free_list(dd);
+char tag4_2[] = "applications"; //grande intervalo de tempo
+Date begin4_2 = createDate(10, 10, 2008);
+Date end4_2 = createDate(10, 10, 2017);
+LONG_list ddd = questions_with_tag(com, tag4_2, begin4_2, end4_2);
+(void)ddd;
+for(int i = 0; i < 30; i++)
+  printf("Elemento %d: %ld\n", i, get_list(ddd, i));
+free_list(ddd);
 printf("\n\n\n\n\n\n");
 
 //QUERY 6
 printf("QUERY 6\n");
-int N6 = 40;
-Date begin6 = createDate(15, 9, 2008);
-Date end6 = createDate(15, 9, 2008);
+int N6 = 10;   //n maior do que o nr de posts que existem
+Date begin6 = createDate(12, 9, 2010);
+Date end6 = createDate(12, 9, 2010);
 LONG_list f = most_voted_answers(com, N6, begin6, end6);
 (void)f;
-// for(int i = 0; i < 1; i++)
-//    printf("Elemento %d: %ld\n", i, get_list(f, i));
+for(int i = 0; i < 1; i++)
+   printf("Elemento %d: %ld\n", i, get_list(f, i));
 free_list(f);
+printf("\n");
+int N6_1 = 4; //n menor do que o nr de posts que existem
+Date begin6_1 = createDate(1, 9, 2010);
+Date end6_1 = createDate(1, 9, 2010);
+LONG_list ff = most_voted_answers(com, N6_1, begin6_1, end6_1);
+(void)ff;
+for(int i = 0; i < 4; i++)  //se tentar por um numero maior não imprime
+   printf("Elemento %d: %ld\n", i, get_list(ff, i));
+free_list(ff);
+int N6_2 = 0; //n = 0
+Date begin6_2 = createDate(1, 9, 2010);
+Date end6_2 = createDate(1, 9, 2010);
+LONG_list fff = most_voted_answers(com, N6_2, begin6_2, end6_2);
+(void)fff;
+for(int i = 0; i < 0; i++)
+   printf("Elemento %d: %ld\n", i, get_list(fff, i));
+free_list(fff);
 printf("\n\n\n\n\n\n");
 
 //QUERY 7
 printf("QUERY 7\n");
-int N7 = 0;
+int N7 = 10;
 Date begin7 = createDate(15, 9, 2008);
-Date end7 = createDate(15, 9, 2008);
+Date end7 = createDate(15, 9, 2010);
 LONG_list g = most_answered_questions(com, N7, begin7, end7);
 (void)g;
+for(int i = 0; i < 10; i++)
+   printf("Elemento %d: %ld\n", i, get_list(g, i));
+free_list(g);
 printf("\n\n\n\n\n\n");
 
 //QUERY 10
@@ -130,11 +150,13 @@ printf("\n\n\n\n\n\n");
 
 //QUERY 11
 printf("QUERY 11\n");
-int N11 = 11;
+int N11 = 10;
 Date begin11 = createDate(15, 9, 2008);
-Date end11 = createDate(15, 9, 2008);
+Date end11 = createDate(15, 9, 2010);
 LONG_list k = most_used_best_rep(com, N11, begin11, end11);
 (void)k;
+for(int i = 0; i < 10; i++)
+   printf("Elemento %d: %ld\n", i, get_list(k, i));
 free_list(k);
 printf("\n\n\n\n\n\n");
 
