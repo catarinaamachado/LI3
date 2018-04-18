@@ -35,6 +35,7 @@ void query4(TAD_community com) {
 
   printf("\n");
 
+  /*
   //grande intervalo de tempo
   char tag4_2[] = "applications";
   Date begin4_2 = createDate(10, 10, 2008);
@@ -64,4 +65,5 @@ void query4(TAD_community com) {
 
 
   printf("\n\n");
+  */
 }

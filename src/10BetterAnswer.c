@@ -38,7 +38,7 @@ long better_answer(TAD_community com, long id) {
          reputation = getReputation(user);
        }
 
-
+       
        printf("Id answer: %ld\n", (long)getAnswerIdAtIndex(question, i));
        printf("Reputação : %d %d\n", i, getReputation(user));
        printf("Score %d %d\n",i,  getAnswerScoreAtIndex(question, i));

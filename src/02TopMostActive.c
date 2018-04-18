@@ -6,6 +6,8 @@
 Função que devolve o top N utilizadores com maior número
 de posts de sempre. Para isto, são considerados tanto perguntas
 quanto respostas dadas pelo respectivo utilizador;
+
+TODO: ver se N existe!!
 */
 LONG_list top_most_active(TAD_community com, int N) {
   int i;
@@ -30,7 +32,6 @@ LONG_list top_most_active(TAD_community com, int N) {
 
   for(i = 0; i < N; i++) {
       set_list(list, i, getTotalPostsUserIdAtIndex(garray, i));
-      //printf("Utilizador: %ld N_Posts: %d\n", getTotalPostsUserIdAtIndex(garray, i), getTotalPostsAtIndex(garray, i));
   }
 
 
