@@ -12,6 +12,7 @@
 #include "tests/07test.c"
 #include "tests/08test.c"
 #include "tests/09test.c"
+#include "tests/10test.c"
 #include "tests/11test.c"
 
 
@@ -45,17 +46,8 @@ query7(com);
 //query9(com);
 
 //QUERY 10
-printf("QUERY 10\n");
-long id10 = 4; //não existe
-long j = better_answer(com, id10);
-(void)j;
-long id11 = 5; //pergunta
-long j2 = better_answer(com, id11);
-(void)j2;
-long id12 = 10; //resposta
-long j3 = better_answer(com, id12);
-(void)j3;
-printf("\n\n\n\n\n\n");
+query10(com);
+
 
 //QUERY 11
 query11(com);
