@@ -134,10 +134,7 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
                 removeTmpQuestion(structure,pointer);
             }
 
-            if(owner_id != 0)
-                setQUserId(pointer, atol((const char *)attributes[owner_id]));
-            else
-               setQUserId(pointer, -1); //não tem owner_id, então fica com id = -1
+            setQUserId(pointer, atol((const char *)attributes[owner_id]));
 
             setTitle(pointer, (char *)attributes[title]);
 
@@ -160,10 +157,7 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
 
             setParentId(pointer, atol((const char *)attributes[parentid])); // atribuir o id da pergunta à resposta
 
-            if(owner_id != 0) { // há respostas sem OwnerUserId
-                setAUserId(pointer, atol((const char *)attributes[owner_id]));
-            }
-            else setAUserId(pointer, 0);
+            setAUserId(pointer, atol((const char *)attributes[owner_id]));
 
             int votes = atoi((const char *)attributes[score]);
             setScore(pointer, votes);
