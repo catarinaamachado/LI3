@@ -3,12 +3,22 @@
 
 #include "struct.h"
 
-/*
-Dado um intervalo de tempo arbitrário,
-devolver as IDs das N perguntas com mais respostas,
-em ordem decrescente do número de respostas
+/**
+@file 07mostAnsweredQuestions.c
+Resposta à interrogação 7.
 */
 
+/**
+\brief Dado um intervalo de tempo arbitrário,
+devolve os IDs das N perguntas com mais respostas,
+em ordem decrescente do número de respostas.
+@param com Estrutura dos dados.
+@param N Número de perguntas pretendidas.
+@param begin Data inicial do intervalo de tempo.
+@param end Data final do intervalo de tempo.
+@returns LONG_list - IDs das N perguntas com mais respostas,
+em ordem decrescente do número de respostas.
+*/
 LONG_list most_answered_questions(TAD_community com, int N, Date begin, Date end) {
   int capacity = 10;
   int used = 0;

@@ -4,14 +4,23 @@
 
 #include "struct.h"
 
-
-/*
-Dado um intervalo de tempo arbitrário,
-retornar todas as perguntas contendo uma determinada tag.
-O retorno da função deverá ser uma lista com os IDs das perguntas
-ordenadas em cronologia inversa
+/**
+@file 04questionsWithTag.c
+Resposta à interrogação 4.
 */
 
+/**
+\brief Dado um intervalo de tempo arbitrário,
+retorna todas as perguntas contendo uma determinada tag.
+O retorno da função deverá ser uma lista com os IDs das perguntas
+ordenadas em cronologia inversa.
+@param com Estrutura dos dados.
+@param tag Tag que procuramos nas perguntas.
+@param begin Data inicial do intervalo de tempo.
+@param end Data final do intervalo de tempo.
+@returns LONG_list - IDs das perguntas
+ordenadas em cronologia inversa.
+*/
 LONG_list questions_with_tag(TAD_community com, char* tag, Date begin, Date end) {
   int capacity = 10;
   int used = 0;
@@ -46,7 +55,6 @@ LONG_list questions_with_tag(TAD_community com, char* tag, Date begin, Date end)
         used++;
       }
     }
-
     count_day--; n_days--;
   }
 

@@ -1,11 +1,20 @@
-#include "struct.h"   //TODO: confirmar se os meses estao entre 0 e 11
+#include "struct.h"
 
-/*
-Dado um intervalo de tempo arbitrário,
-obter o número total de posts
-(identificando perguntas e respostas separadamente) neste período;
+/**
+@file 03totalPostsDate.c
+Resposta à interrogação 3.
 */
 
+/**
+\brief Dado um intervalo de tempo arbitrário,
+obtem o número total de posts
+(identificando perguntas e respostas separadamente) neste período.
+@param com Estrutura dos dados.
+@param begin Data inicial do intervalo de tempo.
+@param end Data final do intervalo de tempo.
+@returns LONG_pair - Número total de perguntas e número total de respostas
+encontradas.
+*/
 LONG_pair total_posts(TAD_community com, Date begin, Date end) {
   LONG_pair total_QA = create_long_pair(0, 0);
   long n_questions = 0, n_answers = 0;

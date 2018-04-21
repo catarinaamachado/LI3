@@ -94,7 +94,7 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
             else if(strncmp((const char *)attributes[i], "Score", 5) == 0)
                 score = ++i;
 
-            else if(strncmp((const char *)attributes[i], "CommentCount", 12) == 0) //
+            else if(strncmp((const char *)attributes[i], "CommentCount", 12) == 0)
                 comment_count= ++i;
 
             else if(strncmp((const char *)attributes[i], "ParentId", 8) == 0)
