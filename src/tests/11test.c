@@ -23,8 +23,10 @@ void query11(TAD_community com) {
   Date begin11_1 = createDate(15, 9, 2008);
   Date end11_1 = createDate(15, 9, 2017);
   LONG_list kk = most_used_best_rep(com, N11_1, begin11_1, end11_1);
+  
   for(int i = 0; i < N11_1; i++)
      printf("Elemento %d: %ld\n", i, get_list(kk, i));
+
   free_list(kk);
   free_date(begin11_1);
   free_date(end11_1);

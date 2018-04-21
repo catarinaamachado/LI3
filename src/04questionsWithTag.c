@@ -57,5 +57,9 @@ LONG_list questions_with_tag(TAD_community com, char* tag, Date begin, Date end)
   }
 
   free(list);
+  g_date_free(begin_stackOverflow);
+  g_date_free(beginDate);
+  g_date_free(endDate);
+
   return ll;
 }

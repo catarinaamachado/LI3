@@ -38,7 +38,7 @@ void query7(TAD_community com) {
   int N7_2 = 10;
   Date begin7_2 = createDate(12, 9, 2010);
   Date end7_2 = createDate(12, 9, 2010);
-  LONG_list ggg = most_voted_answers(com, N7_2, begin7_2, end7_2);
+  LONG_list ggg = most_answered_questions(com, N7_2, begin7_2, end7_2);
   if(ggg != NULL){
     for(int i = 0; i < 1; i++) //só existe 1 neste caso
       printf("Elemento %d: %ld\n", i, get_list(ggg, i));
@@ -49,18 +49,18 @@ void query7(TAD_community com) {
 
   printf("\n");
 
-  //n menor do que o nr de posts que existem
-  int N7_3 = 4;
-  Date begin7_3 = createDate(1, 9, 2010);
-  Date end7_3 = createDate(1, 9, 2010);
-  LONG_list gggg = most_voted_answers(com, N7_3, begin7_3, end7_3);
-  if(gggg != NULL){
-    for(int i = 0; i < N7_3; i++)  //se tentar por um numero maior não imprime
-      printf("Elemento %d: %ld\n", i, get_list(gggg, i));
-   }
-  free_list(gggg);
-  free_date(begin7_3);
-  free_date(end7_3);
+  // //n menor do que o nr de posts que existem
+  // int N7_3 = 4;
+  // Date begin7_3 = createDate(1, 9, 2010);
+  // Date end7_3 = createDate(1, 9, 2010);
+  // LONG_list gggg = most_answered_questions(com, N7_3, begin7_3, end7_3);
+  // if(gggg != NULL){
+  //   for(int i = 0; i < N7_3; i++)  //se tentar por um numero maior não imprime
+  //     printf("Elemento %d: %ld\n", i, get_list(gggg, i));
+  //  }
+  // free_list(gggg);
+  // free_date(begin7_3);
+  // free_date(end7_3);
 
 
 

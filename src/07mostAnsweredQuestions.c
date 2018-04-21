@@ -24,7 +24,7 @@ LONG_list most_answered_questions(TAD_community com, int N, Date begin, Date end
   n_days = g_date_days_between(beginDate, endDate);
   count_day = g_date_days_between(begin_stackOverflow, beginDate);
 
-  GPtrArray * total_questions = g_ptr_array_new();
+  GPtrArray * total_questions = g_ptr_array_sized_new(N);
   Questions info_question;
 
   while(n_days >= 0){
@@ -68,6 +68,7 @@ LONG_list most_answered_questions(TAD_community com, int N, Date begin, Date end
   }
 
   free(list);
+  g_ptr_array_free(total_questions, TRUE);
 
   return ll;
 }
