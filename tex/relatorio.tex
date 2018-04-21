@@ -485,12 +485,13 @@ O retorno da função deverá ser uma lista com os IDs das perguntas ordenadas e
 Para esta query, tirando partido da nossa estrutura Day, que tem um GPtrArray com
 os apontadores das perguntas do dia em questão, começamos por percorrer cada pergunta desse array
 da última data passada como parâmetro e comparamos as suas tags com a tag passada como argumento.
-Deste modo, se a pergunta tiver a tag desejada inserimos o seu ID numa LONG\_list.
+Deste modo, se a pergunta tiver a tag desejada inserimos o seu ID num array dinâmico.
 Vamos percorrendo os dias da “Date end” para a “Date begin”.
 
-No final de consultarmos todas as perguntas do intervalo de tempo temos a LONG\_list preenchida.
-Esta LONG\_list tem os IDs das perguntas ordenadas por cronologia inversa uma vez que
-vamos preenchendo a lista do dia mais recente para o dia mais antigo.
+No final de consultarmos todas as perguntas do intervalo de tempo temos o array dinâmico preenchido,
+e copiamos os IDs para uma LONG\_list.
+Esta LONG\_list já tem os IDs das perguntas ordenadas por cronologia inversa uma vez que
+fomos preenchendo o array dinâmico do dia mais recente para o dia mais antigo.
 
 
 

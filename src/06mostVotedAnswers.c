@@ -3,12 +3,22 @@
 
 #include "struct.h"
 
-/*
-Dado um intervalo de tempo arbitrário,
-devolver os IDs das N respostas com mais votos,
-em ordem decrescente do número de votos
+/**
+@file 06mostVotedAnswers.c
+Resposta à interrogação 6.
 */
 
+/**
+\brief Dado um intervalo de tempo arbitrário,
+devolve os IDs das N respostas com mais votos,
+em ordem decrescente do número de votos.
+@param com Estrutura dos dados.
+@param N Número de perguntas pretendidas.
+@param begin Data inicial do intervalo de tempo.
+@param end Data final do intervalo de tempo.
+@returns LONG_list - IDs das N respostas com mais votos,
+em ordem decrescente do número de votos.
+*/
 LONG_list most_voted_answers(TAD_community com, int N, Date begin, Date end) {
   int capacity = 10;
   int used = 0;
@@ -24,7 +34,7 @@ LONG_list most_voted_answers(TAD_community com, int N, Date begin, Date end) {
   n_days = g_date_days_between(beginDate, endDate);
   count_day = g_date_days_between(begin_stackOverflow, beginDate);
 
-  GPtrArray * total_answers = g_ptr_array_new();
+  GPtrArray * total_answers = g_ptr_array_sized_new(N);
   Answers info_answer;
 
   while(n_days >= 0){
@@ -42,7 +52,8 @@ LONG_list most_voted_answers(TAD_community com, int N, Date begin, Date end) {
 
   sortAnswersVotes(total_answers);
 
-  if (N > sizeTA) N = sizeTA;
+  if (N > sizeTA)
+    N = sizeTA;
 
   for(i = 0; ((i < N) && (info_answer != NULL)); i++){
     info_answer = g_ptr_array_index(total_answers, i);
@@ -68,6 +79,7 @@ LONG_list most_voted_answers(TAD_community com, int N, Date begin, Date end) {
   }
 
   free(list);
+  g_ptr_array_free(total_answers, TRUE);
 
   return ll;
 }
