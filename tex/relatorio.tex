@@ -1,4 +1,4 @@
-\documentclass[a4paper]{report}
+\documentclass[a4paper]{article}
 
 \usepackage[utf8]{inputenc}
 \usepackage[portuges]{babel}
@@ -55,11 +55,15 @@ descrevemos sucintamente as decisões de implementação e as limitações da so
 adoptada.
 
 \end{abstract}
+\pagebreak
 
 \tableofcontents
 
-\chapter{Introdução}
-\label{ch:intro}
+
+\pagebreak
+
+\section{Introdução}
+\label{sec:intro}
 
 O presente relatório foi elaborado no âmbito da unidade curricular
 \href{http://miei.di.uminho.pt/plano_estudos.html#laborat_rios_de_inform_tica_iii}
@@ -71,86 +75,41 @@ informações contidas em ficheiros XML para responder a um conjunto de
 interrogações de forma eficiente, utilizando a linguagem de programação C.
 
 
-\section{Descrição do Problema}
+\subsection{Descrição do Problema}
 \label{sec:problema}
 
-O nosso trabalho visou implementar um sistema capaz de recolher e tratar dados
-armazenados em ficheiros XML, usando, para tal, a linguagem de programação
-imperativa C.
-
 Os ficheiros em formato XML que deveriam ser processados continham informação referente ao
-website \href{https://stackoverflow.com/}{\textit{Stack Overflow}}.
-Este site foi criado em 2008 por Jeff Atwood e Joel Spolsky para que programadores e
-entusiastas possam expor as suas dúvidas e
-dificuldades na área, funcionando como um fórum em que os usuários fazem
+website \href{https://stackoverflow.com/}{\textit{Stack Overflow}}, o qual foi
+criado em 2008 por Jeff Atwood e Joel Spolsky para que programadores e
+entusiastas possam expor as suas dúvidas, funcionando como um fórum em que os usuários fazem
 perguntas e respondem a dúvidas dos seus pares. Além disso, podem ainda votar
 em questões e repostas que considerem pertinentes, obtendo pontos de reputação
 e medalhas pela qualidade da sua intervenção.
 
 Em concreto, o trabalho prendia-se em extrair a informação necessária dos vários
 ficheiros, de forma a conseguirmos responder a 11 interrogações relacionadas com
-o conteúdo dos ficheiros da forma mais eficiente possível, isto é, tendo especial
+o conteúdo dos mesmos da forma mais eficiente possível, isto é, tendo especial
 atenção ao tempo de execução do programa, bem como ao encapsulamento dos dados.
 
-Por último, listamos as onze interrogações predefinidas.
-\begin{itemize}
-
-\begin{item} Dado o identificador de um post, a função deve retornar
-o título do post e o nome do autor. Se o post for uma resposta, a função deverá
-retornar as informações da pergunta correspondente;\end{item}
-\begin{item} Pretende obter o top N utilizadores com maior número
-de posts de sempre. Para isto, devem ser considerados tanto perguntas
-quanto respostas dadas pelo respectivo utilizador;\end{item}
-\begin{item} Dado um intervalo de tempo arbitrário, obter o número
-total de posts (identificando perguntas e respostas separadamente) neste
-período;\end{item}
-\begin{item} Dado um intervalo de tempo arbitrário, retornar todas
-as perguntas contendo uma determinada tag. O retorno da função deverá ser
-uma lista com os IDs das perguntas ordenadas em cronologia inversa\end{item}
-\begin{item} Dado um ID de utilizador, devolver a informação do
-seu perfil (short bio) e os IDs dos seus 10 últimos posts (perguntas ou respostas),
-ordenados por cronologia inversa;\end{item}
-\begin{item} Dado um intervalo de tempo arbitrário, devolver os IDs das N
-respostas com mais votos, em ordem decrescente do número de votos; O número de
-votos deverá ser obtido pela diferença entre Up Votes e Down Votes.\end{item}
-\begin{item} Dado um intervalo de tempo arbitrário, devolver as IDs das N
-perguntas com mais respostas, em ordem decrescente do número de respostas.\end{item}
-\begin{item} Dado uma palavra, devolver uma lista com os IDs de N perguntas cujos
-títulos a contenham, ordenados por cronologia inversa;\end{item}
-\begin{item} Dados os IDs de dois utilizadores, devolver as últimas N perguntas
-(cronologia inversa) em que participaram dois utilizadores específicos.\end{item}
-\begin{item} Dado o ID de uma pergunta, obter a melhor resposta.
-Para isso, deverá usar a função:
-(Score x 0.45) + (Reputacao x 0.25) + (Votos x 0.2) + (Comtentarios x 0.1)\end{item}
-\begin{item} Dado um intervalo arbitrário de tempo, devolver os identificadores
-das N tags mais usadas pelos N utilizadores com melhor reputação.
-Em ordem decrescente do número de vezes em que a tag foi usada.\end{item}
-
-\end{itemize}
-
-\section{Ficheiros XML}
+\subsection{Ficheiros XML}
 \label{sec:xml}
 
 De todos os ficheiros XML colocados à nossa disposição (Votes, Tags, Users,
 PostLinks, Posts, PostHistory, Comments e Badges) e que se destinavam a dar resposta
-às supra referidas interrogações decidimos que apenas iriamos precisar de carregar
-algumas informações contidas em três dos oito ficheiros mencionados.
-Os ficheiros selecionados para efetuar o \textit{parser} da informação relevante
-foram, Tags.xml, Users.xml e Posts.xml. \par
+a um conjunto de interrogações, decidimos que apenas iríamos precisar de carregar
+algumas informações contidas nos ficheiros Tags.xml, Users.xml e Posts.xml. \par
 No ficheiro Tags.xml retiramos somente o identificar da tag (id) e o nome da mesma
-(TagName). \par
-No que concerne ao ficheiro Users.xml, recolhemos a informação relativa ao identificador
+(TagName). No ficheiro Users.xml, recolhemos a informação relativa ao identificador
 do utilizador (id), à sua reputação (Reputation), ao seu nome (DisplayName) e ao seu
 perfil (AboutMe). \par
-Por último, quanto ao ficheiro Posts.xml fizemos o \textit{parser} do identificador
-do post (id); do tipo de post (PostTypeId); do utilizador que publicou o post
-(OwnerUserId); do seu título (Title); das suas tags (Tags); da pontuação obtida
-(Score); do número de comentários que foram feitos (CommentCount); do número de
-favoritos (FavoriteCount); no caso de ser uma resposta, do número da pergunta a
-que se refere essa resposta (ParentId) e, finalmente, da sua data de criação
-(CreationDate).
+Por último, quanto ao ficheiro Posts.xml extraímos o identificador
+do post (id); o tipo de post (PostTypeId); o utilizador que publicou o post
+(OwnerUserId); o título do post (Title); as suas tags (Tags); a pontuação obtida
+(Score); o número de comentários que foram feitos (CommentCount); no caso de
+ser uma resposta, o número da pergunta a que se refere (ParentId) e, finalmente,
+a sua data de criação (CreationDate).
 
-\section{Concepção da Solução}
+\subsection{Concepção da Solução}
 \label{sec:solucao}
 
 Para resolvermos este problema foram cruciais três momentos. Numa primeira fase,
@@ -170,22 +129,24 @@ O código subjacente à solução proposta pode ser encontrado no repositório:
 \href{https://github.com/dium-li3/Grupo1}{\emph{https://github.com/dium-li3/Grupo1}}.
 \end{center}
 
-O restante deste relatório está organizado da seguinte forma: o
-Capítulo~\ref{ch:estruturadedados} descreve as estruturas de dados adoptadas,
-ao passo que o Capítulo~\ref{ch:implementacao}  apresenta e discute a solução
-proposta para a resolução do problema. O relatório termina com conclusões no
-Capítulo~\ref{ch:conclusao}, onde é também apresentada uma análise crítica dos
+O restante deste relatório está organizado da seguinte forma: a
+Secção~\ref{sec:estruturadedados} descreve as estruturas de dados adoptadas,
+ao passo que a Secção~\ref{sec:implementacao}  apresenta e discute a solução
+proposta para a resolução do problema. O relatório termina com conclusões na
+Secção~\ref{sec:conclusao}, onde é também apresentada uma análise crítica dos
 resultados obtidos.
 
 
 
-\chapter{Estrutura de Dados}
-\label{ch:estruturadedados}
+\section{Organização dos Dados}
+\label{sec:estruturadedados}
 
 Para desenvolvermos este trabalho adotamos as seguintes estruturas de dados:
 
-\begin{verbatim}
+\subsection{Tipo de Dados Concretos}
+\label{sec:dados_concretos}
 
+\begin{verbatim}
 typedef struct TCD_community {
   GHashTable * users;
   GHashTable * questions;
@@ -195,45 +156,40 @@ typedef struct TCD_community {
   GPtrArray * day;
   GHashTable * tags;
 } TCD_community;
-
 \end{verbatim}
 
 \textbf{Explicar porque há 3 diferentes formas de aceder a questions.}
 
-\vspace{0.4cm}
+\vspace{0.2cm}
 
 Os dados necessários para responder às queries foram armazenados
 na estrutura TCD\_community, a estrutura de dados principal do nosso trabalho.
 Esta estrutura armazena outras 7 estruturas que serão explicitadas mais tarde.
 De modo a respondermos às queries da forma mais eficiente possível
 utilizamos estruturas de dados já existentes e, para isso, recorremos ao glib,
-uma biblioteca que fornece simples estruturas de dados para programas em C.
-
-\vspace{0.4cm}
+uma biblioteca que fornece simples estruturas de dados para programas em C. \par
 
 Em primeiro lugar, para as estruturas \textbf{users}, \textbf{questions},
 \textbf{answers} e \textbf{tags}
-utilizamos uma GHashTable para armazenar os dados.
-Uma vez que tantos os ids dos users, como os ids das questions, answers
-e tags não são sequenciais (os respetivos números identificadores não
-seguem uma ordem coerente pois existem “buracos”), se utilizássemos
-os ids como sendo os índices de um GPtrArray haveria muita memória desperdiçada,
-e por isso, não vimos nenhuma vantagem em utilizar arrays ou sets, nem
-utilizando algoritmos auxiliares como por exemplo o algoritmo de procura binária.
+utilizamos uma GHashTable para armazenar os dados. \par
+A razão para essa escolha deve-se ao facto de tantos os ids dos users, como os
+ids das questions, answers e tags não estarem armazenados nos ficheiros de forma
+sequencial, nem serem contíguos (existem ``buracos'' entre os respetivos números
+identificadores), pelo que se utilizássemos os ids como sendo os índices de um
+array haveria muita memória desperdiçada, e, por isso, não vimos nenhuma vantagem
+em utilizar um GPtrArray ou uma lista, nem mesmo utilizando algoritmos auxiliares,
+como por exemplo o algoritmo de procura binária.
 
-No caso das árvores binárias, o tempo de procura e inserção no caso médio
-é logarítmico  e no pior caso linear, o que poderia ser uma opção viável,
-porém, concluímos que utilizando GHashTable, ou seja, hash tables, e
-recorrendo aos ids dos users, das questions e das answers, e ao nome da tag
-no caso das tags, como meio de procura dos elementos (chave da hash)
-conseguimos um tempo médio de inserção e procura (os dois métodos que
-mais utilizamos) constante, e no pior dos casos conseguimos um tempo linear
-ao tamanho do array, o que se traduz numa forma muito mais rápida e
-simples de trabalharmos o problema pois conseguimos aceder aos elementos da
-estrutura de dados muito eficientemente com o
-recurso a funções já existentes no glib.
-
-\vspace{0.4cm}
+No caso das árvores binárias, o tempo de procura e inserção no caso médio é
+logarítmico e no pior caso linear, o que poderia ser uma opção viável, porém,
+concluímos que utilizando GHashTable, ou seja, hash tables, e recorrendo aos ids
+dos users, das questions e das answers, e ao nome da tag no caso das tags, como
+meio de procura dos elementos (chave da hash) conseguimos um tempo médio de
+inserção e procura (os dois métodos que mais utilizamos) constante, e no pior
+dos casos conseguimos um tempo linear ao tamanho do array, o que se traduz numa
+forma muito mais rápida e simples de trabalharmos o problema pois conseguimos
+aceder aos elementos da estrutura de dados muito eficientemente com o
+recurso a funções já existentes no glib. \par
 
 Na estrutura \textbf{day} utilizamos um GPtrArray porque consideramos que seria
 a forma mais eficiente de percorrer os intervalos de tempo. Deste modo,
@@ -252,17 +208,15 @@ bastando para isso incrementar 1 ao índice inicial até fazermos
 um número de iterações igual ao número de dias do intervalo de tempo.
 Com isto, conseguimos aceder às informações de qualquer dia e, consequentemente,
 de qualquer intervalo de tempo de uma forma muito rápida e direta,
-com um tempo de procura constante.
-
-\vspace{1cm}
+com um tempo de procura constante. \par
 
 tmp\_questions ??
 questionsList ??
 
-
+\subsection{Estruturas de dados complementares}
+\label{sec:dados_complementares}
 
 \begin{verbatim}
-
 typedef struct users {
   long user_id;
   char * shortbio;
@@ -271,7 +225,6 @@ typedef struct users {
   int n_posts;
   GArray * last_posts;
 } users;
-
 \end{verbatim}
 
 A estrutura de dados users contém o id do utilizador, a sua short bio, o seu nome,
@@ -282,8 +235,6 @@ Esta estrutura encerra informações necessárias para responder às interrogaç
 5, 8 e 10.
 
 \begin{verbatim}
-
-
 typedef struct questions {
   long post_id;
   postDate pd;
@@ -294,7 +245,6 @@ typedef struct questions {
   int n_answers;
   GPtrArray * answers;
 } questions;
-
 \end{verbatim}
 
 A estrutura de dados questions contém o id da pergunta, a sua data no formato
@@ -306,18 +256,13 @@ Esta estrutura encerra informações necessárias para responder às interrogaç
 4, 7, 8 e 11.
 
 \begin{verbatim}
-
-
 typedef struct answers {
   long user_id;
   long answer_id;
   long parent_id;
   int score;
-  int up_votes; //retirar
-  int down_votes; // retirar
   int comment_count;
 } answers;
-
 \end{verbatim}
 
 A estrutura de dados answers contém o id do utilizador, o id da resposta, o id da
@@ -326,8 +271,6 @@ Esta estrutura encerra informações necessárias para responder às interrogaç
 6, 9 e 10.
 
 \begin{verbatim}
-
-
 typedef struct day {
   int day;
   int month;
@@ -337,7 +280,6 @@ typedef struct day {
   GPtrArray * questions;
   GPtrArray * answers;
 } day;
-
 \end{verbatim}
 
 A estrutura de dados day contém uma data e as informações relativas à mesma,
@@ -349,13 +291,10 @@ necessárias para responder às interrogações 3, 4, 6, 7 e 11
 (interrogações que dizem respeito a intervalos arbitrários de tempo).
 
 \begin{verbatim}
-
-
 typedef struct postAndDate {
     long post_id;
     int year, month, day, hour, min, sec, mili;
 } postAndDate;
-
 \end{verbatim}
 
 A estrutura de dados postAndDate contém o id do post e o ano, mês, dia,
@@ -364,14 +303,11 @@ hora, minuto, segundo e milissegundo em que esse post
 necessárias para responder à interrogação 7.
 
 \begin{verbatim}
-
-
 typedef struct tags {
   int id;
   char * nameTag;
   int value;
 } tags;
-
 \end{verbatim}
 
 A estrutura de dados tags contém o id que identifica a tag,
@@ -380,10 +316,10 @@ o número de ocorrências dessa tag durante um intervalo de tempo.
 Esta estrutura encerra informações necessárias para responder à interrogação 11.
 
 
-\chapter{Implementação}
-\label{ch:implementacao}
+\section{Implementação}
+\label{sec:implementacao}
 
-\section{Organização Geral}
+\subsection{Modularização Funcional}
 \label{sec:organizacao}
 
 O trabalho é composto por vários módulos, tendo sido os que a seguir se descrevem
@@ -391,22 +327,22 @@ criados por nós, consoante as necessidades que fomos detectando.
 
 \begin{itemize}
 \begin{item} main.c - main do programa\end{item}
-\begin{item} 00load.c - contem as funções necessárias para recolher e carregar os
+\begin{item} 00load.c - contem as funções necessárias para carregar e processar os
 dados necessários dos ficheiros XML.\end{item}
 \begin{item} answers.c - todas as funções necessárias para aceder à estrutura de
-dados answers\end{item}
+dados answers.\end{item}
 \begin{item} day.c - todas as funções necessárias para aceder à estrutura de
-dados day\end{item}
+dados day.\end{item}
 \begin{item} questions.c - todas as funções necessárias para aceder à estrutura de
-dados questions\end{item}
+dados questions.\end{item}
 \begin{item} struct.c - todas as funções necessárias para inicializar e aceder à
-estrutura de dados TCD\_community\end{item}
+estrutura de dados TCD\_community.\end{item}
 \begin{item} tags.c - todas as funções necessárias para aceder à estrutura de
-dados tags\end{item}
+dados tags.\end{item}
 \begin{item} users.c - todas as funções necessárias para aceder à estrutura de
-dados users\end{item}
+dados users.\end{item}
 \begin{item} postDate.c - todas as funções necessárias para aceder à estrutura de
-dados postDate\end{item}
+dados postDate.\end{item}
 \begin{item} 01TitleUserName.c - responde à interrogação n.º 1.\end{item}
 \begin{item} 02TopMostActive.c - responde à interrogação n.º 2.\end{item}
 \begin{item} 03totalPostDate.c - responde à interrogação n.º 3.\end{item}
@@ -418,19 +354,44 @@ dados postDate\end{item}
 \begin{item} 09bothParticipated.c - responde à interrogação n.º 9.\end{item}
 \begin{item} 10BetterAnswer.c - responde à interrogação n.º 10.\end{item}
 \begin{item} 11mostUsedBestRep.c - responde à interrogação n.º 11.\end{item}
-\begin{item} 12clean.c - liberta o espaço de memória que não está sendo utilizado.\end{item}
+\begin{item} 12clean.c - liberta o espaço de memória antes de encerrar o programa.\end{item}
 \end{itemize}
 
+Os módulos por nós criados podem ser vistos como unidades interdependentes que se
+complementam, cada uma com objetivos específicos, que interagem e que estão ligadas
+entre si apenas por funções (única interface), garantindo o encapsulamento dos dados.
 
-O encapsulamento de todos os dados foi garantido por \textbf{\textit{forward declaration}}
-de todas as estruturas de dados, sendo os seus atributos somente acessíveis através
+Cada módulo tem uma única funcionalidade, um objetivo específico,
+como, por exemplo, aceder a uma estrutura de dados ou responder a uma query.
+De facto, com a divisão física dos ficheiros tentamos distribuir as
+tarefas do nosso programa de modo a garantir a abstração dos dados, bem como
+facilitar a reutilização do código.
+
+Essa interdependência ou coesão entre os módulos é bem patente, já que
+os diferentes módulos necessitam interatuar para serem executados. Por exemplo,
+todas as interrogações necessitam do módulo struct.h, que, por sua vez, depende dos módulos
+interface.h, users.h, questions.h, postDate.h, day.h e tags.h, os quais dependem de vários
+outros e assim sucessivamente.
+
+Contudo, apesar de haver uma interdependência entre os módulos, eles estão
+fracamente ligados na medida em que a única ligação entre eles é através da interface de
+cada módulo, isto é, recorrendo somente às diferentes funções disponibilizadas e
+nunca acedendo diretamente às estruturas de dados criadas.
+
+
+\subsection{Abstração de Dados}
+\label{sec:abstracao}
+
+Conforme descrevemos na secção anterior, uma das estratégias adotadas para garantir
+a abstração dos dados foi através da modularização funcional do código.
+Aliado a isso, o encapsulamento de todos os dados foi garantido por \textbf{\textit{forward declaration}}
+de todas as estruturas definidas, sendo os seus atributos somente acessíveis através
 de funções ``getters e setters''. De facto, os ficheiros headers criados impossibilitam
 que os atributos das diversas estruturas de dados criadas sejam acedidos diretamente.
 Por exemplo, a estrutura de dados que contém todos as informações relevantes e
 referentes ao usuário foi definida no ficheiro users.c da seguinte forma:
 
 \begin{verbatim}
-
 typedef struct users {
   long user_id;
   char * shortbio;
@@ -439,7 +400,6 @@ typedef struct users {
   int n_posts;
   GArray * last_posts;
 } users;
-
 \end{verbatim}
 
 sendo que o acesso aos elementos de users só é possível através das funções
@@ -447,106 +407,15 @@ sendo que o acesso aos elementos de users só é possível através das funçõe
 \textit{setUserId}, já que o ficheiro header users.h possui apenas a declaração
 \textit{typedef struct users * Users}.
 
-\section{Leitura e Recolha de Dados}
 
-A primeira fase do nosso projeto passou por determinar e criar a estrutura de dados
-que melhor se adequava ao problema em questão.
-Numa segunda fase, estudamos qual a melhor forma de ler e recolher os dados armazenados
-nos ficheiros XML e, pesadas todas as vantagens e desvantagens, optamos por fazer o
-\textit{parser} dos dados com recurso ao SAX \textit{(Simple API for XML)},
-em detrimento do DOM \textit{(Document Object Model)}. \par
-O DOM é um modelo que representa documentos XML numa estrutura
-em forma de árvore, designada de árvore DOM. Apesar do mesmo ser mais simples de utilizar,
-tornava o programa substancialmente mais lento, visto que consumia mais memória porque os ficheiros
-XML a serem processados eram grandes, resultando na construção de uma árvore DOM com toda a informação
-contida nos mesmos, a qual permanecia na memória enquanto estivesse a ser utilizada. Acresce que
-as diversas funcionalidades que o DOM possui, tais como, navegar pelos nós, remover, editar e apagar
-os nós da árvore DOM, acabam por gerar uma sobrecarga da memória sendo, concomitantemente,
-desnecessárias para a realização do projeto. \par
-Por seu turno, a SAX efectua o \textit{parser} de ficheiros em formato XML, definindo
-funções que são executadas quando determinado evento ocorre - ``callbacks''. O consumo de memória
-é reduzido, comparativamente com o DOM, uma vez que a memória utilizada corresponde somente às
-informações que estão sendo processadas pelas ``callbacks''. \par
-
-A leitura e recolha dos dados contidos nos ficheiros XML estão implementadas no
-ficheiro 00load.c, o qual foi construído com tendo por base o código encontrado em:
-\begin{center}
-\href{https://gist.github.com/cooldaemon/106870}{\emph{https://gist.github.com/cooldaemon/106870}}.
-\end{center}
-
-Existem 4 ``callbacks'', isto é, todas as funções cujos nomes são
-iniciados por OnStartElement, as quais carregam toda a informação que consideramos
-relevante para as diversas estruturas de dados que definimos. \par
-Esse processo é feito da seguinte forma: a função main chama a função load que,
-por sua vez, chama a função read\_xmlfile, descrita de seguida:
-
-\begin{verbatim}
-
-static int read_xmlfile(FILE *file, char *dump_file_name) {
-  char chars[1024];
-  int result = fread(chars, 1, 4, file);
-  if (result <= 0) {
-      return 1;
-  }
-  xmlSAXHandler SAXHander = make_sax_handler(dump_file_name);
-
-  xmlParserCtxtPtr ctxt = xmlCreatePushParserCtxt(&SAXHander, NULL,
-                                                  chars, result, NULL);
-
-  while ((result = fread(chars, 1, sizeof(chars), file)) > 0) {
-      if(xmlParseChunk(ctxt, chars, result, 0)) {
-         xmlParserError(ctxt, "xmlParseChunk");
-         return 1;
-      }
-  }
-  xmlParseChunk(ctxt, chars, 0, 1);
-
-  xmlFreeParserCtxt(ctxt);
-  xmlCleanupParser();
-  return 0;
-}
-\end{verbatim}
-
-A função read\_xmlfile começa por verificar o \textit{encoding}
-ao ler 4 bytes para um \textit{buffer}. De seguida, executa a função make\_sax\_handler,
-que define quais as ``callbacks'' a serem utilizadas pelo programa. Posteriormente, inicializa
-o SAX e vai lendo o conteúdo do ficheiro XML respectivo, passando a informação
-relevante para o \textit{buffer} e, posteriormente, faz \textit{parser} desse \textit{buffer}.
-Note-se que quando esta função estiver a executar o \textit{parser} dos dados, através da
-função xmlParseChunk chama as diversas ``callbacks'' sempre que se justifique.
-
-As ``callbacks'' são funções que recebem três parâmetros:
-
-\begin{itemize}
-
-\begin{item}void *ctx - um apontador para uma estrutura de dados do Sax \end{item}
-
-\begin{item}const xmlChar *element\_name - um apontador para o nome de um elemento XML\end{item}
-
-\begin{item}const xmlChar **attributes - um apontador para um array com os atributos do elemento\end{item}
-
-\end{itemize}
-
-Convém esclarecer que nos ficheiros xml, um elemento é constituído por uma tag-inicial,
-um conteúdo e uma tag-final. Um elemento pode conter outra informação em atributos (meta-informação),
-cujos valores devem ser colocados entre aspas, como por exemplo,
-\begin{verbatim}
-<row Id="3" TagName="sms" Count="897" ExcerptPostId="13195" WikiPostId="13194"/>
-\end{verbatim}
-
-\includegraphics[scale=0.4]{xmlelements.pdf}
-
-É através destas funções que conseguimos extrair o conteúdo dos elementos, bem como dos
-atributos que consideramos relevante dos diversos ficheiros XML e carregamos as informações
-para as estruturas de dados adequadas.
+\subsection{Queries}
+\label{sec:queries}
 
 Finalmente, a última etapa do nosso projeto prendeu-se com a resposta às diversas
 \textit{queries}, as quais passamos a explicar no próximo capítulo.
 
-\section{Queries}
-\label{sec:queries}
 
-\subsection*{Query 1}
+\subsubsection*{Query 1}
 \label{sec:query1}
 
 \textbf{“Dado o identificador de um post, a função deve retornar
@@ -562,13 +431,12 @@ Na hipótese de ser uma pergunta, com o auxílio da estrutura de dados questions
 conseguimos obter o título do post e o id do utilizador, através do qual, procurando
 na GHashTable users conseguimos saber se o usuário existe e, caso exista, obter
 todas as suas informações relevantes e, posteriormente, extrair o seu nome através
-da função getUsername que devolve um username. Desta forma, conseguimos devolver o par
+da função getUsername. Desta forma, conseguimos devolver o par
 pretendido, o título do post e o nome do utilizador. \par
 No caso do id passado como parâmetro para a função identificar uma resposta, determinamos
-a que pergunta esta se refere e procuramos na GHashTable questions essa pergunta
-para, de seguida, seguirmos o procedimento descrito no parágrafo anterior.
+a que pergunta esta se refere e seguimos o procedimento descrito no parágrafo anterior.
 
-\subsection*{Query 2}
+\subsubsection*{Query 2}
 \label{sec:query2}
 
 \textbf{“Função que devolve o top N utilizadores com maior número
@@ -576,29 +444,23 @@ de posts de sempre. Para isto, são considerados tanto perguntas
 quanto respostas dadas pelo respectivo utilizador.”}
 
 \begin{verbatim}
-
 typedef struct totalPosts {
   long user_id;
   int n_posts;
 } totalPosts;
-
 \end{verbatim}
 
-A estrutura de dados totalPosts é composta por um long que identifica o utilizador
-e um inteiro que traduz o número de posts daquele mesmo utilizador.
-Esta estrutura foi criada especificamente para responder à interrogação 2.
+Para respondermos a esta interrogação criamos a estrutura de dados
+totalPosts. Esta é composta por um long que identifica o utilizador e um inteiro
+que traduz o número de posts publicados por aquele mesmo utilizador.
+Estas duas informações vão constar de cada posição de um garray entretanto criado
+e que irá ser preenchido com a informação resultante de percorrer toda a GHashTable users.
+De seguida ordenamos o referido garray, o qual passará a conter todos os users,
+bem como o total de post que cada um publicou, por ordem decrescente do número de posts.
+Por último, com o auxílio de um ciclo com N iterações, inserirmos os N utilizadores com
+mais posts de sempre na lista que é devolvida por esta função.
 
-Para respondermos a esta interrogação começamos por criar a estrutura de dados
-totalPosts, que, tal como referimos anteriormente, encerra o id do usuário e o número
-de posts que publicou. Estas informações vão constar de cada posição de uma garray
-entretanto criado e que irá ser preenchido com a informação resultante de percorrer
-toda a GHashTable users. De seguida ordenamos o referido garray, o qual passará a
-conter todos os users, bem como o total de post que cada um publicou, por ordem
-decrescente do número de posts. Por último, com o auxílio de um ciclo com N iterações,
-inserirmos os N utilizadores com mais posts de sempre na lista que é devolvida por
-esta função.
-
-\subsection*{Query 3}
+\subsubsection*{Query 3}
 \label{sec:query3}
 
 \textbf{“Dado um intervalo de tempo arbitrário,
@@ -614,7 +476,7 @@ durante os dias passados como parâmetro.
 No final de percorridos todos os dias, adicionamos as duas variáveis da nossa função a um LONG\_pair, e retornamo-lo.
 
 
-\subsection*{Query 4}
+\subsubsection*{Query 4}
 \label{sec:query4}
 
 \textbf{“Dado um intervalo de tempo arbitrário, retornar todas as perguntas contendo uma determinada tag.
@@ -632,7 +494,7 @@ vamos preenchendo a lista do dia mais recente para o dia mais antigo.
 
 
 
-\subsection*{Query 5}
+\subsubsection*{Query 5}
 \label{sec:query5}
 
 \textbf{“Dado um ID de utilizador,  devolver a informação do
@@ -645,7 +507,7 @@ seu perfil, char * shortbio, e um vetor, GArray * last\_posts, com os seus últi
 ordenados por cronologia inversa e do qual, em seguida, se copiam os 10 primeiros
 elementos.
 
-\subsection*{Query 6}
+\subsubsection*{Query 6}
 \label{sec:query6}
 
 \textbf{“Dado um intervalo de tempo arbitrário, devolver os IDs das N respostas
@@ -666,8 +528,7 @@ e retiramos dele o ID das primeiras N respostas que aparecem.
 Assim, temos a LONG\_list pedida, por ordem decrescente do número de votos.
 
 
-
-\subsection*{Query 7}
+\subsubsection*{Query 7}
 \label{sec:query7}
 
 \textbf{“Dado um intervalo de tempo arbitrário, devolver as IDs das N perguntas
@@ -684,7 +545,7 @@ Retiramos os primeiros N elementos do array e devolvemos os determinados IDs
 numa LONG\_list, que se encontra então ordenada decrescentemente segundo o número de respostas.
 
 
-\subsection*{Query 8}
+\subsubsection*{Query 8}
 \label{sec:query8}
 
 \textbf{"Dado uma palavra, devolver uma lista com os IDs de
@@ -697,7 +558,7 @@ copia-se o Id para a estrutura a ser devolvida.
 
 
 
-\subsection*{Query 9}
+\subsubsection*{Query 9}
 \label{sec:query9}
 
 \textbf{"Dados os IDs de dois utilizadores, devolver as últimas
@@ -712,8 +573,9 @@ também isto for verdade, copia-se o Id do post para a estrutura a ser devolvida
 
 
 
-\subsection*{Query 10}
+\subsubsection*{Query 10}
 \label{sec:query10}
+
 \textbf{“Dado o ID de uma pergunta, obter a melhor resposta.
 Para isso, deverá usar a função de média ponderada abaixo: (score da resposta x 0.45)
 + (reputacao do utilizador x 0.25) + (votos recebidos pela resposta x 0.2) +
@@ -721,21 +583,20 @@ Para isso, deverá usar a função de média ponderada abaixo: (score da respost
 
 Antes de mais, começamos por verificar se o id da pergunta existe, pois caso não
 seja o id de uma pergunta a função devolverá -1. \par
-No caso de o id ser válido, averiguamos quantas respostas tem essa mesma pergunta
-e calculamos para cada resposta a sua média. Para o calculo da média de cada resposta
-utilizamos um ciclo for que terá tantas iterações quantas respostas tem a pergunta e
-socorremo-nos de várias funções que retiram as informações necessárias ( reputação
-do utilizador que publicou a resposta e score, votos e comentários obtidos pela resposta)
-de cada resposta contida no respetivo índice do GPtrArray answers. \par
-Ademais, para conseguirmos obter a melhor resposta precisamos de duas variáveis,
-do tipo double a que chamamos total e max, ambas inicializadas a zero. A variável total
-armazena o valor da média de cada resposta para depois ser comparado com o valor da variável
-max, a qual deverá albergar sempre o maior resultado em termos de melhor resposta, para
-depois devolvermos o id da melhor reposta.
+No caso de o id ser válido, averiguamos quantas respostas tem essa mesma pergunta,
+através da função getNAnswers, e calculamos para cada resposta a sua média ponderada.
+Para o calculo da média de cada resposta socorremo-nos de várias funções.
+Em primeiro lugar, procuramos na Ghashtable dos users o user que obtivemos
+em cada posição do GPtrArray answers, para de seguida conseguirmos obtermos
+a sua reputação.
+Posteriormente, obtivemos o score e número de comentários de cada resposta e calculamos
+a média ponderada com esses três fatores (ignoramos os votos já que o score é
+igual aos votos).
+Finalmente, verificamos qual a resposta com melhor média ponderada para depois
+devolvermos o seu id.
 
 
-
-\subsection*{Query 11}
+\subsubsection*{Query 11}
 \label{sec:query11}
 
 \textbf{“Dado um intervalo arbitrário de tempo, devolver os identificadores das N tags
@@ -774,13 +635,45 @@ Ordenamos esse array pelo número de ocorrências (do maior para o menor) e
 colocamos numa LONG\_list os primeiros N identificadores das tags desse array.
 
 
-\chapter{Conclusões}
-\label{ch:conclusao}
+\subsection{Estratégias para melhorar o desempenho}
+\label{sec:desempenho}
 
-Face ao problema apresentado e analisando criticamente a solução proposta concluímos que cumprimos
-todas as tarefas, conseguindo atingir os objetivos definidos. Todavia, entendemos que há alguns
-aspetos da nossa solução que podem ser melhorados. Note-se que apenas não o foram devido, única
-e exclusivamente, à escassez de tempo.
+Um dos objetivos deste projeto é o desempenho. Para o garantirmos começamos por
+estudar a melhor forma de ler e processar os dados armazenados
+nos ficheiros XML e, pesadas todas as vantagens e desvantagens, optamos por fazer o
+\textit{parser} dos dados com recurso ao SAX \textit{(Simple API for XML)},
+em detrimento do DOM \textit{(Document Object Model)}. \par
+O DOM é um modelo que representa documentos XML numa estrutura
+em forma de árvore, designada de árvore DOM. Apesar do mesmo ser mais simples de utilizar,
+tornava o programa substancialmente mais lento, visto que consumia mais memória porque os ficheiros
+XML a serem processados eram grandes, resultando na construção de uma árvore DOM com toda a informação
+contida nos mesmos, a qual permanecia na memória enquanto estivesse a ser utilizada. Acresce que
+as diversas funcionalidades que o DOM possui, tais como, navegar pelos nós, remover, editar e apagar
+os nós da árvore DOM, acabam por gerar uma sobrecarga da memória sendo, concomitantemente,
+desnecessárias para a realização do projeto. \par
+Por seu turno, a SAX efectua o \textit{parser} de ficheiros em formato XML, definindo
+funções que são executadas quando determinado evento ocorre - ``callbacks''. O consumo de memória
+é reduzido, comparativamente com o DOM, uma vez que a memória utilizada corresponde somente às
+informações que estão sendo processadas pelas ``callbacks''. De facto, corridos alguns testes com
+a DOM verificamos que o carregamento das estruturas com o mesmo demorava praticamente o dobro do
+tempo do que com a SAX, factor determinante para a adoção da mesma. \par
+
+A segunda medida que utilizamos para melhorar o desempenho do programa foi a criação
+da estrutura de dados que armazena o tempo. Tendo em conta que cinco das onze queries
+consideravam um intervalo de tempo, utilizamos um GPtrArray em detrimento de uma
+Hashtable, que não tem os dados ordenados, porque consideramos que seria a forma mais
+eficiente de percorrer os intervalos de tempo. Com esta solução, basta-nos saber qual
+o índice do array onde se inicia o intervalo de tempo e de quantos dias é esse mesmo
+intervalo para percorrermos o GPtrArray, conseguindo manter um custo baixo e constante
+das procuras dos intervalos de tempo. \par
+
+
+\section{Conclusões}
+\label{sec:conclusao}
+
+Face ao problema apresentado e analisando criticamente a solução proposta concluímos
+que cumprimos todas as tarefas, conseguindo atingir os objetivos definidos. Todavia,
+entendemos que há alguns aspetos da nossa solução que podem ser melhorados.
 
 Em primeiro lugar, pretendíamos ...
 
