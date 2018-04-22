@@ -453,11 +453,11 @@ typedef struct totalPosts {
 Para respondermos a esta interrogação criamos a estrutura de dados
 totalPosts. Esta é composta por um long que identifica o utilizador e um inteiro
 que traduz o número de posts publicados por aquele mesmo utilizador.
-Estas duas informações vão constar de cada posição de um garray entretanto criado
+Estas duas informações vão constar de cada posição de um GArray entretanto criado
 e que irá ser preenchido com a informação resultante de percorrer toda a GHashTable users.
-De seguida ordenamos o referido garray, o qual passará a conter todos os users,
+De seguida ordenamos o referido GArray, o qual passará a conter todos os users,
 bem como o total de post que cada um publicou, por ordem decrescente do número de posts.
-Por último, com o auxílio de um ciclo com N iterações, inserirmos os N utilizadores com
+Por último, inserirmos os N utilizadores com
 mais posts de sempre na lista que é devolvida por esta função.
 
 \subsubsection*{Query 3}
@@ -668,21 +668,55 @@ o índice do array onde se inicia o intervalo de tempo e de quantos dias é esse
 intervalo para percorrermos o GPtrArray, conseguindo manter um custo baixo e constante
 das procuras dos intervalos de tempo. \par
 
+A terceira medida adotada foi o método de resolução da query 2. Antes de nos decidirmos
+pela nossa implementação, testamos outras possibilidade para termos a certeza de que
+esta solução seria a que obteria melhor desempenho.\par
+Em primeiro lugar, testamos a possibilidade de termos uma GList, duplamente ligada,
+com a informação contida na estrutura totalPosts e que contivesse apenas N elementos.
+A solução passaria por ordenar a lista sempre que ``visitássemos'' a GHashTable users.
+Acontece que o tempo desta implementação era substancialmente superior, na ordem dos
+1.1s, 6.2s, 17s e 150s quando pedidos os 100,
+500, 1.000 e 5.000 utilizadores com mais posts de sempre, respetivamente. \par
+Outra tentativa de resolver esta query foi criar um GArray também com os dados
+da estrutura totalPosts, só que este GArray teria somente N posições. O GArray
+seria ordenado sempre que ``visitássemos'' a GHashTable users e quando estivesse
+cheio, os valores que obteríamos da GHashTable users seriam sempre colocados na
+N-ésima posição e reordenado o GArray por ordem decrescente do número de posts,
+isto até acabarmos de iterar sobre a GHashTable users. Todavia, esta solução
+mostrou-se ainda mais ineficiente, alcançando valores na ordem dos 3.8s, 23.9s,
+50s e 294s quando pedidos os 100, 500, 1.000 e 5.000 utilizadores com mais posts
+de sempre, respetivamente. \par
+Assim, optamos pela implementação da query 2 descrita na secção Queries, visto que
+o seu tempo é de cerca de 0.195s, 0.196s, 0.197s, 0.196s, 0.199s e 0.196s
+quando pedidos os 100, 500, 1.000 e 5.000, 10.000, 50.000 utilizadores com mais
+posts de sempre, respetivamente.
+
 
 \section{Conclusões}
 \label{sec:conclusao}
 
 Face ao problema apresentado e analisando criticamente a solução proposta concluímos
-que cumprimos todas as tarefas, conseguindo atingir os objetivos definidos. Todavia,
-entendemos que há alguns aspetos da nossa solução que podem ser melhorados.
-
-Em primeiro lugar, pretendíamos ...
-
-Em segundo lugar, tínhamos a intenção de...
-
-Em terceiro lugar, queríamos incorporar ...
-
-Finalmente, ..
+que cumprimos todas as tarefas, conseguindo atingir os objetivos definidos. No decurso
+do projeto socorremo-nos dos conhecimentos adquiridos nas unidades curriculares de
+Algoritmos e Complexidade, Programação Imperativa, bem como Arquitetura de Computadores
+de forma a equacionarmos a melhor solução para o problema apresentado, conseguindo
+obter resultados bastante satisfatórios face ao que nos foi pedido. \par
+Todavia, entendemos que há alguns aspetos da nossa solução que, eventualmente,
+poderiam ser melhorados. Com efeito, infelizmente, não tivemos tempo para testar,
+em termos de desempenho, todas as soluções possíveis e que pudessem fazer diferença
+a nível de tempo em todas as queries.\par
+Na verdade, dedicamos especial atenção à construção das nossas estruturas de dados,
+bem como à forma como iríamos ler e processar os dados dos ficheiros XML, pois
+verificamos que estas duas ações iriam ter um peso determinante em termos de
+eficiência no trabalho. \par
+Acresce que verificamos que alocamos memória sempre que fazemos um ``getter'' de um
+\textit{char *} quando não seria necessário criar um espaço de memória para um
+atributo que nunca é alterado na nossa estrutura de dados e que está disponível
+até ao fim da execução do programa, pelo que ocupa espaço de memória desnecessário
+e diminui o desempenho do programa. \par
+Em suma, não obstante as potenciais melhorias que poderiam ser feitas no
+programa, os testes por nós realizados, nas nossas máquinas, atingiram
+um tempo de execução que consideramos bastante aceitável.
 
 
 
