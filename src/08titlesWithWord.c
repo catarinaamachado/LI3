@@ -4,11 +4,20 @@
 
 #include "struct.h"
 
-/*
-Dado uma palavra, devolver uma lista com os IDs de
-N perguntas cujos títulos a contenham, ordenados por cronologia inversa;
+/**
+@file 08titleWithWord.c
+Resposta à interrogação 8.
 */
 
+/**
+\brief Dado uma palavra, devolver uma lista com os IDs de
+N perguntas cujos títulos a contenham, ordenados por cronologia inversa.
+@param com Estrutura dos dados.
+@param word Palavra a verificar se está contida nos títulos.
+@param N Número de perguntas pretendidas.
+@returns LONG_list - IDs das N perguntas cujos títulos contenham o parâmetro
+word, ordenados por cronologia inversa.
+*/
 LONG_list contains_word(TAD_community com, char* word, int N) {
     LONG_list ll = create_list(N);
     char * title;
