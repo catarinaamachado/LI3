@@ -151,14 +151,11 @@ typedef struct TCD_community {
   GHashTable * users;
   GHashTable * questions;
   GHashTable * answers;
-  GPtrArray * tmp_questions;
   GList * questionsList;
   GPtrArray * day;
   GHashTable * tags;
 } TCD_community;
 \end{verbatim}
-
-\textbf{Explicar porque há 3 diferentes formas de aceder a questions.}
 
 \vspace{0.2cm}
 
@@ -191,6 +188,12 @@ forma muito mais rápida e simples de trabalharmos o problema pois conseguimos
 aceder aos elementos da estrutura de dados muito eficientemente com o
 recurso a funções já existentes no glib. \par
 
+No entanto, no caso das perguntas é também utilizada um segunda estrutura,
+GList, criada aquando da primeira vez que é preciso utilizar perguntas
+ordenadas por cronologia. A utilização desta estrutura permite que a inserção
+de perguntas seja feita numa GHashTable, com complexidade média O(1),
+e, apenas no fim, sejam ordenadas por data na GList, reduzindo a complexidade.\par
+
 Na estrutura \textbf{day} utilizamos um GPtrArray porque consideramos que seria
 a forma mais eficiente de percorrer os intervalos de tempo. Deste modo,
 a estratégia que utilizamos foi criar um array de apontadores onde o
@@ -210,8 +213,6 @@ Com isto, conseguimos aceder às informações de qualquer dia e, consequentemen
 de qualquer intervalo de tempo de uma forma muito rápida e direta,
 com um tempo de procura constante. \par
 
-tmp\_questions ??
-questionsList ??
 
 \subsection{Estruturas de dados complementares}
 \label{sec:dados_complementares}

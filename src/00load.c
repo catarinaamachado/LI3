@@ -15,9 +15,9 @@ static GDate * begin_stackOverflow;
 /*
 Função que extrai os elementos necessários do utilizador para preencher as
 respetivas estruturas de dados.
-@param ctx
-@param element_name Nome do elemento
-@param attributes
+@param ctx Apontador para estrutura do sax
+@param element_name Apontador para o nome do elemento do ficheiro XML
+@param attributes Um array com os apontadores para os atributos do elemento.
 */
 static void OnStartElementUsers(void *ctx, const xmlChar *element_name, const xmlChar **attributes) {
     int i, id, reputation, name, about;
@@ -67,16 +67,16 @@ static void OnStartElementUsers(void *ctx, const xmlChar *element_name, const xm
 /*
 Função que extrai os elementos necessários dos posts para preencher as
 respetivas estruturas de dados.
-@param ctx
-@param element_name
-@param attributes
+@param ctx Apontador para estrutura do sax
+@param element_name Apontador para o nome do elemento do ficheiro XML
+@param attributes Um array com os apontadores para os atributos do elemento.
 */
 static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xmlChar **attributes) {
-    int i, id, post_type_id, owner_id, title, tags, score, comment_count, favorite_count;
+    int i, id, post_type_id, owner_id, title, tags, score, comment_count, favorite_count, was_null;
     int parentid, date;
     long a;
 
-    post_type_id = parentid = owner_id = title = tags = date = 0;
+    post_type_id = parentid = owner_id = title = tags = date = was_null = 0;
     id = score = favorite_count = comment_count = -1;
 
     if (attributes != NULL) {
@@ -129,15 +129,13 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
             Questions pointer = lookQuestion(structure, a);
 
             if(pointer == NULL) { //se a pergunta nao existe (caso em que resposta vem antes da pergunta, e se cria a pergunta vazia)
+                was_null = 1;
                 pointer = malloc(sizeQuestions());
 
                 setQuestionId(pointer, a);
                 setNAnswers(pointer, 0);
                 setNAnswerVotes(pointer, 0);
                 initAnswers(pointer);
-            }
-            else {
-                removeTmpQuestion(structure,pointer);
             }
 
             setQUserId(pointer, atol((const char *)attributes[owner_id]));
@@ -150,7 +148,8 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
 
             setNAnswers(pointer, 0);
 
-            insertQuestion(structure, getQuestionId(pointer), pointer);
+            if(was_null)
+                insertQuestion(structure, getQuestionId(pointer), pointer);
 
             addDAYQuestions(pointerDay, pointer);
         }
@@ -190,14 +189,13 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
                 setQDate(q, 0);
 
                 setNAnswers(q, 1);
-                setQuestionId(q, atol((const char *)attributes[parentid]));
+                setQuestionId(q, parent_id);
 
                 initAnswers(q);
                 setNAnswerVotes(q, votes);
                 addAnswers(q, pointer);
 
-                insertQuestion(structure, getQuestionId(q), q);
-                addTmpQuestion(structure, q);
+                insertQuestion(structure, parent_id, q);
              }
 
             addDAYAnswers(pointerDay, pointer);
@@ -223,9 +221,9 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
 /*
 Função que extrai os elementos necessários das tags para preencher a
 respetiva estruturas de dados.
-@param ctx
-@param element_name
-@param attributes
+@param ctx Apontador para estrutura do sax
+@param element_name Apontador para o nome do elemento do ficheiro XML
+@param attributes Um array com os apontadores para os atributos do elemento.
 */
 static void OnStartElementTags(void *ctx, const xmlChar *element_name, const xmlChar **attributes) {
   int id, tagname, i;
@@ -284,8 +282,8 @@ mesmo buffer.
 Note-se que quando esta função estiver a executar o parser dos dados, através da
 função xmlParseChunk chama as diversas callbacks sempre que se justifique.
 @param file Apontador para um ficheiro
-@param dump_file_name Apontador para o dump dos dados.
-@returns int - 1 se não conseguiu ler e 0 se leu dados do ficheiro XML
+@param dump_file_name Apontador para nome do ficheiro dos dados XML.
+@returns int - (1) se não conseguiu ler e 0 se leu dados do ficheiro XML
 */
 static int read_xmlfile(FILE *file, char *dump_file_name) {
     char chars[1024];
@@ -322,7 +320,7 @@ static int read_xmlfile(FILE *file, char *dump_file_name) {
 /*
 Função que carrega as estruturas de dados.
 @param com Apontador para a TCD_community
-@param dump_path Apontador para o caminho do dump. 
+@param dump_path Apontador para o caminho do dump.
 @returns TAD_community - Apontador para a TCD_community
 */
 TAD_community load(TAD_community com, char* dump_path) {

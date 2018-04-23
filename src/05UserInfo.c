@@ -3,13 +3,20 @@
 
 #include "struct.h"
 
-
-/*
-Dado um ID de utilizador, devolver a informação do
-seu perfil (short bio) e os IDs dos seus 10 últimos posts
-(perguntas ou respostas), ordenados por cronologia inversa;
+/**
+@file 05UserInfo.c
+Resposta à interrogação 5.
 */
 
+/**
+\brief Dado um ID de utilizador, devolver a informação do
+seu perfil (short bio) e os IDs dos seus 10 últimos posts
+(perguntas ou respostas), ordenados por cronologia inversa.
+@param com Estrutura dos dados.
+@param id Identificador do utilizador.
+@returns USER - estrutura com a informação do perfil e IDS dos últimos
+10 posts do utilizador passado como parâmetro.
+*/
 USER get_user_info(TAD_community com, long id) {
     int i, n_posts;
     postDate pd[10];

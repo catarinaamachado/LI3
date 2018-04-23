@@ -45,7 +45,7 @@ LONG_list most_used_best_rep(TAD_community com, int N, Date begin, Date end) {
   long user_id, tag_id;
   int sizePTRarray_users = 0;
   int tag_length, sizePTRarray_tags = 0;
-  char * all_tags;
+  char * all_tags = NULL;
 
   GDate * begin_stackOverflow = g_date_new_dmy (15, 9, 2008);
   GDate * beginDate = g_date_new_dmy(get_day(begin), get_month(begin), get_year(begin));
@@ -125,6 +125,8 @@ LONG_list most_used_best_rep(TAD_community com, int N, Date begin, Date end) {
 
           letra += strlen(tag) + 1;
         }
+
+        free(all_tags);
       }
     }
     count_day++; n_days--;
@@ -171,6 +173,11 @@ LONG_list most_used_best_rep(TAD_community com, int N, Date begin, Date end) {
   }
 
   free(list);
+  g_date_free(begin_stackOverflow);
+  g_date_free(beginDate);
+  g_date_free(endDate);
+  g_ptr_array_free(total_tags, TRUE);
+  g_ptr_array_free(total_users, TRUE);  
 
   return ll;
 }
