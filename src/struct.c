@@ -154,7 +154,9 @@ Função que devolve o apontador para uma tag contida num determinado índice
 da hash table tags.
 */
 Tags lookTag(TAD_community t, char * tagName) {
-  Tags tag = g_hash_table_lookup(t->tags, g_strdup(tagName));
+  gchar * tag_name = g_strdup(tagName);
+  Tags tag = g_hash_table_lookup(t->tags, tag_name);
+  g_free(tag_name);
 
   return tag;
 }
