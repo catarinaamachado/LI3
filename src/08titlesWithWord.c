@@ -10,9 +10,9 @@ Resposta à interrogação 8.
 */
 
 /**
-\brief Dado uma palavra, devolver uma lista com os IDs de
+\brief Dado uma palavra, devolve uma lista com os IDs de
 N perguntas cujos títulos a contenham, ordenados por cronologia inversa.
-@param com Estrutura dos dados.
+@param com Apontador para a TCD_community.
 @param word Palavra a verificar se está contida nos títulos.
 @param N Número de perguntas pretendidas.
 @returns LONG_list - IDs das N perguntas cujos títulos contenham o parâmetro

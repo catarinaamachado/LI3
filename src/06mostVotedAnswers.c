@@ -12,7 +12,7 @@ Resposta à interrogação 6.
 \brief Dado um intervalo de tempo arbitrário,
 devolve os IDs das N respostas com mais votos,
 em ordem decrescente do número de votos.
-@param com Estrutura dos dados.
+@param com Apontador para a TCD_community.
 @param N Número de perguntas pretendidas.
 @param begin Data inicial do intervalo de tempo.
 @param end Data final do intervalo de tempo.

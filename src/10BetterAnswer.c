@@ -4,17 +4,20 @@
 
 #include "struct.h"
 
-/*
-Dado o ID de uma pergunta, obter a melhor resposta.
-Para isso, deverá usar a função de média ponderada abaixo:
+/**
+@file 10BetterAnswer.c
+Resposta à interrogação 10.
+*/
 
+/*
+Dado o ID de uma pergunta, obtem a melhor resposta.
+Para isso, usa a função de média ponderada abaixo:
 (score da resposta × 0.45) + (reputação do utilizador × 0.25) +
 (número de votos recebidos pela resposta × 0.2) +
 (número de comentários recebidos pela resposta × 0.1)
-
-@param com apontador para a TCD_community.
+@param com Apontador para a TCD_community.
 @param id Identificador da Pergunta.
-@returns long - resposta com melhor média ponderada.
+@returns long - Resposta com melhor média ponderada.
 */
 
 long better_answer(TAD_community com, long id) {

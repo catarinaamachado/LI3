@@ -14,7 +14,7 @@ Resposta à interrogação 4.
 retorna todas as perguntas contendo uma determinada tag.
 O retorno da função deverá ser uma lista com os IDs das perguntas
 ordenadas em cronologia inversa.
-@param com Estrutura dos dados.
+@param com Apontador para a TCD_community.
 @param tag Tag que procuramos nas perguntas.
 @param begin Data inicial do intervalo de tempo.
 @param end Data final do intervalo de tempo.

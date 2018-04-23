@@ -4,10 +4,14 @@
 
 #include "day.h"
 
+/**
+@file day.c
+Estrutura de dados relativa aos dias, respetivos
+getters e setters e funções auxiliares necessárias.
+*/
 
-
-/*
-Estrutura que armazena informação relativa a uma data, a quantidade de
+/**
+\brief Estrutura que armazena informação relativa a uma data, a quantidade de
 perguntas e respostas e os arrays com as mesmas, publicadas nessa data.
 */
 typedef struct day {
@@ -39,7 +43,7 @@ int getDay(Day d) {
 
 /**
 \brief Função que estabelece um dia.
-@param d Dia em questão.
+@param d Apontador para o dia em questão.
 @param newDay Novo dia.
 */
 void setDay(Day d, int newDay) {
@@ -56,7 +60,7 @@ int getMonth(Day d) {
 
 /**
 \brief Função que estabelece o mês.
-@param d Dia em questão.
+@param d Apontador para o dia em questão.
 @param newMonth Novo mês.
 */
 void setMonth(Day d, int newMonth) {
@@ -73,7 +77,7 @@ int getYear(Day d) {
 
 /**
 \brief Função que estabelece o ano.
-@param d Dia em questão.
+@param d Apontador para o dia em questão.
 @param newYear Novo ano.
 */
 void setYear(Day d, int newYear) {
@@ -82,7 +86,7 @@ void setYear(Day d, int newYear) {
 
 /**
 \brief Função que devolve o número de perguntas num dia.
-@param d Dia em questão.
+@param d Apontador para o dia em questão.
 @returns int - Número de perguntas.
 */
 int getDAYNQuestions(Day d) {
@@ -91,7 +95,7 @@ int getDAYNQuestions(Day d) {
 
 /**
 \brief Função que estabelece o número de perguntas feitas num dia.
-@param d Dia em questão.
+@param d Apontador para o dia em questão.
 @param n_questions Número de perguntas.
 */
 void setDAYNQuestions(Day d, int n_questions) {
@@ -100,7 +104,7 @@ void setDAYNQuestions(Day d, int n_questions) {
 
 /**
 \brief Função que devolve o número de respostas num dia.
-@param d Dia em questão.
+@param d Apontador para o dia em questão.
 @returns int - Número de respostas.
 */
 int getDAYNAnswers(Day d) {
@@ -109,7 +113,7 @@ int getDAYNAnswers(Day d) {
 
 /**
 \brief Função que estabelece o número de respostas feitas num dia.
-@param d Dia em questão.
+@param d Apontador para o dia em questão.
 @param n_answers Número de respostas.
 */
 void setDAYNAnswers(Day d, int n_answers) {
@@ -118,7 +122,7 @@ void setDAYNAnswers(Day d, int n_answers) {
 
 /**
 \brief Função que inicializa o GPtrArray answers, bem como número de respostas a zero.
-@param d Dia em questão.
+@param d Apontador para o dia em questão.
 */
 void initDAYAnswers(Day d) {
     d->n_answers = 0;
@@ -128,7 +132,7 @@ void initDAYAnswers(Day d) {
 /**
 \brief Função que adiciona uma resposta ao GPtrArray answers
 e incrementa o número de respostas.
-@param d Dia em questão.
+@param d Apontador para o dia em questão.
 @param a Nova resposta.
 */
 void addDAYAnswers(Day d, Answers a) {
@@ -138,7 +142,7 @@ void addDAYAnswers(Day d, Answers a) {
 
 /**
 \brief Função que inicializa o GPtrArray questions, bem como número de perguntas a zero.
-@param d Dia em questão.
+@param d Apontador para o dia em questão.
 */
 void initDAYQuestions(Day d) {
     d->n_questions = 0;
@@ -148,7 +152,7 @@ void initDAYQuestions(Day d) {
 /**
 \brief Função que adiciona uma pergunta ao GPtrArray questions
 e incrementa o número de perguntas.
-@param d Dia em questão.
+@param d Apontador para o dia em questão.
 @param q Nova pergunta.
 */
 void addDAYQuestions(Day d, Questions q) {
@@ -159,7 +163,7 @@ void addDAYQuestions(Day d, Questions q) {
 /**
 \brief Função que devolve um apontador para uma resposta que se encontra
 em determinado índice do GPtrArray answers.
-@param d Dia em questão.
+@param d Apontador para o dia em questão.
 @param index Índice onde se encontra a resposta.
 @param Answers - Resposta.
 */
@@ -170,7 +174,7 @@ Answers getDAYAnswerAtIndex(Day d, int index) {
 /**
 \brief Função que devolve um apontador para uma pergunta que se encontra
 em determinado índice do GPtrArray questions.
-@param d Dia em questão.
+@param d Apontador para o dia em questão.
 @param index Índice onde se encontra a pergutna.
 @param Questions - Pergunta.
 */
@@ -179,15 +183,16 @@ Questions getDAYQuestionAtIndex(Day d, int index) {
 }
 
 /**
-\brief Função que limpa a memória alocada para as perguntas e respostas.
-@param d Dia em questão.
+\brief Função que limpa a memória alocada para as perguntas e respostas
+efetuadas naquele dia.
+@param d Apontador para o dia em questão.
 */
 void cleanDay(Day d) {
-    if (d != NULL) {
-        g_ptr_array_free(d->questions, TRUE);
+  if (d != NULL) {
+    g_ptr_array_free(d->questions, TRUE);
 
-        g_ptr_array_free(d->answers, TRUE);
+    g_ptr_array_free(d->answers, TRUE);
 
-        free(d);
-    }
+    free(d);
+  }
 }

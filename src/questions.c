@@ -6,9 +6,14 @@
 #include "questions.h"
 #include "postDate.h"
 
+/**
+@file questions.c
+Estrutura de dados relativa às perguntas, respetivos
+getters e setters e funções auxiliares necessárias.
+*/
 
-/*
-Estrutura que guarda a informação considerada relevante das perguntas.
+/**
+\brief Estrutura que guarda a informação considerada relevante das perguntas.
 */
 typedef struct questions {
   long post_id;
@@ -21,16 +26,16 @@ typedef struct questions {
   GPtrArray * answers;
 } questions;
 
-/*
-Função que devolve o tamanho da estrutura questions.
-@returns int - Tamanho de questions.
+/**
+\brief Função que devolve o tamanho da estrutura questions.
+@returns int - Tamanho da estrutura questions.
 */
 int sizeQuestions() {
     return sizeof(struct questions);
 }
 
-/*
-Função que devolve o id da pergunta.
+/**
+\brief Função que devolve o id da pergunta.
 @param q Apontador para questions.
 @returns long - Identificador da pergunta.
 */
@@ -38,8 +43,8 @@ long getQuestionId(Questions q) {
     return q->post_id;
 }
 
-/*
-Função que estabelece o o id da pergunta.
+/**
+\brief Função que estabelece o o id da pergunta.
 @param q Apontador para questions.
 @param id Identificador da pergunta.
 */
@@ -47,10 +52,10 @@ void setQuestionId(Questions q, long id) {
     q->post_id = id;
 }
 
-/*
-Função que estabelece a data da pergunta.
+/**
+\brief Função que estabelece a data da pergunta.
 @param q Apontador para questions.
-@param date Apontador para a data.
+@param date A data da pergunta em formato string.
 */
 void setQDate(Questions q, char * date) {
     if(date == 0)
@@ -61,10 +66,10 @@ void setQDate(Questions q, char * date) {
     }
 }
 
-/*
-Função que devolve a data da pergunta.
+/**
+\brief Função que devolve a data da pergunta.
 @param q Apontador para questions.
-@returns char * - Data.
+@returns char * - A data da pergunta em formato string.
 */
 char * getQDate(Questions q) {
     char * date = malloc(sizeof(char) * 12);
@@ -74,8 +79,8 @@ char * getQDate(Questions q) {
     return date;
 }
 
-/*
-Função que devolve o id do utilizador.
+/**
+\brief Função que devolve o id do utilizador.
 @param q Apontador para questions.
 @returns long - Identificador do user.
 */
@@ -83,8 +88,8 @@ long getQUserId(Questions q) {
     return q->user_id;
 }
 
-/*
-Função que estabelece o id do utilizador.
+/**
+\brief Função que estabelece o id do utilizador.
 @param q Apontador para questions.
 @param id Identificador do user.
 */
@@ -92,8 +97,8 @@ void setQUserId(Questions q, long id) {
     q->user_id = id;
 }
 
-/*
-Função que devolve o título de uma pergunta.
+/**
+\brief Função que devolve o título de uma pergunta.
 @param q Apontador para questions.
 @returns char * -  Título da pergunta.
 */
@@ -104,8 +109,8 @@ char * getTitle(Questions q) {
     return title;
 }
 
-/*
-Função que estabelece o título de uma pergunta.
+/**
+\brief Função que estabelece o título de uma pergunta.
 @param q Apontador para questions.
 @param t Título.
 */
@@ -120,8 +125,8 @@ void setTitle(Questions q, char * t) {
     }
 }
 
-/*
-Função que devolve a(s) tag(s) de uma pergunta.
+/**
+\brief Função que devolve a(s) tag(s) de uma pergunta.
 @param q Apontador para questions.
 @returns char * -  Tags da pergunta.
 */
@@ -132,8 +137,8 @@ char * getTags(Questions q) {
     return tags;
 }
 
-/*
-Função que estabelece a(s) tag(s) de uma pergunta.
+/**
+\brief Função que estabelece a(s) tag(s) de uma pergunta.
 @param q Apontador para questions.
 @param t Tags da pergunta.
 */
@@ -148,8 +153,8 @@ void setTags(Questions q, char * t) {
     }
 }
 
-/*
-Função que devolve o número de respostas associadas a determinada pergunta.
+/**
+\brief Função que devolve o número de respostas associadas a determinada pergunta.
 @param q Apontador para questions.
 @returns int -  Número de respostas.
 */
@@ -157,8 +162,8 @@ int getNAnswers(Questions q) {
     return q->n_answers;
 }
 
-/*
-Função que estabelece o número de respostas associadas a determinada pergunta.
+/**
+\brief Função que estabelece o número de respostas associadas a determinada pergunta.
 @param q Apontador para questions.
 @param n Número de respostas.
 */
@@ -166,8 +171,8 @@ void setNAnswers(Questions q, int n) {
     q->n_answers = n;
 }
 
-/*
-Função que devolve o número total de votos das respostas associadas a uma pergunta.
+/**
+\brief Função que devolve o número total de votos das respostas associadas a uma pergunta.
 @param q Apontador para questions.
 @returns int - Total de votos das respostas.
 */
@@ -175,8 +180,8 @@ int getNAnswerVotes(Questions q) {
     return q->n_answer_votes;
 }
 
-/*
-Função que estabelece o número total de votos das respostas associadas a uma pergunta.
+/**
+\brief Função que estabelece o número total de votos das respostas associadas a uma pergunta.
 @param q Apontador para questions.
 @param n Votos das respostas.
 */
@@ -184,16 +189,16 @@ void setNAnswerVotes(Questions q, int n) {
     q->n_answer_votes = n;
 }
 
-/*
-Função que cria um novo GPtrArray com as respostas de determinada pergunta.
+/**
+\brief Função que cria um novo GPtrArray com as respostas de determinada pergunta.
 @param q Apontador para questions.
 */
 void initAnswers(Questions q) {
     q->answers = g_ptr_array_sized_new(q->n_answers);
 }
 
-/*
-Função que adiciona uma resposta ao GPtrArray Answers.
+/**
+\brief Função que adiciona uma resposta ao GPtrArray Answers.
 @param q Apontador para questions.
 @param a Apontador para answers.
 */
@@ -203,8 +208,8 @@ void addAnswers(Questions q, Answers a) {
     g_ptr_array_add(q->answers, new);
 }
 
-/*
-Função que devolve o id do utilizador que deu a resposta contida no GPtrArray,
+/**
+\brief Função que devolve o id do utilizador que deu a resposta contida no GPtrArray,
 mais precisamente no índice do array dado pela variável index.
 @param q Apontador para questions.
 @param index Índice da resposta no GPtrArray * answers.
@@ -214,8 +219,8 @@ long getAnswerUserIdAtIndex(Questions q, int index) {
     return getAUserId(g_ptr_array_index(q->answers, index));
 }
 
-/*
-Função que devolve o score obtido pela resposta contida no GPtrArray,
+/**
+\brief Função que devolve o score obtido pela resposta contida no GPtrArray,
 mais precisamente no índice do array dado pela variável index.
 @param q Apontador para questions.
 @param index Índice da resposta no GPtrArray * answers.
@@ -226,8 +231,8 @@ int getAnswerScoreAtIndex(Questions q, int index) {
 }
 
 
-/*
-Função que devolve o número de comentários obtido pela resposta contida no GPtrArray,
+/**
+\brief Função que devolve o número de comentários obtido pela resposta contida no GPtrArray,
 mais precisamente no índice do array dado pela variável index.
 @param q Apontador para questions.
 @param index Índice da resposta no GPtrArray * answers.
@@ -237,8 +242,8 @@ int getAnswerCommentAtIndex(Questions q, int index) {
    return getCommentCount(g_ptr_array_index(q->answers, index));
 }
 
-/*
-Função que devolve o id da resposta contida no GPtrArray,
+/**
+\brief Função que devolve o id da resposta contida no GPtrArray,
 mais precisamente no índice do array dado pela variável index.
 @param q Apontador para questions.
 @param index Índice da resposta no GPtrArray * answers.
@@ -248,8 +253,8 @@ int getAnswerIdAtIndex(Questions q, int index) {
    return getAnswerId(g_ptr_array_index(q->answers, index));
 }
 
-/*
-Função que devolve o tamanho do GPtrArray answers.
+/**
+\brief Função que devolve o tamanho do GPtrArray answers.
 @param q Apontador para questions.
 @returns int - Tamanho do GPtrArray * answers.
 */
@@ -257,11 +262,12 @@ int getAnswersArraySize(Questions q) {
   return q->answers->len;
 }
 
-/*
-Função que ordena as perguntas por data.
+/**
+\brief Função que ordena as perguntas por data.
 @param aq Apontador para questions.
 @param bq Apontador para questions.
-@returns gint - -1 ou 1.
+@returns gint - -1 se a primeira pergunta passada como parâmetro
+for mais recente que a segunda ou 1 caso contrário.
 */
 gint sortQDate (Questions aq, Questions bq) {
     postDate a = aq->pd;
@@ -310,12 +316,13 @@ gint sortQDate (Questions aq, Questions bq) {
     return 1;
 }
 
-/*
-Função que compara o número de respostas de duas perguntas recebidas como parametro.
-(query 7)
+/**
+\brief Função que compara o número de respostas de duas perguntas recebidas
+como parâmetro (query 7).
 @param q1 Apontador para um apontador para questions.
 @param q2 Apontador para um apontador para questions.
-@returns gint - -1 ou 1.
+@returns gint - -1 se o número de respostas da primeira pergunta passada
+como parâmetro for maior que o da segunda, ou 1 caso contrário.
 */
 static gint sortPlusAnswers(Questions * q1, Questions * q2) {
   int nAnswers_q1 = 0, nAnswers_q2 = 0;
@@ -328,16 +335,17 @@ static gint sortPlusAnswers(Questions * q1, Questions * q2) {
       return -1;
 }
 
-/*
-Função que ordena um array pela ordem decrescente do maior número de respostas.
-(query 7)
+/**
+\brief Função que ordena um array pela ordem decrescente do maior
+número de respostas (query 7).
 @param total_questions Apontador para GPtrArray.
 */
 void sortMoreAnswers(GPtrArray * total_questions) {
   g_ptr_array_sort(total_questions, (GCompareFunc)sortPlusAnswers);
 }
-/*
-Função que liberta os espaços de memória criados para as datas, título, tags,
+
+/**
+\brief Função que liberta os espaços de memória criados para as datas, título, tags,
 GPtrArray das respostas e o próprio apontador para questions.
 @param q Apontador para questions.
 */

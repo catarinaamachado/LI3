@@ -8,7 +8,7 @@ Limpeza da estrutura de dados.
 
 /**
 \brief Limpeza de toda a memória alocada na estrutura de dados.
-@param com Estrutura dos dados.
+@param com Apontador para a TCD_community.
 @returns TAD_community Estrutura dos dados.
 */
 TAD_community clean(TAD_community com) {

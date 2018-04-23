@@ -12,10 +12,10 @@ Resposta à interrogação 11.
 
 /**
 \brief Função que devolve a primeira tag (individual)
-do conjunto de tags passado como argumento
-@param all_tags Palavra com todas as tags de uma pergunta
-@returns char * - primeira tag presente na palavra passada
-como argumento
+do conjunto de tags passado como argumento.
+@param all_tags Palavra com todas as tags de uma pergunta.
+@returns char * - Primeira tag presente na palavra passada
+como argumento.
 */
 char * separaTags(char * all_tags) {
   char * token;
@@ -29,7 +29,7 @@ char * separaTags(char * all_tags) {
 \brief Dado um intervalo arbitrário de tempo,
 devolve as N tags mais usadas pelos N utilizadores com melhor reputação.
 Em ordem decrescente do número de vezes em que a tag foi usada.
-@param com Estrutura dos dados.
+@param com Apontador para a TCD_community.
 @param N Número de perguntas pretendidas.
 @param begin Data inicial do intervalo de tempo.
 @param end Data final do intervalo de tempo.
@@ -177,7 +177,7 @@ LONG_list most_used_best_rep(TAD_community com, int N, Date begin, Date end) {
   g_date_free(beginDate);
   g_date_free(endDate);
   g_ptr_array_free(total_tags, TRUE);
-  g_ptr_array_free(total_users, TRUE);  
+  g_ptr_array_free(total_users, TRUE);
 
   return ll;
 }

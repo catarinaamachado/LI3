@@ -5,10 +5,18 @@
 Resposta à interrogação 9.
 */
 
+/**
+\brief Função que averigua se o utilizador passado como parâmetro participa em
+alguma das respostas da pergunta passada como parâmetro.
+@param q Apontador para questions.
+@param id Identificador de um utilizador.
+@returns int - 1 se o utilizador participa nalguma das respostas da
+pergunta passada como parâmetro, 0 caso contrário.
+*/
 static int participateAnswers(Questions q, long id) {
     int size = getNAnswers(q);
 
-    for (int i = 0; i < size; i++)
+    for(int i = 0; i < size; i++)
         if (id == getAnswerUserIdAtIndex(q, i))
             return 1;
 
@@ -17,13 +25,13 @@ static int participateAnswers(Questions q, long id) {
 
 
 /**
-\brief Dados os IDs de dois utilizadores, devolver as últimas
+\brief Dados os IDs de dois utilizadores, devolve as últimas
 N perguntas (cronologia inversa) em que participaram dois utilizadores
 específicos. Note que os utilizadores podem ter participado via pergunta ou
 respostas.
-@param com Estrutura dos dados.
-@param id1 Identificador de um utilizador
-@param id2 Identificador de outro utilizador
+@param com Apontador para a TCD_community.
+@param id1 Identificador de um utilizador.
+@param id2 Identificador de outro utilizador.
 @param N Número de perguntas pretendidas.
 @returns LONG_list - IDs das N perguntas em que participaram os dois
 utilizadores passados como parâmetro, ordenados por cronologia inversa.

@@ -9,12 +9,12 @@ Resposta à interrogação 5.
 */
 
 /**
-\brief Dado um ID de utilizador, devolver a informação do
+\brief Dado um ID de utilizador, devolve a informação do
 seu perfil (short bio) e os IDs dos seus 10 últimos posts
 (perguntas ou respostas), ordenados por cronologia inversa.
-@param com Estrutura dos dados.
+@param com Apontador para a TCD_community.
 @param id Identificador do utilizador.
-@returns USER - estrutura com a informação do perfil e IDS dos últimos
+@returns USER - Estrutura com a informação do perfil e IDS dos últimos
 10 posts do utilizador passado como parâmetro.
 */
 USER get_user_info(TAD_community com, long id) {

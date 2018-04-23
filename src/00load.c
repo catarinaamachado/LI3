@@ -12,11 +12,16 @@
 static TAD_community structure;
 static GDate * begin_stackOverflow;
 
-/*
-Função que extrai os elementos necessários do utilizador para preencher as
+/**
+@file 00load.c
+Parse dos ficheiros e preenchimento da estrutura de dados.
+*/
+
+/**
+\brief Função que extrai os elementos necessários do utilizador para preencher as
 respetivas estruturas de dados.
-@param ctx Apontador para estrutura do sax
-@param element_name Apontador para o nome do elemento do ficheiro XML
+@param ctx Apontador para estrutura do sax.
+@param element_name Apontador para o nome do elemento do ficheiro XML.
 @param attributes Um array com os apontadores para os atributos do elemento.
 */
 static void OnStartElementUsers(void *ctx, const xmlChar *element_name, const xmlChar **attributes) {
@@ -64,11 +69,11 @@ static void OnStartElementUsers(void *ctx, const xmlChar *element_name, const xm
 }
 
 
-/*
-Função que extrai os elementos necessários dos posts para preencher as
+/**
+\brief Função que extrai os elementos necessários dos posts para preencher as
 respetivas estruturas de dados.
-@param ctx Apontador para estrutura do sax
-@param element_name Apontador para o nome do elemento do ficheiro XML
+@param ctx Apontador para estrutura do sax.
+@param element_name Apontador para o nome do elemento do ficheiro XML.
 @param attributes Um array com os apontadores para os atributos do elemento.
 */
 static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xmlChar **attributes) {
@@ -218,11 +223,11 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
 }
 
 
-/*
-Função que extrai os elementos necessários das tags para preencher a
+/**
+\brief Função que extrai os elementos necessários das tags para preencher a
 respetiva estruturas de dados.
-@param ctx Apontador para estrutura do sax
-@param element_name Apontador para o nome do elemento do ficheiro XML
+@param ctx Apontador para estrutura do sax.
+@param element_name Apontador para o nome do elemento do ficheiro XML.
 @param attributes Um array com os apontadores para os atributos do elemento.
 */
 static void OnStartElementTags(void *ctx, const xmlChar *element_name, const xmlChar **attributes) {
@@ -252,9 +257,9 @@ static void OnStartElementTags(void *ctx, const xmlChar *element_name, const xml
   }
 }
 
-/*
-Função que define as callbacks a serem chamadas e carrega a estrutura do SAX.
-@param dump_file_name O ficheiro que vamos fazer parse
+/**
+\brief Função que define as callbacks a serem chamadas e carrega a estrutura do SAX.
+@param dump_file_name O ficheiro que vamos fazer parse,
 @returns xmlSAXHandler - Estrutura de dados do SAX.
 */
 static xmlSAXHandler make_sax_handler (char *dump_file_name){
@@ -273,17 +278,17 @@ static xmlSAXHandler make_sax_handler (char *dump_file_name){
     return SAXHander;
 }
 
-/*
-Função que verifica o encoding. De seguida, executa a função make_sax_handler,
+/**
+\brief Função que verifica o encoding. De seguida, executa a função make_sax_handler,
 que define quais as callbacks a serem utilizadas pelo programa. Posteriormente,
 inicializa o SAX e vai lendo o conteúdo do ficheiro XML respectivo, passando a
 informação relevante para o buffer (chars) e, posteriormente, faz parser desse
 mesmo buffer.
 Note-se que quando esta função estiver a executar o parser dos dados, através da
 função xmlParseChunk chama as diversas callbacks sempre que se justifique.
-@param file Apontador para um ficheiro
+@param file Apontador para um ficheiro.
 @param dump_file_name Apontador para nome do ficheiro dos dados XML.
-@returns int - (1) se não conseguiu ler e 0 se leu dados do ficheiro XML
+@returns int - (1) se não conseguiu ler e 0 se leu dados do ficheiro XML.
 */
 static int read_xmlfile(FILE *file, char *dump_file_name) {
     char chars[1024];
@@ -317,11 +322,11 @@ static int read_xmlfile(FILE *file, char *dump_file_name) {
     return 0;
 }
 
-/*
-Função que carrega as estruturas de dados.
-@param com Apontador para a TCD_community
+/**
+\brief Função que carrega as estruturas de dados.
+@param com Apontador para a TCD_community.
 @param dump_path Apontador para o caminho do dump.
-@returns TAD_community - Apontador para a TCD_community
+@returns TAD_community - Apontador para a TCD_community.
 */
 TAD_community load(TAD_community com, char* dump_path) {
     structure = com;

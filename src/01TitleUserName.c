@@ -2,17 +2,21 @@
 
 #include "struct.h"
 
+/**
+@file 01TitleUserName.c
+Resposta à interrogação 1.
+*/
 
- /*
-Dado o identificador de um post, a função deve retornar
+
+/**
+\brief Dado o identificador de um post, a função retorna
 o título do post e o nome (não o ID) de utilizador do autor. Se o post
-for uma resposta, a função deverá retornar informações (título e utilizador)
-da pergunta correspondente;
-@param com apontador para a TCD_community.
+for uma resposta, a função retorna informações (título e utilizador)
+da pergunta correspondente.
+@param com Apontador para a TCD_community.
 @param id Identificador do Post.
 @returns STR_pair - Título e utilizador.
- */
-
+*/
 STR_pair info_from_post(TAD_community com, long id) {
    STR_pair title_username;
    int user_id;

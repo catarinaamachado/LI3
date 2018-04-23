@@ -3,6 +3,9 @@
 
 #include "testes.h"
 
+/**
+@file main.c
+*/
 
 
 int main(int argc, char const *argv[]){
@@ -12,9 +15,6 @@ int main(int argc, char const *argv[]){
     com = load(com, "../dump/ubuntu");
 
     testes(com);
-
-
-
 
 
     com = clean(com);

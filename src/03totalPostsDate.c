@@ -9,7 +9,7 @@ Resposta à interrogação 3.
 \brief Dado um intervalo de tempo arbitrário,
 obtem o número total de posts
 (identificando perguntas e respostas separadamente) neste período.
-@param com Estrutura dos dados.
+@param com Apontador para a TCD_community.
 @param begin Data inicial do intervalo de tempo.
 @param end Data final do intervalo de tempo.
 @returns LONG_pair - Número total de perguntas e número total de respostas
