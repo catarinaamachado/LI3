@@ -15,6 +15,9 @@ static GDate * begin_stackOverflow;
 /*
 Função que extrai os elementos necessários do utilizador para preencher as
 respetivas estruturas de dados.
+@param ctx
+@param element_name Nome do elemento
+@param attributes
 */
 static void OnStartElementUsers(void *ctx, const xmlChar *element_name, const xmlChar **attributes) {
     int i, id, reputation, name, about;
@@ -64,6 +67,9 @@ static void OnStartElementUsers(void *ctx, const xmlChar *element_name, const xm
 /*
 Função que extrai os elementos necessários dos posts para preencher as
 respetivas estruturas de dados.
+@param ctx
+@param element_name
+@param attributes
 */
 static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xmlChar **attributes) {
     int i, id, post_type_id, owner_id, title, tags, score, comment_count, favorite_count;
@@ -217,6 +223,9 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
 /*
 Função que extrai os elementos necessários das tags para preencher a
 respetiva estruturas de dados.
+@param ctx
+@param element_name
+@param attributes
 */
 static void OnStartElementTags(void *ctx, const xmlChar *element_name, const xmlChar **attributes) {
   int id, tagname, i;
@@ -247,6 +256,8 @@ static void OnStartElementTags(void *ctx, const xmlChar *element_name, const xml
 
 /*
 Função que define as callbacks a serem chamadas e carrega a estrutura do SAX.
+@param dump_file_name O ficheiro que vamos fazer parse
+@returns xmlSAXHandler - Estrutura de dados do SAX.
 */
 static xmlSAXHandler make_sax_handler (char *dump_file_name){
     xmlSAXHandler SAXHander;
@@ -272,6 +283,9 @@ informação relevante para o buffer (chars) e, posteriormente, faz parser desse
 mesmo buffer.
 Note-se que quando esta função estiver a executar o parser dos dados, através da
 função xmlParseChunk chama as diversas callbacks sempre que se justifique.
+@param file Apontador para um ficheiro
+@param dump_file_name Apontador para o dump dos dados.
+@returns int - 1 se não conseguiu ler e 0 se leu dados do ficheiro XML
 */
 static int read_xmlfile(FILE *file, char *dump_file_name) {
     char chars[1024];
@@ -307,6 +321,9 @@ static int read_xmlfile(FILE *file, char *dump_file_name) {
 
 /*
 Função que carrega as estruturas de dados.
+@param com Apontador para a TCD_community
+@param dump_path Apontador para o caminho do dump. 
+@returns TAD_community - Apontador para a TCD_community
 */
 TAD_community load(TAD_community com, char* dump_path) {
     structure = com;

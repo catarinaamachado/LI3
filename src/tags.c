@@ -16,6 +16,7 @@ typedef struct tags {
 
 /*
 Função que devolve o tamanho da estrutura tags.
+@returns int - Tamanho da estrutura tags
 */
 int getTagsSize() {
   return sizeof(struct tags);
@@ -23,6 +24,8 @@ int getTagsSize() {
 
 /*
 Função que devolve o id da tag.
+@param tag Apontador para tags
+@returns int - Identificador da tag
 */
 int getTagId(Tags tag) {
   return tag->id;
@@ -30,6 +33,8 @@ int getTagId(Tags tag) {
 
 /*
 Função que estabelece o id da tag.
+@param tag Apontador para tags
+@param id Identificador da tag
 */
 void setTagId(Tags tag, int id) {
   tag->id = id;
@@ -37,6 +42,8 @@ void setTagId(Tags tag, int id) {
 
 /*
 Função que devolve o nome da tag.
+@param tag Apontador para tags
+@returns char * - Nome da tag
 */
 char * getTagName(Tags tag) {
   char * name = malloc(sizeof(char) * (strlen(tag->nameTag)+2));
@@ -47,6 +54,8 @@ char * getTagName(Tags tag) {
 
 /*
 Função que estabelece o nome da tag.
+@param tag Apontador para tags
+@param name Nome da tag
 */
 void setTagName(Tags tag, const char * name){
   char * nameTag = malloc(sizeof(char) * (strlen(name)+2));
@@ -58,6 +67,8 @@ void setTagName(Tags tag, const char * name){
 
 /*
 Função que devolve o valor do parametro value.
+@param tag Apontador para tags
+@returns int - Valor do parametro value
 */
 int getTagValue(Tags tag) {
   return tag->value;
@@ -65,6 +76,8 @@ int getTagValue(Tags tag) {
 
 /*
 Função que estabelece o valor do parametro value.
+@param tag Apontador para tags
+@param Valor do value
 */
 void setTagValue(Tags tag, int value) {
   tag->value = value;
@@ -72,6 +85,7 @@ void setTagValue(Tags tag, int value) {
 
 /*
 Função que incrementa em uma unidade o parametro value.
+@param tag Apontador para tags
 */
 void incrementTagValue(Tags tag) {
   tag->value = tag->value + 1;
@@ -80,6 +94,10 @@ void incrementTagValue(Tags tag) {
 /*
 Função que compara o número de ocorrências de duas tags recebidas como parametro.
 (query 11)
+@param t1 Apontador para um apontador para tags
+@param t2 Apontador para um apontador para tags
+@returns gint - 1 se valor da tag t1 for menor que o da t2, caso contrário devolve
+-1.
 */
 static gint sortOccurrencesTags(Tags * t1, Tags * t2) {
   int nOccur1, nOccur2;
@@ -96,11 +114,17 @@ static gint sortOccurrencesTags(Tags * t1, Tags * t2) {
 Função que ordena as tags de acordo com o número de vezes que elas aparecem,
 (da tag mais usada para a tag menos usada).
 (query 11)
+@param total_tags Apontador para GPtrArray.
 */
 void sortTags(GPtrArray * total_tags) {
   g_ptr_array_sort(total_tags, (GCompareFunc)sortOccurrencesTags);
 }
 
+
+/*
+Função que elimina o espaço de memória criado para o nome da tag.
+@param t Apontador para tags
+*/
 void cleanTags(Tags t) {
   free(t->nameTag);
   free(t);

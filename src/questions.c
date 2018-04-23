@@ -23,6 +23,7 @@ typedef struct questions {
 
 /*
 Função que devolve o tamanho da estrutura questions.
+@returns int - Tamanho de questions.
 */
 int sizeQuestions() {
     return sizeof(struct questions);
@@ -30,6 +31,8 @@ int sizeQuestions() {
 
 /*
 Função que devolve o id da pergunta.
+@param q Apontador para questions.
+@returns long - Identificador da pergunta.
 */
 long getQuestionId(Questions q) {
     return q->post_id;
@@ -37,6 +40,8 @@ long getQuestionId(Questions q) {
 
 /*
 Função que estabelece o o id da pergunta.
+@param q Apontador para questions.
+@param id Identificador da pergunta.
 */
 void setQuestionId(Questions q, long id) {
     q->post_id = id;
@@ -44,6 +49,8 @@ void setQuestionId(Questions q, long id) {
 
 /*
 Função que estabelece a data da pergunta.
+@param q Apontador para questions.
+@param date Apontador para a data.
 */
 void setQDate(Questions q, char * date) {
     if(date == 0)
@@ -56,6 +63,8 @@ void setQDate(Questions q, char * date) {
 
 /*
 Função que devolve a data da pergunta.
+@param q Apontador para questions.
+@returns char * - Data.
 */
 char * getQDate(Questions q) {
     char * date = malloc(sizeof(char) * 12);
@@ -67,6 +76,8 @@ char * getQDate(Questions q) {
 
 /*
 Função que devolve o id do utilizador.
+@param q Apontador para questions.
+@returns long - Identificador do user.
 */
 long getQUserId(Questions q) {
     return q->user_id;
@@ -74,6 +85,8 @@ long getQUserId(Questions q) {
 
 /*
 Função que estabelece o id do utilizador.
+@param q Apontador para questions.
+@param id Identificador do user.
 */
 void setQUserId(Questions q, long id) {
     q->user_id = id;
@@ -81,6 +94,8 @@ void setQUserId(Questions q, long id) {
 
 /*
 Função que devolve o título de uma pergunta.
+@param q Apontador para questions.
+@returns char * -  Título da pergunta.
 */
 char * getTitle(Questions q) {
     char * title = malloc(sizeof(char) * (strlen(q->title)+2));
@@ -91,6 +106,8 @@ char * getTitle(Questions q) {
 
 /*
 Função que estabelece o título de uma pergunta.
+@param q Apontador para questions.
+@param t Título.
 */
 void setTitle(Questions q, char * t) {
     if(t == NULL)
@@ -105,6 +122,8 @@ void setTitle(Questions q, char * t) {
 
 /*
 Função que devolve a(s) tag(s) de uma pergunta.
+@param q Apontador para questions.
+@returns char * -  Tags da pergunta.
 */
 char * getTags(Questions q) {
     char * tags = malloc(sizeof(char) * (strlen(q->tags)+2));
@@ -115,6 +134,8 @@ char * getTags(Questions q) {
 
 /*
 Função que estabelece a(s) tag(s) de uma pergunta.
+@param q Apontador para questions.
+@param t Tags da pergunta.
 */
 void setTags(Questions q, char * t) {
     if(t == NULL)
@@ -129,6 +150,8 @@ void setTags(Questions q, char * t) {
 
 /*
 Função que devolve o número de respostas associadas a determinada pergunta.
+@param q Apontador para questions.
+@returns int -  Número de respostas.
 */
 int getNAnswers(Questions q) {
     return q->n_answers;
@@ -136,6 +159,8 @@ int getNAnswers(Questions q) {
 
 /*
 Função que estabelece o número de respostas associadas a determinada pergunta.
+@param q Apontador para questions.
+@param n Número de respostas.
 */
 void setNAnswers(Questions q, int n) {
     q->n_answers = n;
@@ -143,6 +168,8 @@ void setNAnswers(Questions q, int n) {
 
 /*
 Função que devolve o número total de votos das respostas associadas a uma pergunta.
+@param q Apontador para questions.
+@returns int - Total de votos das respostas.
 */
 int getNAnswerVotes(Questions q) {
     return q->n_answer_votes;
@@ -150,6 +177,8 @@ int getNAnswerVotes(Questions q) {
 
 /*
 Função que estabelece o número total de votos das respostas associadas a uma pergunta.
+@param q Apontador para questions.
+@param n Votos das respostas.
 */
 void setNAnswerVotes(Questions q, int n) {
     q->n_answer_votes = n;
@@ -157,6 +186,7 @@ void setNAnswerVotes(Questions q, int n) {
 
 /*
 Função que cria um novo GPtrArray com as respostas de determinada pergunta.
+@param q Apontador para questions.
 */
 void initAnswers(Questions q) {
     q->answers = g_ptr_array_sized_new(q->n_answers);
@@ -164,6 +194,8 @@ void initAnswers(Questions q) {
 
 /*
 Função que adiciona uma resposta ao GPtrArray Answers.
+@param q Apontador para questions.
+@param a Apontador para answers.
 */
 void addAnswers(Questions q, Answers a) {
     Answers new = malloc(sizeAnswers());
@@ -174,6 +206,9 @@ void addAnswers(Questions q, Answers a) {
 /*
 Função que devolve o id do utilizador que deu a resposta contida no GPtrArray,
 mais precisamente no índice do array dado pela variável index.
+@param q Apontador para questions.
+@param index Índice da resposta no GPtrArray * answers.
+@returns long - Identificador do user que publicou a resposta.
 */
 long getAnswerUserIdAtIndex(Questions q, int index) {
     return getAUserId(g_ptr_array_index(q->answers, index));
@@ -182,6 +217,9 @@ long getAnswerUserIdAtIndex(Questions q, int index) {
 /*
 Função que devolve o score obtido pela resposta contida no GPtrArray,
 mais precisamente no índice do array dado pela variável index.
+@param q Apontador para questions.
+@param index Índice da resposta no GPtrArray * answers.
+@returns int - Score da resposta.
 */
 int getAnswerScoreAtIndex(Questions q, int index) {
    return getScore(g_ptr_array_index(q->answers, index));
@@ -191,6 +229,9 @@ int getAnswerScoreAtIndex(Questions q, int index) {
 /*
 Função que devolve o número de comentários obtido pela resposta contida no GPtrArray,
 mais precisamente no índice do array dado pela variável index.
+@param q Apontador para questions.
+@param index Índice da resposta no GPtrArray * answers.
+@returns int - Número de comentários da resposta.
 */
 int getAnswerCommentAtIndex(Questions q, int index) {
    return getCommentCount(g_ptr_array_index(q->answers, index));
@@ -199,6 +240,9 @@ int getAnswerCommentAtIndex(Questions q, int index) {
 /*
 Função que devolve o id da resposta contida no GPtrArray,
 mais precisamente no índice do array dado pela variável index.
+@param q Apontador para questions.
+@param index Índice da resposta no GPtrArray * answers.
+@returns int - Identificador da resposta.
 */
 int getAnswerIdAtIndex(Questions q, int index) {
    return getAnswerId(g_ptr_array_index(q->answers, index));
@@ -206,6 +250,8 @@ int getAnswerIdAtIndex(Questions q, int index) {
 
 /*
 Função que devolve o tamanho do GPtrArray answers.
+@param q Apontador para questions.
+@returns int - Tamanho do GPtrArray * answers.
 */
 int getAnswersArraySize(Questions q) {
   return q->answers->len;
@@ -213,6 +259,9 @@ int getAnswersArraySize(Questions q) {
 
 /*
 Função que ordena as perguntas por data.
+@param aq Apontador para questions.
+@param bq Apontador para questions.
+@returns gint - -1 ou 1.
 */
 gint sortQDate (Questions aq, Questions bq) {
     postDate a = aq->pd;
@@ -264,6 +313,9 @@ gint sortQDate (Questions aq, Questions bq) {
 /*
 Função que compara o número de respostas de duas perguntas recebidas como parametro.
 (query 7)
+@param q1 Apontador para um apontador para questions.
+@param q2 Apontador para um apontador para questions.
+@returns gint - -1 ou 1.
 */
 static gint sortPlusAnswers(Questions * q1, Questions * q2) {
   int nAnswers_q1 = 0, nAnswers_q2 = 0;
@@ -279,11 +331,16 @@ static gint sortPlusAnswers(Questions * q1, Questions * q2) {
 /*
 Função que ordena um array pela ordem decrescente do maior número de respostas.
 (query 7)
+@param total_questions Apontador para GPtrArray.
 */
 void sortMoreAnswers(GPtrArray * total_questions) {
   g_ptr_array_sort(total_questions, (GCompareFunc)sortPlusAnswers);
 }
-
+/*
+Função que liberta os espaços de memória criados para as datas, título, tags,
+GPtrArray das respostas e o próprio apontador para questions.
+@param q Apontador para questions.
+*/
 void cleanQuestion(Questions q) {
     if(q != NULL) {
         if(q->pd != NULL)

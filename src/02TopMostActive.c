@@ -6,8 +6,10 @@
 Função que devolve o top N utilizadores com maior número
 de posts de sempre. Para isto, são considerados tanto perguntas
 quanto respostas dadas pelo respectivo utilizador;
+@param com apontador para a TCD_community.
+@param N Número de utilizadores.
+@returns LONG_list - N utilizadores com mais publicações.
 
-TODO: ver se N existe!!
 */
 LONG_list top_most_active(TAD_community com, int N) {
   int i;

@@ -8,6 +8,9 @@ Dado o identificador de um post, a função deve retornar
 o título do post e o nome (não o ID) de utilizador do autor. Se o post
 for uma resposta, a função deverá retornar informações (título e utilizador)
 da pergunta correspondente;
+@param com apontador para a TCD_community.
+@param id Identificador do Post.
+@returns STR_pair - Título e utilizador.
  */
 
 STR_pair info_from_post(TAD_community com, long id) {
@@ -37,7 +40,7 @@ STR_pair info_from_post(TAD_community com, long id) {
       title = getTitle(question);
       username = getUsername(user);
       title_username = create_str_pair(title, username);
-      
+
       free(title);
       free(username);
    }

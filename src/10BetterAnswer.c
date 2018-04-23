@@ -11,6 +11,10 @@ Para isso, deverá usar a função de média ponderada abaixo:
 (score da resposta × 0.45) + (reputação do utilizador × 0.25) +
 (número de votos recebidos pela resposta × 0.2) +
 (número de comentários recebidos pela resposta × 0.1)
+
+@param com apontador para a TCD_community.
+@param id Identificador da Pergunta.
+@returns long - resposta com melhor média ponderada.
 */
 
 long better_answer(TAD_community com, long id) {
