@@ -13,7 +13,6 @@ typedef struct TCD_community {
   GHashTable * users;
   GHashTable * questions;
   GHashTable * answers;
-  GPtrArray * tmp_questions;
   GList * questionsList;
   GPtrArray * day;
   GHashTable * tags;
@@ -28,11 +27,18 @@ TAD_community init() {
 
   com = malloc(sizeof(TCD_community));
 
-  com->users =  g_hash_table_new_full(g_direct_hash, g_direct_equal, NULL, (GDestroyNotify)cleanUser);
-  com->questions = g_hash_table_new(g_direct_hash, g_direct_equal);
-  com->answers = g_hash_table_new(g_direct_hash, g_direct_equal);
-  com->tmp_questions = g_ptr_array_new();
-  com->tags = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify)cleanTags);
+  com->users =  g_hash_table_new_full
+    (g_direct_hash, g_direct_equal, NULL, (GDestroyNotify)cleanUser);
+  
+  com->questions = g_hash_table_new_full
+    (g_direct_hash, g_direct_equal, NULL, (GDestroyNotify)cleanQuestion);
+  
+  com->answers = g_hash_table_new_full
+    (g_direct_hash, g_direct_equal, NULL, (GDestroyNotify)cleanAnswer);
+  
+  com->tags = g_hash_table_new_full
+    (g_str_hash, g_str_equal, g_free, (GDestroyNotify)cleanTags);
+  
   com->questionsList = NULL;
 
   com->day = g_ptr_array_sized_new(3650);
@@ -177,14 +183,6 @@ Função que procura uma resposta na tabela de hash designada answers.
   return answer;
 }
 
-void addTmpQuestion(TAD_community t, Questions pointer) {
-    g_ptr_array_add(t->tmp_questions, pointer);
-}
-
-void removeTmpQuestion(TAD_community t, Questions pointer) {
-    g_ptr_array_remove(t->tmp_questions, pointer);
-}
-
 
 void cleanStruct(TAD_community com) {
     g_hash_table_destroy(com->users);
@@ -192,9 +190,6 @@ void cleanStruct(TAD_community com) {
     g_hash_table_destroy(com->questions);
 
     g_hash_table_destroy(com->answers);
-
-    g_ptr_array_set_free_func(com->tmp_questions, (GDestroyNotify)cleanQuestion);
-    g_ptr_array_free(com->tmp_questions, TRUE);
 
     g_list_free(com->questionsList);
 
