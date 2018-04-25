@@ -104,6 +104,9 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
                 date = ++i;
         }
 
+        if( strncmp((const char *)attributes[post_type_id], "1", 1) && strncmp((const char *)attributes[post_type_id], "2", 1))
+            return;
+
         postDate pd = malloc(getPDSize());
 
         setPostId(pd, atol((char *)attributes[id]));
