@@ -148,7 +148,7 @@ LONG_list most_used_best_rep(TAD_community com, int N, Date begin, Date end) {
       if (info_tag != NULL){
         tag_id = getTagId(info_tag);
         //eliminar
-        printf("Tag: %d- %d vezes \n", tag_id, getTagValue(info_tag));
+        //printf("Tag: %ld- %d vezes \n", tag_id, getTagValue(info_tag));
         if(used == capacity){
           capacity *= 2;
           list = (int *) realloc(list, sizeof(int) * capacity);

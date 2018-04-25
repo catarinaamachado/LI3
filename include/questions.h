@@ -54,6 +54,8 @@ int getAnswerScoreAtIndex(Questions q, int index);
 
 int getAnswerCommentAtIndex(Questions q, int index);
 
+int getAnswerIdAtIndex(Questions q, int index);
+
 int getAnswersArraySize(Questions q);
 
 Answers getAnswerAtIndex(Questions q, int index);
