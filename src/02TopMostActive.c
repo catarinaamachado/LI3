@@ -39,7 +39,7 @@ LONG_list top_most_active(TAD_community com, int N) {
 
 
   for(i = 0; i < N; i++) {
-      printf("%ld %d\n", getTotalPostsUserIdAtIndex(garray, i), getTotalPostsAtIndex(garray, i));
+      printf("%ld\n", getTotalPostsUserIdAtIndex(garray, i));
       set_list(list, i, getTotalPostsUserIdAtIndex(garray, i));
   }
 
