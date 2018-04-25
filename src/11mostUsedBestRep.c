@@ -107,6 +107,7 @@ LONG_list most_used_best_rep(TAD_community com, int N, Date begin, Date end) {
       flag = g_ptr_array_find(total_users, info_user, NULL);
 
       if (flag == 1){ //significa que se trata de uma question feita por um dos N users com mais rep
+        //printf("USER : %ld\n", user_id);
         all_tags = getTags(info_question);
 
         //separar as tags e atualiza na hashtable o numero de ocorrencias
@@ -114,7 +115,7 @@ LONG_list most_used_best_rep(TAD_community com, int N, Date begin, Date end) {
 
         for(int letra = 0; letra < tag_length; letra++){
           char * tag = separaTags(all_tags + letra);
-
+          //printf("%s\n", tag);
           info_tag = lookTag(com, tag);
           incrementTagValue(info_tag);
 
@@ -140,13 +141,14 @@ LONG_list most_used_best_rep(TAD_community com, int N, Date begin, Date end) {
 
   //escrever na long list as referências das N tags
   if(info_tag != NULL){
-
     for(i = 0; i < N; i++){
       info_tag = g_ptr_array_index(total_tags, i);
+      setTagValue(info_tag, 0);
 
       if (info_tag != NULL){
         tag_id = getTagId(info_tag);
-
+        //eliminar
+        printf("Tag: %d- %d vezes \n", tag_id, getTagValue(info_tag));
         if(used == capacity){
           capacity *= 2;
           list = (int *) realloc(list, sizeof(int) * capacity);
@@ -158,7 +160,7 @@ LONG_list most_used_best_rep(TAD_community com, int N, Date begin, Date end) {
   }
 
   //serve para voltar a por o value a 0 na estrutura original das tags
-  for(i = 0; i < sizePTRarray_tags; i++){
+  for(i = N; i < sizePTRarray_tags; i++){
     info_tag = g_ptr_array_index(total_tags, i);
 
     if (info_tag != NULL){

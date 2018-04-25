@@ -52,7 +52,7 @@ LONG_list most_voted_answers(TAD_community com, int N, Date begin, Date end) {
 
   sortAnswersVotes(total_answers);
 
-  if (N > sizeTA)
+  if(N > sizeTA)
     N = sizeTA;
 
   for(i = 0; ((i < N) && (info_answer != NULL)); i++){

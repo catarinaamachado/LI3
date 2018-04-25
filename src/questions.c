@@ -22,6 +22,7 @@ typedef struct questions {
   char * title;
   char * tags;
   int n_answers;
+  int n_answers_date;
   int n_answer_votes;
   GPtrArray * answers;
 } questions;
@@ -53,6 +54,19 @@ void setQuestionId(Questions q, long id) {
 }
 
 /**
+\brief Função que devolve a data da pergunta.
+@param q Apontador para questions.
+@returns char * - A data da pergunta em formato string.
+*/
+char * getQDate(Questions q) {
+    char * date = malloc(sizeof(char) * 12);
+
+    sprintf(date, "%d:%d:%d", getPDYear(q->pd), getPDMonth(q->pd), getPDDay(q->pd));
+
+    return date;
+}
+
+/**
 \brief Função que estabelece a data da pergunta.
 @param q Apontador para questions.
 @param date A data da pergunta em formato string.
@@ -64,19 +78,6 @@ void setQDate(Questions q, char * date) {
         q->pd = malloc(getPDSize());
         setDate(q->pd, date);
     }
-}
-
-/**
-\brief Função que devolve a data da pergunta.
-@param q Apontador para questions.
-@returns char * - A data da pergunta em formato string.
-*/
-char * getQDate(Questions q) {
-    char * date = malloc(sizeof(char) * 12);
-
-    sprintf(date, "%d:%d:%d", getPDYear(q->pd), getPDMonth(q->pd), getPDDay(q->pd));
-
-    return date;
 }
 
 /**
@@ -173,6 +174,26 @@ int getNAnswers(Questions q) {
 */
 void setNAnswers(Questions q, int n) {
     q->n_answers = n;
+}
+
+/**
+\brief Função que devolve o número de respostas associadas a determinada pergunta,
+num determinado intervalo de tempo (query 7).
+@param q Apontador para questions.
+@returns int -  Número de respostas.
+*/
+int getN_answers_date(Questions q) {
+    return q->n_answers_date;
+}
+
+/**
+\brief Função que estabelece o número de respostas associadas a determinada pergunta,
+num determinado intervalo de tempo (query 7).
+@param q Apontador para questions.
+@param n Número de respostas.
+*/
+void setN_answers_date(Questions q, int n) {
+    q->n_answers_date = n;
 }
 
 /**
@@ -321,8 +342,8 @@ gint sortQDate (Questions aq, Questions bq) {
 }
 
 /**
-\brief Função que compara o número de respostas de duas perguntas recebidas
-como parâmetro (query 7).
+\brief Função que compara o número de respostas(que aparecem num determinado intervalo
+de tempo) de duas perguntas recebidas como parâmetro (query 7).
 @param q1 Apontador para um apontador para questions.
 @param q2 Apontador para um apontador para questions.
 @returns gint - -1 se o número de respostas da primeira pergunta passada
@@ -330,13 +351,13 @@ como parâmetro for maior que o da segunda, ou 1 caso contrário.
 */
 static gint sortPlusAnswers(Questions * q1, Questions * q2) {
   int nAnswers_q1 = 0, nAnswers_q2 = 0;
-  nAnswers_q1 = getNAnswers(*q1);
-  nAnswers_q2 = getNAnswers(*q2);
+  nAnswers_q1 = getN_answers_date(*q1);
+  nAnswers_q2 = getN_answers_date(*q2);
 
-    if(nAnswers_q1 < nAnswers_q2)
-      return 1;
-    else
+    if(nAnswers_q1 > nAnswers_q2)
       return -1;
+    else
+      return 1;
 }
 
 /**
