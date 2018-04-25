@@ -111,8 +111,7 @@ long getTotalPostsUserIdAtIndex(GArray * array, int index) {
 
    return total.user_id;
 }
-/*
-//Função utilizada só para testar
+
 int getTotalPostsAtIndex(GArray * array, int index) {
   totalPosts total;
 
@@ -120,7 +119,6 @@ int getTotalPostsAtIndex(GArray * array, int index) {
 
   return total.n_posts;
 }
-*/
 
 /**
 \brief Função que inicializa um GArray com a estrutura totalPosts.
@@ -217,8 +215,12 @@ void setBio(Users u, char * bio) {
 @returns char * - Nome de um utilizador.
 */
 char * getUsername(Users u) {
-    char * user = malloc(sizeof(char) * (strlen(u->username)+2));
-    strcpy(user, u->username);
+    char * user = NULL;
+
+    if(u->username != NULL) {
+      user = malloc(sizeof(char) * (strlen(u->username)+2));
+      strcpy(user, u->username);
+    }
 
     return user;
 }

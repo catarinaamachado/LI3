@@ -7,6 +7,7 @@ void query2(TAD_community com) {
 
   printf("\n\nQuery 2\n");
 
+/*
   int array[] = {10, 20, 30};
   LONG_list b = top_most_active(com, array[0]);
   LONG_list c = top_most_active(com, array[1]);
@@ -24,9 +25,8 @@ void query2(TAD_community com) {
   free_list(c);
   (void)d;
   free_list(d);
+*/
 
-
-    /*
   int N2 = 10;
   LONG_list b = top_most_active(com, N2);
   for(int i = 0; i < N2; i++) {
@@ -34,7 +34,16 @@ void query2(TAD_community com) {
   }
   (void)b;
   free_list(b);
-  */
+
+  int N3 = 100;
+  LONG_list c = top_most_active(com, N3);
+  for(int i = 0; i < N3; i++) {
+    printf("%ld; ", get_list(c, i));
+  }
+  (void)c;
+  free_list(c);
+
+
   printf("\n\n\n\n\n\n");
 
 }

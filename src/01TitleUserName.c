@@ -10,8 +10,10 @@ Resposta à interrogação 1.
 
 /**
 \brief Dado o identificador de um post, a função retorna
-o título do post e o nome (não o ID) de utilizador do autor. Se o post
-for uma resposta, a função retorna informações (título e utilizador)
+o título do post e o nome (não o ID) de utilizador do autor. Caso o post não
+possua título ou nome de utilizador, o resultado correspondente deverá
+ser NULL.
+Se o post for uma resposta, a função retorna informações (título e utilizador)
 da pergunta correspondente.
 @param com Apontador para a TCD_community.
 @param id Identificador do Post.
@@ -43,10 +45,17 @@ STR_pair info_from_post(TAD_community com, long id) {
 
       title = getTitle(question);
       username = getUsername(user);
-      title_username = create_str_pair(title, username);
 
-      free(title);
-      free(username);
+      if(title != NULL && username != NULL){
+        title_username = create_str_pair(title, username);
+        free(title);
+        free(username);
+      }
+      else {
+        free(title);
+        free(username);
+        return create_str_pair(NULL, NULL);
+      }
    }
    else
     return create_str_pair(NULL, NULL);

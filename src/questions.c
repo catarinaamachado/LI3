@@ -103,8 +103,12 @@ void setQUserId(Questions q, long id) {
 @returns char * -  Título da pergunta.
 */
 char * getTitle(Questions q) {
-    char * title = malloc(sizeof(char) * (strlen(q->title)+2));
-    strcpy(title, q->title);
+    char * title = NULL;
+
+    if(q->title != NULL) {
+      title = malloc(sizeof(char) * (strlen(q->title)+2));
+      strcpy(title, q->title);
+    }
 
     return title;
 }

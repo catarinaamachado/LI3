@@ -5,6 +5,7 @@
 
 /**
 @file main.c
+Ficheiro principal que gera o programa
 */
 
 
@@ -12,7 +13,7 @@ int main(int argc, char const *argv[]){
 
     TAD_community com = init();
 
-    com = load(com, "../dump/ubuntu");
+    com = load(com, "../dumpexemplo/ubuntu");
 
     testes(com);
 

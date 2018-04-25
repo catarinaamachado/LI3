@@ -79,7 +79,6 @@ respetivas estruturas de dados.
 static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xmlChar **attributes) {
     int i, id, post_type_id, owner_id, title, tags, score, comment_count, favorite_count, was_null;
     int parentid, date;
-    long a;
 
     post_type_id = parentid = owner_id = title = tags = date = was_null = 0;
     id = score = favorite_count = comment_count = -1;
@@ -129,15 +128,15 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
 
 
         if( !strncmp((const char *)attributes[post_type_id], "1", 1)) { //trata-se de uma pergunta
-            a = atol((const char *)attributes[id]);
+            long questionId = atol((const char *)attributes[id]);
 
-            Questions pointer = lookQuestion(structure, a);
+            Questions pointer = lookQuestion(structure, questionId);
 
-            if(pointer == NULL) { //se a pergunta nao existe (caso em que resposta vem antes da pergunta, e se cria a pergunta vazia)
+            if(pointer == NULL) { //se a pergunta ainda nao existe (caso em que resposta vem antes da pergunta, e se cria a pergunta vazia)
                 was_null = 1;
                 pointer = malloc(sizeQuestions());
 
-                setQuestionId(pointer, a);
+                setQuestionId(pointer, questionId);
                 setNAnswers(pointer, 0);
                 setNAnswerVotes(pointer, 0);
                 initAnswers(pointer);

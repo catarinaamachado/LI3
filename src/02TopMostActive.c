@@ -1,5 +1,7 @@
 #include "struct.h"
 
+#include<stdio.h>
+
 /**
 @file 02TopMostActive.c
 Resposta à interrogação 2.
@@ -29,12 +31,15 @@ LONG_list top_most_active(TAD_community com, int N) {
 
   while (g_hash_table_iter_next(&iter, &key, &value) == TRUE) //value é um users e key é user_id ver função insertUser(structure, user_id, pointer);
     {
-      insertTotalPostsArray(garray, GPOINTER_TO_INT(key), getNPosts(value));
+      if(GPOINTER_TO_INT(key) != -1)
+        insertTotalPostsArray(garray, GPOINTER_TO_INT(key), getNPosts(value));
     }
 
   sortArrayTotalPosts(garray);
 
+
   for(i = 0; i < N; i++) {
+      printf("%ld %d\n", getTotalPostsUserIdAtIndex(garray, i), getTotalPostsAtIndex(garray, i));
       set_list(list, i, getTotalPostsUserIdAtIndex(garray, i));
   }
 

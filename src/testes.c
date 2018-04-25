@@ -23,7 +23,7 @@ query1(com);
 
 //QUERY 2
 query2(com);
-
+/*
 //QUERY 3
 query3(com);
 
@@ -50,5 +50,6 @@ query10(com);
 
 //QUERY 11
 query11(com);
+*/
 
 }

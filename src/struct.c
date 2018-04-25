@@ -229,7 +229,7 @@ void insertAnswers(TAD_community t, long id, Answers pointer) {
 
 /**
 \brief Função que liberta o espaço de memória da TCD_community.
-@param t Apontador para TCD_community.
+@param com Apontador para TCD_community.
 */
 void cleanStruct(TAD_community com) {
     g_hash_table_destroy(com->users);

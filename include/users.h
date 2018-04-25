@@ -27,7 +27,7 @@ void sortArrayTotalPosts(GArray * array);
 
 long getTotalPostsUserIdAtIndex(GArray * array, int index);
 
-//int getTotalPostsAtIndex(GArray * array, int index);
+int getTotalPostsAtIndex(GArray * array, int index);
 
 void freeArrayTotalPosts(GArray * array);
 

@@ -6,11 +6,11 @@
 void query10(TAD_community com) {
 
   printf("\n\nQuery 10\n");
-  long id10 = 4; //não existe
+  long id10 = 30334; //não existe
   long j = better_answer(com, id10);
   printf("%ld\n", j);
   (void)j;
-  long id11 = 5; //pergunta
+  long id11 = 5942; //pergunta
   long j2 = better_answer(com, id11);
   printf("%ld\n", j2);
   (void)j2;

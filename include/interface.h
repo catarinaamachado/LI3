@@ -1,5 +1,3 @@
-
-
 #include "date.h"
 #include "pair.h"
 #include "list.h"

@@ -152,8 +152,8 @@ void cleanPD(postDate pd) {
 }
 
 /**
-\brief Função que liberta o apontador para a estrutura postDate.
-@param pd Apontador para o postDate em questão.
+\brief Função que liberta o apontador para o apontador para a estrutura postDate.
+@param pd Apontador para o apontador do postDate em questão.
 */
 void cleanPDp(postDate * pd) {
     free(*pd);
