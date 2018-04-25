@@ -153,8 +153,6 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
 
             setQDate(pointer, (char *)attributes[date]);
 
-            setNAnswers(pointer, 0);
-
             if(was_null)
                 insertQuestion(structure, getQuestionId(pointer), pointer);
 
