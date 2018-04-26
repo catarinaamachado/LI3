@@ -1,6 +1,6 @@
 #include <gmodule.h>
-#include<stdio.h>
 #include <assert.h>
+//#include<stdio.h>
 
 #include "struct.h"
 

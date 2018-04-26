@@ -19,11 +19,11 @@
 void testes(TAD_community com) {
 
 //QUERY 1
-//query1(com);
+query1(com);
 
 //QUERY 2
 query2(com);
-/*
+
 //QUERY 3
 query3(com);
 
@@ -31,7 +31,7 @@ query3(com);
 query4(com);
 
 //QUERY 5
-//query5(com);
+query5(com);
 
 //QUERY 6
 query6(com);
@@ -44,7 +44,7 @@ query7(com);
 
 //QUERY 9
 //query9(com);
-*/
+
 //QUERY 10
 //query10(com);
 
