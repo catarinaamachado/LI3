@@ -54,6 +54,7 @@ LONG_list questions_with_tag(TAD_community com, char* tag, Date begin, Date end)
         list[used] = question_id;
         used++;
       }
+      free(dayTags);
     }
     count_day--; n_days--;
   }

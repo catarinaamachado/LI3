@@ -20,7 +20,7 @@ seu perfil (short bio) e os IDs dos seus 10 últimos posts
 USER get_user_info(TAD_community com, long id) {
     int i, n_posts;
     postDate pd[10];
-    long posts[11];
+    long posts[12];
 
     Users user = lookUsers(com, id);
 
