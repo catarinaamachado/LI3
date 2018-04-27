@@ -26,12 +26,12 @@ void testes(TAD_community com) {
 //
 // //QUERY 3
 // query3(com);
-// //
+//
 // //QUERY 4
 // query4(com);
 //
 // //QUERY 5
-// //query5(com);
+// query5(com);
 //
 // //QUERY 6
 // query6(com);
@@ -49,7 +49,6 @@ void testes(TAD_community com) {
 // query10(com);
 //
 // //QUERY 11
-query11(com);
-
+// query11(com);
 
 }

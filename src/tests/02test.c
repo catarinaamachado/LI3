@@ -25,7 +25,7 @@ void query2(TAD_community com) {
   free_list(c);
   (void)d;
   free_list(d);
-*/
+
 
   int N2 = 10;
   LONG_list b = top_most_active(com, N2);
@@ -34,12 +34,9 @@ void query2(TAD_community com) {
   }
   (void)b;
   free_list(b);
-
+  */
   int N3 = 100;
   LONG_list c = top_most_active(com, N3);
-  for(int i = 0; i < N3; i++) {
-    printf("%ld; ", get_list(c, i));
-  }
   (void)c;
   free_list(c);
 

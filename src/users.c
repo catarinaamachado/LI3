@@ -130,6 +130,7 @@ GArray * initArrayTotalPosts() {
 
 /**
 \brief Função que compara o número de posts de duas posições da estutura totalPost.
+Se o número de posts forem iguais compara os ids dos utilizadores.
 @param n_posts_a Número de posts de a.
 @param n_posts_b Número de posts de b.
 @returns gint - Número negativo se o número de posts de a for menor que o número
@@ -138,9 +139,13 @@ de posts de b, número positivo caso contrário e 0 se o número for igual.
 gint compare_func(gconstpointer n_posts_a, gconstpointer n_posts_b) {
   PtrTotalPosts a = (PtrTotalPosts) n_posts_a;
   PtrTotalPosts b = (PtrTotalPosts) n_posts_b;
+  //se a < b return n.º negativo se a = b return 0 e se a > b return n.º positivo
 
-//se a < b return n.º negativo se a = b return 0 e se a > b return n.º positivo
-  return getTotalNPosts(b) - getTotalNPosts(a);
+  int result = getTotalNPosts(b) - getTotalNPosts(a);
+
+
+  //se o número de posts for igual vai ordenar os utilizadores por ordem decrescente de ids.
+  return (result != 0)? result : (getTotalPostsUserId(b) - getTotalPostsUserId(a));
 }
 
 /**
