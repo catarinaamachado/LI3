@@ -33,17 +33,16 @@ Em ordem decrescente do número de vezes em que a tag foi usada.
 @param N Número de perguntas pretendidas.
 @param begin Data inicial do intervalo de tempo.
 @param end Data final do intervalo de tempo.
-@returns LONG_list - IDs das N perguntas com mais respostas,
-em ordem decrescente do número de respostas
+@returns LONG_list - Identificadores das N tags mais usadas
+pelos N utilizadores com melhor reputação.
 */
 LONG_list most_used_best_rep(TAD_community com, int N, Date begin, Date end) {
   int capacity = 10;
   int used = 0;
   int *list = (int *) malloc(sizeof(int) * capacity);
 
-  int n_days, count_day, n_questions, i, flag;
+  int n_days, count_day, n_questions, i = 0;
   long user_id, tag_id;
-  int sizePTRarray_users = 0;
   int tag_length, sizePTRarray_tags = 0;
   char * all_tags = NULL;
 
@@ -54,40 +53,20 @@ LONG_list most_used_best_rep(TAD_community com, int N, Date begin, Date end) {
   n_days = g_date_days_between(beginDate, endDate);
   count_day = g_date_days_between(begin_stackOverflow, beginDate);
 
-  GPtrArray * total_tags = g_ptr_array_new();
-  GPtrArray * total_users = g_ptr_array_new();
+  GPtrArray * total_tags = g_ptr_array_sized_new(N);
   Tags info_tag;
   Questions info_question;
   Users info_user;
 
-
-  //descobrir os N utilizadores com maior reputação
-  while(n_days >= 0){
-    Day d = lookDay(com, count_day);
-    n_questions = getDAYNQuestions(d);
-
-    for (i = 0; i < n_questions; i++){
-      info_question = getDAYQuestionAtIndex(d, i);
-
-      user_id = getQUserId(info_question);
-      info_user = lookUsers(com, user_id);
-
-      //averigua se o utilizador que fez essa question já se encontra ou não no GPtrArray total_users
-      flag = g_ptr_array_find(total_users, info_user, NULL);
-      if (flag != 1){
-        g_ptr_array_add(total_users, info_user);
-        sizePTRarray_users++;
-      }
-    }
-    count_day++; n_days--;
-  }
-
-  sortUsersReputation(total_users);
+  GList * flag;
+  GList * l;
+  GList * NUsersRep = NULL;
 
   //elimina utilizadores de forma a só termos um array com os N com melhor reputação
-  if(sizePTRarray_users > N)
-    g_ptr_array_remove_range(total_users, N, sizePTRarray_users - N);
-
+  for (l = getUsers(com); l != NULL && i < N; l = l->next){
+    NUsersRep = g_list_prepend(NUsersRep, l->data);
+    i++;
+  }
 
   //descobrir as tags usadas pelos N utilizadores
   n_days = g_date_days_between(beginDate, endDate);
@@ -104,10 +83,9 @@ LONG_list most_used_best_rep(TAD_community com, int N, Date begin, Date end) {
       info_user = lookUsers(com, user_id);
 
       //averigua se o utilizador em questao faz parte dos utilizadores com mais reputacao
-      flag = g_ptr_array_find(total_users, info_user, NULL);
+      flag = g_list_find(NUsersRep, info_user);
 
-      if (flag == 1){ //significa que se trata de uma question feita por um dos N users com mais rep
-        //printf("USER : %ld\n", user_id);
+      if (flag != NULL){ //significa que se trata de uma question feita por um dos N users com mais rep
         all_tags = getTags(info_question);
 
         //separar as tags e atualiza na hashtable o numero de ocorrencias
@@ -115,7 +93,7 @@ LONG_list most_used_best_rep(TAD_community com, int N, Date begin, Date end) {
 
         for(int letra = 0; letra < tag_length; letra++){
           char * tag = separaTags(all_tags + letra);
-          //printf("%s\n", tag);
+
           info_tag = lookTag(com, tag);
           incrementTagValue(info_tag);
 
@@ -147,8 +125,6 @@ LONG_list most_used_best_rep(TAD_community com, int N, Date begin, Date end) {
 
       if (info_tag != NULL){
         tag_id = getTagId(info_tag);
-        //eliminar
-        //printf("Tag: %ld- %d vezes \n", tag_id, getTagValue(info_tag));
         if(used == capacity){
           capacity *= 2;
           list = (int *) realloc(list, sizeof(int) * capacity);
@@ -179,7 +155,6 @@ LONG_list most_used_best_rep(TAD_community com, int N, Date begin, Date end) {
   g_date_free(beginDate);
   g_date_free(endDate);
   g_ptr_array_free(total_tags, TRUE);
-  g_ptr_array_free(total_users, TRUE);
 
   return ll;
 }

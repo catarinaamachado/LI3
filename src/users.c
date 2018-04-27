@@ -372,35 +372,25 @@ void sortPosts(Users u) {
 
 /**
 \brief Função que compara as reputações de dois users recebidos como parâmetro.
-@param u1 Apontador para o apontador do users.
-@param u2 Apontador para o apontador do users.
-@returns gint - -1 se a reputação do primeiro utilizador passado como parâmetro
-for maior que o segundo ou 1 caso contrário.
+@param u1 Apontador para users.
+@param u2 Apontador para users.
+@returns gint - negativo se a reputação do primeiro utilizador passado como parâmetro
+for maior que o segundo ou positivo caso contrário.
 */
-static gint sortReputation(Users * u1, Users * u2) {
+gint sortReputation(Users u1, Users u2) {
   int rep1, rep2;
-  if ((*u1) != NULL)
-    rep1 = getReputation(*u1);
+  if (u1 != NULL)
+    rep1 = getReputation(u1);
   else
     rep1 = 0;
-  if ((*u2) != NULL)
-    rep2 = getReputation(*u2);
+  if (u2 != NULL)
+    rep2 = getReputation(u2);
   else
     rep2 = 0;
 
-  if(rep1 < rep2)
-    return 1;
-  else
-    return -1;
-}
+  int result = rep2 - rep1;
 
-/**
-\brief Função que ordena os users de acordo com a sua reputação,
-(do user com maior reputação para o user com menos).
-@param total_users Apontador para um GPtrArray que contém os users.
-*/
-void sortUsersReputation(GPtrArray * total_users) {
-  g_ptr_array_sort(total_users, (GCompareFunc)sortReputation);
+  return (result != 0)? result : (getUserId(u1) - getUserId(u2));
 }
 
 /**

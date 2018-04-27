@@ -58,8 +58,6 @@ int getAnswerIdAtIndex(Questions q, int index);
 
 int getAnswersArraySize(Questions q);
 
-Answers getAnswerAtIndex(Questions q, int index);
-
 gint sortQDate(Questions aq, Questions bq);
 
 void sortMoreAnswers(GPtrArray * total_questions);

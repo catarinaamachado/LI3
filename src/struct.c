@@ -20,6 +20,7 @@ typedef struct TCD_community {
   GHashTable * questions;
   GHashTable * answers;
   GList * questionsList;
+  GList * usersList;
   GPtrArray * day;
   GHashTable * tags;
 } TCD_community;
@@ -47,6 +48,8 @@ TAD_community init() {
     (g_str_hash, g_str_equal, g_free, (GDestroyNotify)cleanTags);
 
   com->questionsList = NULL;
+
+  com->usersList = NULL;
 
   com->day = g_ptr_array_sized_new(3650);
   g_ptr_array_set_size (com->day, 3650);
@@ -159,6 +162,24 @@ GList * getQuestions(TAD_community t) {
 }
 
 /**
+\brief Função que devolve um apontador para uma lista de users ordenada por reputação.
+@param t Apontador para TCD_community.
+@returns GList * - Apontador para GList usersList.
+*/
+GList * getUsers(TAD_community t) {
+    if(t->usersList != NULL)
+        return t->usersList;
+
+    GList * u = g_hash_table_get_values(t->users);
+
+    u = g_list_sort(u, (GCompareFunc)sortReputation);
+
+    t->usersList = u;
+
+    return u;
+}
+
+/**
 \brief Função que devolve o apontador para o dia contido num determinado índice
 do GPtrArray day.
 @param t Apontador para TCD_community.
@@ -239,6 +260,8 @@ void cleanStruct(TAD_community com) {
     g_hash_table_destroy(com->answers);
 
     g_list_free(com->questionsList);
+
+    g_list_free(com->usersList);
 
     g_ptr_array_set_free_func(com->day, (GDestroyNotify)cleanDay);
     g_ptr_array_free(com->day, TRUE);

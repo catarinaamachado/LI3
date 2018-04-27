@@ -103,18 +103,17 @@ void incrementTagValue(Tags tag) {
 como parâmetro (query 11).
 @param t1 Apontador para um apontador para tags.
 @param t2 Apontador para um apontador para tags.
-@returns gint - 1 se o número de ocorrências da tag t1
-for menor que o da t2, caso contrário devolve -1.
+@returns gint - positivo se o número de ocorrências da tag t1
+for menor que o da t2, caso contrário devolve um número negativo.
 */
 static gint sortOccurrencesTags(Tags * t1, Tags * t2) {
   int nOccur1, nOccur2;
   nOccur1 = getTagValue(*t1);
   nOccur2 = getTagValue(*t2);
 
-    if(nOccur1 < nOccur2)
-      return 1;
-    else
-      return -1;
+  int result = nOccur2 - nOccur1;
+
+  return (result != 0)? result : (getTagId(*t1) - getTagId(*t2));;
 }
 
 /**
