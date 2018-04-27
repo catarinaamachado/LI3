@@ -83,7 +83,7 @@ website \href{https://stackoverflow.com/}{\textit{Stack Overflow}}, o qual foi
 criado em 2008 por Jeff Atwood e Joel Spolsky para que programadores e
 entusiastas possam expor as suas dúvidas, funcionando como um fórum em que os usuários fazem
 perguntas e respondem a dúvidas dos seus pares. Além disso, podem ainda votar
-em questões e repostas que considerem pertinentes, obtendo pontos de reputação
+em questões e respostas que considerem pertinentes, obtendo pontos de reputação
 e medalhas pela qualidade da sua intervenção.
 
 Em concreto, o trabalho prendia-se em extrair a informação necessária dos vários
@@ -98,12 +98,12 @@ De todos os ficheiros XML colocados à nossa disposição (Votes, Tags, Users,
 PostLinks, Posts, PostHistory, Comments e Badges) e que se destinavam a dar resposta
 a um conjunto de interrogações, decidimos que apenas iríamos precisar de carregar
 algumas informações contidas nos ficheiros Tags.xml, Users.xml e Posts.xml. \par
-No ficheiro Tags.xml retiramos somente o identificar da tag (id) e o nome da mesma
+No ficheiro Tags.xml retiramos somente o identificar da tag (Id) e o nome da mesma
 (TagName). No ficheiro Users.xml, recolhemos a informação relativa ao identificador
-do utilizador (id), à sua reputação (Reputation), ao seu nome (DisplayName) e ao seu
+do utilizador (Id), à sua reputação (Reputation), ao seu nome (DisplayName) e ao seu
 perfil (AboutMe). \par
 Por último, quanto ao ficheiro Posts.xml extraímos o identificador
-do post (id); o tipo de post (PostTypeId); o utilizador que publicou o post
+do post (Id); o tipo de post (PostTypeId); o utilizador que publicou o post
 (OwnerUserId); o título do post (Title); as suas tags (Tags); a pontuação obtida
 (Score); o número de comentários que foram feitos (CommentCount); no caso de
 ser uma resposta, o número da pergunta a que se refere (ParentId) e, finalmente,
@@ -152,6 +152,7 @@ typedef struct TCD_community {
   GHashTable * questions;
   GHashTable * answers;
   GList * questionsList;
+  GList * usersList;
   GPtrArray * day;
   GHashTable * tags;
 } TCD_community;
@@ -160,7 +161,7 @@ typedef struct TCD_community {
 \vspace{0.2cm}
 
 Os dados necessários para responder às queries foram armazenados
-na estrutura TCD\_community, a estrutura de dados principal do nosso trabalho.
+na estrutura \texttt{TCD\_community}, a estrutura de dados principal do nosso trabalho.
 Esta estrutura armazena outras 7 estruturas que serão explicitadas mais tarde.
 De modo a respondermos às queries da forma mais eficiente possível
 utilizamos estruturas de dados já existentes e, para isso, recorremos ao glib,
@@ -194,27 +195,31 @@ ordenadas por cronologia. A utilização desta estrutura permite que a inserçã
 de perguntas seja feita numa GHashTable, com complexidade média O(1),
 e, apenas no fim, sejam ordenadas por data na GList, reduzindo a complexidade.\par
 
+Utilizamos também uma segunda estrutura GList para os utilizadores, igualmente
+criada aquanda da primeira vez que é preciso utilizar os utilizadores ordenados por 
+reputação.\par
+
 Na estrutura \textbf{day} utilizamos um GPtrArray porque consideramos que seria
 a forma mais eficiente de percorrer os intervalos de tempo. Deste modo,
 a estratégia que utilizamos foi criar um array de apontadores onde o
 índice 0 corresponde à data de criação do stackoverflow (15/9/2008),
 o índice 1 ao dia seguinte, e assim sucessivamente. Assim, para percorrermos
-um intervalo de tempo basta determinar qual é o índice da data inicial do
-intervalo no array (e para isso utilizamos uma função do glib
+um intervalo de tempo basta fazermos 2 cálculos: 1- determinar qual é o 
+índice da data inicial do intervalo no array (e para isso utilizamos uma função do glib
 (g\_date\_days\_between) que nos diz quantos dias passaram entre 2 datas;
 neste caso, sabendo quantos dias passaram desde o início do stackoverflow
 até à data pretendida
-sabemos qual é o índice dessa data). Descobrimos também qual é o número de
+sabemos qual é o índice dessa data). 2- Descobrirmos também qual é o número de
 dias do intervalo de tempo. Depois disso, vamos ao GPtrArray, ao índice da
 data inicial, e vamos percorrendo as restantes datas até à data final
 bastando para isso incrementar 1 ao índice inicial até fazermos
 um número de iterações igual ao número de dias do intervalo de tempo.
 Com isto, conseguimos aceder às informações de qualquer dia e, consequentemente,
 de qualquer intervalo de tempo de uma forma muito rápida e direta,
-com um tempo de procura constante. \par
+com um tempo de procura constante (O(1)). \par
 
 
-\subsection{Estruturas de dados complementares}
+\subsection{Estruturas de dados Complementares}
 \label{sec:dados_complementares}
 
 \begin{verbatim}
@@ -228,7 +233,7 @@ typedef struct users {
 } users;
 \end{verbatim}
 
-A estrutura de dados users contém o id do utilizador, a sua short bio, o seu nome,
+A estrutura de dados \texttt{users} contém o id do utilizador, a sua short bio, o seu nome,
 a sua reputação, o número total de posts desse utilizador (i.e. perguntas e respostas),
 bem como um GArray contendo todos os posts do utilizador (perguntas e respostas) no
 formato \textit{postAndDate}.
@@ -242,16 +247,20 @@ typedef struct questions {
   long user_id;
   char * title;
   char * tags;
-  int n_answer_votes;
   int n_answers;
+  int n_answers_date;
+  int n_answer_votes;
   GPtrArray * answers;
 } questions;
 \end{verbatim}
 
-A estrutura de dados questions contém o id da pergunta, a sua data no formato
+A estrutura de dados \texttt{questions} contém o id da pergunta, a sua data no formato
 \textit{postAndDate}, o id do utilizador que publicou a pergunta, o seu título,
-as suas tags, o número total de votos das suas respostas, o número total de
-respostas que obteve, bem como um GPtrArray com todas as respostas de cada
+as suas tags, o número total de
+respostas que obteve, uma variável que servirá para armazenar
+o número de respostas que a pergunta obtive durante um intervalo de tempo,
+o número total de votos das suas respostas,
+bem como um GPtrArray com todas as respostas de cada
 pergunta no formato formato \textit{answers}.
 Esta estrutura encerra informações necessárias para responder às interrogações 1,
 4, 7, 8 e 11.
@@ -266,10 +275,10 @@ typedef struct answers {
 } answers;
 \end{verbatim}
 
-A estrutura de dados answers contém o id do utilizador, o id da resposta, o id da
+A estrutura de dados \texttt{answers} contém o id do utilizador, o id da resposta, o id da
 pergunta a que essa resposta se refere, a sua pontuação e os seus comentários.
 Esta estrutura encerra informações necessárias para responder às interrogações 1,
-6, 9 e 10.
+6, 7, 9 e 10.
 
 \begin{verbatim}
 typedef struct day {
@@ -283,7 +292,7 @@ typedef struct day {
 } day;
 \end{verbatim}
 
-A estrutura de dados day contém uma data e as informações relativas à mesma,
+A estrutura de dados \texttt{day} contém uma data e as informações relativas à mesma,
 nomeadamente o seu dia, mês, ano, o número de respostas e o
 número de perguntas efetuadas nesse dia, um GPtrArray com todas as perguntas
 desse dia no formato \textit{questions} e um GPtrArray com todas as respostas
@@ -298,7 +307,7 @@ typedef struct postAndDate {
 } postAndDate;
 \end{verbatim}
 
-A estrutura de dados postAndDate contém o id do post e o ano, mês, dia,
+A estrutura de dados \texttt{postAndDate} contém o id do post e o ano, mês, dia,
 hora, minuto, segundo e milissegundo em que esse post
 (pergunta ou resposta) foi efetuado. Esta estrutura encerra informações
 necessárias para responder à interrogação 7.
@@ -311,7 +320,7 @@ typedef struct tags {
 } tags;
 \end{verbatim}
 
-A estrutura de dados tags contém o id que identifica a tag,
+A estrutura de dados \texttt{tags} contém o id que identifica a tag,
 o nome da tag e ainda uma variável que servirá para armazenar
 o número de ocorrências dessa tag durante um intervalo de tempo.
 Esta estrutura encerra informações necessárias para responder à interrogação 11.
@@ -327,8 +336,8 @@ O trabalho é composto por vários módulos, tendo sido os que a seguir se descr
 criados por nós, consoante as necessidades que fomos detectando.
 
 \begin{itemize}
-\begin{item} main.c - main do programa\end{item}
-\begin{item} 00load.c - contem as funções necessárias para carregar e processar os
+\begin{item} main.c - main do programa.\end{item}
+\begin{item} 00load.c - contém as funções necessárias para carregar e processar os
 dados necessários dos ficheiros XML.\end{item}
 \begin{item} answers.c - todas as funções necessárias para aceder à estrutura de
 dados answers.\end{item}
@@ -413,7 +422,7 @@ sendo que o acesso aos elementos de users só é possível através das funçõe
 \label{sec:queries}
 
 Finalmente, a última etapa do nosso projeto prendeu-se com a resposta às diversas
-\textit{queries}, as quais passamos a explicar no próximo capítulo.
+\textit{queries}, as quais passamos a explicar neste capítulo.
 
 
 \subsubsection*{Query 1}
@@ -422,13 +431,13 @@ Finalmente, a última etapa do nosso projeto prendeu-se com a resposta às diver
 \textbf{“Dado o identificador de um post, a função deve retornar
 um par com o título do post e o nome (não o ID) de utilizador do autor. Se o post
 for uma resposta, a função deverá retornar informações (título e utilizador)
-da pergunta correspondente.”}
-
+da pergunta correspondente.”}xw
 
 Na resposta a esta query, começamos por verificar se o id do post passado como
 parâmetro  para a função identifica uma pergunta. No caso da resposta ser negativa
-verificamos se esse id identifica alguma resposta contida na GHashTable answers. \par
-Na hipótese de ser uma pergunta, com o auxílio da estrutura de dados questions
+verificamos se esse id identifica alguma resposta contida 
+na GHashTable \texttt{answers}. \par
+Na hipótese de ser uma pergunta, com o auxílio da estrutura de dados \texttt{questions}
 conseguimos obter o título do post e o id do utilizador, através do qual, procurando
 na GHashTable users conseguimos saber se o usuário existe e, caso exista, obter
 todas as suas informações relevantes e, posteriormente, extrair o seu nome através
@@ -452,10 +461,11 @@ typedef struct totalPosts {
 \end{verbatim}
 
 Para respondermos a esta interrogação criamos a estrutura de dados
-totalPosts. Esta é composta por um long que identifica o utilizador e um inteiro
+\texttt{totalPosts}. Esta é composta por um long que identifica o utilizador e um inteiro
 que traduz o número de posts publicados por aquele mesmo utilizador.
 Estas duas informações vão constar de cada posição de um GArray entretanto criado
-e que irá ser preenchido com a informação resultante de percorrer toda a GHashTable users.
+e que irá ser preenchido com a informação resultante de percorrer 
+toda a GHashTable \texttt{users}.
 De seguida ordenamos o referido GArray, o qual passará a conter todos os users,
 bem como o total de post que cada um publicou, por ordem decrescente do número de posts.
 Por último, inserirmos os N utilizadores com
@@ -467,7 +477,7 @@ mais posts de sempre na lista que é devolvida por esta função.
 \textbf{“Dado um intervalo de tempo arbitrário,
 obter o número total de posts (identificando perguntas e respostas separadamente) neste período.”}
 
-Uma vez que na nossa estrutura Day já temos uma variável que nos diz o número total de perguntas
+Uma vez que na nossa estrutura de dados \texttt{day} já temos uma variável que nos diz o número total de perguntas
 e o número total de respostas efetuadas num determinado dia, para sabermos o
 número total de cada uma delas durante um intervalo de tempo criámos duas novas
 variáveis na nossa função da query 3: \textsf{'n\_questions'} e \textsf{'n\_answers'},
@@ -483,7 +493,8 @@ No final de percorridos todos os dias, adicionamos as duas variáveis da nossa f
 \textbf{“Dado um intervalo de tempo arbitrário, retornar todas as perguntas contendo uma determinada tag.
 O retorno da função deverá ser uma lista com os IDs das perguntas ordenadas em cronologia inversa."}
 
-Para esta query, tirando partido da nossa estrutura Day, que tem um GPtrArray com
+Para esta query, tirando partido da nossa estrutura de dados \texttt{day}, 
+que tem um GPtrArray com
 os apontadores das perguntas do dia em questão, começamos por percorrer cada pergunta desse array
 da última data passada como parâmetro e comparamos as suas tags com a tag passada como argumento.
 Deste modo, se a pergunta tiver a tag desejada inserimos o seu ID num array dinâmico.
@@ -503,7 +514,7 @@ fomos preenchendo o array dinâmico do dia mais recente para o dia mais antigo.
 seu perfil (short bio) e os IDs dos seus 10 últimos posts (perguntas ou respostas),
 ordenados por cronologia inversa.”}
 
-Para responder a esta query fazemos uma procura por Id na GHashTable * users que devolve
+Para responder a esta query fazemos uma procura por Id na GHashTable * \texttt{users} que devolve
 a estrutura do utilizador na qual está presente a informação do
 seu perfil, char * shortbio, e um vetor, GArray * last\_posts, com os seus últimos posts que são
 ordenados por cronologia inversa e do qual, em seguida, se copiam os 10 primeiros
@@ -522,7 +533,8 @@ respostas que iam aparecendo.
 
 Depois de percorrer todos os dias temos um array auxiliar com todas as respostas
 efetuadas nesse intervalo de tempo. Consequentemente, ordenamos o array pelo número
-de votos (no inicio do array está a resposta com mais votos e no fim a resposta com menos votos).
+de votos (no inicio do array está a resposta com mais votos e no fim a resposta 
+com menos votos).
 
 Para sabermos as N respostas com mais votos, consultamos o nosso array auxiliar
 e retiramos dele o ID das primeiras N respostas que aparecem.
@@ -541,7 +553,22 @@ desta vez com apontadores para perguntas.
 
 Utilizamos o mesmo raciocínio da Query 6, mas agora fomos percorrendo o intervalo
 de tempo e adicionando ao nosso array auxiliar os apontadores para as perguntas.
-No fim do array preenchido, ordenamo-lo segundo o critério de maior número de respostas.
+
+Depois disso, tivemos que verificar quantas respostas de cada pergunta também aconteceram
+no intervalo de tempo passado como parâmetro. 
+Para isso, tivemos que voltar a percorrer todo o intervalo de
+tempo mas desta vez analisando as respostas. A cada resposta que aparecia, verificamos
+se a pergunta associada a essa resposta se encontra no nosso array auxiliar 
+(utilizando uma função já existente no glib: g\_ptr\_array\_find\_with\_equal\_func). 
+Em caso afirmativo, significa que essa resposta aconteceu no intervalo de tempo pretendido 
+e pertence a uma pergunta que também aconteceu no mesmo intervalo de tempo. 
+Assim, incrementamos a variável \textsf{'n\_answers\_date'}, presente na nossa
+estrutura \texttt{questions}, que é somente utilizada para esta query. 
+Esta variável inicialmente tem o valor 0.
+
+No fim, temos o nosso array de questions preenchido, e cada apontador de questions tem a respetiva 
+variável auxiliar \textsf{'n\_answers\_date'} com o número de respostas feitas
+no intervalo de tempo desejado. Ordenamos então esse array segundo o critério de maior número de respostas. 
 
 Retiramos os primeiros N elementos do array e devolvemos os determinados IDs
 numa LONG\_list, que se encontra então ordenada decrescentemente segundo o número de respostas.
@@ -588,8 +615,8 @@ seja o id de uma pergunta a função devolverá -1. \par
 No caso de o id ser válido, averiguamos quantas respostas tem essa mesma pergunta,
 através da função getNAnswers, e calculamos para cada resposta a sua média ponderada.
 Para o calculo da média de cada resposta socorremo-nos de várias funções.
-Em primeiro lugar, procuramos na Ghashtable dos users o user que obtivemos
-em cada posição do GPtrArray answers, para de seguida conseguirmos obtermos
+Em primeiro lugar, procuramos na GHashTable dos \texttt{users} o user que obtivemos
+em cada posição do GPtrArray \texttt{answers}, para de seguida conseguirmos obtermos
 a sua reputação.
 Posteriormente, obtivemos o score e número de comentários de cada resposta e calculamos
 a média ponderada com esses três fatores (ignoramos os votos já que o score é
@@ -605,25 +632,23 @@ devolvermos o seu id.
 mais usadas pelos N utilizadores com melhor reputação. Em ordem decrescente do número
 de vezes em que a tag foi usada."}
 
-Para esta query utilizamos 2 arrays auxiliares, um para guardar apontadores de tags
-e outro para armazenar apontadores de users.
+Para esta query utilizamos 1 array auxiliar para guardar apontadores de tags.
 
-Numa primeira fase, e percorrendo todos os dias do intervalo de tempo,
-preenchemos o array auxiliar de users com todos os users que fizeram perguntas
-nesse intervalo de tempo (sem repetições). Depois disso, ordenamos o array segundo
-o critério de melhor reputação.
+Tirando partido da GList * \texttt{usersList}, presente na nossa estrutura 
+\texttt{TCD\_community}, 
+que possuí os apontadores para users ordenados consoante a sua reputação (da maior
+para a menor), criamos uma nova GList * mas desta vez com apenas os N primeiros 
+elementos da GList * usersList. Deste modo, temos uma GList com os N users com 
+melhor reputação.
 
-Removemos do array todos os elementos (apontadores de users) a partir da posição N.
-Assim, temos um array com os N users com melhor reputação.
-
-Depois disso, numa segunda fase, voltamos a percorrer todos os dias do intervalo
-de tempo e agora tivemos em atenção as perguntas, mais precisamente as suas tags.
+Depois disso, percorremos todos os dias do intervalo
+de tempo tendo em atenção as perguntas, mais precisamente as suas tags.
 Se a pergunta tiver sido efetuada por um user com melhor reputação (ver se existe
-o user que fez essa pergunta no nosso array auxiliar de users), pegamos nas tags
+o user que fez essa pergunta na nossa GList auxiliar de users), pegamos nas tags
 dessa pergunta (ainda todas juntas numa só string) e separamo-las de modo a termos
 todas as tags individuais.
 
-Na nossa estrutura de Tags temos uma variável \textsf{‘value’}, com o valor 0,
+Na nossa estrutura de \texttt{tags} temos uma variável \textsf{‘value’}, com o valor 0,
 que é utilizada somente para esta query. Incrementamos essa variável para cada
 uma das tags contidas na pergunta. Adicionamos o apontador para essa tag ao nosso
 array auxiliar (tendo em atenção se já a tínhamos adicionado ou não ao array).

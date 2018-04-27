@@ -51,7 +51,8 @@ LONG_list most_answered_questions(TAD_community com, int N, Date begin, Date end
   int used = 0;
   int *list = (int *) malloc(sizeof(int) * capacity);
 
-  int n_days, count_day, n_questions, n_answers, i, sizeTQ = 0;
+  int n_days, count_day, n_questions, n_answers, parentID;
+  int i, sizeTQ = 0;
   long question_id;
   guint index;
 
@@ -88,10 +89,10 @@ LONG_list most_answered_questions(TAD_community com, int N, Date begin, Date end
 
     for (i = 0; i < n_answers; i++){
       info_answer = getDAYAnswerAtIndex(d, i);
-      int pai = getParentId(info_answer);
+      parentID = getParentId(info_answer);
 
       Questions data = malloc(sizeQuestions());
-      setQuestionId(data, pai);
+      setQuestionId(data, parentID);
 
       int flag = g_ptr_array_find_with_equal_func(total_questions, data, (GEqualFunc)existQuestion, &index);
       //se a resposta é resposta de alguma das perguntas que apareceram
