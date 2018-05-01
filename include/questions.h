@@ -36,10 +36,6 @@ int getNAnswers(Questions q);
 
 void setNAnswers(Questions q, int n);
 
-int getN_answers_date(Questions q);
-
-void setN_answers_date(Questions q, int n);
-
 int getNAnswerVotes(Questions q);
 
 void setNAnswerVotes(Questions q, int n);

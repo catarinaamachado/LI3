@@ -104,7 +104,9 @@ como parâmetro (query 11).
 @param t1 Apontador para um apontador para tags.
 @param t2 Apontador para um apontador para tags.
 @returns gint - positivo se o número de ocorrências da tag t1
-for menor que o da t2, caso contrário devolve um número negativo.
+for menor que o da t2, caso contrário devolve um número negativo. Se o número
+de ocorrências for igual, o critério de desempate é o id da tag (retorna número
+positivo se o id da tag 1 for maior).
 */
 static gint sortOccurrencesTags(Tags * t1, Tags * t2) {
   int nOccur1, nOccur2;
@@ -113,7 +115,7 @@ static gint sortOccurrencesTags(Tags * t1, Tags * t2) {
 
   int result = nOccur2 - nOccur1;
 
-  return (result != 0)? result : (getTagId(*t1) - getTagId(*t2));;
+  return (result != 0)? result : (getTagId(*t1) - getTagId(*t2));
 }
 
 /**

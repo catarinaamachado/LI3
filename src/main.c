@@ -13,7 +13,7 @@ int main(int argc, char const *argv[]){
 
     TAD_community com = init();
 
-    com = load(com, "../dump/ubuntu");
+    com = load(com, "/Users/cam/Desktop/Grupo1/dump/ubuntu");
 
     testes(com);
 

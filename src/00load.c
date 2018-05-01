@@ -151,8 +151,6 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
 
             setTags(pointer, (char *)attributes[tags]);
 
-            setN_answers_date(pointer, 0);
-
             setQDate(pointer, (char *)attributes[date]);
 
             if(was_null)
@@ -193,7 +191,6 @@ static void OnStartElementPosts(void *ctx, const xmlChar *element_name, const xm
                 setQUserId(q, 0);
                 setTitle(q, 0);
                 setTags(q, 0);
-                setN_answers_date(q, 0);
                 setQDate(q, 0);
 
                 setNAnswers(q, 1);

@@ -22,7 +22,6 @@ typedef struct questions {
   char * title;
   char * tags;
   int n_answers;
-  int n_answers_date;
   int n_answer_votes;
   GPtrArray * answers;
 } questions;
@@ -177,26 +176,6 @@ void setNAnswers(Questions q, int n) {
 }
 
 /**
-\brief Função que devolve o número de respostas associadas a determinada pergunta,
-num determinado intervalo de tempo (query 7).
-@param q Apontador para questions.
-@returns int -  Número de respostas.
-*/
-int getN_answers_date(Questions q) {
-    return q->n_answers_date;
-}
-
-/**
-\brief Função que estabelece o número de respostas associadas a determinada pergunta,
-num determinado intervalo de tempo (query 7).
-@param q Apontador para questions.
-@param n Número de respostas.
-*/
-void setN_answers_date(Questions q, int n) {
-    q->n_answers_date = n;
-}
-
-/**
 \brief Função que devolve o número total de votos das respostas associadas a uma pergunta.
 @param q Apontador para questions.
 @returns int - Total de votos das respostas.
@@ -342,22 +321,23 @@ gint sortQDate (Questions aq, Questions bq) {
 }
 
 /**
-\brief Função que compara o número de respostas(que aparecem num determinado intervalo
-de tempo) de duas perguntas recebidas como parâmetro (query 7).
+\brief Função que compara o número de respostas
+de duas perguntas recebidas como parâmetro (query 7).
 @param q1 Apontador para um apontador para questions.
 @param q2 Apontador para um apontador para questions.
 @returns gint - -1 se o número de respostas da primeira pergunta passada
-como parâmetro for maior que o da segunda, ou 1 caso contrário.
+como parâmetro for maior que o da segunda, ou 1 caso contrário. Se o número
+de respostas for igual, o critério de desempate é o id da question (retorna número
+positivo se o id da question 1 for maior).
 */
 static gint sortPlusAnswers(Questions * q1, Questions * q2) {
   int nAnswers_q1 = 0, nAnswers_q2 = 0;
-  nAnswers_q1 = getN_answers_date(*q1);
-  nAnswers_q2 = getN_answers_date(*q2);
+  nAnswers_q1 = getNAnswers(*q1);
+  nAnswers_q2 = getNAnswers(*q2);
 
-    if(nAnswers_q1 > nAnswers_q2)
-      return -1;
-    else
-      return 1;
+  int result = nAnswers_q2 - nAnswers_q1;
+
+  return (result != 0)? result : (getQuestionId(*q1) - getQuestionId(*q2));
 }
 
 /**

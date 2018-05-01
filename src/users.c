@@ -380,7 +380,9 @@ void sortPosts(Users u) {
 @param u1 Apontador para users.
 @param u2 Apontador para users.
 @returns gint - negativo se a reputação do primeiro utilizador passado como parâmetro
-for maior que o segundo ou positivo caso contrário.
+for maior que o segundo ou positivo caso contrário. Se a reputação for igual,
+o critério de desempate é o id do utilizador (retorna número
+positivo se o id da question 1 for maior).
 */
 gint sortReputation(Users u1, Users u2) {
   int rep1, rep2;
