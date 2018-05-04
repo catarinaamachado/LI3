@@ -151,6 +151,7 @@ LONG_list most_used_best_rep(TAD_community com, int N, Date begin, Date end) {
   }
 
   free(list);
+  g_list_free(NUsersRep);
   g_date_free(begin_stackOverflow);
   g_date_free(beginDate);
   g_date_free(endDate);
