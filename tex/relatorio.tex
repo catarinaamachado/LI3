@@ -749,11 +749,6 @@ Na verdade, dedicamos especial atenção à construção das nossas estruturas d
 bem como à forma como iríamos ler e processar os dados dos ficheiros XML, pois
 verificamos que estas duas ações iriam ter um peso determinante em termos de
 eficiência no trabalho. \par
-Acresce que verificamos que alocamos memória sempre que fazemos um ``getter'' de um
-\textit{char *} quando não seria necessário criar um espaço de memória para um
-atributo que nunca é alterado na nossa estrutura de dados e que está disponível
-até ao fim da execução do programa, pelo que ocupa espaço de memória desnecessário
-e diminui o desempenho do programa. \par
 Em suma, não obstante as potenciais melhorias que poderiam ser feitas no
 programa, os testes por nós realizados, nas nossas máquinas, atingiram
 um tempo de execução que consideramos bastante aceitável.

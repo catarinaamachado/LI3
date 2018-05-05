@@ -1,7 +1,5 @@
 #include "struct.h"
 
-#include<stdio.h>
-
 /**
 @file 02TopMostActive.c
 Resposta à interrogação 2.
@@ -39,7 +37,6 @@ LONG_list top_most_active(TAD_community com, int N) {
 
 
   for(i = 0; i < N; i++) {
-      printf("%ld\n", getTotalPostsUserIdAtIndex(garray, i));
       set_list(list, i, getTotalPostsUserIdAtIndex(garray, i));
   }
 

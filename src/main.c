@@ -1,7 +1,4 @@
-#include <stdio.h>
 #include "interface.h"
-
-#include "testes.h"
 
 /**
 @file main.c
@@ -15,9 +12,9 @@ int main(int argc, char const *argv[]){
 
     com = load(com, "../dump/ubuntu");
 
-    testes(com);
+    //testes(com);
 
-
+    
     com = clean(com);
     (void)com;
 
