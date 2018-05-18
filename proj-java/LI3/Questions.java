@@ -44,14 +44,6 @@ public class Questions {
   }
 
   /**
-  \brief Função que devolve o tamanho da estrutura questions.
-  @returns int - Tamanho da estrutura questions.
-  */
-  //int sizeQuestions() {
-    //  return sizeof(struct questions);
-  //}
-
-  /**
      * Função que devolve o id da pergunta.
      *
      * @returns long - Identificador da pergunta.
@@ -205,5 +197,7 @@ public class Questions {
                 title.equals(q.getTitle()) && tags.equals(q.getTags()) &&
                 n_answers == q.getNAnswers() && n_answer_votes == q.getNAnswerVotes());
 
-    }  
+    }
+    
+    
 }
