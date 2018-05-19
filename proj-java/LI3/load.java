@@ -14,18 +14,29 @@ import java.util.*;
 import java.io.*;
 
 
-public class load
-{
+public class Load {
     
-    static public void main(String[] args) throws Exception {
-        String filename = "/Users/cecilia/Documents/Universidade/2ANO/LI3/dumpExemplo/android/Posts.xml";
+        public Load() {
+        }
+    
+    public void lerFicheiros(TCD_Community com) throws Exception{
+        String filenamePosts = "../../dump/android/Posts.xml";        
+        String filenameUsers = "../../dump/android/Users.xml";
+        String filenameTags = "../../dump/android/Tags.xml";
         
         SAXParserFactory spf = SAXParserFactory.newInstance();
         spf.setNamespaceAware(true);
         SAXParser saxParser = spf.newSAXParser(); //cria um parser
         XMLReader xmlReader = saxParser.getXMLReader(); //cria um xmlreader
-        xmlReader.setContentHandler(new SAXParsePosts());
-        xmlReader.parse(filename);
-
+        
+        
+        xmlReader.setContentHandler(new SAXParsePosts(com));
+        xmlReader.parse(filenamePosts);
+        
+        xmlReader.setContentHandler(new SAXParseUsers(com));
+        xmlReader.parse(filenameUsers);
+        
+        xmlReader.setContentHandler(new SAXParseTags(com));
+        xmlReader.parse(filenameTags);
     }
 }
