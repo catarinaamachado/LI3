@@ -2,13 +2,14 @@
 /**
  * Escreva a descrição da classe Tags aqui.
  * 
- * @author (seu nome) 
- * @version (número de versão ou data)
+ * @author A81047
+ * @author A34900
+ * @author A82339
+ * @version 20180519
  */
-public class Tags
-{
-   
-    
+
+public class Tags {
+
     public Tags clone(){
         return this;
     }

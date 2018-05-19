@@ -2,23 +2,24 @@
 /**
  * Escreva a descrição da classe Users aqui.
  * 
- * @author (seu nome) 
- * @version (número de versão ou data)
+ * @author A81047
+ * @author A34900
+ * @author A82339
+ * @version 20180519
  */
 
 import java.util.List;
 
-public class Users
-{
-    
+public class Users {
+
   private long user_id;
   private String shortbio;
   private String username;
   private int reputation;
   private int n_posts;
   private List<Posts> posts;
-    
-  
+
+
   /**
      * Função que devolve o id do utilizador.
      *
@@ -27,7 +28,7 @@ public class Users
   public long getUsersId() {
       return user_id;
     }
- 
+
   /**
      * Função que estabelece o id do utilizador.
      *
@@ -36,7 +37,7 @@ public class Users
   public void setUserId(long user_id) {
       this.user_id = user_id;
   }
- 
+
   /**
      * Função que devolve o nome do utilizador.
      *
@@ -45,7 +46,7 @@ public class Users
   public String getUserName() {
       return username;
     }
-    
+
   /**
      * Função que estabelece o nome do utilizador.
      *
@@ -54,7 +55,7 @@ public class Users
   public void setUserName(String username) {
       this.username = username;
     }
-  
+
   /**
      * Função que devolve a biografia do utilizador.
      *
@@ -63,7 +64,7 @@ public class Users
   public String getUserBio() {
       return shortbio;
     }
-  
+
   /**
      * Função que estabelece a biografia do utilizador.
      *
@@ -72,7 +73,7 @@ public class Users
   public void setUserBio(String shortbio) {
       this.shortbio = shortbio;
     }
-  
+
   /**
      * Função que devolve a reputação do utilizador.
      *
@@ -80,8 +81,8 @@ public class Users
      */
   public int getReputation() {
       return reputation;
-    }  
- 
+    }
+
   /**
      * Função que estabelece a reputação do utilizador.
      *
@@ -90,7 +91,7 @@ public class Users
   public void setReputation(int reputation) {
       this.reputation = reputation;
     }
-  
+
   /**
      * Função que devolve o número de posts do utilizador.
      *
@@ -98,8 +99,8 @@ public class Users
      */
   public int getNPosts() {
       return n_posts;
-    }   
-    
+    }
+
   /**
      * Função que estabelece o numero de posts do utilizador.
      *
@@ -107,8 +108,8 @@ public class Users
      */
   public void setNPosts(int n_posts) {
       this.n_posts = n_posts;
-    }   
- 
+    }
+
   /**
      * Função que incrementa o numero de posts do utilizador.
      *
@@ -116,7 +117,7 @@ public class Users
   public void incrementaNPosts() {
          n_posts = n_posts + 1;
   }
-   
+
   /**
      * Método que faz uma cópia de Users.
      * Para tal invoca o construtor de cópia.

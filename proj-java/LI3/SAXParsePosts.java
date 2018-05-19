@@ -1,35 +1,37 @@
 
 /**
  * Escreva a descrição da classe SAXParsePosts aqui.
- * 
- * @author (seu nome) 
- * @version (número de versão ou data)
+ *
+
+ * @author A81047
+ * @author A34900
+ * @author A82339
+ * @version 20180519
  */
 
 import org.xml.sax.helpers.*;
 import org.xml.sax.*;
 
 public class SAXParsePosts extends DefaultHandler {
-    
+
     private TCD_Community com;
-    
-        public SAXParsePosts(TCD_Community com) {
-            super();
-            this.com = com;
-        }
-    
-    
+
+
+    public SAXParsePosts(TCD_Community com) {
+        super();
+        this.com = com;
+    }
     
     public void startElement(String namespaceURI,
                              String localName,
-                             String qName, 
+                             String qName,
                              Attributes atts) throws SAXException {
-        
+
     int length = atts.getLength();
-     
+
     int id, post_type_id, owner_id, title, tags, score, comment_count, favorite_count;
     int parentid, date;
-    
+
     boolean was_null = false;
 
     post_type_id = parentid = owner_id = title = tags = date = 0;
@@ -37,11 +39,11 @@ public class SAXParsePosts extends DefaultHandler {
 
         for (int i=0; i < length; i++) {
             String name = atts.getQName(i); //como ir buscar o conteudo dos atributos
-            
-            if(name.equals("Id"))
-                id = i; 
 
-            else if(name.equals("PostTypeId")) 
+            if(name.equals("Id"))
+                id = i;
+
+            else if(name.equals("PostTypeId"))
                 post_type_id = i;
 
             else if(name.equals("OwnerUserId"))
@@ -65,16 +67,16 @@ public class SAXParsePosts extends DefaultHandler {
             else if(name.equals("CreationDate"))
                 date = i;
         }
-        
+
         if(length != 0) {
-        
-            if(!atts.getValue(post_type_id).equals("1") && 
+
+            if(!atts.getValue(post_type_id).equals("1") &&
                !atts.getValue(post_type_id).equals("2"))
-            
+
                return;
-              
-               
-            
+
+
+
             /* FALTA TRATAR DATA
              * //carrega a estrutura postAndDate
         postDate pd = malloc(getPDSize()); // cria espaço na memoria para um postDate
@@ -90,16 +92,16 @@ public class SAXParsePosts extends DefaultHandler {
         Day pointerDay = lookDay(structure, indexDay); //apontador para o dia contido num determinado índice do GPtrArray day.
 
              */
-            
+
             if(atts.getValue(post_type_id).equals("1")) { //trata-se de uma pergunta
                 long questionId = Long.parseLong(atts.getValue(id)); //converte o id do post num numero
-                
+
                 System.out.println("QuestionId :" + questionId);
-                
+
                 Question pergunta = com.lookQuestion(questionId); //procura uma pergunta na tabela de hash designada questions.
 
-                if(pergunta == null) { 
-                    was_null = true; 
+                if(pergunta == null) {
+                    was_null = true;
                     pergunta = new Question();
 
                     pergunta.setPostId(questionId);
@@ -108,9 +110,9 @@ public class SAXParsePosts extends DefaultHandler {
 
                 }
 
-                pergunta.setUserId(Long.parseLong(atts.getValue(owner_id))); 
-            
-                pergunta.setTitle(atts.getValue(title)); 
+                pergunta.setUserId(Long.parseLong(atts.getValue(owner_id)));
+
+                pergunta.setTitle(atts.getValue(title));
 
                 pergunta.setTags(atts.getValue(tags));
 
@@ -118,27 +120,27 @@ public class SAXParsePosts extends DefaultHandler {
 
                 if(was_null)
                     com.insertQuestion(pergunta);
-           
+
                 //addDAYQuestions(pointerDay, pointer);//adiciona a pergunta ao array questions que está na estrutura day
             }
-            
+
             else if(parentid != 0) {  // se for uma resposta
                 Answers resposta = new Answers();
 
                 resposta.setPostId(Long.parseLong(atts.getValue(id)));
                 resposta.setUserId(Long.parseLong(atts.getValue(owner_id)));
                 resposta.setParentId(Long.parseLong(atts.getValue(parentid)));
-            
+
 
                 resposta.setScore(Integer.parseInt(atts.getValue(score)));
                 resposta.setCommentCount(Integer.parseInt(atts.getValue(comment_count)));
 
                 com.insertAnswers(resposta);
-            
+
                 long parentId = resposta.getParentId();
-            
-                Question pergunta = com.lookQuestion(parentId); 
-            
+
+                Question pergunta = com.lookQuestion(parentId);
+
                 if(pergunta != null) {
                     pergunta.setNAnswers(pergunta.getNAnswerVotes() + resposta.getScore());
                     pergunta.setNAnswers(pergunta.getNAnswers() + 1);
@@ -146,11 +148,11 @@ public class SAXParsePosts extends DefaultHandler {
                 }
                 else { // a pergunta não existe
                     pergunta = new Question();
-                
+
                     pergunta.setUserId(0);
                     pergunta.setTitle("");
                     pergunta.setTags("");
-                
+
                     //setQDate(q, 0); //estabelece a data da pergunta a NULL
 
                     pergunta.setNAnswers(1); //poe o numero de respostas a 1
@@ -163,9 +165,9 @@ public class SAXParsePosts extends DefaultHandler {
                 }
 
                 //addDAYAnswers(pointerDay, pointer); //adiciona uma resposta ao GPtrArray answers da struct day
-  
+
             }
-        
+
             if(owner_id != 0) {  //se o owner id existe, acrescenta posts aos utilizadores
                 long ownerId = Long.parseLong(atts.getValue(owner_id));
                 Users u = com.lookUser(ownerId);
