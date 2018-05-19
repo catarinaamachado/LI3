@@ -31,11 +31,11 @@ public class Load {
         XMLReader xmlReader = saxParser.getXMLReader(); //cria um xmlreader
         
         
-        xmlReader.setContentHandler(new SAXParsePosts(com));
-        xmlReader.parse(filenamePosts);
-        
         xmlReader.setContentHandler(new SAXParseUsers(com));
         xmlReader.parse(filenameUsers);
+        
+        xmlReader.setContentHandler(new SAXParsePosts(com));
+        xmlReader.parse(filenamePosts);
         
         xmlReader.setContentHandler(new SAXParseTags(com));
         xmlReader.parse(filenameTags);

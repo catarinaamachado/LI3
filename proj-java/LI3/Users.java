@@ -99,7 +99,30 @@ public class Users {
       return n_posts;
     }   
     
-    public Users clone() {
+  /**
+     * Função que estabelece o numero de posts do utilizador.
+     *
+     * @param int - Numero de posts do user.
+     */
+  public void setNPosts(int n_posts) {
+      this.n_posts = n_posts;
+    }   
+ 
+  /**
+     * Função que incrementa o numero de posts do utilizador.
+     *
+     */
+  public void incrementaNPosts() {
+         n_posts = n_posts + 1;
+  }
+   
+  /**
+     * Método que faz uma cópia de Users.
+     * Para tal invoca o construtor de cópia.
+     *
+     * @return cópia de Users
+     */
+  public Users clone() {
         return this;
     }
 }

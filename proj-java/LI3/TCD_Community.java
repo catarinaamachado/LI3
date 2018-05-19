@@ -250,5 +250,16 @@ public class TCD_Community {
         answers.put(a.getPostId(), a);
         
     }
-    
+  
+  /**
+     * Método que insere um user numa HashMap.
+     *
+     * @param u - Um user.
+     * 
+     */
+    public void insertUser(Users u) {
+            
+        users.put(u.getUsersId(), u);
+        
+    }
 }
