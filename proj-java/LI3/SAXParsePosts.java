@@ -36,7 +36,7 @@ public class SAXParsePosts extends DefaultHandler {
     id = score = favorite_count = comment_count = -1;
 
         for (int i=0; i < length; i++) {
-            String name = atts.getQName(i);
+            String name = atts.getQName(i); //como ir buscar o conteudo dos atributos
             
             if(name.equals("Id"))
                 id = i; 
