@@ -16,13 +16,13 @@ import java.util.Collections;
 import java.util.stream.Collectors;
 
 public class TCD_Community {
-  Map<Integer, Users> users;
-  Map<Integer, Questions> questions;
-  Map<Integer, Answers> answers;
-  List<Questions> questionsList;
-  List<Users> usersList;
+  private Map<Long, Users> users;
+  private Map<Long, Question> questions;
+  private Map<Long, Answers> answers;
+  private List<Question> questionsList;
+  private List<Users> usersList;
   //List day;
-  Map<String, Tags> tags;
+  private Map<String, Tags> tags;
 
   public TCD_Community() {
         users = new HashMap<>();
@@ -33,8 +33,8 @@ public class TCD_Community {
         tags = new HashMap<>();
     }
   
-  public TCD_Community(Map<Integer, Users> users, Map<Integer, Questions> questions, 
-                       Map<Integer,Answers> answers, List<Questions> questionsList, 
+  public TCD_Community(Map<Long, Users> users, Map<Long, Question> questions, 
+                       Map<Long,Answers> answers, List<Question> questionsList, 
                        List<Users> usersList, Map<String, Tags> tags) {
       setMapUsers(users);
       setMapQuestions(questions); 
@@ -56,9 +56,9 @@ public class TCD_Community {
   /**
      * Função que devolve o apontador para a HashMap users
      *
-     * @returns Map<Integer, Users> - a HashMap users
+     * @returns Map<Long, Users> - a HashMap users
      */
-    public Map<Integer, Users>  getMapUsers() {
+    public Map<Long, Users>  getMapUsers() {
       return users; //por questões de performance
     }
     
@@ -67,7 +67,7 @@ public class TCD_Community {
      *
      * @param users - Map dos users
      */
-    public void setMapUsers(Map<Integer, Users> users) {
+    public void setMapUsers(Map<Long, Users> users) {
         
         this.users = users.entrySet().stream().collect(Collectors.toMap(k -> k.getKey(), u -> u.getValue().clone()));
  
@@ -76,9 +76,9 @@ public class TCD_Community {
   /**
      * Função que devolve o apontador para a HashMap questions
      *
-     * @returns Map<Integer, Questions> - a HashMap questions
+     * @returns Map<Long, Questions> - a HashMap questions
      */
-    public Map<Integer, Questions>  getMapQuestions() {
+    public Map<Long, Question>  getMapQuestions() {
       return questions; //por questões de performance
     }
     
@@ -87,7 +87,7 @@ public class TCD_Community {
      *
      * @param users - Map das questions 
      */
-    public void setMapQuestions(Map<Integer, Questions> questions) {
+    public void setMapQuestions(Map<Long, Question> questions) {
         this.questions = questions.entrySet().stream().collect(Collectors.toMap(k -> k.getKey(), q -> q.getValue().clone()));
     }
   
@@ -96,7 +96,7 @@ public class TCD_Community {
      *
      * @returns Map<Integer, Answers> - a HashMap answers
      */
-    public Map<Integer, Answers>  getMapAnswers() {
+    public Map<Long, Answers>  getMapAnswers() {
       return answers; //por questões de performance
     }
     
@@ -105,7 +105,7 @@ public class TCD_Community {
      *
      * @param anwers - Map das Answers
      */
-    public void setMapAnswers(Map<Integer, Answers> answers) {
+    public void setMapAnswers(Map<Long, Answers> answers) {
         this.answers = answers.entrySet().stream().collect(Collectors.toMap(k -> k.getKey(), a -> a.getValue().clone()));
     }
     
@@ -114,18 +114,18 @@ public class TCD_Community {
      *
      * @returns List<Questions> - a lista das perguntas
      */
-    public List<Questions> getQuestionsList() {
+    public List<Question> getQuestionsList() {
       return questionsList; //por questões de performance
     }
     
  /**
      * Função que estabelece o apontador para o ArrayList questionsList
      *
-     * @param List<Questions> - a lista das perguntas
+     * @param List<Question> - a lista das perguntas
      */
-    public void setQuestionsList(List<Questions> questionsList) {
+    public void setQuestionsList(List<Question> questionsList) {
         this.questionsList = questionsList.stream().
-                       map(Questions :: clone).collect(Collectors.toList());
+                       map(Question :: clone).collect(Collectors.toList());
     } 
   
  /**
@@ -194,5 +194,61 @@ public class TCD_Community {
     
   //TODO EQUALS
     
+  /**
+     * Método que verifica se uma questão existe em questions.
+     *
+     * @return Question uma pergunta
+     */
+    public Question lookQuestion(long id) {
+            
+        return questions.get(id);
+        
+    }
+    
+  /**
+     * Método que verifica se uma resposta existe em answers.
+     *
+     * @return Answers uma resposta
+     */
+    public Answers lookAnswer(long id) {
+            
+        return answers.get(id);
+        
+    }  
+  
+  /**
+     * Método que verifica se um user existe em users.
+     *
+     * @return Users um user
+     */
+    public Users lookUser(long id) {
+            
+        return users.get(id);
+        
+    }  
+  
+  /**
+     * Método que insere uma pergunta numa HashMap.
+     *
+     * @param q - Uma pergunta.
+     * 
+     */
+    public void insertQuestion(Question q) {
+            
+        questions.put(q.getPostId(), q);
+        
+    }
+  
+  /**
+     * Método que insere uma resposta numa HashMap.
+     *
+     * @param a - Uma resposta.
+     * 
+     */
+    public void insertAnswers(Answers a) {
+            
+        answers.put(a.getPostId(), a);
+        
+    }
     
 }

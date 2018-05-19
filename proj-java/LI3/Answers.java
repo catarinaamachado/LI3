@@ -8,71 +8,30 @@
  * @version 20180519
  */
 
-public class Answers {
-  private long user_id;
-  private long answer_id;
+public class Answers extends Posts {
   private long parent_id; // a que pergunta pertence
   private int score;
   private int comment_count; //número de comentários recebidos pela resposta (query 10)
 
   public Answers() {
-      user_id = 0;
-      answer_id = 0;
+      super();
       parent_id = 0;
       score = 0;
       comment_count = 0;
     }
   
-  public Answers(long user_id, long answer_id, long parent_id, int score, int comment_count) {
-    this.user_id = user_id;
-    this.answer_id = answer_id;
+  public Answers(long user_id, long post_id, long parent_id, int score, int comment_count) {
+    super(user_id, post_id);
     this.parent_id = parent_id;
     this.score = score;
     this.comment_count = comment_count;
     } 
     
   public Answers(Answers a) {
-      this.user_id = a.getAUserId();
-      this.answer_id = a.getAnswerId();
+      super(a);
       this.parent_id = a.getParentId();
       this.score = a.getScore();
       this.comment_count = a.getCommentCount();
-    }
-    
-  /**
-     * Função que devolve o id do user que deu a resposta.
-     *
-     * @returns long - Identificador do user que deu a resposta.
-     */
-    public long getAUserId() {
-      return user_id;
-    }
-
-  /**
-     * Função que estabelece o id do user que deu a resposta.
-     *
-     * @param id Identificador do user que deu a resposta.
-     */
-    public void setAUserId(long id) {
-      user_id = id;
-    }
-    
-  /**
-     * Função que devolve o id da resposta.
-     *
-     * @returns long - Identificador da resposta.
-     */
-    public long getAnswerId() {
-      return answer_id;
-    }
-
-  /**
-     * Função que estabelece o o id da resposta.
-     *
-     * @param id Identificador da resposta.
-     */
-    public void setAnswerId(long id) {
-      answer_id = id;
     }
     
   /**
@@ -132,4 +91,6 @@ public class Answers {
   public Answers clone() {
      return new Answers(this);
   }
+  
+  //TODO equals e toString
 }
