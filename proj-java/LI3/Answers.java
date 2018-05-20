@@ -14,26 +14,43 @@ public class Answers extends Posts {
   private int score;
   private int comment_count; //número de comentários recebidos pela resposta (query 10)
 
-  public Answers() {
-      super();
-      parent_id = 0;
-      score = 0;
-      comment_count = 0;
-    }
+        /**
+           * Construtor por omissão de Answers.
+           */
+          public Answers() {
+          super();
+          parent_id = 0;
+          score = 0;
+          comment_count = 0;
+          }
+      
+         /**
+           * Construtor parametrizado de Users.
+           *
+           * @param user_id Identificador do user
+           * @param post_id Identificador do post
+           * @param parent_id Identificador da pergunta a que se refere
+           * @param score Score da resposta
+           * @param comment_count Número de comentários
+           */
+           public Answers(long user_id, long post_id, long parent_id, int score, int comment_count) {
+           super(user_id, post_id);
+           this.parent_id = parent_id;
+           this.score = score;
+           this.comment_count = comment_count;
+           }
 
-  public Answers(long user_id, long post_id, long parent_id, int score, int comment_count) {
-    super(user_id, post_id);
-    this.parent_id = parent_id;
-    this.score = score;
-    this.comment_count = comment_count;
-    }
-
-  public Answers(Answers a) {
-      super(a);
-      this.parent_id = a.getParentId();
-      this.score = a.getScore();
-      this.comment_count = a.getCommentCount();
-    }
+         /**
+            * Construtor de Cópia.
+            *
+            * @param umCI Contribuinte Individual a ser replicado
+            */
+           public Answers(Answers a) {
+           super(a);
+           this.parent_id = a.getParentId();
+           this.score = a.getScore();
+           this.comment_count = a.getCommentCount();
+           }
 
   /**
      * Função que devolve o id da pergunta a que a resposta pertence.
