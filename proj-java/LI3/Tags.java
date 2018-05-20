@@ -1,7 +1,7 @@
 
 /**
- * Escreva a descrição da classe Tags aqui.
- * 
+ * Estrutura de dados de Tags
+ *
  * @author A81047
  * @author A34900
  * @author A82339

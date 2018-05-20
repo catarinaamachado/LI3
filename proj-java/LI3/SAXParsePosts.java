@@ -1,8 +1,7 @@
 
 /**
- * Escreva a descrição da classe SAXParsePosts aqui.
+ * Parse ao dump de Posts.
  *
-
  * @author A81047
  * @author A34900
  * @author A82339
@@ -16,12 +15,11 @@ public class SAXParsePosts extends DefaultHandler {
 
     private TCD_Community com;
 
-
     public SAXParsePosts(TCD_Community com) {
         super();
         this.com = com;
     }
-    
+
     public void startElement(String namespaceURI,
                              String localName,
                              String qName,

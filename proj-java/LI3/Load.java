@@ -1,5 +1,5 @@
 /**
- * Escreva a descrição da classe load aqui.
+ * Classe que carrega dados do dump xml.
  *
  * @author A81047
  * @author A34900
@@ -14,30 +14,29 @@ import org.xml.sax.helpers.*;
 import java.util.*;
 import java.io.*;
 
-
 public class Load {
 
-    public Load() {
-    }
+	public Load() {
+	}
 
-    public void lerFicheiros(TCD_Community com) throws Exception{
-        String filenamePosts = "../../dump/android/Posts.xml";
-        String filenameUsers = "../../dump/android/Users.xml";
-        String filenameTags = "../../dump/android/Tags.xml";
+	public void lerFicheiros(TCD_Community com) throws Exception {
+		String filenamePosts = "../../dump/android/Posts.xml";
+		String filenameUsers = "../../dump/android/Users.xml";
+		String filenameTags = "../../dump/android/Tags.xml";
 
-        SAXParserFactory spf = SAXParserFactory.newInstance();
-        spf.setNamespaceAware(true);
-        SAXParser saxParser = spf.newSAXParser(); //cria um parser
-        XMLReader xmlReader = saxParser.getXMLReader(); //cria um xmlreader
+		SAXParserFactory spf = SAXParserFactory.newInstance();
+		spf.setNamespaceAware(true);
+		SAXParser saxParser = spf.newSAXParser(); //cria um parser
+		XMLReader xmlReader = saxParser.getXMLReader(); //cria um xmlreader
 
 
-        xmlReader.setContentHandler(new SAXParseUsers(com));
-        xmlReader.parse(filenameUsers);
+		xmlReader.setContentHandler(new SAXParseUsers(com));
+		xmlReader.parse(filenameUsers);
 
-        xmlReader.setContentHandler(new SAXParsePosts(com));
-        xmlReader.parse(filenamePosts);
+		xmlReader.setContentHandler(new SAXParsePosts(com));
+		xmlReader.parse(filenamePosts);
 
-        xmlReader.setContentHandler(new SAXParseTags(com));
-        xmlReader.parse(filenameTags);
-    }
+		xmlReader.setContentHandler(new SAXParseTags(com));
+		xmlReader.parse(filenameTags);
+	}
 }
