@@ -276,7 +276,9 @@ public class TCD_Community implements TADCommunity {
 
     // Query 2
     public List<Long> topMostActive(int N) {
-        return Arrays.asList(15811L,449L,158442L,167850L,367165L,295286L,59676L,93977L,35795L,3940L);
+        Query2 maisPosts = new Query2(this);
+        
+        return maisPosts.run(N);
     }
 
     // Query 3

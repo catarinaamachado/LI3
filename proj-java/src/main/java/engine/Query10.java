@@ -32,6 +32,8 @@ public class Query10
      * (número de comentários recebidos pela resposta × 0.1)   
      *
      * @param id - id da pergunta
+     * 
+     * @returns long - id da resposta
      */
     public long run(long id) {
         int i, total_answers, reputation, score, commentCount;

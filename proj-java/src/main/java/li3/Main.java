@@ -34,16 +34,16 @@ public class Main {
         logtime.writeLog("LOAD -> "+(after-before)+" ms");
         } catch(IndexOutOfBoundsException e) {
             System.out.println("Deve passar o caminho do dump como argumento.");
-            System.out.println("Utilizando: ../../../../dump/android.");
-            qe.load("../../../../dump/android");
+            System.out.println("Utilizando: ../../../../dump/ubuntu.");
+            qe.load("../../../../dump/ubuntu");
         }
 
         /*
            Query 1
         */
         before = System.currentTimeMillis();
-        Pair<String,String> q1 = qe.infoFromPost(1);
-        System.out.println("Title e username :" + q1);
+        Pair<String,String> q1 = qe.infoFromPost(801049);
+        //System.out.println("Title e username :" + q1);
         after = System.currentTimeMillis();
         logtime.writeLog("Query 1: -> "+(after-before)+" ms");
         log.writeLog("Query1 -> " + q1);
@@ -53,6 +53,7 @@ public class Main {
         */
         before = System.currentTimeMillis();
         List<Long> q2 = qe.topMostActive(10);
+        //System.out.println("Lista de Utilizadores com mais posts" + q2);
         after = System.currentTimeMillis();
         logtime.writeLog("Query 2 -> "+(after-before)+" ms");
         log.writeLog("Query 2 -> "+q2);
@@ -128,8 +129,8 @@ public class Main {
            Query 10
         */
         before = System.currentTimeMillis();
-        long q10 = qe.betterAnswer(11);
-        System.out.println("Melhor Resposta :" + q10);
+        long q10 = qe.betterAnswer(30334);
+        //System.out.println("Melhor Resposta :" + q10);
         after = System.currentTimeMillis();
         logtime.writeLog("Query 10 -> "+(after-before)+" ms");
         log.writeLog("Query 10 -> "+q10);
