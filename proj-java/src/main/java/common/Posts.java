@@ -1,3 +1,5 @@
+package common;
+
 
 /**
  * Classe abstrata Posts

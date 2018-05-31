@@ -1,3 +1,5 @@
+package engine;
+
 
 /**
  * Estrutura de dados principal do programa.
@@ -14,6 +16,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.stream.Collectors;
+import common.*;
 
 
 public class TCD_Community {

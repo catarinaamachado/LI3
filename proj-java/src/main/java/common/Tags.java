@@ -1,3 +1,5 @@
+package common;
+
 
 /**
  * Estrutura de dados de Tags

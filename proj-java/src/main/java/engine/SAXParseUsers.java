@@ -1,3 +1,5 @@
+package engine;
+
 
 /**
  * Parse dump de Users.
@@ -11,6 +13,7 @@
 
 import org.xml.sax.helpers.*;
 import org.xml.sax.*;
+import common.*;
 
 public class SAXParseUsers extends DefaultHandler {
 

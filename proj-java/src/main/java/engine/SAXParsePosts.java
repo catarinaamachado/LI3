@@ -1,3 +1,5 @@
+package engine;
+
 
 /**
  * Parse ao dump de Posts.
@@ -8,6 +10,7 @@
  * @version 20180519
  */
 
+import common.*;
 import org.xml.sax.helpers.*;
 import org.xml.sax.*;
 

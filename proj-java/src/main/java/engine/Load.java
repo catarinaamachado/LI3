@@ -1,3 +1,5 @@
+package engine;
+
 /**
  * Classe que carrega dados do dump xml.
  *

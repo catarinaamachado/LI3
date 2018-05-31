@@ -13,6 +13,14 @@ public class Main {
 
     public static void main(String[] args){
 
+
+/*
+        TCD_Community com = new TCD_Community();
+
+        Load load = new Load();
+
+        load.lerFicheiros(com);
+*/
         /*
             LOG CONFIGURATION
         */
