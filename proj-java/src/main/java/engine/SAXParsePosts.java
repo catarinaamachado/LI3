@@ -141,7 +141,7 @@ public class SAXParsePosts extends DefaultHandler {
                 Question pergunta = com.lookQuestion(parentId);
 
                 if(pergunta != null) {
-                    pergunta.setNAnswers(pergunta.getNAnswerVotes() + resposta.getScore());
+                    pergunta.setNAnswerVotes(pergunta.getNAnswerVotes() + resposta.getScore());
                     pergunta.setNAnswers(pergunta.getNAnswers() + 1);
                     pergunta.addAnswertoAnswersList(resposta);
                 }

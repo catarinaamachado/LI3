@@ -42,7 +42,8 @@ public class Main {
            Query 1
         */
         before = System.currentTimeMillis();
-        Pair<String,String> q1 = qe.infoFromPost(801049);
+        Pair<String,String> q1 = qe.infoFromPost(1);
+        System.out.println("Title e username :" + q1);
         after = System.currentTimeMillis();
         logtime.writeLog("Query 1: -> "+(after-before)+" ms");
         log.writeLog("Query1 -> " + q1);
@@ -127,7 +128,8 @@ public class Main {
            Query 10
         */
         before = System.currentTimeMillis();
-        long q10 = qe.betterAnswer(30334);
+        long q10 = qe.betterAnswer(11);
+        System.out.println("Melhor Resposta :" + q10);
         after = System.currentTimeMillis();
         logtime.writeLog("Query 10 -> "+(after-before)+" ms");
         log.writeLog("Query 10 -> "+q10);

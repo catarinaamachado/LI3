@@ -269,7 +269,9 @@ public class TCD_Community implements TADCommunity {
 
     // Query 1
     public Pair<String,String> infoFromPost(long id) {
-        return new Pair<>("What are the actual risks of giving www-data sudo nopasswd access?", "WebNinja");
+        Query1 title_username = new Query1(this);
+        
+        return title_username.run(id); 
     }
 
     // Query 2
@@ -324,7 +326,9 @@ public class TCD_Community implements TADCommunity {
 
     // Query 10
     public long betterAnswer(long id) {
-        return 175891;
+        Query10 query10 = new Query10(this);
+        
+        return query10.run(id);
     }
 
     // Query 11

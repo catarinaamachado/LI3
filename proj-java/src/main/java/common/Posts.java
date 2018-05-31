@@ -30,7 +30,7 @@ public abstract class Posts {
     }
 
       /**
-     * Função que devolve o id do user que deu a resposta.
+     * Função que devolve o id do user que deu a pergunta ou a resposta.
      *
      * @returns long - Identificador do user que deu a resposta.
      */
@@ -39,7 +39,7 @@ public abstract class Posts {
     }
 
       /**
-     * Função que estabelece o id do user que deu a resposta.
+     * Função que estabelece o id do user que deu a pergunta ou a resposta.
      *
      * @param id Identificador do user que deu a resposta.
      */
@@ -48,7 +48,7 @@ public abstract class Posts {
     }
 
       /**
-     * Função que devolve o id da resposta.
+     * Função que devolve o id da pergunta ou da resposta.
      *
      * @returns long - Identificador da resposta.
      */
@@ -57,7 +57,7 @@ public abstract class Posts {
     }
 
      /**
-     * Função que estabelece o o id da resposta.
+     * Função que estabelece o o id da pergunta ou da resposta.
      *
      * @param id Identificador da resposta.
      */
