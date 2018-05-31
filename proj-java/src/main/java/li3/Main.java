@@ -32,8 +32,10 @@ public class Main {
         qe.load(args[0]);
         after = System.currentTimeMillis();
         logtime.writeLog("LOAD -> "+(after-before)+" ms");
-        } catch(IndexOutOfBoundsException e){
+        } catch(IndexOutOfBoundsException e) {
             System.out.println("Deve passar o caminho do dump como argumento.");
+            System.out.println("Utilizando: ../../../../dump/android.");
+            qe.load("../../../../dump/android");
         }
 
         /*

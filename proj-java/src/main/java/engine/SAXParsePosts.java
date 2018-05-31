@@ -97,8 +97,6 @@ public class SAXParsePosts extends DefaultHandler {
             if(atts.getValue(post_type_id).equals("1")) { //trata-se de uma pergunta
                 long questionId = Long.parseLong(atts.getValue(id)); //converte o id do post num numero
 
-                System.out.println("QuestionId :" + questionId);
-
                 Question pergunta = com.lookQuestion(questionId); //procura uma pergunta na tabela de hash designada questions.
 
                 if(pergunta == null) {

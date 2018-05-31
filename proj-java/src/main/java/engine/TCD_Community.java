@@ -262,6 +262,7 @@ public class TCD_Community implements TADCommunity {
         load.lerFicheiros(this, dumpPath);
      }
      catch (Exception e) {
+         System.out.println("Error: " + e.getMessage());
      }
    
     }
