@@ -21,10 +21,10 @@ public class Load {
 	public Load() {
 	}
 
-	public void lerFicheiros(TCD_Community com) throws Exception {
-		String filenamePosts = "../../dump/android/Posts.xml";
-		String filenameUsers = "../../dump/android/Users.xml";
-		String filenameTags = "../../dump/android/Tags.xml";
+	public void lerFicheiros(TCD_Community com, String dumpPath) throws Exception {
+		String filenamePosts = dumpPath + "/Posts.xml";
+		String filenameUsers = dumpPath + "/Users.xml";
+		String filenameTags = dumpPath + "/Tags.xml";
 
 		SAXParserFactory spf = SAXParserFactory.newInstance(); //cria uma instância do objeto
 		spf.setNamespaceAware(true);

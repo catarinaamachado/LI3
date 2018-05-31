@@ -2,7 +2,7 @@ package li3;
 
 import common.MyLog;
 import common.Pair;
-import engine.TCDExample;
+import engine.TCD_Community;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -14,13 +14,6 @@ public class Main {
     public static void main(String[] args){
 
 
-/*
-        TCD_Community com = new TCD_Community();
-
-        Load load = new Load();
-
-        load.lerFicheiros(com);
-*/
         /*
             LOG CONFIGURATION
         */
@@ -29,7 +22,7 @@ public class Main {
         /* -------------------------------------------------------------------------------------------*/
 
         long before, after;
-        TADCommunity qe = new TCDExample();
+        TADCommunity qe = new TCD_Community();
 
         /*
             LOAD PHASE
