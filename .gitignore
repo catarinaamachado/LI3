@@ -1,0 +1,4 @@
+# Ignore files
+*.class
+*.DS_Store
+*.ctxt
