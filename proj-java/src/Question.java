@@ -1,3 +1,7 @@
+import java.util.List;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+
 
 /**
  * Escreva a descrição da classe Questions aqui.
@@ -9,14 +13,12 @@
  */
 
 public class Question extends Posts {
-    private long post_id; //TODO passar para os Posts
     //private LocalDate pd;
-    private long user_id;
     private String title;
     private String tags;
     private int n_answers;
     private int n_answer_votes;
-    //private List<Answers> answers;
+    private List<Answers> answers; //TODO clones desta variavel
 
     public Question() {
         super();
@@ -24,14 +26,17 @@ public class Question extends Posts {
         tags = "";
         n_answers = 0;
         n_answer_votes = 0;
+        answers = new ArrayList();
     }
 
-    public Question(long post_id, long user_id, String title, String tags, int n_answers, int n_answer_votes) {
+    public Question(long post_id, long user_id, String title, String tags, 
+                    int n_answers, int n_answer_votes, List answers) {
         super(post_id, user_id);
         this.title = title;
         this.tags = tags;
         this.n_answers = n_answers;
         this.n_answer_votes = n_answer_votes;
+        setAnswersList(answers);
       }
 
     public Question(Question q) {
@@ -40,25 +45,8 @@ public class Question extends Posts {
         this.tags = q.getTags();
         this.n_answers = q.getNAnswers();
         this.n_answer_votes = q.getNAnswerVotes();
+        this.answers = q.getAnswersList();
       }
-
-    /**
-     * Função que devolve o id do utilizador.
-     *
-     * @returns long - Identificador do user.
-     */
-    public long getUsertId() {
-        return user_id;
-    }
-
-      /**
-     * Função que estabelece o id do utilizador.
-     *
-     * @param id - Id do utilizador.
-     */
-    public void setUserId(long id) {
-        post_id = id;
-    }
 
     /**
      * Função que devolve o título.
@@ -132,7 +120,28 @@ public class Question extends Posts {
     public void setNAnswerVotes(int n_answer_votes) {
         this.n_answer_votes = n_answer_votes;
     }
-
+    
+    /**
+     * Função que devolve as respostas de uma pergunta.
+     *
+     * @returns List<Answers> - lista das respostas.
+     */
+    public List<Answers> getAnswersList() {
+        return answers.stream().
+                  collect(Collectors.toCollection(ArrayList::new));
+    }
+  
+    /**
+     * Função que estabelece as respostas de uma pergunta.
+     *
+     * @param respostas Lista com as respostas de uma pergunta.
+     *
+     */
+    public void setAnswersList(List<Answers> respostas) {
+        this.answers = respostas.stream().
+                        collect(Collectors.toCollection(ArrayList::new));
+    }
+    
     /**
      * Método que faz uma cópia de questions.
      * Para tal invoca o construtor de cópia.
@@ -149,13 +158,21 @@ public class Question extends Posts {
      * @return String que representa uma question
      */
     public String toString() {
+        StringBuilder AnswersList = new StringBuilder();
 
+            for (Answers resposta: answers) {      
+                 AnswersList.append(resposta.toString());
+                 AnswersList.append(" "); 
+            }
+            
+     
         return "Question{" +
                 super.toString() +
                 ", Title = " + title +
                 ", Tags = " + tags +
                 ", Número de respostas = " + n_answers +
                 ", Número total de votos das respostas = " + n_answer_votes +
+                ", Answers =" + AnswersList.toString() +
                 '}';
     }
 
@@ -174,8 +191,21 @@ public class Question extends Posts {
             return false;
 
         Question q = (Question) object;
-        return  (post_id == q.getPostId() && user_id == q.getUsertId() &&
+        return  (super.equals(q) &&
                 title.equals(q.getTitle()) && tags.equals(q.getTags()) &&
                 n_answers == q.getNAnswers() && n_answer_votes == q.getNAnswerVotes());
     }
+    
+    /**
+     * Método que adiciona uma resposta à AnswersList.
+     *
+     * @param umaAnswer uma resposta.
+     *
+     */
+    public void addAnswertoAnswersList(Answers umaAnswer) {
+        answers.add(umaAnswer);
+    }
+    
+   
+    
 }

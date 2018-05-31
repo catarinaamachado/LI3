@@ -108,6 +108,39 @@ public class Answers extends Posts {
     public Answers clone() {
          return new Answers(this);
     }
+    
+    /**
+     * Método que determina se duas respostas são iguais.
+     *
+     * @param object Objecto a ser usado como termo de comparação.
+     *
+     * @return Boolean indicando se os dois objetos são iguais
+     */
+    public boolean equals(Object object) {
+        if(this == object)
+            return true;
 
-    //TODO equals e toString
+        if(object == null || (this.getClass() != object.getClass()))
+            return false;
+
+        Answers resposta = (Answers) object;
+        return  (super.equals(resposta) && parent_id == resposta.getParentId() 
+                 && score == resposta.getScore() && comment_count == resposta.getCommentCount());
+
+    }
+    
+     /**
+     * Método que devolve a representação em String de Answers.
+     *
+     * @return String que representa uma resposta.
+     */
+    public String toString() {
+
+        return "Answers{" +
+                super.toString() +
+                ", ParentId = " + parent_id +
+                ", Score = " + score +
+                ", CommentCount = " + comment_count +
+                '}';
+    }
 }

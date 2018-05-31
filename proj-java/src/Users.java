@@ -18,7 +18,7 @@ public class Users {
     private String username;
     private int reputation;
     private int n_posts;
-    private List<Posts> posts;
+    private List<Posts> posts; // TODO clones desta variavel
 
     /**
      * Construtor por omissão de Users.

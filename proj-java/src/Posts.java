@@ -63,7 +63,7 @@ public abstract class Posts {
         post_id = id;
     }
 
-      /**
+     /**
      * Método que devolve a representação em String de Posts.
      *
      * @return String que representa um post
@@ -74,5 +74,23 @@ public abstract class Posts {
                 ", UserId = " + user_id +
                 ", PostId = " + post_id +
                 '}';
+    }
+    
+    /**
+     * Método que determina se dois posts são iguais.
+     *
+     * @param object Objecto a ser usado como termo de comparação.
+     *
+     * @return Boolean indicando se os dois objetos são iguais
+     */
+    public boolean equals(Object object) {
+        if(this == object)
+            return true;
+
+        if(object == null || (this.getClass() != object.getClass()))
+            return false;
+
+        Posts post = (Posts) object;
+        return  (post_id == post.getPostId() && user_id == post.getUserId());
     }
 }

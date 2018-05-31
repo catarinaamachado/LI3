@@ -142,7 +142,7 @@ public class SAXParsePosts extends DefaultHandler {
                 if(pergunta != null) {
                     pergunta.setNAnswers(pergunta.getNAnswerVotes() + resposta.getScore());
                     pergunta.setNAnswers(pergunta.getNAnswers() + 1);
-                    // TODO addAnswers(q, pointer); //adiciona a resposta ao GPtrArray * answers da struct questions
+                    pergunta.addAnswertoAnswersList(resposta);
                 }
                 else { // a pergunta não existe
                     pergunta = new Question();
@@ -157,7 +157,7 @@ public class SAXParsePosts extends DefaultHandler {
                     pergunta.setPostId(parentId); //poe o id da pergunta com o parent id da resposta
 
                     pergunta.setNAnswerVotes(resposta.getScore()); //estabelece o numero de votos
-                    //addAnswers(q, pointer); //adiciona a resposta ao GPtrArray * answers
+                    pergunta.addAnswertoAnswersList(resposta);
 
                     com.insertQuestion(pergunta);
                 }

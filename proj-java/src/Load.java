@@ -24,13 +24,13 @@ public class Load {
 		String filenameUsers = "../../dump/android/Users.xml";
 		String filenameTags = "../../dump/android/Tags.xml";
 
-		SAXParserFactory spf = SAXParserFactory.newInstance();
+		SAXParserFactory spf = SAXParserFactory.newInstance(); //cria uma instância do objeto
 		spf.setNamespaceAware(true);
 		SAXParser saxParser = spf.newSAXParser(); //cria um parser
 		XMLReader xmlReader = saxParser.getXMLReader(); //cria um xmlreader
 
 
-		xmlReader.setContentHandler(new SAXParseUsers(com));
+		xmlReader.setContentHandler(new SAXParseUsers(com)); //ContentHandler define quais os callbacks 
 		xmlReader.parse(filenameUsers);
 
 		xmlReader.setContentHandler(new SAXParsePosts(com));
