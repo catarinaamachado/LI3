@@ -95,4 +95,13 @@ public abstract class Posts {
         Posts post = (Posts) object;
         return  (post_id == post.getPostId() && user_id == post.getUserId());
     }
+    
+    /**
+     * Método que faz uma cópia de um post.
+     * Para tal invoca o construtor de cópia.
+     *
+     * @return cópia de questions
+     */
+    public abstract Posts clone();
+    
 }

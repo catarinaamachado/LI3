@@ -66,7 +66,7 @@ public class TCD_Community implements TADCommunity {
      * @returns Map<Long, Users> - a HashMap users
      */
     public Map<Long, Users>  getMapUsers() {
-        return users; //por questões de performance
+        return users; //por questões de performance se fizer o clone fica muito lento
     }
 
     /**
@@ -196,7 +196,30 @@ public class TCD_Community implements TADCommunity {
                 '}';
     }
 
-  //TODO EQUALS
+    /**
+     * Método que determina se dois TCD_Community objeto são iguais.
+     *
+     * @param object Objecto a ser usado como termo de comparação.
+     *
+     * @return Boolean indicando se os dois objetos são iguais
+     */
+    public boolean equals(Object object) {
+        if (this == object)
+            return true;
+
+        if (object == null || (this.getClass() != object.getClass()))
+            return false;
+
+        TCD_Community com = (TCD_Community) object;
+
+  
+    return (this.users.equals(com.getMapUsers()) &&
+           this.questions.equals(com.getMapQuestions()) &&
+           this.answers.equals(com.getMapAnswers()) && 
+           this.questionsList.equals(com.getQuestionsList()) &&
+           this.usersList.equals(com.getUsersList()) && 
+           this.tags.equals(com.getMapTags()));
+    }
 
     /**
      * Método que verifica se uma questão existe em questions.
@@ -276,9 +299,9 @@ public class TCD_Community implements TADCommunity {
 
     // Query 2
     public List<Long> topMostActive(int N) {
-        Query2 maisPosts = new Query2(this);
+        Query2 query2 = new Query2(this);
         
-        return maisPosts.run(N);
+        return query2.run(N);
     }
 
     // Query 3

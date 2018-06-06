@@ -141,9 +141,9 @@ public class Users {
     }
 
     /**
-     * Função que devolve o número de posts do utilizador.
+     * Função que devolve o número de posts do utilizador (question e answer).
      *
-     * @returns int - Númerod e posts do user.
+     * @returns int - Número de posts do user.
      */
     public int getNPosts() {
         return n_posts;
@@ -173,8 +173,8 @@ public class Users {
      * @param List<Posts> - Lista de posts do user.
      */
     public void setPosts(List<Posts> posts) {
-        this.posts = posts.stream().
-        collect(Collectors.toList()); //fazer clone
+        this.posts = posts.stream().map(Posts :: clone).
+        collect(Collectors.toList());
     }
 
     /**
@@ -185,6 +185,27 @@ public class Users {
         n_posts = n_posts + 1;
     }
 
+    /**
+     * Método que determina se dois users são iguais.
+     *
+     * @param object Objecto a ser usado como termo de comparação.
+     *
+     * @return Boolean indicando se os dois objetos são iguais
+     */
+    public boolean equals(Object object) {
+        if(this == object)
+            return true;
+
+        if(object == null || (this.getClass() != object.getClass()))
+            return false;
+
+       
+        Users u = (Users) object;
+        return  (user_id == u.getUsersId() && shortbio.equals(u.getUserBio()) 
+                 && reputation == u.getReputation() && n_posts == u.getNPosts()
+                 && posts.equals(u.getPosts()));
+    }
+    
     /**
      * Método que faz uma cópia de Users.
      * Para tal invoca o construtor de cópia.

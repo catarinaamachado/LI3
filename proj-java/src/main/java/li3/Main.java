@@ -52,7 +52,7 @@ public class Main {
            Query 2
         */
         before = System.currentTimeMillis();
-        List<Long> q2 = qe.topMostActive(10);
+        List<Long> q2 = qe.topMostActive(100);
         //System.out.println("Lista de Utilizadores com mais posts" + q2);
         after = System.currentTimeMillis();
         logtime.writeLog("Query 2 -> "+(after-before)+" ms");

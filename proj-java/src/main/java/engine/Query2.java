@@ -1,9 +1,7 @@
 package engine;
 import common.*;
-import java.util.List;
-import java.util.Comparator;
-import java.util.stream.Collectors;
-import java.util.ArrayList;
+import java.util.*;
+import java.util.stream.*;
 
 /**
  * Classe que responde à query2.
@@ -35,8 +33,12 @@ public class Query2 {
      * @returns List<Long> - lista com os ids dos N utilizadores com mais posts publicados
      */
     public List<Long> run(int N) {
-        return com.getMapUsers().values().stream().sorted(Comparator.comparing
-               (Users:: getNPosts).reversed()).limit(N).map(u -> u.getUsersId()).
+    
+        return com.getMapUsers().values().stream().
+               sorted(new NumeroPostsComparador()).limit(N).
+               map(u -> u.getUsersId()).
                collect(Collectors.toCollection(ArrayList::new));
+        
+        
     }
 }
