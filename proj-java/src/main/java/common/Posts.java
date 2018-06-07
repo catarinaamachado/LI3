@@ -2,7 +2,7 @@ package common;
 
 
 /**
- * Classe abstrata Posts
+ * Classe abstrata Posts. Refere-se tanto a perguntas como a respostas.
  *
  * @author A81047
  * @author A34900

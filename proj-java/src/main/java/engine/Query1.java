@@ -36,7 +36,7 @@ public class Query1 {
      * 
      * @returns Pair<String, String> - título e o nome do autor do pergunta
      */
-    public Pair<String,String> run(long id) {
+    public Pair<String,String> run(long id) throws NoPostIdException{
         long userId;
         long parentId;
         String title, username;
@@ -45,6 +45,10 @@ public class Query1 {
         
         if (pergunta == null) {
             Answers resposta = com.lookAnswer(id);
+            
+            if(resposta == null) {
+                throw new NoPostIdException(id + " não identifica uma pergunta nem uma resposta");
+            }
             
             if (resposta != null) {
                 parentId = resposta.getParentId();

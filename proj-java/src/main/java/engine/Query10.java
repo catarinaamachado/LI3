@@ -10,8 +10,7 @@ import common.*;
  * @author A82339
  * @version 20180531
  */
-public class Query10
-{
+public class Query10 {
    TCD_Community com;
    
     /**
@@ -35,7 +34,7 @@ public class Query10
      * 
      * @returns long - id da resposta
      */
-    public long run(long id) {
+    public long run(long id) throws NoAnswersException, NoQuestionIdException {
         int i, total_answers, reputation, score, commentCount;
         long answerId = -1;
         double total, max = 0.0;
@@ -43,10 +42,17 @@ public class Query10
         Question pergunta = com.lookQuestion(id);
         
         if(pergunta == null) {
-            return answerId;
+            throw new NoQuestionIdException("O id " + id + " não pertence a uma pergunta");
         }
         
+        
         total_answers = pergunta.getNAnswers();
+        
+        if(total_answers == 0) {
+            throw new NoAnswersException("A pergunta não tem nenhuma resposta");
+        }
+        
+        
         //System.out.println("Numero de respostas " + total_answers);
         //System.out.println(pergunta.toString());
         

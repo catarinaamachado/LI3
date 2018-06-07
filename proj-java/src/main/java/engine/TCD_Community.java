@@ -93,7 +93,8 @@ public class TCD_Community implements TADCommunity {
      * @param users - Map das questions
      */
     public void setMapQuestions(Map<Long, Question> questions) {
-        this.questions = questions.entrySet().stream().collect(Collectors.toMap(k -> k.getKey(), q -> q.getValue().clone()));
+        this.questions = questions.entrySet().stream().
+                         collect(Collectors.toMap(k -> k.getKey(), q -> q.getValue().clone()));
     }
 
     /**
@@ -294,7 +295,17 @@ public class TCD_Community implements TADCommunity {
     public Pair<String,String> infoFromPost(long id) {
         Query1 title_username = new Query1(this);
         
-        return title_username.run(id); 
+        Pair<String, String> resposta = new Pair("null", "null");
+        
+        try{
+            resposta = title_username.run(id);
+        } catch(NoPostIdException e) {
+            System.out.println(e.getMessage());
+            return new Pair("null", "null");
+        }
+        
+        
+        return resposta; 
     }
 
     // Query 2
@@ -352,8 +363,21 @@ public class TCD_Community implements TADCommunity {
     // Query 10
     public long betterAnswer(long id) {
         Query10 query10 = new Query10(this);
+        long resultado;
         
-        return query10.run(id);
+        try {
+            resultado = query10.run(id);
+            
+        } catch(NoQuestionIdException e) {
+            System.out.println(e.getMessage());
+            return - 1;
+        }catch(NoAnswersException e) {
+            System.out.println(e.getMessage());
+            return -1;
+        }
+        
+        
+        return resultado;
     }
 
     // Query 11
