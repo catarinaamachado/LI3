@@ -53,9 +53,6 @@ public class Query10 {
         }
         
         
-        //System.out.println("Numero de respostas " + total_answers);
-        //System.out.println(pergunta.toString());
-        
         for(i = 0; i < total_answers; i++) {
              Answers resposta = pergunta.getAnswersList().get(i);
              Users user = com.lookUser(resposta.getUserId());

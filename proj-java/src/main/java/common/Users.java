@@ -1,4 +1,7 @@
 package common;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 
 /**
@@ -10,17 +13,13 @@ package common;
  * @version 20180519
  */
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.stream.Collectors;
-
 public class Users {
     private long user_id;
     private String shortbio;
     private String username;
     private int reputation;
     private int n_posts;
-    private List<Posts> posts; // TODO clones desta variavel
+    private List<Posts> posts;
 
     /**
      * Construtor por omissão de Users.
@@ -146,7 +145,7 @@ public class Users {
      * @returns int - Número de posts do user.
      */
     public int getNPosts() {
-        return n_posts;
+        return n_posts; 
     }
 
     /**
@@ -164,7 +163,8 @@ public class Users {
      * @return List<Posts> - Lista de posts do user.
      */
     public List<Posts> getPosts() {
-        return posts;
+        
+        return posts.stream().map(Posts :: clone).collect(Collectors.toList());
     }
 
     /**
@@ -204,6 +204,29 @@ public class Users {
         return  (user_id == u.getUsersId() && shortbio.equals(u.getUserBio()) 
                  && reputation == u.getReputation() && n_posts == u.getNPosts()
                  && posts.equals(u.getPosts()));
+    }
+    
+    /**
+     * Método que devolve a representação em String de Users.
+     *
+     * @return String que representa um user.
+     */
+    public String toString() {
+       StringBuilder PostsList = new StringBuilder();
+
+            for (Posts p: posts) {      
+                 PostsList.append(p.toString());
+                 PostsList.append(" "); 
+            }
+           
+        return "Users{" +
+                ", UserId = " + user_id +
+                ", ShortBio = " + shortbio +
+                ", Username = " + username +
+                ", Reputation = " + reputation +
+                ", Number of Posts = " + n_posts +
+                ", Posts =" + PostsList.toString() +
+                '}';
     }
     
     /**

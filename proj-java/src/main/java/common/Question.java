@@ -20,7 +20,7 @@ public class Question extends Posts {
     private String tags;
     private int n_answers;
     private int n_answer_votes;
-    private List<Answers> answers; //TODO clones desta variavel
+    private List<Answers> answers; 
 
     public Question() {
         super();

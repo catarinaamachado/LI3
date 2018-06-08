@@ -1,15 +1,4 @@
 package engine;
-
-
-/**
- * Estrutura de dados principal do programa.
- *
- * @author A81047
- * @author A34900
- * @author A82339
- * @version 20180519
- */
-
 import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +11,14 @@ import li3.TADCommunity;
 import java.time.LocalDate;
 import java.util.Arrays;
 
+/**
+ * Estrutura de dados principal do programa.
+ *
+ * @author A81047
+ * @author A34900
+ * @author A82339
+ * @version 20180519
+ */
 
 public class TCD_Community implements TADCommunity {
     private Map<Long, Users> users;
@@ -66,10 +63,11 @@ public class TCD_Community implements TADCommunity {
      *
      * @returns Map<Long, Users> - a HashMap users
      */
-    public Map<Long, Users>  getMapUsers() {
-        return users; //por questões de performance se fizer o clone fica muito lento
+     Map<Long, Users>  getMapUsers() {
+        return users.entrySet().stream().collect(Collectors.toMap(k -> k.getKey(), u -> u.getValue().clone()));
+  
     }
-
+    
     /**
      * Função que estabelece a HashMap users
      *
@@ -85,7 +83,7 @@ public class TCD_Community implements TADCommunity {
      * @returns Map<Long, Questions> - a HashMap questions
      */
     public Map<Long, Question>  getMapQuestions() {
-        return questions; //por questões de performance
+        return questions; //por questões de performance não sei como fazer
     }
 
     /**
@@ -293,7 +291,7 @@ public class TCD_Community implements TADCommunity {
     }
 
     // Query 1
-    public Pair<String,String> infoFromPost(long id) {
+    public Pair<String,String> infoFromPost(long id) { 
         Query1 title_username = new Query1(this);
         
         Pair<String, String> resposta = new Pair("null", "null");
@@ -301,7 +299,7 @@ public class TCD_Community implements TADCommunity {
         try{
             resposta = title_username.run(id);
         } catch(NoPostIdException e) {
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage()); //era conveniente sair daqui
         }
         
         
