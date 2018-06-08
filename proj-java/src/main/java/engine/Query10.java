@@ -11,7 +11,7 @@ import common.*;
  * @version 20180531
  */
 public class Query10 {
-   TCD_Community com;
+   private TCD_Community com;
    
     /**
      * Construtor parametrizado.

@@ -11,7 +11,7 @@ import common.*;
  */
 public class Query1 {
     
-    TCD_Community com;
+    private TCD_Community com;
    
     /**
      * Construtor parametrizado.

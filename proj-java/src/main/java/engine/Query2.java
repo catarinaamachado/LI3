@@ -12,7 +12,7 @@ import java.util.stream.*;
  * @version 20180531
  */
 public class Query2 {
-   TCD_Community com;
+   private TCD_Community com;
    
     /**
      * Construtor parametrizado.
