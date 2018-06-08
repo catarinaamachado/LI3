@@ -129,7 +129,7 @@ public class Question extends Posts {
      * @returns List<Answers> - lista das respostas.
      */
     public List<Answers> getAnswersList() {
-        return answers.stream().
+        return answers.stream().map(Answers :: clone).
                   collect(Collectors.toCollection(ArrayList::new));
     }
   
@@ -140,7 +140,7 @@ public class Question extends Posts {
      *
      */
     public void setAnswersList(List<Answers> respostas) {
-        this.answers = respostas.stream().
+        this.answers = respostas.stream().map(Answers :: clone).
                         collect(Collectors.toCollection(ArrayList::new));
     }
     

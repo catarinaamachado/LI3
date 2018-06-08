@@ -2,7 +2,7 @@ package common;
 
 
 /**
- * Escreva a descrição da classe Users aqui.
+ * Classe que define um utilizador que publica posts.
  *
  * @author A81047
  * @author A34900

@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.stream.Collectors;
+import java.util.TreeMap;
 import common.*;
 import li3.TADCommunity;
 import java.time.LocalDate;
@@ -301,7 +302,6 @@ public class TCD_Community implements TADCommunity {
             resposta = title_username.run(id);
         } catch(NoPostIdException e) {
             System.out.println(e.getMessage());
-            return new Pair("null", "null");
         }
         
         
@@ -363,19 +363,16 @@ public class TCD_Community implements TADCommunity {
     // Query 10
     public long betterAnswer(long id) {
         Query10 query10 = new Query10(this);
-        long resultado;
+        long resultado = -1;
         
         try {
             resultado = query10.run(id);
             
         } catch(NoQuestionIdException e) {
             System.out.println(e.getMessage());
-            return - 1;
         }catch(NoAnswersException e) {
             System.out.println(e.getMessage());
-            return -1;
         }
-        
         
         return resultado;
     }
