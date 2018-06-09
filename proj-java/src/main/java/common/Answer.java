@@ -14,8 +14,7 @@ import java.time.LocalDate;
 public class Answer extends Posts {
     private long parent_id; // a que pergunta pertence
     private int score;
-    private int comment_count; //número de comentários recebidos pela resposta (query 10)
-
+    private int comment_count; //número de comentários recebidos pela resposta
     /**
      * Construtor por omissão de Answer.
      */

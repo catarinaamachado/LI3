@@ -16,7 +16,7 @@ public abstract class Posts implements Comparable<Posts> {
     private long user_id;
     private long post_id;
     private LocalDate pd;
-    
+
     /**
      * Construtor por omissão de Posts.
      */
@@ -49,7 +49,7 @@ public abstract class Posts implements Comparable<Posts> {
         this.post_id = p.getPostId();
         this.pd = p.getPd();
     }
-    
+
     /**
      * Método que devolve o id do user que deu a pergunta ou a resposta.
      *
@@ -113,6 +113,7 @@ public abstract class Posts implements Comparable<Posts> {
         return "Posts{" +
                 " UserId = " + user_id +
                 ", PostId = " + post_id +
+                ", Date = " + pd +
                 '}';
     }
 

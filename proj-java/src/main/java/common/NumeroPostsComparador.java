@@ -1,5 +1,5 @@
 package common;
-
+import java.util.Comparator;
 /**
  * Classe que compara o número de posts de um utilizador.
  *
@@ -9,7 +9,6 @@ package common;
  * @version 20180519
  */
 
-import java.util.Comparator;
 
 public class NumeroPostsComparador implements Comparator<Users> {
    

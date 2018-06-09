@@ -35,13 +35,16 @@ public class Main {
         }
         catch(IndexOutOfBoundsException e) {
             System.out.println("Error: " + e.getMessage());
+            System.out.println("Deve passar o caminho do dump como argumento."); //para remover no fim porque facilita os testes com o blueJ
+            System.out.println("Utilizando: ../../../../dump/ubuntu.");//para remover no fim porque facilita os testes com o blueJ
+            qe.load("../../../../dump/ubuntu");//para remover no fim porque facilita os testes com o blueJ
         }
 
         /*
            Query 1
         */
         before = System.currentTimeMillis();
-        Pair<String,String> q1 = qe.infoFromPost(84);
+        Pair<String,String> q1 = qe.infoFromPost(801049);
         System.out.println("1. Title e username: " + q1);
         after = System.currentTimeMillis();
         logtime.writeLog("Query 1 -> "+(after-before)+" ms");
@@ -130,7 +133,7 @@ public class Main {
            Query 10
         */
         before = System.currentTimeMillis();
-        long q10 = qe.betterAnswer(84);
+        long q10 = qe.betterAnswer(30334);
         System.out.println("10. Melhor Resposta: " + q10);
         after = System.currentTimeMillis();
         logtime.writeLog("Query 10 -> "+(after-before)+" ms");
