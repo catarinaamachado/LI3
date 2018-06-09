@@ -1,8 +1,5 @@
 package common;
 
-
-import java.time.LocalDate;
-
 /**
  * Estrutura de dados de Posts tipo 2
  *
@@ -12,22 +9,24 @@ import java.time.LocalDate;
  * @version 20180519
  */
 
-public class Answers extends Posts {
+import java.time.LocalDate;
+
+public class Answer extends Posts {
     private long parent_id; // a que pergunta pertence
     private int score;
     private int comment_count; //número de comentários recebidos pela resposta
     /**
-     * Construtor por omissão de Answers.
+     * Construtor por omissão de Answer.
      */
-    public Answers() {
+    public Answer() {
         super();
-        parent_id = 0;
-        score = 0;
-        comment_count = 0;
+        this.parent_id = 0;
+        this.score = 0;
+        this.comment_count = 0;
     }
 
     /**
-     * Construtor parametrizado de Answers.
+     * Construtor parametrizado de Answer.
      *
      * @param user_id Identificador do user
      * @param post_id Identificador do post
@@ -35,7 +34,7 @@ public class Answers extends Posts {
      * @param score Score da resposta
      * @param comment_count Número de comentários
      */
-    public Answers(long user_id, long post_id, LocalDate pd, long parent_id, int score, int comment_count) {
+    public Answer(long user_id, long post_id, LocalDate pd, long parent_id, int score, int comment_count) {
         super(user_id, post_id, pd);
         this.parent_id = parent_id;
         this.score = score;
@@ -45,9 +44,9 @@ public class Answers extends Posts {
     /**
      * Construtor de Cópia.
      *
-     * @param a Resposta 
+     * @param a Resposta
      */
-    public Answers(Answers a) {
+    public Answer(Answer a) {
         super(a);
         this.parent_id = a.getParentId();
         this.score = a.getScore();
@@ -55,7 +54,7 @@ public class Answers extends Posts {
     }
 
     /**
-     * Função que devolve o id da pergunta a que a resposta pertence.
+     * Método que devolve o id da pergunta a que a resposta pertence.
      *
      * @returns long - Identificador da pergunta a que a resposta pertence.
      */
@@ -64,7 +63,7 @@ public class Answers extends Posts {
     }
 
     /**
-     * Função que estabelece o id da pergunta a que a resposta pertence.
+     * Método que estabelece o id da pergunta a que a resposta pertence.
      *
      * @param id Identificador da pergunta a que a resposta pertence.
      */
@@ -73,7 +72,7 @@ public class Answers extends Posts {
     }
 
     /**
-     * Função que devolve o score da resposta
+     * Método que devolve o score da resposta
      *
      * @returns int - score
      */
@@ -82,7 +81,7 @@ public class Answers extends Posts {
     }
 
     /**
-     * Função que estabelece o score da resposta
+     * Método que estabelece o score da resposta
      *
      * @param score Score da resposta
      */
@@ -91,7 +90,7 @@ public class Answers extends Posts {
     }
 
     /**
-     * Função que devolve o número de comentários da resposta.
+     * Método que devolve o número de comentários da resposta.
      *
      * @returns int - número de comentários
      */
@@ -100,7 +99,7 @@ public class Answers extends Posts {
     }
 
     /**
-     * Função que estabelece o número de comentários da resposta.
+     * Método que estabelece o número de comentários da resposta.
      *
      * @param comment_count o número de comentários da resposta.
      */
@@ -108,10 +107,16 @@ public class Answers extends Posts {
         this.comment_count = comment_count;
     }
 
-    public Answers clone() {
-         return new Answers(this);
+    /**
+     * Método que faz uma cópia de answer.
+     * Para tal invoca o construtor de cópia.
+     *
+     * @return cópia de answer
+     */
+    public Answer clone() {
+         return new Answer(this);
     }
-    
+
     /**
      * Método que determina se duas respostas são iguais.
      *
@@ -126,23 +131,22 @@ public class Answers extends Posts {
         if(object == null || (this.getClass() != object.getClass()))
             return false;
 
-        Answers resposta = (Answers) object;
-        return  (super.equals(resposta) && parent_id == resposta.getParentId() 
+        Answer resposta = (Answer) object;
+        return  (super.equals(resposta) && parent_id == resposta.getParentId()
                  && score == resposta.getScore() && comment_count == resposta.getCommentCount());
-
     }
-    
+
     /**
-     * Método que devolve a representação em String de Answers.
+     * Método que devolve a representação em String de Answer.
      *
-     * @return String que representa uma resposta.
+     * @return String que representa uma resposta
      */
     public String toString() {
-        return "Answers{" +
+        return "Answer {" +
                 super.toString() +
                 ", ParentId = " + parent_id +
                 ", Score = " + score +
                 ", CommentCount = " + comment_count +
-                '}';
+                "}";
     }
 }

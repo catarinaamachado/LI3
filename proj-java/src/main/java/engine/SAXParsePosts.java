@@ -141,7 +141,7 @@ public class SAXParsePosts extends DefaultHandler {
             }
 
             else if(parentid != 0) {  // se for uma resposta
-                Answers resposta = new Answers();
+                Answer resposta = new Answer();
 
                 resposta.setPostId(Long.parseLong(atts.getValue(id)));
                 resposta.setUserId(Long.parseLong(atts.getValue(owner_id)));

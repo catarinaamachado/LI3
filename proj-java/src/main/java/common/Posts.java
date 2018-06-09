@@ -1,7 +1,5 @@
 package common;
 
-import java.time.LocalDate;
-
 /**
  * Classe abstrata Posts.
  * Refere-se tanto a perguntas como a respostas.
@@ -12,6 +10,8 @@ import java.time.LocalDate;
  * @version 20180519
  */
 
+import java.time.LocalDate;
+
 public abstract class Posts implements Comparable<Posts> {
     private long user_id;
     private long post_id;
@@ -21,9 +21,9 @@ public abstract class Posts implements Comparable<Posts> {
      * Construtor por omissão de Posts.
      */
     public Posts() {
-        user_id = 0;
-        post_id = 0;
-        pd = LocalDate.MIN;
+        this.user_id = 0;
+        this.post_id = 0;
+        this.pd = LocalDate.MIN;
     }
 
     /**
@@ -44,9 +44,9 @@ public abstract class Posts implements Comparable<Posts> {
      * @param p Post a ser replicado
      */
     public Posts(Posts p) {
-        user_id = p.getUserId();
-        post_id = p.getPostId();
-        pd = p.getPd();
+        this.user_id = p.getUserId();
+        this.post_id = p.getPostId();
+        this.pd = p.getPd();
     }
 
     /**
