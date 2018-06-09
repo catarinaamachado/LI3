@@ -53,7 +53,7 @@ public abstract class Posts implements Comparable<Posts> {
     /**
      * Método que devolve o id do user que deu a pergunta ou a resposta.
      *
-     * @returns long - Identificador do user que deu a resposta.
+     * @returns long - Identificador do user que deu a pergunta/ resposta.
      */
     public long getUserId() {
         return user_id;
@@ -62,7 +62,7 @@ public abstract class Posts implements Comparable<Posts> {
     /**
      * Método que estabelece o id do user que deu a pergunta ou a resposta.
      *
-     * @param id Identificador do user que deu a resposta.
+     * @param id Identificador do user que deu a pergunta/ resposta.
      */
     public void setUserId(long id) {
         user_id = id;
@@ -71,7 +71,7 @@ public abstract class Posts implements Comparable<Posts> {
     /**
      * Método que devolve o id da pergunta ou da resposta.
      *
-     * @returns long - Identificador da resposta.
+     * @returns long - Identificador do post.
      */
     public long getPostId() {
         return post_id;
@@ -80,7 +80,7 @@ public abstract class Posts implements Comparable<Posts> {
     /**
      * Método que estabelece o o id da pergunta ou da resposta.
      *
-     * @param id Identificador da resposta.
+     * @param id Identificador do post.
      */
     public void setPostId(long id) {
         post_id = id;

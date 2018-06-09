@@ -14,7 +14,7 @@ import common.NoQuestionIdException;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
-
+import java.util.ArrayList;
 
 public class Main {
 
@@ -71,10 +71,10 @@ public class Main {
         Pair<String,String> q1 = new Pair("null", "null");
         try{
             q1 = qe.infoFromPost(801049);
+            System.out.println("1. Title e username: " + q1);
         } catch (NoPostIdException e) {
-          System.out.println(e.getMessage());
+          System.out.println("1." + e.getMessage());
         }
-        System.out.println("1. Title e username: " + q1);
         after = System.currentTimeMillis();
         logtime.writeLog("Query 1 -> "+(after-before)+" ms");
         log.writeLog("Query 1 -> " + q1);
@@ -126,8 +126,15 @@ public class Main {
            Query 6
         */
         before = System.currentTimeMillis();
-        List<Long> q6 = qe.mostVotedAnswers(5, LocalDate.of(2015, Month.NOVEMBER, 1),
+        List<Long> q6 = new ArrayList<>();
+        int N6 = 5;
+        try{
+            q6 = qe.mostVotedAnswers(N6, LocalDate.of(2015, Month.NOVEMBER, 1),
                 LocalDate.of(2015, Month.NOVEMBER,30));
+            System.out.println("6. IDS respostas com mais votos: " + q6);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("6. " + e.getMessage() + ": " + "não existem " + N6 + " respostas.");
+        }        
         after = System.currentTimeMillis();
         logtime.writeLog("Query 6 -> " + (after - before) + " ms");
         log.writeLog("Query 6 -> " + q6);

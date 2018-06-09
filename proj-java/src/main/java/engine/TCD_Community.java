@@ -387,6 +387,8 @@ public class TCD_Community implements TADCommunity {
      * @param id - id do post
      *
      * @returns Pair<String, String> - título e o nome do autor do pergunta
+     * 
+     * @throws NoPostIdException
      */
     public Pair<String,String> infoFromPost(long id) throws NoPostIdException {
         long userId;
@@ -547,8 +549,35 @@ public class TCD_Community implements TADCommunity {
      *
      * @returns List<Long> - IDs das respostas
      */
-    public List<Long> mostVotedAnswers(int N, LocalDate begin, LocalDate end) {
-        return Arrays.asList(701775L,697197L,694560L,696641L,704208L);
+    public List<Long> mostVotedAnswers(int N, LocalDate begin, LocalDate end) throws IndexOutOfBoundsException{
+       List as = new ArrayList<Answer>();
+       List<Long> ids = new ArrayList<>();
+       Day d;
+        
+       if(begin.isBefore(end.plusDays(1))){
+            while(!begin.equals(end.plusDays(1))){
+                d = days.get(begin);
+                
+                for(Answer a: d.getAnswers())
+                    as.add(a);     
+                    
+                begin = begin.plusDays(1);
+            }
+        }    
+        else
+            return as;
+          
+       as = (List) as.stream().sorted(new NumeroVotosRespostas()).collect(Collectors.toList());
+       as = (List) as.subList(0, N);
+       
+       Iterator<Answer> it = as.iterator();
+       
+       while (it.hasNext()) {
+            Answer a = it.next();
+            ids.add(a.getPostId());
+       }
+
+       return ids;
     }
 
     /**
@@ -647,6 +676,8 @@ public class TCD_Community implements TADCommunity {
      * @param id - id da pergunta
      *
      * @returns long - id da resposta
+     * 
+     * @throws NoAnswersException, NoQuestionIdException 
      */
     public long betterAnswer(long id) throws NoAnswersException, NoQuestionIdException {
        int i, total_answers, reputation, score, commentCount;
