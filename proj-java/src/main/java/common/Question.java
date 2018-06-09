@@ -1,5 +1,6 @@
 package common;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -15,13 +16,12 @@ import java.util.stream.Collectors;
  */
 
 public class Question extends Posts {
-    //private LocalDate pd;
     private String title;
     private String tags;
     private int n_answers;
     private int n_answer_votes;
-    private List<Answers> answers; 
-    
+    private List<Answers> answers;
+
     /**
      * Construtor por omissão de Question.
      */
@@ -33,7 +33,7 @@ public class Question extends Posts {
         n_answer_votes = 0;
         answers = new ArrayList();
     }
-    
+
     /**
      * Construtor parametrizado de Question.
      *
@@ -45,20 +45,20 @@ public class Question extends Posts {
      * @param n_answer_votes Número total de votos das respostas
      * @param answers Respostas da pergunta
      */
-    public Question(long post_id, long user_id, String title, String tags, 
-                    int n_answers, int n_answer_votes, List answers) {
-        super(post_id, user_id);
+    public Question(long post_id, long user_id, LocalDate pd, String title,
+            String tags, int n_answers, int n_answer_votes, List answers) {
+        super(post_id, user_id, pd);
         this.title = title;
         this.tags = tags;
         this.n_answers = n_answers;
         this.n_answer_votes = n_answer_votes;
         setAnswersList(answers);
       }
-    
+
     /**
      * Construtor de Cópia.
      *
-     * @param q Pergunta 
+     * @param q Pergunta
      */
     public Question(Question q) {
         super(q);
@@ -140,7 +140,7 @@ public class Question extends Posts {
     public void setNAnswerVotes(int n_answer_votes) {
         this.n_answer_votes = n_answer_votes;
     }
-    
+
     /**
      * Função que devolve as respostas de uma pergunta.
      *
@@ -150,7 +150,7 @@ public class Question extends Posts {
         return answers.stream().map(Answers :: clone).
                   collect(Collectors.toCollection(ArrayList::new));
     }
-  
+
     /**
      * Função que estabelece as respostas de uma pergunta.
      *
@@ -160,7 +160,7 @@ public class Question extends Posts {
         this.answers = respostas.stream().map(Answers :: clone).
                         collect(Collectors.toCollection(ArrayList::new));
     }
-    
+
     /**
      * Método que faz uma cópia de questions.
      * Para tal invoca o construtor de cópia.
@@ -179,12 +179,12 @@ public class Question extends Posts {
     public String toString() {
         StringBuilder AnswersList = new StringBuilder();
 
-            for (Answers resposta: answers) {      
+            for (Answers resposta: answers) {
                  AnswersList.append(resposta.toString());
-                 AnswersList.append(" "); 
+                 AnswersList.append(" ");
             }
-            
-     
+
+
         return "Question{" +
                 super.toString() +
                 ", Title = " + title +
@@ -192,7 +192,7 @@ public class Question extends Posts {
                 ", Número de respostas = " + n_answers +
                 ", Número total de votos das respostas = " + n_answer_votes +
                 ", Answers =" + AnswersList.toString() +
-                '}';
+                "}";
     }
 
     /**
@@ -214,7 +214,7 @@ public class Question extends Posts {
                 title.equals(q.getTitle()) && tags.equals(q.getTags()) &&
                 n_answers == q.getNAnswers() && n_answer_votes == q.getNAnswerVotes());
     }
-    
+
     /**
      * Método que adiciona uma resposta à AnswersList.
      *
@@ -223,7 +223,4 @@ public class Question extends Posts {
     public void addAnswertoAnswersList(Answers umaAnswer) {
         answers.add(umaAnswer);
     }
-    
-   
-    
 }

@@ -1,6 +1,8 @@
 package common;
 
 
+import java.time.LocalDate;
+
 /**
  * Estrutura de dados de Posts tipo 2
  *
@@ -34,8 +36,8 @@ public class Answers extends Posts {
      * @param score Score da resposta
      * @param comment_count Número de comentários
      */
-    public Answers(long user_id, long post_id, long parent_id, int score, int comment_count) {
-        super(user_id, post_id);
+    public Answers(long user_id, long post_id, LocalDate pd, long parent_id, int score, int comment_count) {
+        super(user_id, post_id, pd);
         this.parent_id = parent_id;
         this.score = score;
         this.comment_count = comment_count;

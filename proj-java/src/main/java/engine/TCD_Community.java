@@ -1,15 +1,14 @@
 package engine;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.io.IOException;
+import java.util.*;
 import java.util.stream.Collectors;
-import java.util.TreeMap;
+
 import common.*;
 import li3.TADCommunity;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
 import java.time.LocalDate;
-import java.util.Arrays;
 
 /**
  * Estrutura de dados principal do programa.
@@ -65,9 +64,9 @@ public class TCD_Community implements TADCommunity {
      */
      Map<Long, Users> getMapUsers() {
         return users.entrySet().stream().collect(Collectors.toMap(k -> k.getKey(), u -> u.getValue().clone()));
-  
+
     }
-    
+
     /**
      * Função que estabelece a HashMap users
      *
@@ -212,12 +211,12 @@ public class TCD_Community implements TADCommunity {
 
         TCD_Community com = (TCD_Community) object;
 
-  
+
     return (this.users.equals(com.getMapUsers()) &&
            this.questions.equals(com.getMapQuestions()) &&
-           this.answers.equals(com.getMapAnswers()) && 
+           this.answers.equals(com.getMapAnswers()) &&
            this.questionsList.equals(com.getQuestionsList()) &&
-           this.usersList.equals(com.getUsersList()) && 
+           this.usersList.equals(com.getUsersList()) &&
            this.tags.equals(com.getMapTags()));
     }
 
@@ -277,42 +276,48 @@ public class TCD_Community implements TADCommunity {
     public void insertUser(Users u) {
         users.put(u.getUsersId(), u);
     }
-    
+
     /**
      * TODO DOCUMENTACAO
      */
     public void load(String dumpPath) {
         Load load = new Load();
-      
-     try {
-        load.lerFicheiros(this, dumpPath);
-     }
-     catch (Exception e) {
-         System.out.println("Error: " + e.getMessage());
-     }
-   
+
+        try {
+            load.lerFicheiros(this, dumpPath);
+        }
+        catch (SAXException e) {
+            System.out.println("SAXException: " + e.getMessage());
+        }
+        catch (ParserConfigurationException e) {
+            System.out.println("ParserConfigurationException: " + e.getMessage());
+        }
+        catch (IOException e) {
+            System.out.println("IOException: " + e.getMessage());
+        }
+
     }
 
     // Query 1
-    public Pair<String,String> infoFromPost(long id) { 
+    public Pair<String,String> infoFromPost(long id) {
         Query1 title_username = new Query1(this);
-        
+
         Pair<String, String> resposta = new Pair("null", "null");
-        
+
         try{
             resposta = title_username.run(id);
         } catch(NoPostIdException e) {
             System.out.println(e.getMessage()); //TODO era conveniente sair daqui
         }
-        
-        
-        return resposta; 
+
+
+        return resposta;
     }
 
     // Query 2
     public List<Long> topMostActive(int N) {
         Query2 query2 = new Query2(this);
-        
+
         return query2.run(N);
     }
 
@@ -332,12 +337,26 @@ public class TCD_Community implements TADCommunity {
 
     // Query 5
     public Pair<String, List<Long>> getUserInfo(long id) {
-        String shortBio = "<p>Coder. JS, Perl, Python, Basic<br>Books/movies: SF+F.<br>Dead:" +
-                "dell 9300<br>Dead: dell 1720 as of may 10th 2011.</p>\n" +
-                "<p>Current system: Acer Aspire 7750G.<br>\n" +
-                "Works OOTB as of Ubuntu 12.04.<br></p>";
-        List<Long> ids = Arrays.asList(982507L,982455L,980877L,980197L,980189L,976713L,974412L,
-                974359L,973895L,973838L);
+        if(!users.containsKey(id))
+            return new Pair<>("",new ArrayList<>());
+
+        Users u = users.get(id);
+        String shortBio = u.getUserBio();
+
+        List<Long> ids = new ArrayList<>();
+        TreeSet<Posts> it = u.getPosts();
+
+        int i = 0;
+
+        while (i < 10) {
+            Posts p = it.pollFirst();
+            if(p != null)
+                ids.add(p.getPostId());
+            else
+                break;
+            i++;
+        }
+
         return new Pair<>(shortBio,ids);
     }
 
@@ -368,12 +387,10 @@ public class TCD_Community implements TADCommunity {
 
         try {
             resultado = query10.run(id);
-        } catch(NoQuestionIdException e) {
-            System.out.println(e.getMessage());
-        } catch(NoAnswersException e) {
+        } catch(NoQuestionIdException | NoAnswersException e) {
             System.out.println(e.getMessage());
         }
-        
+
         return resultado;
     }
 

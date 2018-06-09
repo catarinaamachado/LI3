@@ -1,7 +1,9 @@
 package common;
 
+import java.time.LocalDate;
+
 /**
- * Classe abstrata Posts. 
+ * Classe abstrata Posts.
  * Refere-se tanto a perguntas como a respostas.
  *
  * @author A81047
@@ -10,29 +12,32 @@ package common;
  * @version 20180519
  */
 
-public abstract class Posts {
+public abstract class Posts implements Comparable<Posts> {
     private long user_id;
     private long post_id;
-    
+    private LocalDate pd;
+
     /**
      * Construtor por omissão de Posts.
      */
     public Posts() {
         user_id = 0;
         post_id = 0;
+        pd = LocalDate.MIN;
     }
-    
+
     /**
      * Construtor parametrizado de Posts.
      *
      * @param user_id Identificador do user
      * @param post_id Identificador do post
      */
-    public Posts(long user_id, long post_id) {
+    public Posts(long user_id, long post_id, LocalDate pd) {
         this.user_id = user_id;
         this.post_id = post_id;
+        this.pd = pd;
     }
-    
+
     /**
      * Construtor de Cópia.
      *
@@ -41,6 +46,7 @@ public abstract class Posts {
     public Posts(Posts p) {
         user_id = p.getUserId();
         post_id = p.getPostId();
+        pd = p.getPd();
     }
 
     /**
@@ -80,6 +86,24 @@ public abstract class Posts {
     }
 
     /**
+     * Método que devolve data do post
+     *
+     * @return Data do post
+     */
+    public LocalDate getPd() {
+        return pd;
+    }
+
+    /**
+     * Método que atualiza data do post
+     *
+     * @param pd Data do post
+     */
+    public void setPd(LocalDate pd) {
+        this.pd = pd;
+    }
+
+    /**
      * Método que devolve a representação em String de Posts.
      *
      * @return String que representa um post
@@ -90,7 +114,7 @@ public abstract class Posts {
                 ", PostId = " + post_id +
                 '}';
     }
-    
+
     /**
      * Método que determina se dois posts são iguais.
      *
@@ -108,13 +132,14 @@ public abstract class Posts {
         Posts post = (Posts) object;
         return  (post_id == post.getPostId() && user_id == post.getUserId());
     }
-    
-    /**
-     * Método que faz uma cópia de um post.
-     * Para tal invoca o construtor de cópia.
-     *
-     * @return cópia de questions
-     */
+
     public abstract Posts clone();
-    
+
+    public int compareTo(Posts a) {
+        if(pd.isAfter(a.getPd()))
+            return -1;
+        if(pd.isBefore(a.getPd()))
+            return 1;
+        return 0;
+    }
 }

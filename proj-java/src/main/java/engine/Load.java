@@ -9,16 +9,20 @@ package engine;
  * @version 20180519
  */
 
+import java.io.IOException;
 import javax.xml.parsers.*;
 import org.xml.sax.*;
-import org.xml.sax.helpers.*;
 
 public class Load {
 
 	public Load() {
 	}
 
-	public void lerFicheiros(TCD_Community com, String dumpPath) throws Exception {
+	public void lerFicheiros(TCD_Community com, String dumpPath) throws
+			SAXException,
+			ParserConfigurationException,
+	        IOException {
+
 		String filenamePosts = dumpPath + "/Posts.xml";
 		String filenameUsers = dumpPath + "/Users.xml";
 		String filenameTags = dumpPath + "/Tags.xml";
@@ -29,7 +33,7 @@ public class Load {
 		XMLReader xmlReader = saxParser.getXMLReader(); //cria um xmlreader
 
 
-		xmlReader.setContentHandler(new SAXParseUsers(com)); //ContentHandler define quais os callbacks 
+		xmlReader.setContentHandler(new SAXParseUsers(com)); //ContentHandler define quais os callbacks
 		xmlReader.parse(filenameUsers);
 
 		xmlReader.setContentHandler(new SAXParsePosts(com));
