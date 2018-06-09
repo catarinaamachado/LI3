@@ -91,6 +91,25 @@ public class SAXParsePosts extends DefaultHandler {
             if (!atts.getValue(post_type_id).equals("1") && !atts.getValue(post_type_id).equals("2"))
                 return;
 
+            Users u = null;
+            if(owner_id != 0) {
+                long ownerId = Long.parseLong(atts.getValue(owner_id));
+                u = com.lookUser(ownerId);
+
+                if(u != null)
+                    u.incrementaNPosts();
+            }
+
+            LocalDate pd = LocalDate.MIN;
+            if(date != 0) {
+                String[] ymd = atts.getValue(date).split("-");
+                String[] d = ymd[2].split("T");
+                pd = LocalDate.of(
+                        Integer.parseInt(ymd[0]),
+                        Integer.parseInt(ymd[1]),
+                        Integer.parseInt(d[0])
+                );
+            }
 
             if (atts.getValue(post_type_id).equals("1")) { //o post é uma pergunta
                 long questionId = Long.parseLong(atts.getValue(id));
@@ -113,31 +132,13 @@ public class SAXParsePosts extends DefaultHandler {
 
                 pergunta.setTags(atts.getValue(tags));
 
-                if(date != 0) {
-                    String[] ymd = atts.getValue(date).split("-");
-                    String[] d = ymd[2].split("T");
-                    LocalDate pd = LocalDate.of(
-                            Integer.parseInt(ymd[0]),
-                            Integer.parseInt(ymd[1]),
-                            Integer.parseInt(d[0])
-                    );
-                    pergunta.setPd(pd);
-                }
-                else
-                    pergunta.setPd(LocalDate.MIN);
+                pergunta.setPd(pd);
 
                 if(was_null)
                     com.insertQuestion(pergunta);
 
-                if(owner_id != 0) {
-                    long ownerId = Long.parseLong(atts.getValue(owner_id));
-                    Users u = com.lookUser(ownerId);
-
-                    if(u != null) {
-                        u.incrementaNPosts();
-                        u.addPost(pergunta);
-                    }
-                }
+                if(u != null)
+                    u.addPost(pergunta);
             }
 
             else if(parentid != 0) {  // se for uma resposta
@@ -147,33 +148,15 @@ public class SAXParsePosts extends DefaultHandler {
                 resposta.setUserId(Long.parseLong(atts.getValue(owner_id)));
                 resposta.setParentId(Long.parseLong(atts.getValue(parentid)));
 
-                if(date != 0) {
-                    String[] ymd = atts.getValue(date).split("-");
-                    String[] d = ymd[2].split("T");
-                    LocalDate pd = LocalDate.of(
-                            Integer.parseInt(ymd[0]),
-                            Integer.parseInt(ymd[1]),
-                            Integer.parseInt(d[0])
-                    );
-                    resposta.setPd(pd);
-                }
-                else
-                    resposta.setPd(LocalDate.MIN);
+                resposta.setPd(pd);
 
                 resposta.setScore(Integer.parseInt(atts.getValue(score)));
                 resposta.setCommentCount(Integer.parseInt(atts.getValue(comment_count)));
 
                 com.insertAnswers(resposta);
 
-                if(owner_id != 0) {
-                    long ownerId = Long.parseLong(atts.getValue(owner_id));
-                    Users u = com.lookUser(ownerId);
-
-                    if(u != null) {
-                        u.incrementaNPosts();
-                        u.addPost(resposta);
-                    }
-                }
+                if (u != null)
+                    u.addPost(resposta);
 
                 long parentId = resposta.getParentId();
 

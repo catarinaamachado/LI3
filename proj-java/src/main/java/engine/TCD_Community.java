@@ -299,6 +299,16 @@ public class TCD_Community implements TADCommunity {
         users.put(u.getUsersId(), u);
     }
 
+    public void initQList() {
+        if (questionsList == null) {
+            questionsList = new TreeSet<>(new PostComparator());
+
+            Iterator<Question> it = questions.values().iterator();
+            while (it.hasNext())
+                questionsList.add(it.next());
+        }
+    }
+
     /**
      * Método que faz o parser dos ficheiros xml.
      *
@@ -496,13 +506,7 @@ public class TCD_Community implements TADCommunity {
 
     // Query 8
     public List<Long> containsWord(int N, String word) {
-        if (questionsList == null) {
-            questionsList = new TreeSet<>(new PostComparator());
-
-            Iterator<Question> it = questions.values().iterator();
-            while (it.hasNext())
-                questionsList.add(it.next());
-        }
+        initQList();
 
         List<Long> ret = new ArrayList<>(N);
         Iterator<Question> it = questionsList.iterator();
@@ -518,9 +522,50 @@ public class TCD_Community implements TADCommunity {
         return ret;
     }
 
+    private boolean participateAnswers(Question q, long id) {
+        int size = q.getNAnswers();
+
+        for(int i = 0; i < size; i++)
+            if (id == q.getAnswers().get(i).getUserId())
+                return true;
+
+        return false;
+    }
+
     // Query 9
     public List<Long> bothParticipated(int N, long id1, long id2) {
-        return Arrays.asList(594L);
+        initQList();
+
+        List<Long> ret = new ArrayList<>(N);
+        boolean id1P, id2P;
+        long uid;
+
+        Iterator<Question> it = questionsList.iterator();
+
+        for (int i = 0; i < N && it.hasNext();) {
+            Question q = it.next();
+
+            uid = q.getUserId();
+
+            if(uid == id1)
+                id1P = true;
+            else
+                id1P = participateAnswers(q, id1);
+
+            if(id1P) {
+                if(uid == id2)
+                    id2P = true;
+                else
+                    id2P = participateAnswers(q, id2);
+
+                if(id2P) {
+                    ret.add(q.getPostId());
+                    i++;
+                }
+            }
+        }
+
+        return ret;
     }
 
     //Query 10
