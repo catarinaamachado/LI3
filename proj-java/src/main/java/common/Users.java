@@ -1,5 +1,9 @@
 package common;
 
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
+
 /**
  * Classe que define um utilizador.
  *
@@ -9,17 +13,13 @@ package common;
  * @version 20180519
  */
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.stream.Collectors;
-
 public class Users {
     private long user_id;
     private String shortbio;
     private String username;
     private int reputation;
     private int n_posts;
-    private List<Posts> posts;
+    private TreeSet<Posts> posts;
 
     /**
      * Construtor por omissão de Users.
@@ -30,7 +30,7 @@ public class Users {
         this.username = "";
         this.reputation = 0;
         this.n_posts = 0;
-        this.posts = new ArrayList<>();
+        this.posts = new TreeSet<>();
     }
 
     /**
@@ -44,7 +44,7 @@ public class Users {
      * @param posts Lista de posts do user
      */
     public Users(long user_id, String shortbio, String username,
-                int reputation, int n_posts, List <Posts> posts) {
+                int reputation, int n_posts, TreeSet<Posts> posts) {
         this.user_id = user_id;
         this.shortbio = shortbio;
         this.username = username;
@@ -145,7 +145,7 @@ public class Users {
      * @returns int - Número de posts do user.
      */
     public int getNPosts() {
-        return n_posts; 
+        return n_posts;
     }
 
     /**
@@ -160,21 +160,22 @@ public class Users {
     /**
      * Função que devolve a lista de posts do utilizador.
      *
-     * @return List<Posts> - Lista de posts do user.
+     * @return Set<Posts> - Lista de posts do user.
      */
-    public List<Posts> getPosts() {
-        
-        return posts.stream().map(Posts :: clone).collect(Collectors.toList());
+    public TreeSet<Posts> getPosts() {
+        Set<Posts> pp = posts.stream().map(Posts :: clone).collect(Collectors.toSet());
+        return new TreeSet(pp);
     }
 
     /**
      * Função que estabelece a lista de posts do utilizador.
      *
-     * @param List<Posts> - Lista de posts do user.
+     * @param TreeSet<Posts> - Lista de posts do user.
      */
-    public void setPosts(List<Posts> posts) {
-        this.posts = posts.stream().map(Posts :: clone).
-        collect(Collectors.toList());
+    public void setPosts(TreeSet<Posts> posts) {
+        Set<Posts> pp = posts.stream().map(Posts::clone).collect(Collectors.toSet());
+
+        this.posts = new TreeSet(pp);
     }
 
     /**
@@ -199,13 +200,13 @@ public class Users {
         if(object == null || (this.getClass() != object.getClass()))
             return false;
 
-       
+
         Users u = (Users) object;
-        return  (user_id == u.getUsersId() && shortbio.equals(u.getUserBio()) 
+        return  (user_id == u.getUsersId() && shortbio.equals(u.getUserBio())
                  && reputation == u.getReputation() && n_posts == u.getNPosts()
                  && posts.equals(u.getPosts()));
     }
-    
+
     /**
      * Método que devolve a representação em String de Users.
      *
@@ -214,11 +215,11 @@ public class Users {
     public String toString() {
        StringBuilder PostsList = new StringBuilder();
 
-            for (Posts p: posts) {      
+            for (Posts p: posts) {
                  PostsList.append(p.toString());
-                 PostsList.append(" "); 
+                 PostsList.append(" ");
             }
-           
+
         return "Users{" +
                 ", UserId = " + user_id +
                 ", ShortBio = " + shortbio +
@@ -228,7 +229,7 @@ public class Users {
                 ", Posts =" + PostsList.toString() +
                 '}';
     }
-    
+
     /**
      * Método que faz uma cópia de Users.
      * Para tal invoca o construtor de cópia.
@@ -237,5 +238,9 @@ public class Users {
      */
     public Users clone() {
         return new Users(this);
+    }
+
+    public void addPost(Posts e) {
+        posts.add(e.clone());
     }
 }

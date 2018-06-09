@@ -28,14 +28,13 @@ public class Main {
             LOAD PHASE
          */
         try {
-        before = System.currentTimeMillis();
-        qe.load(args[0]);
-        after = System.currentTimeMillis();
-        logtime.writeLog("LOAD -> "+(after-before)+" ms");
-        } catch(IndexOutOfBoundsException e) {
-            System.out.println("Deve passar o caminho do dump como argumento.");
-            System.out.println("Utilizando: ../../../../dump/ubuntu.");
-            qe.load("../../../../dump/ubuntu");
+            before = System.currentTimeMillis();
+            qe.load(args[0]);
+            after = System.currentTimeMillis();
+            logtime.writeLog("LOAD -> "+(after-before)+" ms");
+        }
+        catch(IndexOutOfBoundsException e) {
+            System.out.println("Error: " + e.getMessage());
         }
 
         /*
@@ -45,8 +44,8 @@ public class Main {
         Pair<String,String> q1 = qe.infoFromPost(84);
         System.out.println("1. Title e username: " + q1);
         after = System.currentTimeMillis();
-        logtime.writeLog("Query 1: -> "+(after-before)+" ms");
-        log.writeLog("Query1 -> " + q1);
+        logtime.writeLog("Query 1 -> "+(after-before)+" ms");
+        log.writeLog("Query 1 -> " + q1);
 
         /*
            Query 2
@@ -82,9 +81,11 @@ public class Main {
            Query 5
         */
         before = System.currentTimeMillis();
-        Pair<String, List<Long>> q5 = qe.getUserInfo(15811);
+        Pair<String, List<Long>> q51 = qe.getUserInfo(15811);
+        Pair<String, List<Long>> q5 = qe.getUserInfo(449);
         after = System.currentTimeMillis();
         logtime.writeLog("Query 5 -> "+(after-before)+" ms");
+        log.writeLog("Query 5 -> "+q51);
         log.writeLog("Query 5 -> "+q5);
 
         /*
@@ -94,8 +95,8 @@ public class Main {
         List<Long> q6 = qe.mostVotedAnswers(5, LocalDate.of(2015, Month.NOVEMBER, 1),
                 LocalDate.of(2015, Month.NOVEMBER,30));
         after = System.currentTimeMillis();
-        logtime.writeLog("Query6 -> " + (after - before) + " ms");
-        log.writeLog("Query6 -> " + q6);
+        logtime.writeLog("Query 6 -> " + (after - before) + " ms");
+        log.writeLog("Query 6 -> " + q6);
 
         /*
            Query 7
@@ -122,7 +123,7 @@ public class Main {
         before = System.currentTimeMillis();
         List<Long> q9 = qe.bothParticipated(10, 87, 5691);
         after = System.currentTimeMillis();
-        logtime.writeLog("Query9 -> " + (after - before) + " ms");
+        logtime.writeLog("Query 9 -> " + (after - before) + " ms");
         log.writeLog("Query 9 -> " + q9);
 
         /*

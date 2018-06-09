@@ -9,6 +9,8 @@ package common;
  * @version 20180519
  */
 
+import java.time.LocalDate;
+
 public class Answer extends Posts {
     private long parent_id; // a que pergunta pertence
     private int score;
@@ -33,8 +35,8 @@ public class Answer extends Posts {
      * @param score Score da resposta
      * @param comment_count Número de comentários
      */
-    public Answer(long user_id, long post_id, long parent_id, int score, int comment_count) {
-        super(user_id, post_id);
+    public Answer(long user_id, long post_id, LocalDate pd, long parent_id, int score, int comment_count) {
+        super(user_id, post_id, pd);
         this.parent_id = parent_id;
         this.score = score;
         this.comment_count = comment_count;
@@ -43,7 +45,7 @@ public class Answer extends Posts {
     /**
      * Construtor de Cópia.
      *
-     * @param a Resposta 
+     * @param a Resposta
      */
     public Answer(Answer a) {
         super(a);
@@ -111,11 +113,11 @@ public class Answer extends Posts {
      * Para tal invoca o construtor de cópia.
      *
      * @return cópia de answer
-     */    
+     */
     public Answer clone() {
          return new Answer(this);
     }
-    
+
     /**
      * Método que determina se duas respostas são iguais.
      *
@@ -131,11 +133,10 @@ public class Answer extends Posts {
             return false;
 
         Answer resposta = (Answer) object;
-        return  (super.equals(resposta) && parent_id == resposta.getParentId() 
+        return  (super.equals(resposta) && parent_id == resposta.getParentId()
                  && score == resposta.getScore() && comment_count == resposta.getCommentCount());
-
     }
-    
+
     /**
      * Método que devolve a representação em String de Answer.
      *
