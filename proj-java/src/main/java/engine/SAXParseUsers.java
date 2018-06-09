@@ -1,6 +1,10 @@
 package engine;
 
 
+import org.xml.sax.helpers.*;
+import org.xml.sax.*;
+import common.*;
+
 /**
  * Parse dump de Users.
  *
@@ -11,19 +15,30 @@ package engine;
  */
 
 
-import org.xml.sax.helpers.*;
-import org.xml.sax.*;
-import common.*;
-
 public class SAXParseUsers extends DefaultHandler {
 
     private TCD_Community com;
 
+    /**
+     * Contrutor parametrizado.
+     * 
+     * @param com - Estrutura de dados TDC_Community.
+     */
     public SAXParseUsers(TCD_Community com) {
         super();
         this.com = com;
     }
 
+    /**
+     * Função que extrai os elementos necessários dos usuários para preencher as
+     * respetivas estruturas de dados.
+     * @param namespaceURI - String usada para identificar um recurso na Internet.
+     * @param localName - Nome do elemento.
+     * @param qName - Combinação do namespace com o nome do elemento.
+     * @param atts -  Lista de atributos de um elemento.
+     * 
+     * @throws SAXException
+     */
     public void startElement(String namespaceURI,
                              String localName,
                              String qName,

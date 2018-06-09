@@ -18,18 +18,33 @@ import java.time.LocalDate;
 public class SAXParsePosts extends DefaultHandler {
 
     private TCD_Community com;
-
+    
+    /**
+     * Construtor parametrizado.
+     * @param com - Estrutura de dados TCD_Community.
+     */
     public SAXParsePosts(TCD_Community com) {
         super();
         this.com = com;
     }
 
+    /**
+     * Função que extrai os elementos necessários dos posts para preencher as
+     * respetivas estruturas de dados.
+     * @param namespaceURI - String usada para identificar um recurso na Internet.
+     * @param localName - Nome do elemento.
+     * @param qName - Combinação do namespace com o nome do elemento.
+     * @param atts -  Lista de atributos de um elemento.
+     * 
+     * @throws SAXException
+     * 
+     */
     public void startElement(String namespaceURI,
                              String localName,
                              String qName,
-                             Attributes atts) {
+                             Attributes atts) throws SAXException{
 
-        int length = atts.getLength();
+        int length = atts.getLength(); //retorna o tamanho da lista de atributos
 
         int id, post_type_id, owner_id, title, tags, score, comment_count, parentid, date;
 
@@ -39,7 +54,7 @@ public class SAXParsePosts extends DefaultHandler {
         id = score = comment_count = -1;
 
         for (int i=0; i < length; i++) {
-            String name = atts.getQName(i);
+            String name = atts.getQName(i); //retorna o nome do elemento
 
             if(name.equals("Id"))
                 id = i;
@@ -71,11 +86,13 @@ public class SAXParsePosts extends DefaultHandler {
 
         if (length != 0) {
 
+            
+            //se o post não for nem uma pergunta, nem uma resposta
             if (!atts.getValue(post_type_id).equals("1") && !atts.getValue(post_type_id).equals("2"))
                 return;
 
 
-            if (atts.getValue(post_type_id).equals("1")) {
+            if (atts.getValue(post_type_id).equals("1")) { //o post é uma pergunta
                 long questionId = Long.parseLong(atts.getValue(id));
 
                 Question pergunta = com.lookQuestion(questionId);

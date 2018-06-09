@@ -112,6 +112,7 @@ public abstract class Posts implements Comparable<Posts> {
         return "Posts{" +
                 ", UserId = " + user_id +
                 ", PostId = " + post_id +
+                ", Date = " + pd +
                 '}';
     }
 

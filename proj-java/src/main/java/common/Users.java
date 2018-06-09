@@ -158,17 +158,18 @@ public class Users {
     }
 
     /**
-     * Função que devolve a lista de posts do utilizador.
+     * Função que devolve o conjunto de posts do utilizador.
      *
-     * @return Set<Posts> - Lista de posts do user.
+     * @return TreeSet<Posts> - Lista de posts do user.
      */
     public TreeSet<Posts> getPosts() {
         Set<Posts> pp = posts.stream().map(Posts :: clone).collect(Collectors.toSet());
+        
         return new TreeSet(pp);
     }
 
     /**
-     * Função que estabelece a lista de posts do utilizador.
+     * Função que estabelece o conjunto de posts do utilizador.
      *
      * @param TreeSet<Posts> - Lista de posts do user.
      */

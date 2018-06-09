@@ -28,6 +28,10 @@ public class TCD_Community implements TADCommunity {
     //List day;
     private Map<String, Tags> tags;
 
+    /**
+     * Construtor vazio.
+     *
+     */
     public TCD_Community() {
         users = new HashMap<>();
         questions = new HashMap<>();
@@ -37,6 +41,16 @@ public class TCD_Community implements TADCommunity {
         tags = new HashMap<>();
     }
 
+    /**
+     * Construtor parametrizado.
+     *
+     * @param users - HashMap que armazena os utilizadores.
+     * @param questions - HashMap que armazena as perguntas.
+     * @param answers - HashMap que armazena as respostas.
+     * @param questionList - Lista que armazena perguntas.
+     * @param usersList - Lista que armazena utilizadores.
+     * @param tags - HashMap que armazena as tags.
+     */
     public TCD_Community(Map<Long, Users> users, Map<Long, Question> questions,
                        Map<Long,Answers> answers, List<Question> questionsList,
                        List<Users> usersList, Map<String, Tags> tags) {
@@ -47,7 +61,11 @@ public class TCD_Community implements TADCommunity {
         setUsersList(usersList);
         setMapTags(tags);
     }
-
+    
+    /**
+     * Construtor cópia.
+     * @param community - Estrutra de dados TCD_Community
+     */
     public TCD_Community(TCD_Community community) {
         this.users = community.getMapUsers();
         this.questions = community.getMapQuestions();
@@ -62,7 +80,7 @@ public class TCD_Community implements TADCommunity {
      *
      * @returns Map<Long, Users> - a HashMap users
      */
-     Map<Long, Users> getMapUsers() {
+    public Map<Long, Users> getMapUsers() {
         return users.entrySet().stream().collect(Collectors.toMap(k -> k.getKey(), u -> u.getValue().clone()));
 
     }
@@ -82,7 +100,8 @@ public class TCD_Community implements TADCommunity {
      * @returns Map<Long, Questions> - a HashMap questions
      */
     public Map<Long, Question> getMapQuestions() {
-        return questions; //por questões de performance não sei como fazer
+        return questions.entrySet().stream().
+                         collect(Collectors.toMap(k -> k.getKey(), q -> q.getValue().clone()));
     }
 
     /**
@@ -101,7 +120,7 @@ public class TCD_Community implements TADCommunity {
      * @returns Map<Integer, Answers> - a HashMap answers
      */
     public Map<Long, Answers>  getMapAnswers() {
-        return answers; //por questões de performance
+        return answers.entrySet().stream().collect(Collectors.toMap(k -> k.getKey(), a -> a.getValue().clone()));
     }
 
     /**
@@ -119,7 +138,7 @@ public class TCD_Community implements TADCommunity {
      * @returns List<Questions> - a lista das perguntas
      */
     public List<Question> getQuestionsList() {
-        return questionsList; //por questões de performance
+        return questionsList.stream().map(Question :: clone).collect(Collectors.toList());
     }
 
     /**
@@ -138,9 +157,10 @@ public class TCD_Community implements TADCommunity {
      * @returns List<Users> - a lista dos users
      */
     public List<Users> getUsersList() {
-        return usersList; //por questões de performance
+        return usersList.stream().
+                    map(Users :: clone).collect(Collectors.toList());
     }
-
+    
     /**
      * Função que estabelece o apontador para o ArrayList usersList
      *
@@ -157,7 +177,8 @@ public class TCD_Community implements TADCommunity {
      * @returns Map<String, Tags> - a HashMap tags
      */
     public Map<String, Tags> getMapTags() {
-        return tags; //por questões de performance
+        return tags.entrySet().stream().
+                  collect(Collectors.toMap(k -> k.getKey(), t -> t.getValue().clone()));
     }
 
     /**
@@ -278,7 +299,9 @@ public class TCD_Community implements TADCommunity {
     }
 
     /**
-     * TODO DOCUMENTACAO
+     * Método que faz o parser dos ficheiros xml.
+     * 
+     * @param dumpPath - caminho para o ficheiro xml.
      */
     public void load(String dumpPath) {
         Load load = new Load();
@@ -298,27 +321,79 @@ public class TCD_Community implements TADCommunity {
 
     }
 
-    // Query 1
+    //Query 1
+    /**
+     * Dado o identificador de um post, o método retorna
+     * o título do post e o nome (não o ID) de utilizador do autor.
+     * Caso o post não possua título ou nome de utilizador, o resultado 
+     * correspondente deverá ser NULL.
+     * Se o post for uma resposta, a função retorna informações 
+     * (título e utilizador) da pergunta correspondente.
+     * Acresce que se o id passado como parametro não for id de nenhum post
+     * devolve NULL.
+     * 
+     *
+     * @param id - id do post
+     * 
+     * @returns Pair<String, String> - título e o nome do autor do pergunta
+     */
     public Pair<String,String> infoFromPost(long id) {
-        Query1 title_username = new Query1(this);
-
-        Pair<String, String> resposta = new Pair("null", "null");
-
-        try{
-            resposta = title_username.run(id);
-        } catch(NoPostIdException e) {
-            System.out.println(e.getMessage()); //TODO era conveniente sair daqui
+        long userId;
+        long parentId;
+        String title, username;
+        
+        Question pergunta = lookQuestion(id);
+        
+        if (pergunta == null) {
+            Answers resposta = lookAnswer(id);
+            
+            if(resposta == null) {
+                new Pair("null","null");
+            }
+            
+            if (resposta != null) {
+                parentId = resposta.getParentId();
+                pergunta = lookQuestion(parentId);
+            }
         }
-
-
-        return resposta;
+        
+        if (pergunta != null) {
+            userId = pergunta.getUserId();
+            
+            Users user = lookUser(userId);
+            
+            if (user == null) {
+                return new Pair("null","null");
+            }
+            
+            title = pergunta.getTitle();
+            username = user.getUserName();
+            
+            if (title != null && username != null) {
+                return new Pair<>(title, username);
+            }
+            
+        }
+        
+        return new Pair("null","null");
+    
     }
 
-    // Query 2
+    //Query 2
+     /**
+     * Método que devolve o top N utilizadores com maior número
+     * de posts de sempre. Para isto, são considerados tanto perguntas
+     * quanto respostas dadas pelo respectivo utilizador.
+     *
+     * @param N Número de utilizadores com mais posts.
+     * 
+     * @returns List<Long> - lista com os ids dos N utilizadores com mais posts publicados
+     */
     public List<Long> topMostActive(int N) {
-        Query2 query2 = new Query2(this);
-
-        return query2.run(N);
+       return  users.values().stream().
+               sorted(new NumeroPostsComparador()).limit(N).
+               map(u -> u.getUsersId()).
+               collect(Collectors.toCollection(ArrayList::new));
     }
 
     // Query 3
@@ -380,18 +455,62 @@ public class TCD_Community implements TADCommunity {
         return Arrays.asList(594L);
     }
 
-    // Query 10
+    //Query 10
+    /**
+     * Dado o ID de uma pergunta, obtem a melhor resposta.
+     * Para isso, usa a função de média ponderada abaixo:
+     * (score da resposta × 0.45) + (reputação do utilizador × 0.25) +
+     * (número de votos recebidos pela resposta × 0.2) +
+     * (número de comentários recebidos pela resposta × 0.1) 
+     * 
+     * Caso a pergunta não tenha nenhuma resposta ou o id passado como
+     * parametro não identifique uma pergunta o método devolverá -1.
+     *
+     * @param id - id da pergunta
+     * 
+     * @returns long - id da resposta
+     */
     public long betterAnswer(long id) {
-        Query10 query10 = new Query10(this);
-        long resultado = -1;
-
-        try {
-            resultado = query10.run(id);
-        } catch(NoQuestionIdException | NoAnswersException e) {
-            System.out.println(e.getMessage());
+       int i, total_answers, reputation, score, commentCount;
+        long answerId = -1;
+        double total, max = 0.0;
+        
+        Question pergunta = lookQuestion(id);
+        
+        if(pergunta == null) {
+            return answerId;
         }
-
-        return resultado;
+        
+        total_answers = pergunta.getNAnswers();
+        
+        if(total_answers == 0) {
+            return answerId;
+        }
+        
+        
+        for(i = 0; i < total_answers; i++) {
+             Answers resposta = pergunta.getAnswersList().get(i);
+             Users user = lookUser(resposta.getUserId());
+             
+             if(user == null) {
+                 reputation = 0;
+             }
+             else {
+                 reputation = user.getReputation();
+             }
+            
+             score = resposta.getScore();
+             commentCount = resposta.getCommentCount();
+             
+             total = score * 0.65 + reputation * 0.25 + commentCount * 0.1;
+             
+             if(total > max) {
+                 max = total;
+                 answerId = resposta.getPostId();
+             }
+        }
+        
+        return answerId;
     }
 
     // Query 11
