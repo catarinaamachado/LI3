@@ -1,8 +1,8 @@
 package common;
 
-
 /**
- * Classe abstrata Posts. Refere-se tanto a perguntas como a respostas.
+ * Classe abstrata Posts. 
+ * Refere-se tanto a perguntas como a respostas.
  *
  * @author A81047
  * @author A34900
@@ -13,23 +13,37 @@ package common;
 public abstract class Posts {
     private long user_id;
     private long post_id;
-
+    
+    /**
+     * Construtor por omissão de Posts.
+     */
     public Posts() {
         user_id = 0;
         post_id = 0;
     }
-
+    
+    /**
+     * Construtor parametrizado de Posts.
+     *
+     * @param user_id Identificador do user
+     * @param post_id Identificador do post
+     */
     public Posts(long user_id, long post_id) {
         this.user_id = user_id;
         this.post_id = post_id;
     }
-
+    
+    /**
+     * Construtor de Cópia.
+     *
+     * @param p Post a ser replicado
+     */
     public Posts(Posts p) {
         user_id = p.getUserId();
         post_id = p.getPostId();
     }
 
-      /**
+    /**
      * Função que devolve o id do user que deu a pergunta ou a resposta.
      *
      * @returns long - Identificador do user que deu a resposta.
@@ -38,7 +52,7 @@ public abstract class Posts {
         return user_id;
     }
 
-      /**
+    /**
      * Função que estabelece o id do user que deu a pergunta ou a resposta.
      *
      * @param id Identificador do user que deu a resposta.
@@ -47,7 +61,7 @@ public abstract class Posts {
         user_id = id;
     }
 
-      /**
+    /**
      * Função que devolve o id da pergunta ou da resposta.
      *
      * @returns long - Identificador da resposta.
@@ -56,7 +70,7 @@ public abstract class Posts {
         return post_id;
     }
 
-     /**
+    /**
      * Função que estabelece o o id da pergunta ou da resposta.
      *
      * @param id Identificador da resposta.
@@ -65,13 +79,12 @@ public abstract class Posts {
         post_id = id;
     }
 
-     /**
+    /**
      * Método que devolve a representação em String de Posts.
      *
      * @return String que representa um post
      */
     public String toString() {
-
         return "Posts{" +
                 ", UserId = " + user_id +
                 ", PostId = " + post_id +

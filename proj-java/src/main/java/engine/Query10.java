@@ -1,15 +1,16 @@
 package engine;
-import common.*;
-
 
 /**
- * Classe que responde à query10.
+ * Classe que responde à query 10.
  *
  * @author A81047
  * @author A34900
  * @author A82339
  * @version 20180531
  */
+
+import common.*;
+
 public class Query10 {
    private TCD_Community com;
    
@@ -18,7 +19,7 @@ public class Query10 {
      *
      * @param com Estrutura de dados do TCD_Community
      */
-    Query10(TCD_Community com) {
+    public Query10(TCD_Community com) {
         this.com = com;
     }
     
@@ -33,6 +34,8 @@ public class Query10 {
      * @param id - id da pergunta
      * 
      * @returns long - id da resposta
+     * 
+     * @throws NoAnswersException, NoQuestionIdException
      */
     public long run(long id) throws NoAnswersException, NoQuestionIdException {
         int i, total_answers, reputation, score, commentCount;

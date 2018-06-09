@@ -1,14 +1,16 @@
 package engine;
-import common.*;
 
 /**
- * Classe que responde à query1.
+ * Classe que responde à query 1.
  *
  * @author A81047
  * @author A34900
  * @author A82339
  * @version 20180531
  */
+
+import common.*;
+
 public class Query1 {
     
     private TCD_Community com;
@@ -18,14 +20,13 @@ public class Query1 {
      *
      * @param com Estrutura de dados do TCD_Community
      */
-    Query1(TCD_Community com) {
+    public Query1(TCD_Community com) {
         this.com = com;
     }
     
     
-     /**
-     * 
-     * Dado o identificador de um post, a função retorna
+    /**
+     * Dado o identificador de um post, o método retorna
      * o título do post e o nome (não o ID) de utilizador do autor. Caso o post não
      * possua título ou nome de utilizador, o resultado correspondente deverá
      * ser NULL.
@@ -35,6 +36,8 @@ public class Query1 {
      * @param id - id do post
      * 
      * @returns Pair<String, String> - título e o nome do autor do pergunta
+     * 
+     * @throws NoPostIdException
      */
     public Pair<String,String> run(long id) throws NoPostIdException{
         long userId;

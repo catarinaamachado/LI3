@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 
 /**
- * Escreva a descrição da classe Questions aqui.
+ * Estrutura de dados relativa às perguntas.
  *
  * @author A81047
  * @author A34900
@@ -21,7 +21,10 @@ public class Question extends Posts {
     private int n_answers;
     private int n_answer_votes;
     private List<Answers> answers; 
-
+    
+    /**
+     * Construtor por omissão de Question.
+     */
     public Question() {
         super();
         title = "";
@@ -30,7 +33,18 @@ public class Question extends Posts {
         n_answer_votes = 0;
         answers = new ArrayList();
     }
-
+    
+    /**
+     * Construtor parametrizado de Question.
+     *
+     * @param post_id Identificador do post
+     * @param user_id Identificador do user
+     * @param title Título da pergunta
+     * @param tags Tags da pergunta
+     * @param n_answers Número de respostas
+     * @param n_answer_votes Número total de votos das respostas
+     * @param answers Respostas da pergunta
+     */
     public Question(long post_id, long user_id, String title, String tags, 
                     int n_answers, int n_answer_votes, List answers) {
         super(post_id, user_id);
@@ -40,7 +54,12 @@ public class Question extends Posts {
         this.n_answer_votes = n_answer_votes;
         setAnswersList(answers);
       }
-
+    
+    /**
+     * Construtor de Cópia.
+     *
+     * @param q Pergunta 
+     */
     public Question(Question q) {
         super(q);
         this.title = q.getTitle();
@@ -117,7 +136,6 @@ public class Question extends Posts {
      * Função que estabelece o número total de votos das respostas de uma pergunta.
      *
      * @param n_answers Número total de votos das respostas de uma pergunta.
-     *
      */
     public void setNAnswerVotes(int n_answer_votes) {
         this.n_answer_votes = n_answer_votes;
@@ -137,7 +155,6 @@ public class Question extends Posts {
      * Função que estabelece as respostas de uma pergunta.
      *
      * @param respostas Lista com as respostas de uma pergunta.
-     *
      */
     public void setAnswersList(List<Answers> respostas) {
         this.answers = respostas.stream().map(Answers :: clone).
@@ -178,7 +195,7 @@ public class Question extends Posts {
                 '}';
     }
 
-     /**
+    /**
      * Método que determina se duas perguntas são iguais.
      *
      * @param object Objecto a ser usado como termo de comparação.
@@ -202,7 +219,6 @@ public class Question extends Posts {
      * Método que adiciona uma resposta à AnswersList.
      *
      * @param umaAnswer uma resposta.
-     *
      */
     public void addAnswertoAnswersList(Answers umaAnswer) {
         answers.add(umaAnswer);

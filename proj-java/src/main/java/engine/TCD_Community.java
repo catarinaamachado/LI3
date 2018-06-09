@@ -63,7 +63,7 @@ public class TCD_Community implements TADCommunity {
      *
      * @returns Map<Long, Users> - a HashMap users
      */
-     Map<Long, Users>  getMapUsers() {
+     Map<Long, Users> getMapUsers() {
         return users.entrySet().stream().collect(Collectors.toMap(k -> k.getKey(), u -> u.getValue().clone()));
   
     }
@@ -82,7 +82,7 @@ public class TCD_Community implements TADCommunity {
      *
      * @returns Map<Long, Questions> - a HashMap questions
      */
-    public Map<Long, Question>  getMapQuestions() {
+    public Map<Long, Question> getMapQuestions() {
         return questions; //por questões de performance não sei como fazer
     }
 
@@ -278,6 +278,9 @@ public class TCD_Community implements TADCommunity {
         users.put(u.getUsersId(), u);
     }
     
+    /**
+     * TODO DOCUMENTACAO
+     */
     public void load(String dumpPath) {
         Load load = new Load();
       
@@ -299,7 +302,7 @@ public class TCD_Community implements TADCommunity {
         try{
             resposta = title_username.run(id);
         } catch(NoPostIdException e) {
-            System.out.println(e.getMessage()); //era conveniente sair daqui
+            System.out.println(e.getMessage()); //TODO era conveniente sair daqui
         }
         
         
@@ -362,13 +365,12 @@ public class TCD_Community implements TADCommunity {
     public long betterAnswer(long id) {
         Query10 query10 = new Query10(this);
         long resultado = -1;
-        
+
         try {
             resultado = query10.run(id);
-            
         } catch(NoQuestionIdException e) {
             System.out.println(e.getMessage());
-        }catch(NoAnswersException e) {
+        } catch(NoAnswersException e) {
             System.out.println(e.getMessage());
         }
         

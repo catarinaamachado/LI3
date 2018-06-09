@@ -1,6 +1,5 @@
 package engine;
 
-
 /**
  * Parse ao dump de Posts.
  *
@@ -27,7 +26,7 @@ public class SAXParsePosts extends DefaultHandler {
                              String localName,
                              String qName,
                              Attributes atts) throws SAXException {
-
+                                 
     int length = atts.getLength();
 
     int id, post_type_id, owner_id, title, tags, score, comment_count, favorite_count;

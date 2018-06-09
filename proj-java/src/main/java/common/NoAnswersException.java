@@ -1,14 +1,14 @@
 package common;
 
-
 /**
- * Classe de exceção para quando uma pergunta não tem nenhuma resposta
+ * Classe de exceção para quando uma pergunta não tem nenhuma resposta.
  *
  * @author A81047
  * @author A34900
  * @author A82339
  * @version 20180607
  */
+
 public class NoAnswersException extends Exception{
     
     /**

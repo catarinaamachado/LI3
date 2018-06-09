@@ -1,17 +1,17 @@
 package common;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.stream.Collectors;
-
 
 /**
- * Classe que define um utilizador que publica posts.
+ * Classe que define um utilizador.
  *
  * @author A81047
  * @author A34900
  * @author A82339
  * @version 20180519
  */
+
+import java.util.List;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class Users {
     private long user_id;
@@ -39,7 +39,7 @@ public class Users {
      * @param user_id Identificador do user
      * @param shortbio Biografia do user
      * @param username Nome do user
-     * @param reputation reputação do user
+     * @param reputation Reputação do user
      * @param n_posts Número de posts do user
      * @param posts Lista de posts do user
      */

@@ -26,7 +26,7 @@ public class Answers extends Posts {
     }
 
     /**
-     * Construtor parametrizado de Users.
+     * Construtor parametrizado de Answers.
      *
      * @param user_id Identificador do user
      * @param post_id Identificador do post
@@ -44,7 +44,7 @@ public class Answers extends Posts {
     /**
      * Construtor de Cópia.
      *
-     * @param umCI Contribuinte Individual a ser replicado
+     * @param a Resposta 
      */
     public Answers(Answers a) {
         super(a);
@@ -131,13 +131,12 @@ public class Answers extends Posts {
 
     }
     
-     /**
+    /**
      * Método que devolve a representação em String de Answers.
      *
      * @return String que representa uma resposta.
      */
     public String toString() {
-
         return "Answers{" +
                 super.toString() +
                 ", ParentId = " + parent_id +

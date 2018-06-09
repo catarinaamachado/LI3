@@ -1,16 +1,19 @@
 package engine;
-import common.*;
-import java.util.*;
-import java.util.stream.*;
 
 /**
- * Classe que responde à query2.
+ * Classe que responde à query 2.
  *
  * @author A81047
  * @author A34900
  * @author A82339
  * @version 20180531
  */
+
+import common.*;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+
 public class Query2 {
    private TCD_Community com;
    
@@ -19,12 +22,12 @@ public class Query2 {
      *
      * @param com Estrutura de dados do TCD_Community
      */
-    Query2(TCD_Community com) {
+    public Query2(TCD_Community com) {
         this.com = com;
     } 
     
     /**
-     * Função que devolve o top N utilizadores com maior número
+     * Método que devolve o top N utilizadores com maior número
      * de posts de sempre. Para isto, são considerados tanto perguntas
      * quanto respostas dadas pelo respectivo utilizador.
      *
