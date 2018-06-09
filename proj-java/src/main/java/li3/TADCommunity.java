@@ -2,13 +2,16 @@ package li3;
 
 import java.time.LocalDate;
 import java.util.List;
-import common.Pair;
+import common.*;
+import org.xml.sax.SAXException;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
 
 public interface TADCommunity {
-    public void load(String dumpPath);
+    public void load(String dumpPath) throws SAXException, ParserConfigurationException, IOException;
 
     // Query 1
-    public Pair<String,String> infoFromPost(long id);
+    public Pair<String,String> infoFromPost(long id) throws NoPostIdException;
 
     // Query 2
     public List<Long> topMostActive(int N);
@@ -35,7 +38,7 @@ public interface TADCommunity {
     public List<Long> bothParticipated(int N, long id1, long id2);
 
     // Query 10
-    public long betterAnswer(long id);
+    public long betterAnswer(long id) throws NoAnswersException, NoQuestionIdException;
 
     // Query 11
     public List<Long> mostUsedBestRep(int N, LocalDate begin, LocalDate end);

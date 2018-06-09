@@ -4,9 +4,17 @@ import common.MyLog;
 import common.Pair;
 import engine.TCD_Community;
 
+import org.xml.sax.SAXException;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
+import common.NoPostIdException;
+import common.NoAnswersException;
+import common.NoQuestionIdException;
+
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
+
 
 public class Main {
 
@@ -27,24 +35,45 @@ public class Main {
         /*
             LOAD PHASE
          */
+        
+        boolean loadComplete = false;
+        
         try {
             before = System.currentTimeMillis();
             qe.load(args[0]);
             after = System.currentTimeMillis();
             logtime.writeLog("LOAD -> "+(after-before)+" ms");
+            loadComplete = true;
         }
         catch(IndexOutOfBoundsException e) {
             System.out.println("Error: " + e.getMessage());
-            System.out.println("Deve passar o caminho do dump como argumento."); //para remover no fim porque facilita os testes com o blueJ
-            System.out.println("Utilizando: ../../../../dump/ubuntu.");//para remover no fim porque facilita os testes com o blueJ
-            qe.load("../../../../dump/ubuntu");//para remover no fim porque facilita os testes com o blueJ
         }
+        catch (SAXException e) {
+            System.out.println("SAXException: " + e.getMessage());
+        }
+        catch (ParserConfigurationException e) {
+            System.out.println("ParserConfigurationException: " + e.getMessage());
+        }
+        catch (IOException e) {
+            System.out.println("IOException: " + e.getMessage());
+        }
+        
+        //verifica se o load foi completado com sucesso
+        if(!loadComplete) {
+            return;
+        }
+        
 
         /*
            Query 1
         */
         before = System.currentTimeMillis();
-        Pair<String,String> q1 = qe.infoFromPost(801049);
+        Pair<String,String> q1 = new Pair("null", "null");
+        try{
+            q1 = qe.infoFromPost(801049);
+        } catch (NoPostIdException e) {
+          System.out.println(e.getMessage());
+        }
         System.out.println("1. Title e username: " + q1);
         after = System.currentTimeMillis();
         logtime.writeLog("Query 1 -> "+(after-before)+" ms");
@@ -135,7 +164,14 @@ public class Main {
            Query 10
         */
         before = System.currentTimeMillis();
-        long q10 = qe.betterAnswer(30334);
+        long q10 = -1;
+        try{
+            q10 = qe.betterAnswer(30334);
+        } catch(NoQuestionIdException e) {
+            System.out.println(e.getMessage());
+        } catch (NoAnswersException e) {
+            System.out.println(e.getMessage());
+        }
         System.out.println("10. Melhor Resposta: " + q10);
         after = System.currentTimeMillis();
         logtime.writeLog("Query 10 -> "+(after-before)+" ms");
