@@ -1,4 +1,14 @@
 package engine;
+
+/**
+ * Estrutura de dados principal do programa.
+ *
+ * @author A81047
+ * @author A34900
+ * @author A82339
+ * @version 20180519
+ */
+
 import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
@@ -11,22 +21,13 @@ import li3.TADCommunity;
 import java.time.LocalDate;
 import java.util.Arrays;
 
-/**
- * Estrutura de dados principal do programa.
- *
- * @author A81047
- * @author A34900
- * @author A82339
- * @version 20180519
- */
-
 public class TCD_Community implements TADCommunity {
     private Map<Long, Users> users;
     private Map<Long, Question> questions;
-    private Map<Long, Answers> answers;
+    private Map<Long, Answer> answers;
     private List<Question> questionsList;
     private List<Users> usersList;
-    //List day;
+    //private List<Days> days;
     private Map<String, Tags> tags;
 
     public TCD_Community() {
@@ -39,7 +40,7 @@ public class TCD_Community implements TADCommunity {
     }
 
     public TCD_Community(Map<Long, Users> users, Map<Long, Question> questions,
-                       Map<Long,Answers> answers, List<Question> questionsList,
+                       Map<Long,Answer> answers, List<Question> questionsList,
                        List<Users> usersList, Map<String, Tags> tags) {
         setMapUsers(users);
         setMapQuestions(questions);
@@ -101,7 +102,7 @@ public class TCD_Community implements TADCommunity {
      *
      * @returns Map<Integer, Answers> - a HashMap answers
      */
-    public Map<Long, Answers>  getMapAnswers() {
+    public Map<Long, Answer>  getMapAnswers() {
         return answers; //por questões de performance
     }
 
@@ -110,7 +111,7 @@ public class TCD_Community implements TADCommunity {
      *
      * @param anwers - Map das Answers
      */
-    public void setMapAnswers(Map<Long, Answers> answers) {
+    public void setMapAnswers(Map<Long, Answer> answers) {
         this.answers = answers.entrySet().stream().collect(Collectors.toMap(k -> k.getKey(), a -> a.getValue().clone()));
     }
 
@@ -235,7 +236,7 @@ public class TCD_Community implements TADCommunity {
      *
      * @return Answers uma resposta
      */
-    public Answers lookAnswer(long id) {
+    public Answer lookAnswer(long id) {
         return answers.get(id);
     }
 
@@ -264,7 +265,7 @@ public class TCD_Community implements TADCommunity {
      * @param a - Uma resposta.
      *
      */
-    public void insertAnswers(Answers a) {
+    public void insertAnswers(Answer a) {
         answers.put(a.getPostId(), a);
     }
 
@@ -316,12 +317,37 @@ public class TCD_Community implements TADCommunity {
         return query2.run(N);
     }
 
-    // Query 3
+    /**
+     * QUERY 3
+     * 
+     * Dado um intervalo de tempo arbitrário, 
+     * obtem o nú́mero total de posts 
+     * (identificando perguntas e respostas separadamente) neste período.
+     *
+     * @param begin - data inicial
+     * @param end - data final
+     * 
+     * @returns Pair<Long,Long> - número de perguntas e número de respostas
+     */
     public Pair<Long,Long> totalPosts(LocalDate begin, LocalDate end) {
         return new Pair<>(3667L,4102L);
     }
 
-    // Query 4
+    /**
+     * QUERY 4
+     * 
+     * Dado um intervalo de tempo arbitrário, retorna todas 
+     * as perguntas contendo uma determinada tag. 
+     * O retorno do método é uma lista com os IDs 
+     * das perguntas ordenadas em cronologia inversa 
+     * (a pergunta mais recente no início da lista).
+     *
+     * @param tag - tag procurada
+     * @param begin - data inicial
+     * @param end - data final
+     * 
+     * @returns List<Long> - IDs das perguntas
+     */
     public List<Long> questionsWithTag(String tag, LocalDate begin, LocalDate end) {
         return Arrays.asList(276174L,276029L,274462L,274324L,274316L,274141L,274100L,272937L,
                 272813L,272754L,272666L,272565L,272450L,272313L,271816L,271683L,271647L,270853L,270608L,270528L,270488L,
@@ -341,12 +367,36 @@ public class TCD_Community implements TADCommunity {
         return new Pair<>(shortBio,ids);
     }
 
-    // Query 6
+    /**
+     * QUERY 6
+     * 
+     * Dado um intervalo de tempo arbitrário, 
+     * devolve os IDs das N respostas com mais votos, 
+     * em ordem decrescente do número de votos.
+     *
+     * @param N - número de respostas procuradas
+     * @param begin - data inicial
+     * @param end - data final
+     * 
+     * @returns List<Long> - IDs das respostas
+     */
     public List<Long> mostVotedAnswers(int N, LocalDate begin, LocalDate end) {
         return Arrays.asList(701775L,697197L,694560L,696641L,704208L);
     }
 
-    // Query 7
+    /**
+     * QUERY 7
+     * 
+     * Dado um intervalo de tempo arbitrário, 
+     * devolve as IDs das N perguntas com mais respostas, 
+     * em ordem decrescente do nú́mero de votos.
+     *
+     * @param N - número de perguntas procuradas
+     * @param begin - data inicial
+     * @param end - data final
+     * 
+     * @returns List<Long> - IDs das perguntas
+     */
     public List<Long> mostAnsweredQuestions(int N, LocalDate begin, LocalDate end) {
         return Arrays.asList(505506L,508221L,506510L,508029L,506824L,505581L,505368L,509498L,509283L,508635L);
     }
@@ -377,7 +427,20 @@ public class TCD_Community implements TADCommunity {
         return resultado;
     }
 
-    // Query 11
+    /**
+     * QUERY 11
+     * 
+     * Dado um intervalo arbitrário de tempo, 
+     * devolve as N tags mais usadas pelos N utilizadores 
+     * com melhor reputação, em ordem decrescente do 
+     * nú́mero de vezes em que a tag foi usada.
+     *
+     * @param N - número de tags e utilizadores procurados
+     * @param begin - data inicial
+     * @param end - data final
+     * 
+     * @returns List<Long> - IDs das tags
+     */
     public List<Long> mostUsedBestRep(int N, LocalDate begin, LocalDate end) {
         return Arrays.asList(6L,29L,72L,163L,587L);
     }

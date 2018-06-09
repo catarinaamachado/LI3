@@ -57,7 +57,7 @@ public class Query10 {
         
         
         for(i = 0; i < total_answers; i++) {
-             Answers resposta = pergunta.getAnswersList().get(i);
+             Answer resposta = pergunta.getAnswers().get(i);
              Users user = com.lookUser(resposta.getUserId());
              
              if(user == null) {

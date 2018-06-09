@@ -18,8 +18,8 @@ public abstract class Posts {
      * Construtor por omissão de Posts.
      */
     public Posts() {
-        user_id = 0;
-        post_id = 0;
+        this.user_id = 0;
+        this.post_id = 0;
     }
     
     /**
@@ -39,8 +39,8 @@ public abstract class Posts {
      * @param p Post a ser replicado
      */
     public Posts(Posts p) {
-        user_id = p.getUserId();
-        post_id = p.getPostId();
+        this.user_id = p.getUserId();
+        this.post_id = p.getPostId();
     }
 
     /**

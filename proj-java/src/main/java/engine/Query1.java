@@ -47,7 +47,7 @@ public class Query1 {
         Question pergunta = com.lookQuestion(id);
         
         if (pergunta == null) {
-            Answers resposta = com.lookAnswer(id);
+            Answer resposta = com.lookAnswer(id);
             
             if(resposta == null) {
                 throw new NoPostIdException(id + " não identifica uma pergunta nem uma resposta");

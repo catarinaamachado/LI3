@@ -1,10 +1,5 @@
 package common;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.stream.Collectors;
-
-
 /**
  * Estrutura de dados relativa às perguntas.
  *
@@ -14,24 +9,28 @@ import java.util.stream.Collectors;
  * @version 20180519
  */
 
+import java.util.List;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+
 public class Question extends Posts {
     //private LocalDate pd;
     private String title;
     private String tags;
     private int n_answers;
     private int n_answer_votes;
-    private List<Answers> answers; 
+    private List<Answer> answers; 
     
     /**
      * Construtor por omissão de Question.
      */
     public Question() {
         super();
-        title = "";
-        tags = "";
-        n_answers = 0;
-        n_answer_votes = 0;
-        answers = new ArrayList();
+        this.title = "";
+        this.tags = "";
+        this.n_answers = 0;
+        this.n_answer_votes = 0;
+        this.answers = new ArrayList();
     }
     
     /**
@@ -52,7 +51,7 @@ public class Question extends Posts {
         this.tags = tags;
         this.n_answers = n_answers;
         this.n_answer_votes = n_answer_votes;
-        setAnswersList(answers);
+        setAnswers(answers);
       }
     
     /**
@@ -66,11 +65,11 @@ public class Question extends Posts {
         this.tags = q.getTags();
         this.n_answers = q.getNAnswers();
         this.n_answer_votes = q.getNAnswerVotes();
-        this.answers = q.getAnswersList();
-      }
+        this.answers = q.getAnswers();
+    }
 
     /**
-     * Função que devolve o título.
+     * Método que devolve o título.
      *
      * @returns String - título.
      */
@@ -79,7 +78,7 @@ public class Question extends Posts {
     }
 
     /**
-     * Função que estabelece o título.
+     * Método que estabelece o título.
      *
      * @param title Título.
      */
@@ -88,7 +87,7 @@ public class Question extends Posts {
     }
 
     /**
-     * Função que devolve as tags.
+     * Método que devolve as tags.
      *
      * @returns String - tags.
      */
@@ -97,7 +96,7 @@ public class Question extends Posts {
     }
 
     /**
-     * Função que estabelece as tags.
+     * Método que estabelece as tags.
      *
      * @param tags Tags.
      */
@@ -106,7 +105,7 @@ public class Question extends Posts {
     }
 
     /**
-     * Função que devolve o número de respostas de uma pergunta.
+     * Método que devolve o número de respostas de uma pergunta.
      *
      * @returns int - número de respostas.
      */
@@ -115,7 +114,7 @@ public class Question extends Posts {
     }
 
     /**
-     * Função que estabelece o número de respostas de uma pergunta.
+     * Método que estabelece o número de respostas de uma pergunta.
      *
      * @param n_answers Número de respostas de uma pergunta.
      */
@@ -124,7 +123,7 @@ public class Question extends Posts {
     }
 
     /**
-     * Função que devolve o número total de votos das respostas de uma pergunta.
+     * Método que devolve o número total de votos das respostas de uma pergunta.
      *
      * @returns int - número de votos das respostas.
      */
@@ -133,7 +132,7 @@ public class Question extends Posts {
     }
 
     /**
-     * Função que estabelece o número total de votos das respostas de uma pergunta.
+     * Método que estabelece o número total de votos das respostas de uma pergunta.
      *
      * @param n_answers Número total de votos das respostas de uma pergunta.
      */
@@ -142,22 +141,22 @@ public class Question extends Posts {
     }
     
     /**
-     * Função que devolve as respostas de uma pergunta.
+     * Método que devolve as respostas de uma pergunta.
      *
-     * @returns List<Answers> - lista das respostas.
+     * @returns List<Answer> - lista das respostas.
      */
-    public List<Answers> getAnswersList() {
-        return answers.stream().map(Answers :: clone).
+    public List<Answer> getAnswers() {
+        return answers.stream().map(Answer :: clone).
                   collect(Collectors.toCollection(ArrayList::new));
     }
   
     /**
-     * Função que estabelece as respostas de uma pergunta.
+     * Método que estabelece as respostas de uma pergunta.
      *
      * @param respostas Lista com as respostas de uma pergunta.
      */
-    public void setAnswersList(List<Answers> respostas) {
-        this.answers = respostas.stream().map(Answers :: clone).
+    public void setAnswers(List<Answer> respostas) {
+        this.answers = respostas.stream().map(Answer :: clone).
                         collect(Collectors.toCollection(ArrayList::new));
     }
     
@@ -172,27 +171,26 @@ public class Question extends Posts {
     }
 
     /**
-     * Método que devolve a representação em String de Questions.
+     * Método que devolve a representação em String de Question.
      *
-     * @return String que representa uma question
+     * @return String que representa uma pergunta
      */
     public String toString() {
         StringBuilder AnswersList = new StringBuilder();
 
-            for (Answers resposta: answers) {      
-                 AnswersList.append(resposta.toString());
-                 AnswersList.append(" "); 
-            }
-            
+        for (Answer resposta: answers) {      
+            AnswersList.append(resposta.toString());
+            AnswersList.append(" "); 
+        }  
      
-        return "Question{" +
+        return "Question {" +
                 super.toString() +
                 ", Title = " + title +
                 ", Tags = " + tags +
                 ", Número de respostas = " + n_answers +
                 ", Número total de votos das respostas = " + n_answer_votes +
                 ", Answers =" + AnswersList.toString() +
-                '}';
+                "}";
     }
 
     /**
@@ -212,7 +210,8 @@ public class Question extends Posts {
         Question q = (Question) object;
         return  (super.equals(q) &&
                 title.equals(q.getTitle()) && tags.equals(q.getTags()) &&
-                n_answers == q.getNAnswers() && n_answer_votes == q.getNAnswerVotes());
+                n_answers == q.getNAnswers() && n_answer_votes == q.getNAnswerVotes() &&
+                answers.equals(q.getAnswers()));
     }
     
     /**
@@ -220,7 +219,7 @@ public class Question extends Posts {
      *
      * @param umaAnswer uma resposta.
      */
-    public void addAnswertoAnswersList(Answers umaAnswer) {
+    public void addAnswertoAnswersList(Answer umaAnswer) {
         answers.add(umaAnswer);
     }
     
