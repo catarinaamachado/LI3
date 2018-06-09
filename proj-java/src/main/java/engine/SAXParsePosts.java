@@ -38,7 +38,7 @@ public class SAXParsePosts extends DefaultHandler {
         post_type_id = parentid = owner_id = title = tags = date = 0;
         id = score = comment_count = -1;
 
-        for (int i=0; i < length; i++) {
+        for (int i = 0; i < length; i++) {
             String name = atts.getQName(i);
 
             if(name.equals("Id"))
@@ -68,16 +68,31 @@ public class SAXParsePosts extends DefaultHandler {
             else if (name.equals("CreationDate"))
                 date = i;
         }
-
+        
+        
         if (length != 0) {
 
             if (!atts.getValue(post_type_id).equals("1") && !atts.getValue(post_type_id).equals("2"))
                 return;
-
+            
+            LocalDate pd;
+            
+            if(date != 0) {
+                String[] ymd = atts.getValue(date).split("-");
+                    String[] d = ymd[2].split("T");
+                pd = LocalDate.of(
+                           Integer.parseInt(ymd[0]),
+                           Integer.parseInt(ymd[1]),
+                           Integer.parseInt(d[0])
+                );  
+            }
+            else {
+                 pd = LocalDate.MIN;
+            }
 
             if (atts.getValue(post_type_id).equals("1")) {
                 long questionId = Long.parseLong(atts.getValue(id));
-
+                                
                 Question pergunta = com.lookQuestion(questionId);
 
                 if (pergunta == null) {
@@ -85,9 +100,6 @@ public class SAXParsePosts extends DefaultHandler {
                     pergunta = new Question();
 
                     pergunta.setPostId(questionId);
-                    pergunta.setNAnswers(0);
-                    pergunta.setNAnswerVotes(0);
-
                 }
 
                 pergunta.setUserId(Long.parseLong(atts.getValue(owner_id)));
@@ -96,18 +108,7 @@ public class SAXParsePosts extends DefaultHandler {
 
                 pergunta.setTags(atts.getValue(tags));
 
-                if(date != 0) {
-                    String[] ymd = atts.getValue(date).split("-");
-                    String[] d = ymd[2].split("T");
-                    LocalDate pd = LocalDate.of(
-                            Integer.parseInt(ymd[0]),
-                            Integer.parseInt(ymd[1]),
-                            Integer.parseInt(d[0])
-                    );
-                    pergunta.setPd(pd);
-                }
-                else
-                    pergunta.setPd(LocalDate.MIN);
+                pergunta.setPd(pd);
 
                 if(was_null)
                     com.insertQuestion(pergunta);
@@ -121,6 +122,16 @@ public class SAXParsePosts extends DefaultHandler {
                         u.addPost(pergunta);
                     }
                 }
+                
+                Day data = com.lookDay(pd);
+                if (data == null){
+                    Day newdata = new Day();
+                    com.insertDay(newdata, pd);
+                    newdata.addQuestion(pergunta);
+                }
+                else {
+                    data.addQuestion(pergunta);
+                }
             }
 
             else if(parentid != 0) {  // se for uma resposta
@@ -130,24 +141,13 @@ public class SAXParsePosts extends DefaultHandler {
                 resposta.setUserId(Long.parseLong(atts.getValue(owner_id)));
                 resposta.setParentId(Long.parseLong(atts.getValue(parentid)));
 
-                if(date != 0) {
-                    String[] ymd = atts.getValue(date).split("-");
-                    String[] d = ymd[2].split("T");
-                    LocalDate pd = LocalDate.of(
-                            Integer.parseInt(ymd[0]),
-                            Integer.parseInt(ymd[1]),
-                            Integer.parseInt(d[0])
-                    );
-                    resposta.setPd(pd);
-                }
-                else
-                    resposta.setPd(LocalDate.MIN);
+                resposta.setPd(pd);
 
                 resposta.setScore(Integer.parseInt(atts.getValue(score)));
                 resposta.setCommentCount(Integer.parseInt(atts.getValue(comment_count)));
 
                 com.insertAnswers(resposta);
-
+                
                 if(owner_id != 0) {
                     long ownerId = Long.parseLong(atts.getValue(owner_id));
                     Users u = com.lookUser(ownerId);
@@ -157,7 +157,7 @@ public class SAXParsePosts extends DefaultHandler {
                         u.addPost(resposta);
                     }
                 }
-
+                
                 long parentId = resposta.getParentId();
 
                 Question pergunta = com.lookQuestion(parentId);
@@ -170,12 +170,6 @@ public class SAXParsePosts extends DefaultHandler {
                 else { // a pergunta não existe
                     pergunta = new Question();
 
-                    pergunta.setUserId(0);
-                    pergunta.setTitle("");
-                    pergunta.setTags("");
-
-                    pergunta.setPd(LocalDate.MIN);
-
                     pergunta.setNAnswers(1); //poe o numero de respostas a 1
                     pergunta.setPostId(parentId); //poe o id da pergunta com o parent id da resposta
 
@@ -185,7 +179,17 @@ public class SAXParsePosts extends DefaultHandler {
                     com.insertQuestion(pergunta);
                 }
 
-                //addDAYAnswers(pointerDay, pointer); //adiciona uma resposta ao GPtrArray answers da struct day
+                Day data = com.lookDay(pd);
+                if (data == null){
+                    Day newdata = new Day();
+                    com.insertDay(newdata, pd);
+                    newdata.addAnswer(resposta);
+                }
+                else {
+                    data.addAnswer(resposta);
+                }
+                
+
             }
         }
     }

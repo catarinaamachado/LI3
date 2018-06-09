@@ -239,7 +239,12 @@ public class Users {
     public Users clone() {
         return new Users(this);
     }
-
+    
+    /**
+     * Método adiciona um post ao utilizador.
+     *
+     * @param e Post
+     */
     public void addPost(Posts e) {
         posts.add(e.clone());
     }

@@ -26,7 +26,7 @@ public class TCD_Community implements TADCommunity {
     private Map<Long, Answer> answers;
     private List<Question> questionsList;
     private List<Users> usersList;
-    //private List<Days> days;
+    private Map<LocalDate, Day> days;
     private Map<String, Tags> tags;
 
     public TCD_Community() {
@@ -35,17 +35,20 @@ public class TCD_Community implements TADCommunity {
         answers = new HashMap<>();
         questionsList = new ArrayList<>();
         usersList = new ArrayList<>();
+        days = new HashMap<>();
         tags = new HashMap<>();
     }
 
     public TCD_Community(Map<Long, Users> users, Map<Long, Question> questions,
                        Map<Long,Answer> answers, List<Question> questionsList,
-                       List<Users> usersList, Map<String, Tags> tags) {
+                       List<Users> usersList, Map<LocalDate, Day> days, 
+                       Map<String, Tags> tags) {
         setMapUsers(users);
         setMapQuestions(questions);
         setMapAnswers(answers);
         setQuestionsList(questionsList);
         setUsersList(usersList);
+        setDays(days);
         setMapTags(tags);
     }
 
@@ -55,6 +58,7 @@ public class TCD_Community implements TADCommunity {
         this.answers = community.getMapAnswers();
         this.questionsList = community.getQuestionsList();
         this.usersList = community.getUsersList();
+        this.days = community.getDays();
         this.tags = community.getMapTags();
     }
 
@@ -101,7 +105,7 @@ public class TCD_Community implements TADCommunity {
      *
      * @returns Map<Integer, Answers> - a HashMap answers
      */
-    public Map<Long, Answer>  getMapAnswers() {
+    public Map<Long, Answer> getMapAnswers() {
         return answers; //por questões de performance
     }
 
@@ -167,9 +171,29 @@ public class TCD_Community implements TADCommunity {
      * @param tags - Map das tags
      */
     public void setMapTags(Map<String, Tags> tags) {
-        this.tags = tags.entrySet().stream().collect(Collectors.toMap(k -> k.getKey(), t -> t.getValue().clone()));
+        this.tags = tags.entrySet().stream().
+                collect(Collectors.toMap(k -> k.getKey(), t -> t.getValue().clone()));
     }
 
+    /**
+     * Função que devolve o apontador para a HashMap days
+     *
+     * @returns Map<LocalDate, Day> - a HashMap days
+     */
+    public Map<LocalDate, Day> getDays() {
+        return days; //por questões de performance
+    }
+
+    /**
+     * Função que estabelece a HashMap days
+     *
+     * @param days - Map days
+     */
+    public void setDays(Map<LocalDate, Day> tags) {
+        this.days = days.entrySet().stream().
+                collect(Collectors.toMap(k -> k.getKey(), t -> t.getValue().clone()));
+    }    
+    
     /**
      * Método que faz uma cópia de TCD_Community
      * Para tal invoca o construtor de cópia.
@@ -181,9 +205,9 @@ public class TCD_Community implements TADCommunity {
     }
 
     /**
-     * Método que devolve a representação em String de Questions.
+     * Método que devolve a representação em String de TCD_Community.
      *
-     * @return String que representa uma question
+     * @return String que representa uma TCD_Community
      */
     public String toString() {
         return "TCD_Community{" +
@@ -192,6 +216,7 @@ public class TCD_Community implements TADCommunity {
                 ", answers = " + answers +
                 ", questionsList = " + questionsList.toString() +
                 ", usersList = " + usersList.toString() +
+                ", days = " + days.toString() +
                 ", tags = " + tags +
                 '}';
     }
@@ -212,12 +237,12 @@ public class TCD_Community implements TADCommunity {
 
         TCD_Community com = (TCD_Community) object;
 
-
     return (this.users.equals(com.getMapUsers()) &&
            this.questions.equals(com.getMapQuestions()) &&
            this.answers.equals(com.getMapAnswers()) &&
            this.questionsList.equals(com.getQuestionsList()) &&
            this.usersList.equals(com.getUsersList()) &&
+           this.days.equals(com.getDays()) &&
            this.tags.equals(com.getMapTags()));
     }
 
@@ -247,7 +272,16 @@ public class TCD_Community implements TADCommunity {
     public Users lookUser(long id) {
         return users.get(id);
     }
-
+    
+    /**
+     * Método que verifica se um day existe em days.
+     *
+     * @return Users um user
+     */
+    public Day lookDay(LocalDate date) {
+        return days.get(date);
+    }
+    
     /**
      * Método que insere uma pergunta numa HashMap.
      *
@@ -278,6 +312,17 @@ public class TCD_Community implements TADCommunity {
         users.put(u.getUsersId(), u);
     }
 
+    /**
+     * Método que insere um day numa HashMap.
+     *
+     * @param d Dia.
+     * @param ld LocalDate do dia.
+     *
+     */
+    public void insertDay(Day d, LocalDate ld) {
+        days.put(ld, d);
+    }  
+    
     /**
      * TODO DOCUMENTACAO
      */

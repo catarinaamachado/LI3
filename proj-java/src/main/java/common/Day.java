@@ -14,9 +14,6 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 public class Day {
-    private int day;
-    private int month;
-    private int year;
     private int n_questions;
     private int n_answers;
     private List<Question> questions; 
@@ -26,9 +23,6 @@ public class Day {
      * Construtor por omissão de Day.
      */
     public Day() {
-        this.day = 0;
-        this.month = 0;
-        this.year = 0;
         this.n_questions = 0;
         this.n_answers = 0;
         this.questions = new ArrayList();
@@ -49,9 +43,6 @@ public class Day {
      */
     public Day(int day, int month, int year, int n_questions, 
                     int n_answers, List questions, List answers) {
-        this.day = day;
-        this.month = month;
-        this.year = year;
         this.n_questions = n_questions;
         this.n_answers = n_answers;
         setQuestions(questions);
@@ -64,67 +55,10 @@ public class Day {
      * @param d Dia 
      */
     public Day(Day d) {
-        this.day = d.getDay();
-        this.month = d.getMonth();
-        this.year = d.getYear();
         this.n_questions = d.getN_questions();
         this.n_answers = d.getN_answers();
         this.questions = d.getQuestions();
         this.answers = d.getAnswers();
-    }
-    
-    /**
-     * Método que devolve o dia (número) da data.
-     *
-     * @returns int - dia.
-     */
-    public int getDay() {
-        return this.day;
-    }
-    
-    /**
-     * Método que estabelece o dia da data.
-     *
-     * @param int Dia.
-     */
-    public void setDay(int day) {
-        this.day = day;
-    }
-    
-    /**
-     * Método que devolve o mês da data.
-     *
-     * @returns int - mês.
-     */
-    public int getMonth() {
-        return this.month;
-    }
- 
-    /**
-     * Método que estabelece o mês da data.
-     *
-     * @param int Mês.
-     */
-    public void setMonth(int month) {
-        this.month = month;
-    }
-    
-    /**
-     * Método que devolve o ano da data.
-     *
-     * @returns int - ano.
-     */
-    public int getYear() {
-        return this.year;
-    }
-    
-    /**
-     * Método que estabelece o ano da data.
-     *
-     * @param int Ano.
-     */
-    public void setYear(int year) {
-        this.year = year;
     }
     
     /**
@@ -176,7 +110,7 @@ public class Day {
     }
     
     /**
-     * Função que estabelece as perguntas feitos num determinado dia.
+     * Método que estabelece as perguntas feitos num determinado dia.
      *
      * @param perguntas Lista com as perguntas.
      */
@@ -196,7 +130,7 @@ public class Day {
     }
   
     /**
-     * Função que estabelece as respostas feitos num determinado dia.
+     * Método que estabelece as respostas feitos num determinado dia.
      *
      * @param respostas Lista com as respostas.
      */
@@ -230,8 +164,7 @@ public class Day {
             return false;
 
         Day dia = (Day) object;
-        return  (day == dia.getDay() && month == dia.getMonth() && year == dia.getYear() && 
-                 n_questions == dia.getN_questions() && n_answers == dia.getN_answers() &&
+        return  (n_questions == dia.getN_questions() && n_answers == dia.getN_answers() &&
                  questions.equals(dia.getQuestions()) && answers.equals(dia.getAnswers()));
     }    
 
@@ -255,13 +188,33 @@ public class Day {
         }  
         
         return "Day {" +
-                ", Dia = " + day +
-                ", Mês = " + month +
-                ", Ano = " + year +
-                ", Número de perguntas = " + n_questions +
+                " Número de perguntas = " + n_questions +
                 ", Número de respostas = " + n_answers +
                 ", Questions =" + QuestionsList.toString() +
                 ", Answers =" + AnswersList.toString() +
                 "}";
-    }    
+    }   
+    
+    /**
+     * Método que adiciona uma pergunta e incrementa o
+     * número de perguntas efetuadas na data.
+     *
+     * @param pergunta Pergunta
+     */
+    public void addQuestion(Question pergunta) {
+        this.questions.add(pergunta.clone());
+        this.n_questions++;
+    }  
+    
+    /**
+     * Método que adiciona uma resposta e incrementa o
+     * número de respostas efetuadas na data.
+     *
+     * @param resposta Resposta
+     */
+    public void addAnswer(Answer resposta) {
+        this.answers.add(resposta.clone());
+        this.n_answers++;
+    }      
+    
 }

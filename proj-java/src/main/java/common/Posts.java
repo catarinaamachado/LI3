@@ -16,7 +16,7 @@ public abstract class Posts implements Comparable<Posts> {
     private long user_id;
     private long post_id;
     private LocalDate pd;
-
+    
     /**
      * Construtor por omissão de Posts.
      */
@@ -31,6 +31,7 @@ public abstract class Posts implements Comparable<Posts> {
      *
      * @param user_id Identificador do user
      * @param post_id Identificador do post
+     * @param pd data do post
      */
     public Posts(long user_id, long post_id, LocalDate pd) {
         this.user_id = user_id;
@@ -48,9 +49,9 @@ public abstract class Posts implements Comparable<Posts> {
         this.post_id = p.getPostId();
         this.pd = p.getPd();
     }
-
+    
     /**
-     * Função que devolve o id do user que deu a pergunta ou a resposta.
+     * Método que devolve o id do user que deu a pergunta ou a resposta.
      *
      * @returns long - Identificador do user que deu a resposta.
      */
@@ -59,7 +60,7 @@ public abstract class Posts implements Comparable<Posts> {
     }
 
     /**
-     * Função que estabelece o id do user que deu a pergunta ou a resposta.
+     * Método que estabelece o id do user que deu a pergunta ou a resposta.
      *
      * @param id Identificador do user que deu a resposta.
      */
@@ -68,7 +69,7 @@ public abstract class Posts implements Comparable<Posts> {
     }
 
     /**
-     * Função que devolve o id da pergunta ou da resposta.
+     * Método que devolve o id da pergunta ou da resposta.
      *
      * @returns long - Identificador da resposta.
      */
@@ -77,7 +78,7 @@ public abstract class Posts implements Comparable<Posts> {
     }
 
     /**
-     * Função que estabelece o o id da pergunta ou da resposta.
+     * Método que estabelece o o id da pergunta ou da resposta.
      *
      * @param id Identificador da resposta.
      */
@@ -110,7 +111,7 @@ public abstract class Posts implements Comparable<Posts> {
      */
     public String toString() {
         return "Posts{" +
-                ", UserId = " + user_id +
+                " UserId = " + user_id +
                 ", PostId = " + post_id +
                 '}';
     }
