@@ -585,7 +585,7 @@ public class TCD_Community implements TADCommunity {
      *
      * Dado um intervalo de tempo arbitrário,
      * devolve as IDs das N perguntas com mais respostas,
-     * em ordem decrescente do nú́mero de votos.
+     * em ordem decrescente do nú́mero de respostas.
      *
      * @param N - número de perguntas procuradas
      * @param begin - data inicial
@@ -594,7 +594,34 @@ public class TCD_Community implements TADCommunity {
      * @returns List<Long> - IDs das perguntas
      */
     public List<Long> mostAnsweredQuestions(int N, LocalDate begin, LocalDate end) {
-        return Arrays.asList(505506L,508221L,506510L,508029L,506824L,505581L,505368L,509498L,509283L,508635L);
+       List qs = new ArrayList<Question>();
+       List<Long> ids = new ArrayList<>();
+       Day d;
+        
+       if(begin.isBefore(end.plusDays(1))){
+            while(!begin.equals(end.plusDays(1))){
+                d = days.get(begin);
+                
+                for(Question q: d.getQuestions())
+                    qs.add(q);     
+                    
+                begin = begin.plusDays(1);
+            }
+        }    
+        else
+            return qs;
+          
+       qs = (List) qs.stream().sorted(new NumeroRespostasPergunta()).collect(Collectors.toList());
+       qs = (List) qs.subList(0, N);
+       
+       Iterator<Question> it = qs.iterator();
+       
+       while (it.hasNext()) {
+            Question q = it.next();
+            ids.add(q.getPostId());
+       }
+
+       return ids;
     }
 
     // Query 8

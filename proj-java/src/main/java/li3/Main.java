@@ -144,7 +144,8 @@ public class Main {
         */
         before = System.currentTimeMillis();
         List<Long> q7 = qe.mostAnsweredQuestions(10, LocalDate.of(2014,Month.AUGUST,1),
-                LocalDate.of(2014,Month.AUGUST,10));
+                LocalDate.of(2014,Month.AUGUST,11));
+        System.out.println("7. IDS perguntas com mais respostas: " + q7);        
         after = System.currentTimeMillis();
         logtime.writeLog("Query 7 -> "+(after-before)+" ms");
         log.writeLog("Query 7 -> "+q7);
