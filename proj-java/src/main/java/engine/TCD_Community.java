@@ -24,8 +24,8 @@ public class TCD_Community implements TADCommunity {
     private Map<Long, Users> users;
     private Map<Long, Question> questions;
     private Map<Long, Answer> answers;
-    private List<Question> questionsList;
-    private List<Users> usersList;
+    private Set<Question> questionsList;
+    private Set<Users> usersList;
     //private List<Days> days;
     private Map<String, Tags> tags;
 
@@ -37,8 +37,8 @@ public class TCD_Community implements TADCommunity {
         users = new HashMap<>();
         questions = new HashMap<>();
         answers = new HashMap<>();
-        questionsList = new ArrayList<>();
-        usersList = new ArrayList<>();
+        questionsList = null;
+        usersList = null;
         tags = new HashMap<>();
     }
 
@@ -53,8 +53,8 @@ public class TCD_Community implements TADCommunity {
      * @param tags - HashMap que armazena as tags.
      */
     public TCD_Community(Map<Long, Users> users, Map<Long, Question> questions,
-                       Map<Long,Answer> answers, List<Question> questionsList,
-                       List<Users> usersList, Map<String, Tags> tags) {
+                        Map<Long,Answer> answers, Set<Question> questionsList,
+                        Set<Users> usersList, Map<String, Tags> tags) {
         setMapUsers(users);
         setMapQuestions(questions);
         setMapAnswers(answers);
@@ -136,40 +136,40 @@ public class TCD_Community implements TADCommunity {
     /**
      * Função que devolve o apontador para o ArrayList questionsList
      *
-     * @returns List<Questions> - a lista das perguntas
+     * @returns Set<Questions> - a lista das perguntas
      */
-    public List<Question> getQuestionsList() {
-        return questionsList.stream().map(Question :: clone).collect(Collectors.toList());
+    public Set<Question> getQuestionsList() {
+        return questionsList.stream().map(Question :: clone).collect(Collectors.toSet());
     }
 
     /**
      * Função que estabelece o apontador para o ArrayList questionsList
      *
-     * @param List<Question> - a lista das perguntas
+     * @param Set<Question> - a lista das perguntas
      */
-    public void setQuestionsList(List<Question> questionsList) {
+    public void setQuestionsList(Set<Question> questionsList) {
         this.questionsList = questionsList.stream().
-                        map(Question :: clone).collect(Collectors.toList());
+                        map(Question :: clone).collect(Collectors.toSet());
     }
 
     /**
      * Função que devolve o apontador para o ArrayList usersList
      *
-     * @returns List<Users> - a lista dos users
+     * @returns Set<Users> - a lista dos users
      */
-    public List<Users> getUsersList() {
+    public Set<Users> getUsersList() {
         return usersList.stream().
-                    map(Users :: clone).collect(Collectors.toList());
+                    map(Users :: clone).collect(Collectors.toSet());
     }
 
     /**
      * Função que estabelece o apontador para o ArrayList usersList
      *
-     * @param List<Users> - a lista dos utilizadores
+     * @param Set<Users> - a lista dos utilizadores
      */
-    public void setUsersList(List<Users> questionsList) {
+    public void setUsersList(Set<Users> questionsList) {
         this.usersList = usersList.stream().
-                    map(Users :: clone).collect(Collectors.toList());
+                    map(Users :: clone).collect(Collectors.toSet());
     }
 
     /**
@@ -445,16 +445,15 @@ public class TCD_Community implements TADCommunity {
         String shortBio = u.getUserBio();
 
         List<Long> ids = new ArrayList<>();
-        TreeSet<Posts> it = u.getPosts();
+        Set<Posts> s = u.getPosts();
+
+        Iterator<Posts> it = s.iterator();
 
         int i = 0;
 
-        while (i < 10) {
-            Posts p = it.pollFirst();
-            if(p != null)
-                ids.add(p.getPostId());
-            else
-                break;
+        while (i < 10 && it.hasNext()) {
+            Posts p = it.next();
+            ids.add(p.getPostId());
             i++;
         }
 
@@ -497,7 +496,26 @@ public class TCD_Community implements TADCommunity {
 
     // Query 8
     public List<Long> containsWord(int N, String word) {
-        return Arrays.asList(980835L,979082L,974117L,974105L,973832L,971812L,971056L,968451L,964999L,962770L);
+        if (questionsList == null) {
+            questionsList = new TreeSet<>(new PostComparator());
+
+            Iterator<Question> it = questions.values().iterator();
+            while (it.hasNext())
+                questionsList.add(it.next());
+        }
+
+        List<Long> ret = new ArrayList<>(N);
+        Iterator<Question> it = questionsList.iterator();
+
+        for (int i = 0; i < N && it.hasNext();) {
+            Question q = it.next();
+            if (q.getTitle().contains(word)) {
+                ret.add(q.getPostId());
+                i++;
+            }
+        }
+
+        return ret;
     }
 
     // Query 9
