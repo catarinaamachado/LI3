@@ -9,15 +9,16 @@ package engine;
  * @version 20180519
  */
 
- import java.io.IOException;
  import java.util.*;
  import java.util.stream.Collectors;
 
  import common.*;
  import li3.TADCommunity;
+ 
  import org.xml.sax.SAXException;
-
+ import java.io.IOException;
  import javax.xml.parsers.ParserConfigurationException;
+ 
  import java.time.LocalDate;
 
 public class TCD_Community implements TADCommunity {
@@ -363,22 +364,11 @@ public class TCD_Community implements TADCommunity {
      *
      * @param dumpPath - caminho para o ficheiro xml.
      */
-    public void load(String dumpPath) {
+    public void load(String dumpPath) throws SAXException, ParserConfigurationException, IOException {
         Load load = new Load();
 
-        try {
-            load.lerFicheiros(this, dumpPath);
-        }
-        catch (SAXException e) {
-            System.out.println("SAXException: " + e.getMessage());
-        }
-        catch (ParserConfigurationException e) {
-            System.out.println("ParserConfigurationException: " + e.getMessage());
-        }
-        catch (IOException e) {
-            System.out.println("IOException: " + e.getMessage());
-        }
-
+        load.lerFicheiros(this, dumpPath);
+  
     }
 
     /**
@@ -398,7 +388,7 @@ public class TCD_Community implements TADCommunity {
      *
      * @returns Pair<String, String> - título e o nome do autor do pergunta
      */
-    public Pair<String,String> infoFromPost(long id) {
+    public Pair<String,String> infoFromPost(long id) throws NoPostIdException {
         long userId;
         long parentId;
         String title, username;
@@ -409,7 +399,7 @@ public class TCD_Community implements TADCommunity {
             Answer resposta = lookAnswer(id);
 
             if(resposta == null) {
-                new Pair("null","null");
+                throw new NoPostIdException(id + " não identifica uma pergunta nem uma resposta");
             }
 
             if (resposta != null) {
@@ -646,7 +636,7 @@ public class TCD_Community implements TADCommunity {
      *
      * @returns long - id da resposta
      */
-    public long betterAnswer(long id) {
+    public long betterAnswer(long id) throws NoAnswersException, NoQuestionIdException {
        int i, total_answers, reputation, score, commentCount;
         long answerId = -1;
         double total, max = 0.0;
@@ -654,13 +644,13 @@ public class TCD_Community implements TADCommunity {
         Question pergunta = lookQuestion(id);
 
         if(pergunta == null) {
-            return answerId;
+            throw new NoQuestionIdException("O id " + id + " não pertence a uma pergunta");
         }
 
         total_answers = pergunta.getNAnswers();
 
         if(total_answers == 0) {
-            return answerId;
+            throw new NoAnswersException("A pergunta não tem nenhuma resposta");
         }
 
 
