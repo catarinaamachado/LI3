@@ -66,6 +66,7 @@ public class Main {
         before = System.currentTimeMillis();
         Pair<Long,Long> q3 = qe.totalPosts(LocalDate.of(2016, Month.JULY,1),
                 LocalDate.of(2016,Month.JULY,31));
+        System.out.println("3. Nº de perguntas e respostas: " + q3);        
         after = System.currentTimeMillis();
         logtime.writeLog("Query 3 -> "+(after-before)+" ms");
         log.writeLog("Query 3 -> "+q3);

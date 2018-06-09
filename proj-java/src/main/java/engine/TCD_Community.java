@@ -381,8 +381,9 @@ public class TCD_Community implements TADCommunity {
 
     }
 
-    //Query 1
     /**
+     * QUERY 1
+     * 
      * Dado o identificador de um post, o método retorna
      * o título do post e o nome (não o ID) de utilizador do autor.
      * Caso o post não possua título ou nome de utilizador, o resultado
@@ -439,8 +440,9 @@ public class TCD_Community implements TADCommunity {
 
     }
 
-    //Query 2
-     /**
+    /**
+     * QUERY 2
+     * 
      * Método que devolve o top N utilizadores com maior número
      * de posts de sempre. Para isto, são considerados tanto perguntas
      * quanto respostas dadas pelo respectivo utilizador.
@@ -450,10 +452,10 @@ public class TCD_Community implements TADCommunity {
      * @returns List<Long> - lista com os ids dos N utilizadores com mais posts publicados
      */
     public List<Long> topMostActive(int N) {
-       return  users.values().stream().
-               sorted(new NumeroPostsComparador()).limit(N).
-               map(u -> u.getUsersId()).
-               collect(Collectors.toCollection(ArrayList::new));
+       return users.values().stream().
+              sorted(new NumeroPostsComparador()).limit(N).
+              map(u -> u.getUsersId()).
+              collect(Collectors.toCollection(ArrayList::new));
     }
 
     /**
@@ -469,7 +471,18 @@ public class TCD_Community implements TADCommunity {
      * @returns Pair<Long,Long> - número de perguntas e número de respostas
      */
     public Pair<Long,Long> totalPosts(LocalDate begin, LocalDate end) {
-        return new Pair<>(3667L,4102L);
+        long number_q = 0;
+        long number_p = 0;
+        Day d;
+
+        while(!begin.equals(end.plusDays(1))){
+            d = days.get(begin);
+            number_q += d.getN_questions();
+            number_p += d.getN_answers();
+            begin = begin.plusDays(1);
+    }
+        
+        return new Pair<Long, Long>(number_q, number_p);
     }
 
     /**
@@ -617,8 +630,9 @@ public class TCD_Community implements TADCommunity {
         return ret;
     }
 
-    //Query 10
     /**
+     * QUERY 10
+     * 
      * Dado o ID de uma pergunta, obtem a melhor resposta.
      * Para isso, usa a função de média ponderada abaixo:
      * (score da resposta × 0.45) + (reputação do utilizador × 0.25) +
