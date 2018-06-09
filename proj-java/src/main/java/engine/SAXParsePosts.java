@@ -92,6 +92,15 @@ public class SAXParsePosts extends DefaultHandler {
             if (!atts.getValue(post_type_id).equals("1") && !atts.getValue(post_type_id).equals("2"))
                 return;
 
+            Users u = null;
+            if(owner_id != 0) {
+                long ownerId = Long.parseLong(atts.getValue(owner_id));
+                u = com.lookUser(ownerId);
+
+                if(u != null)
+                    u.incrementaNPosts();
+            }
+
             LocalDate pd;
 
             if(date != 0) {
@@ -130,15 +139,8 @@ public class SAXParsePosts extends DefaultHandler {
                 if(was_null)
                     com.insertQuestion(pergunta);
 
-                if(owner_id != 0) {
-                    long ownerId = Long.parseLong(atts.getValue(owner_id));
-                    Users u = com.lookUser(ownerId);
-
-                    if(u != null) {
-                        u.incrementaNPosts();
-                        u.addPost(pergunta);
-                    }
-                }
+                if(u != null)
+                    u.addPost(pergunta);
 
                 Day data = com.lookDay(pd);
                 if (data == null){
@@ -165,15 +167,8 @@ public class SAXParsePosts extends DefaultHandler {
 
                 com.insertAnswers(resposta);
 
-                if(owner_id != 0) {
-                    long ownerId = Long.parseLong(atts.getValue(owner_id));
-                    Users u = com.lookUser(ownerId);
-
-                    if(u != null) {
-                        u.incrementaNPosts();
-                        u.addPost(resposta);
-                    }
-                }
+                if (u != null)
+                    u.addPost(resposta);
 
                 long parentId = resposta.getParentId();
 
