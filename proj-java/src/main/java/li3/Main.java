@@ -75,11 +75,12 @@ public class Main {
            Query 4
         */
         before = System.currentTimeMillis();
-        List<Long> query4 = qe.questionsWithTag("package-management", LocalDate.of(2013, Month.MARCH, 1),
+        List<Long> q4 = qe.questionsWithTag("package-management", LocalDate.of(2013, Month.MARCH, 1),
                 LocalDate.of(2013, Month.MARCH,31));
+        System.out.println("4. IDS perguntas com tag: " + q4);         
         after = System.currentTimeMillis();
         logtime.writeLog("Query 4 -> " + (after - before) + " ms");
-        log.writeLog("Query 4 -> " + query4);
+        log.writeLog("Query 4 -> " + q4);
 
         /*
            Query 5

@@ -474,13 +474,15 @@ public class TCD_Community implements TADCommunity {
         long number_q = 0;
         long number_p = 0;
         Day d;
-
-        while(!begin.equals(end.plusDays(1))){
-            d = days.get(begin);
-            number_q += d.getN_questions();
-            number_p += d.getN_answers();
-            begin = begin.plusDays(1);
-    }
+        
+        if(begin.isBefore(end.plusDays(1))){
+            while(!begin.equals(end.plusDays(1))){
+                d = days.get(begin);
+                number_q += d.getN_questions();
+                number_p += d.getN_answers();
+                begin = begin.plusDays(1);
+            }
+        }
         
         return new Pair<Long, Long>(number_q, number_p);
     }
@@ -501,11 +503,21 @@ public class TCD_Community implements TADCommunity {
      * @returns List<Long> - IDs das perguntas
      */
     public List<Long> questionsWithTag(String tag, LocalDate begin, LocalDate end) {
-        return Arrays.asList(276174L,276029L,274462L,274324L,274316L,274141L,274100L,272937L,
-                272813L,272754L,272666L,272565L,272450L,272313L,271816L,271683L,271647L,270853L,270608L,270528L,270488L,
-                270188L,270014L,269876L,269781L,269095L,268501L,268155L,267746L,267656L,267625L,266742L,266335L,266016L,
-                265531L,265483L,265443L,265347L,265104L,265067L,265028L,264764L,264762L,264616L,264525L,264292L,263816L,
-                263740L,263460L,263405L,263378L,263253L,262733L,262574L);
+        List resp = new ArrayList<>();
+        Day d;
+        
+        if(begin.isBefore(end.plusDays(1))){        
+            while(!end.equals(begin.plusDays(-1))){
+                d = days.get(end);
+                for(Question q: d.getQuestions()){
+                    if(q.getTags().contains(tag))
+                        resp.add(q.getPostId());
+                }
+                end = end.plusDays(-1);
+            }
+        }
+        
+        return resp;
     }
 
     // Query 5
