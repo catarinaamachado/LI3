@@ -116,6 +116,7 @@ public class Main {
         */
         before = System.currentTimeMillis();
         Pair<String, List<Long>> q51 = qe.getUserInfo(15811);
+        System.out.println("5. informacoes Utilizador: " + q51);
         Pair<String, List<Long>> q5 = qe.getUserInfo(449);
         after = System.currentTimeMillis();
         logtime.writeLog("Query 5 -> "+(after-before)+" ms");
@@ -155,6 +156,7 @@ public class Main {
         */
         before = System.currentTimeMillis();
         List<Long> q8 = qe.containsWord(10, "kde");
+        System.out.println("8. Contem palavra: " + q8);
         after = System.currentTimeMillis();
         logtime.writeLog("Query 8 -> " + (after - before) + " ms");
         log.writeLog("Query 8 -> " + q8);
@@ -164,6 +166,7 @@ public class Main {
         */
         before = System.currentTimeMillis();
         List<Long> q9 = qe.bothParticipated(10, 87, 5691);
+        System.out.println("9. Both Participated: " + q9);
         after = System.currentTimeMillis();
         logtime.writeLog("Query 9 -> " + (after - before) + " ms");
         log.writeLog("Query 9 -> " + q9);
@@ -189,8 +192,18 @@ public class Main {
             Query 11
         */
         before = System.currentTimeMillis();
-        List<Long> q11 = qe.mostUsedBestRep(5, LocalDate.of(2013,Month.NOVEMBER,01),
-                LocalDate.of(2013,Month.NOVEMBER,30));
+        List<Long> q11 = new ArrayList<>();
+        try{
+            q11 = qe.mostUsedBestRep(5, LocalDate.of(2013,Month.NOVEMBER,01),
+                  LocalDate.of(2013,Month.NOVEMBER,30));
+        } catch(IllegalArgumentException e) {
+            System.out.println("11. " + e.getMessage());
+        } catch(IndexOutOfBoundsException e) {
+            System.out.println("11. " + e.getMessage());
+        }
+        
+        
+        System.out.println("11. IDS tags: " + q11);         
         after = System.currentTimeMillis();
         logtime.writeLog("Query 11 -> "+(after-before)+" ms");
         log.writeLog("Query 11 -> "+q11);

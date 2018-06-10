@@ -28,7 +28,7 @@ public class TCD_Community implements TADCommunity {
     private Set<Question> questionsList;
     private Set<Users> usersList;
     private Map<LocalDate, Day> days;
-    private Map<String, Tags> tags;
+    private Map<String, Long> tags;
 
     /**
      * Construtor vazio.
@@ -57,7 +57,7 @@ public class TCD_Community implements TADCommunity {
     public TCD_Community(Map<Long, Users> users, Map<Long, Question> questions,
                        Map<Long,Answer> answers, Set<Question> questionsList,
                        Set<Users> usersList, Map<LocalDate, Day> days,
-                       Map<String, Tags> tags) {
+                       Map<String, Long> tags) {
         setMapUsers(users);
         setMapQuestions(questions);
         setMapAnswers(answers);
@@ -125,7 +125,7 @@ public class TCD_Community implements TADCommunity {
      *
      * @returns Map<Integer, Answers> - a HashMap answers
      */
-    public Map<Long, Answer>  getMapAnswers() {
+    public Map<Long, Answer> getMapAnswers() {
         return answers.entrySet().stream().collect(Collectors.toMap(k -> k.getKey(), a -> a.getValue().clone()));
     }
 
@@ -172,7 +172,7 @@ public class TCD_Community implements TADCommunity {
      *
      * @param Set<Users> - a lista dos utilizadores
      */
-    public void setUsersList(Set<Users> questionsList) {
+    public void setUsersList(Set<Users> usersList) {
         this.usersList = usersList.stream().
                     map(Users :: clone).collect(Collectors.toSet());
     }
@@ -180,11 +180,11 @@ public class TCD_Community implements TADCommunity {
     /**
      * Função que devolve o apontador para a HashMap tags
      *
-     * @returns Map<String, Tags> - a HashMap tags
+     * @returns Map<String, Long> - a HashMap tags
      */
-    public Map<String, Tags> getMapTags() {
+    public Map<String, Long> getMapTags() {
         return tags.entrySet().stream().
-                  collect(Collectors.toMap(k -> k.getKey(), t -> t.getValue().clone()));
+                  collect(Collectors.toMap(k -> k.getKey(), t -> t.getValue()));
     }
 
     /**
@@ -192,9 +192,9 @@ public class TCD_Community implements TADCommunity {
      *
      * @param tags - Map das tags
      */
-    public void setMapTags(Map<String, Tags> tags) {
+    public void setMapTags(Map<String, Long> tags) {
         this.tags = tags.entrySet().stream().
-                collect(Collectors.toMap(k -> k.getKey(), t -> t.getValue().clone()));
+                collect(Collectors.toMap(k -> k.getKey(), t -> t.getValue()));
     }
 
     /**
@@ -346,7 +346,19 @@ public class TCD_Community implements TADCommunity {
     }
 
     /**
-     * TODO DOCUMENTAÇAO
+     * Método que insere uma tag numa HashMap.
+     *
+     * @param t - Tag.
+     *
+     */
+    public void insertTag(String name_tag, long id_tag) {
+        tags.put(name_tag, id_tag);
+    }
+
+    
+    
+    /**
+     * Método que preenche o questionsList (de perguntas) ordenado por data.
      *
      */
     public void initQList() {
@@ -358,7 +370,21 @@ public class TCD_Community implements TADCommunity {
                 questionsList.add(it.next());
         }
     }
+   
+    /**
+     * Método que preenche o usersList (de users) ordenado por reputação.
+     *
+     */
+    public void initUList() {
+        if (usersList == null) {
+            usersList = new TreeSet<>(new UsersComparator());
 
+            Iterator<Users> it = users.values().iterator();
+            while (it.hasNext())
+                usersList.add(it.next());
+        }
+    }
+    
     /**
      * Método que faz o parser dos ficheiros xml.
      *
@@ -368,7 +394,7 @@ public class TCD_Community implements TADCommunity {
         Load load = new Load();
 
         load.lerFicheiros(this, dumpPath);
-  
+ 
     }
 
     /**
@@ -549,7 +575,7 @@ public class TCD_Community implements TADCommunity {
      *
      * @returns List<Long> - IDs das respostas
      */
-    public List<Long> mostVotedAnswers(int N, LocalDate begin, LocalDate end) throws IndexOutOfBoundsException{
+    public List<Long> mostVotedAnswers(int N, LocalDate begin, LocalDate end) throws IndexOutOfBoundsException {
        List as = new ArrayList<Answer>();
        List<Long> ids = new ArrayList<>();
        Day d;
@@ -567,8 +593,8 @@ public class TCD_Community implements TADCommunity {
         else
             return as;
           
-       as = (List) as.stream().sorted(new NumeroVotosRespostas()).collect(Collectors.toList());
-       as = (List) as.subList(0, N);
+       as.sort(new NumeroVotosRespostas());
+       as = as.subList(0, N);
        
        Iterator<Answer> it = as.iterator();
        
@@ -611,8 +637,8 @@ public class TCD_Community implements TADCommunity {
         else
             return qs;
           
-       qs = (List) qs.stream().sorted(new NumeroRespostasPergunta()).collect(Collectors.toList());
-       qs = (List) qs.subList(0, N);
+       qs.sort(new NumeroRespostasPergunta());
+       qs = qs.subList(0, N);
        
        Iterator<Question> it = qs.iterator();
        
@@ -761,10 +787,47 @@ public class TCD_Community implements TADCommunity {
      * @param begin - data inicial
      * @param end - data final
      *
-     * @returns List<Long> - IDs das tags
+     * @returns List<Long> - Identificadores das tags
+     * @throws IllegalArgumentException, IndexOutOfBoundsException
      */
-    public List<Long> mostUsedBestRep(int N, LocalDate begin, LocalDate end) {
-        return Arrays.asList(6L,29L,72L,163L,587L);
+    public List<Long> mostUsedBestRep(int N, LocalDate begin, LocalDate end) throws IllegalArgumentException, IndexOutOfBoundsException {
+        initUList();
+        List<Long> ident_tags = new ArrayList<>();
+        List<Question> qs = new ArrayList<Question>();
+        Day d;
+        Map<Long, Users> users_rep = usersList.stream()
+                                        .limit(N)
+                                        .collect(Collectors.toMap(u -> u.getUsersId(), u -> u));      
+       
+       if(begin.isBefore(end.plusDays(1))){
+            while(!begin.equals(end.plusDays(1))){
+                d = days.get(begin);
+                
+                for(Question q: d.getQuestions()){
+                    if(users_rep.get(q.getUserId()) != null){
+                        String tag = q.getTags();
+                        String[] parts = tag.split("[><]");
+                        
+                        for(int i = 1; i < parts.length; i++){
+                            if(tags.get(parts[i]) != null)     
+                                ident_tags.add(tags.get(parts[i]));
+                            i++;
+                        }   
+                    }
+                }   
+                begin = begin.plusDays(1);
+            }
+        }    
+        else
+            return ident_tags;       
+       
+       Map<Long, Long> maptags =
+            ident_tags.stream().collect(Collectors.groupingBy(e -> e, Collectors.counting()));
+            
+       return maptags.entrySet().stream()
+                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                 .map(Map.Entry::getKey)
+                 .collect(Collectors.toList()).subList(0,N);                   
     }
 
     public void clear(){
