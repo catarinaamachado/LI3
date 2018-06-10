@@ -25,8 +25,8 @@ public class TCD_Community implements TADCommunity {
     private Map<Long, Users> users;
     private Map<Long, Question> questions;
     private Map<Long, Answer> answers;
-    private Set<Question> questionsList;
-    private Set<Users> usersList;
+    private Set<Question> questionsSet;
+    private Set<Users> usersSet;
     private Map<LocalDate, Day> days;
     private Map<String, Long> tags;
 
@@ -38,8 +38,8 @@ public class TCD_Community implements TADCommunity {
         users = new HashMap<>();
         questions = new HashMap<>();
         answers = new HashMap<>();
-        questionsList = null;
-        usersList = null;
+        questionsSet = null;
+        usersSet = null;
         days = new HashMap<>();
         tags = new HashMap<>();
     }
@@ -50,19 +50,19 @@ public class TCD_Community implements TADCommunity {
      * @param users - HashMap que armazena os utilizadores.
      * @param questions - HashMap que armazena as perguntas.
      * @param answers - HashMap que armazena as respostas.
-     * @param questionList - Lista que armazena perguntas.
-     * @param usersList - Lista que armazena utilizadores.
+     * @param questionSet - Set que armazena perguntas.
+     * @param usersSet - Set que armazena utilizadores.
      * @param tags - HashMap que armazena as tags.
      */
     public TCD_Community(Map<Long, Users> users, Map<Long, Question> questions,
-                       Map<Long,Answer> answers, Set<Question> questionsList,
-                       Set<Users> usersList, Map<LocalDate, Day> days,
+                       Map<Long,Answer> answers, Set<Question> questionsSet,
+                       Set<Users> usersSet, Map<LocalDate, Day> days,
                        Map<String, Long> tags) {
         setMapUsers(users);
         setMapQuestions(questions);
         setMapAnswers(answers);
-        setQuestionsList(questionsList);
-        setUsersList(usersList);
+        setQuestionsSet(questionsSet);
+        setUsersSet(usersSet);
         setDays(days);
         setMapTags(tags);
     }
@@ -75,8 +75,8 @@ public class TCD_Community implements TADCommunity {
         this.users = community.getMapUsers();
         this.questions = community.getMapQuestions();
         this.answers = community.getMapAnswers();
-        this.questionsList = community.getQuestionsList();
-        this.usersList = community.getUsersList();
+        this.questionsSet = community.getQuestionsSet();
+        this.usersSet = community.getUsersSet();
         this.days = community.getDays();
         this.tags = community.getMapTags();
     }
@@ -139,41 +139,41 @@ public class TCD_Community implements TADCommunity {
     }
 
     /**
-     * Função que devolve o apontador para o ArrayList questionsList
+     * Função que devolve o apontador para o ArrayList questionsSet
      *
      * @returns Set<Questions> - a lista das perguntas
      */
-    public Set<Question> getQuestionsList() {
-        return questionsList.stream().map(Question :: clone).collect(Collectors.toSet());
+    public Set<Question> getQuestionsSet() {
+        return questionsSet.stream().map(Question :: clone).collect(Collectors.toSet());
     }
 
     /**
-     * Função que estabelece o apontador para o ArrayList questionsList
+     * Função que estabelece o apontador para o ArrayList questionsSet
      *
      * @param Set<Question> - a lista das perguntas
      */
-    public void setQuestionsList(Set<Question> questionsList) {
-        this.questionsList = questionsList.stream().
+    public void setQuestionsSet(Set<Question> questionsSet) {
+        this.questionsSet = questionsSet.stream().
                         map(Question :: clone).collect(Collectors.toSet());
     }
 
     /**
-     * Função que devolve o apontador para o ArrayList usersList
+     * Função que devolve o apontador para o ArrayList usersSet
      *
      * @returns Set<Users> - a lista dos users
      */
-    public Set<Users> getUsersList() {
-        return usersList.stream().
+    public Set<Users> getUsersSet() {
+        return usersSet.stream().
                     map(Users :: clone).collect(Collectors.toSet());
     }
 
     /**
-     * Função que estabelece o apontador para o ArrayList usersList
+     * Função que estabelece o apontador para o ArrayList usersSet
      *
      * @param Set<Users> - a lista dos utilizadores
      */
-    public void setUsersList(Set<Users> usersList) {
-        this.usersList = usersList.stream().
+    public void setUsersSet(Set<Users> usersSet) {
+        this.usersSet = usersSet.stream().
                     map(Users :: clone).collect(Collectors.toSet());
     }
 
@@ -236,8 +236,8 @@ public class TCD_Community implements TADCommunity {
                 ", users = " + users +
                 ", questions = " + questions +
                 ", answers = " + answers +
-                ", questionsList = " + questionsList.toString() +
-                ", usersList = " + usersList.toString() +
+                ", questionsSet = " + questionsSet.toString() +
+                ", usersSet = " + usersSet.toString() +
                 ", days = " + days.toString() +
                 ", tags = " + tags +
                 '}';
@@ -262,8 +262,8 @@ public class TCD_Community implements TADCommunity {
     return (this.users.equals(com.getMapUsers()) &&
            this.questions.equals(com.getMapQuestions()) &&
            this.answers.equals(com.getMapAnswers()) &&
-           this.questionsList.equals(com.getQuestionsList()) &&
-           this.usersList.equals(com.getUsersList()) &&
+           this.questionsSet.equals(com.getQuestionsSet()) &&
+           this.usersSet.equals(com.getUsersSet()) &&
            this.days.equals(com.getDays()) &&
            this.tags.equals(com.getMapTags()));
     }
@@ -355,33 +355,31 @@ public class TCD_Community implements TADCommunity {
         tags.put(name_tag, id_tag);
     }
 
-    
-    
     /**
-     * Método que preenche o questionsList (de perguntas) ordenado por data.
+     * Método que preenche o questionsSet (de perguntas) ordenado por data.
      *
      */
-    public void initQList() {
-        if (questionsList == null) {
-            questionsList = new TreeSet<>(new PostComparator());
+    public void initQSet() {
+        if (questionsSet == null) {
+            questionsSet = new TreeSet<>(new PostComparator());
 
             Iterator<Question> it = questions.values().iterator();
             while (it.hasNext())
-                questionsList.add(it.next());
+                questionsSet.add(it.next());
         }
     }
    
     /**
-     * Método que preenche o usersList (de users) ordenado por reputação.
+     * Método que preenche o usersSet (de users) ordenado por reputação.
      *
      */
-    public void initUList() {
-        if (usersList == null) {
-            usersList = new TreeSet<>(new UsersComparator());
+    public void initUSet() {
+        if (usersSet == null) {
+            usersSet = new TreeSet<>(new UsersComparator());
 
             Iterator<Users> it = users.values().iterator();
             while (it.hasNext())
-                usersList.add(it.next());
+                usersSet.add(it.next());
         }
     }
     
@@ -652,10 +650,10 @@ public class TCD_Community implements TADCommunity {
 
     // Query 8
     public List<Long> containsWord(int N, String word) {
-        initQList();
+        initQSet();
 
         List<Long> ret = new ArrayList<>(N);
-        Iterator<Question> it = questionsList.iterator();
+        Iterator<Question> it = questionsSet.iterator();
 
         for (int i = 0; i < N && it.hasNext();) {
             Question q = it.next();
@@ -680,13 +678,13 @@ public class TCD_Community implements TADCommunity {
 
     // Query 9
     public List<Long> bothParticipated(int N, long id1, long id2) {
-        initQList();
+        initQSet();
 
         List<Long> ret = new ArrayList<>(N);
         boolean id1P, id2P;
         long uid;
 
-        Iterator<Question> it = questionsList.iterator();
+        Iterator<Question> it = questionsSet.iterator();
 
         for (int i = 0; i < N && it.hasNext();) {
             Question q = it.next();
@@ -791,11 +789,11 @@ public class TCD_Community implements TADCommunity {
      * @throws IllegalArgumentException, IndexOutOfBoundsException
      */
     public List<Long> mostUsedBestRep(int N, LocalDate begin, LocalDate end) throws IllegalArgumentException, IndexOutOfBoundsException {
-        initUList();
+        initUSet();
         List<Long> ident_tags = new ArrayList<>();
         List<Question> qs = new ArrayList<Question>();
         Day d;
-        Map<Long, Users> users_rep = usersList.stream()
+        Map<Long, Users> users_rep = usersSet.stream()
                                         .limit(N)
                                         .collect(Collectors.toMap(u -> u.getUsersId(), u -> u));      
        
