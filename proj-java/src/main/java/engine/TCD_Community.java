@@ -27,6 +27,7 @@ public class TCD_Community implements TADCommunity {
     private Map<Long, Answer> answers;
     private Set<Question> questionsSet;
     private Set<Users> usersSet;
+    private List<Long> usersPostList;
     private Map<LocalDate, Day> days;
     private Map<String, Long> tags;
 
@@ -40,6 +41,7 @@ public class TCD_Community implements TADCommunity {
         answers = new HashMap<>();
         questionsSet = null;
         usersSet = null;
+        usersPostList = null;
         days = new HashMap<>();
         tags = new HashMap<>();
     }
@@ -52,17 +54,19 @@ public class TCD_Community implements TADCommunity {
      * @param answers - HashMap que armazena as respostas.
      * @param questionSet - Set que armazena perguntas.
      * @param usersSet - Set que armazena utilizadores.
+     * @param usersPostList - Lista que armazena os identificadors dos Users.
      * @param tags - HashMap que armazena as tags.
      */
     public TCD_Community(Map<Long, Users> users, Map<Long, Question> questions,
                        Map<Long,Answer> answers, Set<Question> questionsSet,
-                       Set<Users> usersSet, Map<LocalDate, Day> days,
-                       Map<String, Long> tags) {
+                       Set<Users> usersSet, List<Long> usersPostList,
+                       Map<LocalDate, Day> days, Map<String, Long> tags) {
         setMapUsers(users);
         setMapQuestions(questions);
         setMapAnswers(answers);
         setQuestionsSet(questionsSet);
         setUsersSet(usersSet);
+        setUsersPostList(usersPostList);
         setDays(days);
         setMapTags(tags);
     }
@@ -77,6 +81,7 @@ public class TCD_Community implements TADCommunity {
         this.answers = community.getMapAnswers();
         this.questionsSet = community.getQuestionsSet();
         this.usersSet = community.getUsersSet();
+        this.usersPostList = community.getUsersPostList();
         this.days = community.getDays();
         this.tags = community.getMapTags();
     }
@@ -139,18 +144,18 @@ public class TCD_Community implements TADCommunity {
     }
 
     /**
-     * Função que devolve o apontador para o ArrayList questionsSet
+     * Função que devolve o apontador para o Set questionsSet
      *
-     * @returns Set<Questions> - a lista das perguntas
+     * @returns Set<Questions> - o set das perguntas
      */
     public Set<Question> getQuestionsSet() {
         return questionsSet.stream().map(Question :: clone).collect(Collectors.toSet());
     }
 
     /**
-     * Função que estabelece o apontador para o ArrayList questionsSet
+     * Função que estabelece o apontador para o Set questionsSet
      *
-     * @param Set<Question> - a lista das perguntas
+     * @param Set<Question> - o set das perguntas
      */
     public void setQuestionsSet(Set<Question> questionsSet) {
         this.questionsSet = questionsSet.stream().
@@ -158,9 +163,9 @@ public class TCD_Community implements TADCommunity {
     }
 
     /**
-     * Função que devolve o apontador para o ArrayList usersSet
+     * Função que devolve o apontador para o Set usersSet
      *
-     * @returns Set<Users> - a lista dos users
+     * @returns Set<Users> - o set dos users
      */
     public Set<Users> getUsersSet() {
         return usersSet.stream().
@@ -168,15 +173,33 @@ public class TCD_Community implements TADCommunity {
     }
 
     /**
-     * Função que estabelece o apontador para o ArrayList usersSet
+     * Função que estabelece o apontador para o Set usersSet
      *
-     * @param Set<Users> - a lista dos utilizadores
+     * @param Set<Users> - set dos utilizadores
      */
     public void setUsersSet(Set<Users> usersSet) {
         this.usersSet = usersSet.stream().
                     map(Users :: clone).collect(Collectors.toSet());
     }
+    
+    /**
+     * Função que devolve o apontador para a lista de usersPostList.
+     *
+     * @returns List<Long> - lista com os ids dos users.
+     */
+    public List<Long> getUsersPostList() {
+        return usersPostList.stream().collect(Collectors.toCollection(ArrayList :: new));
+    }
 
+    /**
+     * Função que estabelece o apontador para a lista de usersPostList.
+     *
+     * @param List<Long> - lista dos ids dos utilizadores
+     */
+    public void setUsersPostList(List<Long> usersPostList) {
+        this.usersPostList = usersPostList.stream().collect(Collectors.toList());
+    }
+    
     /**
      * Função que devolve o apontador para a HashMap tags
      *
@@ -186,7 +209,7 @@ public class TCD_Community implements TADCommunity {
         return tags.entrySet().stream().
                   collect(Collectors.toMap(k -> k.getKey(), t -> t.getValue()));
     }
-
+    
     /**
      * Função que estabelece a HashMap tags
      *
@@ -384,6 +407,19 @@ public class TCD_Community implements TADCommunity {
     }
     
     /**
+     * Método que preenche o usersPostsList (de identificadores de users) ordenado por número de posts.
+     *
+     */
+    public void initUsersPostsList() {
+        if (usersPostList == null) {
+              usersPostList = users.values().stream().
+              sorted(new NumeroPostsComparador()).
+              map(u -> u.getUsersId()).
+              collect(Collectors.toCollection(ArrayList::new));
+        }
+    }
+    
+    /**
      * Método que faz o parser dos ficheiros xml.
      *
      * @param dumpPath - caminho para o ficheiro xml.
@@ -468,10 +504,10 @@ public class TCD_Community implements TADCommunity {
      * @returns List<Long> - lista com os ids dos N utilizadores com mais posts publicados
      */
     public List<Long> topMostActive(int N) {
-       return users.values().stream().
-              sorted(new NumeroPostsComparador()).limit(N).
-              map(u -> u.getUsersId()).
-              collect(Collectors.toCollection(ArrayList::new));
+        initUsersPostsList();
+        
+        return usersPostList.stream().limit(N).collect(Collectors.toCollection(ArrayList::new));
+        
     }
 
     /**
