@@ -16,6 +16,7 @@ public abstract class Posts implements Comparable<Posts> {
     private long user_id;
     private long post_id;
     private LocalDate pd;
+    private int postType;
 
     /**
      * Construtor por omissão de Posts.
@@ -24,6 +25,7 @@ public abstract class Posts implements Comparable<Posts> {
         this.user_id = 0;
         this.post_id = 0;
         this.pd = LocalDate.MIN;
+        this.postType = 0;
     }
 
     /**
@@ -32,11 +34,13 @@ public abstract class Posts implements Comparable<Posts> {
      * @param user_id Identificador do user
      * @param post_id Identificador do post
      * @param pd data do post
+     * @param postType identificador do tipo de post
      */
-    public Posts(long user_id, long post_id, LocalDate pd) {
+    public Posts(long user_id, long post_id, LocalDate pd, int postType) {
         this.user_id = user_id;
         this.post_id = post_id;
         this.pd = pd;
+        this.postType = postType;
     }
 
     /**
@@ -48,6 +52,7 @@ public abstract class Posts implements Comparable<Posts> {
         this.user_id = p.getUserId();
         this.post_id = p.getPostId();
         this.pd = p.getPd();
+        this.postType = p.getPostType();
     }
 
     /**
@@ -105,6 +110,15 @@ public abstract class Posts implements Comparable<Posts> {
     }
 
     /**
+     * Método que devolve o tipo de post, se pergunta ou resposta.
+     *
+     * @returns int - Identificador do tipo de post.
+     */
+    public int getPostType() {
+        return postType;
+    }
+    
+    /**
      * Método que devolve a representação em String de Posts.
      *
      * @return String que representa um post
@@ -114,6 +128,7 @@ public abstract class Posts implements Comparable<Posts> {
                 " UserId = " + user_id +
                 ", PostId = " + post_id +
                 ", Date = " + pd +
+                ", PostType = " + postType +
                 '}';
     }
 
@@ -135,6 +150,10 @@ public abstract class Posts implements Comparable<Posts> {
         return  (post_id == post.getPostId() && user_id == post.getUserId());
     }
 
+    
+    /**
+     * Método abstrato que obriga à implementação do método clone nas subclasses.
+     */
     public abstract Posts clone();
 
     public int compareTo(Posts a) {

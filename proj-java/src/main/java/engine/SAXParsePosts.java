@@ -118,7 +118,7 @@ public class SAXParsePosts extends DefaultHandler {
             if (atts.getValue(post_type_id).equals("1")) { //o post é uma pergunta
                 long questionId = Long.parseLong(atts.getValue(id));
 
-                Question pergunta = com.lookQuestion(questionId);
+                Question pergunta = (Question)com.lookPost(questionId);
 
                 if (pergunta == null) {
                     was_null = true;
@@ -136,7 +136,7 @@ public class SAXParsePosts extends DefaultHandler {
                 pergunta.setPd(pd);
 
                 if(was_null)
-                    com.insertQuestion(pergunta);
+                    com.insertPost(pergunta);
 
                 if(u != null)
                     u.addPost(pergunta);
@@ -164,14 +164,14 @@ public class SAXParsePosts extends DefaultHandler {
                 resposta.setScore(Integer.parseInt(atts.getValue(score)));
                 resposta.setCommentCount(Integer.parseInt(atts.getValue(comment_count)));
 
-                com.insertAnswers(resposta);
+                com.insertPost(resposta);
 
                 if (u != null)
                     u.addPost(resposta);
 
                 long parentId = resposta.getParentId();
 
-                Question pergunta = com.lookQuestion(parentId);
+                Question pergunta = (Question) com.lookPost(parentId);
 
                 if(pergunta != null) {
                     pergunta.setNAnswerVotes(pergunta.getNAnswerVotes() + resposta.getScore());
@@ -187,7 +187,7 @@ public class SAXParsePosts extends DefaultHandler {
                     pergunta.setNAnswerVotes(resposta.getScore()); //estabelece o numero de votos
                     pergunta.addAnswertoAnswersList(resposta);
 
-                    com.insertQuestion(pergunta);
+                    com.insertPost(pergunta);
                 }
 
                 Day data = com.lookDay(pd);

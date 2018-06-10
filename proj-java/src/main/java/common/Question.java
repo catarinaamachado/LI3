@@ -25,7 +25,7 @@ public class Question extends Posts {
      * Construtor por omissão de Question.
      */
     public Question() {
-        super();
+        super(0, 0, LocalDate.MIN, 1);
         this.title = "";
         this.tags = "";
         this.n_answers = 0;
@@ -36,8 +36,8 @@ public class Question extends Posts {
     /**
      * Construtor parametrizado de Question.
      *
-     * @param post_id Identificador do post
-     * @param user_id Identificador do user
+     * @param post_id Número identificador do post
+     * @param user_id Número identificador do user
      * @param title Título da pergunta
      * @param tags Tags da pergunta
      * @param n_answers Número de respostas
@@ -46,7 +46,7 @@ public class Question extends Posts {
      */
     public Question(long post_id, long user_id, LocalDate pd, String title,
             String tags, int n_answers, int n_answer_votes, List answers) {
-        super(post_id, user_id, pd);
+        super(post_id, user_id, pd, 1);
         this.title = title;
         this.tags = tags;
         this.n_answers = n_answers;

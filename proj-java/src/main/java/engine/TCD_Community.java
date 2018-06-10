@@ -11,6 +11,7 @@ package engine;
 
  import java.util.*;
  import java.util.stream.Collectors;
+ import java.util.function.Supplier;
 
  import common.*;
  import li3.TADCommunity;
@@ -23,8 +24,7 @@ package engine;
 
 public class TCD_Community implements TADCommunity {
     private Map<Long, Users> users;
-    private Map<Long, Question> questions;
-    private Map<Long, Answer> answers;
+    private Map<Long, Posts> posts;
     private Set<Question> questionsSet;
     private Set<Users> usersSet;
     private List<Long> usersPostList;
@@ -37,8 +37,7 @@ public class TCD_Community implements TADCommunity {
      */
     public TCD_Community() {
         users = new HashMap<>();
-        questions = new HashMap<>();
-        answers = new HashMap<>();
+        posts = new HashMap<>();
         questionsSet = null;
         usersSet = null;
         usersPostList = null;
@@ -50,20 +49,18 @@ public class TCD_Community implements TADCommunity {
      * Construtor parametrizado.
      *
      * @param users - HashMap que armazena os utilizadores.
-     * @param questions - HashMap que armazena as perguntas.
-     * @param answers - HashMap que armazena as respostas.
+     * @param posts - HashMap que armazena os posts.
      * @param questionSet - Set que armazena perguntas.
      * @param usersSet - Set que armazena utilizadores.
      * @param usersPostList - Lista que armazena os identificadors dos Users.
      * @param tags - HashMap que armazena as tags.
      */
-    public TCD_Community(Map<Long, Users> users, Map<Long, Question> questions,
-                       Map<Long,Answer> answers, Set<Question> questionsSet,
-                       Set<Users> usersSet, List<Long> usersPostList,
-                       Map<LocalDate, Day> days, Map<String, Long> tags) {
+    public TCD_Community(Map<Long, Users> users, Map<Long, Posts> posts,
+                       Set<Question> questionsSet,Set<Users> usersSet, 
+                       List<Long> usersPostList, Map<LocalDate, 
+                       Day> days, Map<String, Long> tags) {
         setMapUsers(users);
-        setMapQuestions(questions);
-        setMapAnswers(answers);
+        setMapPosts(posts);
         setQuestionsSet(questionsSet);
         setUsersSet(usersSet);
         setUsersPostList(usersPostList);
@@ -77,8 +74,7 @@ public class TCD_Community implements TADCommunity {
      */
     public TCD_Community(TCD_Community community) {
         this.users = community.getMapUsers();
-        this.questions = community.getMapQuestions();
-        this.answers = community.getMapAnswers();
+        this.posts = community.getMapPosts();
         this.questionsSet = community.getQuestionsSet();
         this.usersSet = community.getUsersSet();
         this.usersPostList = community.getUsersPostList();
@@ -106,41 +102,23 @@ public class TCD_Community implements TADCommunity {
     }
 
     /**
-     * Função que devolve o apontador para a HashMap questions
+     * Função que devolve o apontador para a HashMap posts
      *
-     * @returns Map<Long, Questions> - a HashMap questions
+     * @returns Map<Long, Posts> - a HashMap posts
      */
-    public Map<Long, Question> getMapQuestions() {
-        return questions.entrySet().stream().
+    public Map<Long, Posts> getMapPosts() {
+        return posts.entrySet().stream().
                          collect(Collectors.toMap(k -> k.getKey(), q -> q.getValue().clone()));
     }
 
     /**
-     * Função que estabelece a HashMap questions
+     * Função que estabelece a HashMap posts
      *
-     * @param users - Map das questions
+     * @param posts - Map das posts
      */
-    public void setMapQuestions(Map<Long, Question> questions) {
-        this.questions = questions.entrySet().stream().
+    public void setMapPosts(Map<Long, Posts> posts) {
+        this.posts = posts.entrySet().stream().
                          collect(Collectors.toMap(k -> k.getKey(), q -> q.getValue().clone()));
-    }
-
-    /**
-     * Função que devolve o apontador para a HashMap answers
-     *
-     * @returns Map<Integer, Answers> - a HashMap answers
-     */
-    public Map<Long, Answer> getMapAnswers() {
-        return answers.entrySet().stream().collect(Collectors.toMap(k -> k.getKey(), a -> a.getValue().clone()));
-    }
-
-    /**
-     * Função que estabelece a HashMap answers
-     *
-     * @param anwers - Map das Answers
-     */
-    public void setMapAnswers(Map<Long, Answer> answers) {
-        this.answers = answers.entrySet().stream().collect(Collectors.toMap(k -> k.getKey(), a -> a.getValue().clone()));
     }
 
     /**
@@ -257,10 +235,10 @@ public class TCD_Community implements TADCommunity {
     public String toString() {
         return "TCD_Community{" +
                 ", users = " + users +
-                ", questions = " + questions +
-                ", answers = " + answers +
+                ", posts = " + posts +
                 ", questionsSet = " + questionsSet.toString() +
                 ", usersSet = " + usersSet.toString() +
+                ", usersPostList = " + usersPostList.toString() +
                 ", days = " + days.toString() +
                 ", tags = " + tags +
                 '}';
@@ -283,8 +261,7 @@ public class TCD_Community implements TADCommunity {
         TCD_Community com = (TCD_Community) object;
 
     return (this.users.equals(com.getMapUsers()) &&
-           this.questions.equals(com.getMapQuestions()) &&
-           this.answers.equals(com.getMapAnswers()) &&
+           this.posts.equals(com.getMapPosts()) &&
            this.questionsSet.equals(com.getQuestionsSet()) &&
            this.usersSet.equals(com.getUsersSet()) &&
            this.days.equals(com.getDays()) &&
@@ -292,21 +269,12 @@ public class TCD_Community implements TADCommunity {
     }
 
     /**
-     * Método que verifica se uma questão existe em questions.
+     * Método que verifica se um post existe em posts.
      *
-     * @return Question uma pergunta
+     * @return Posts um post
      */
-    public Question lookQuestion(long id) {
-        return questions.get(id);
-    }
-
-    /**
-     * Método que verifica se uma resposta existe em answers.
-     *
-     * @return Answers uma resposta
-     */
-    public Answer lookAnswer(long id) {
-        return answers.get(id);
+    public Posts lookPost(long id) {
+        return posts.get(id);
     }
 
     /**
@@ -328,23 +296,13 @@ public class TCD_Community implements TADCommunity {
     }
 
     /**
-     * Método que insere uma pergunta numa HashMap.
+     * Método que insere um post na HashMap posts.
      *
-     * @param q - Uma pergunta.
-     *
-     */
-    public void insertQuestion(Question q) {
-        questions.put(q.getPostId(), q);
-    }
-
-    /**
-     * Método que insere uma resposta numa HashMap.
-     *
-     * @param a - Uma resposta.
+     * @param p - Um post.
      *
      */
-    public void insertAnswers(Answer a) {
-        answers.put(a.getPostId(), a);
+    public void insertPost(Posts p) {
+        posts.put(p.getPostId(), p);
     }
 
     /**
@@ -384,11 +342,11 @@ public class TCD_Community implements TADCommunity {
      */
     public void initQSet() {
         if (questionsSet == null) {
-            questionsSet = new TreeSet<>(new PostComparator());
-
-            Iterator<Question> it = questions.values().iterator();
-            while (it.hasNext())
-                questionsSet.add(it.next());
+            
+            Supplier<TreeSet<Question>> supplier = () -> new TreeSet<Question>(new PostComparator());
+                
+            questionsSet = posts.values().stream().filter(p -> (p.getPostType() == 1)).map( p -> (Question)p).
+                           collect(Collectors.toCollection(supplier));
         }
     }
    
@@ -454,42 +412,41 @@ public class TCD_Community implements TADCommunity {
         long userId;
         long parentId;
         String title, username;
+        Answer resposta = null;
+        Question pergunta = null;
 
-        Question pergunta = lookQuestion(id);
-
-        if (pergunta == null) {
-            Answer resposta = lookAnswer(id);
-
-            if(resposta == null) {
+        Posts post = lookPost(id);
+        
+        if(post == null) {
                 throw new NoPostIdException(id + " não identifica uma pergunta nem uma resposta");
             }
 
-            if (resposta != null) {
+        if (post.getPostType() == 2) {
+                resposta = (Answer) post;
                 parentId = resposta.getParentId();
-                pergunta = lookQuestion(parentId);
-            }
+                pergunta = (Question) lookPost(parentId); 
+        }
+        else {
+                pergunta = (Question) post;
+        }
+ 
+        userId = post.getUserId();
+
+        Users user = lookUser(userId);
+
+        if (user == null) {
+            return new Pair("null","null");
         }
 
-        if (pergunta != null) {
-            userId = pergunta.getUserId();
+        title = pergunta.getTitle();
+        username = user.getUserName();
 
-            Users user = lookUser(userId);
-
-            if (user == null) {
-                return new Pair("null","null");
-            }
-
-            title = pergunta.getTitle();
-            username = user.getUserName();
-
-            if (title != null && username != null) {
-                return new Pair<>(title, username);
-            }
-
+        if (title != null && username != null) {
+            return new Pair<>(title, username);
         }
 
+        
         return new Pair("null","null");
-
     }
 
     /**
@@ -767,25 +724,28 @@ public class TCD_Community implements TADCommunity {
      * @throws NoAnswersException, NoQuestionIdException 
      */
     public long betterAnswer(long id) throws NoAnswersException, NoQuestionIdException {
-       int i, total_answers, reputation, score, commentCount;
+        int i, total_answers, reputation, score, commentCount;
         long answerId = -1;
         double total, max = 0.0;
+        Question pergunta;
+        Answer resposta;
 
-        Question pergunta = lookQuestion(id);
+        Posts post = lookPost(id);
 
-        if(pergunta == null) {
+        if(post == null || (post.getPostType() != 1)) {
             throw new NoQuestionIdException("O id " + id + " não pertence a uma pergunta");
         }
-
+        
+        pergunta = (Question)post;
+        
         total_answers = pergunta.getNAnswers();
-
+        
         if(total_answers == 0) {
             throw new NoAnswersException("A pergunta não tem nenhuma resposta");
-        }
-
+            }
 
         for(i = 0; i < total_answers; i++) {
-             Answer resposta = pergunta.getAnswers().get(i);
+             resposta = pergunta.getAnswers().get(i);
              Users user = lookUser(resposta.getUserId());
 
              if(user == null) {

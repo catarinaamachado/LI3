@@ -83,8 +83,8 @@ public class Main {
            Query 2
         */
         before = System.currentTimeMillis();
-        List<Long> q2 = qe.topMostActive(10);
-        //System.out.println("2. Lista de Utilizadores com mais posts: " + q2);
+        List<Long> q2 = qe.topMostActive(100);
+        System.out.println("2. Lista de Utilizadores com mais posts: " + q2);
         after = System.currentTimeMillis();
         logtime.writeLog("Query 2 -> "+(after-before)+" ms");
         log.writeLog("Query 2 -> "+q2);

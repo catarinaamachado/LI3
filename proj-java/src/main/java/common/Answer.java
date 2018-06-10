@@ -20,7 +20,7 @@ public class Answer extends Posts {
      * Construtor por omissão de Answer.
      */
     public Answer() {
-        super();
+        super(0, 0, LocalDate.MIN, 2);
         this.parent_id = 0;
         this.score = 0;
         this.comment_count = 0;
@@ -36,7 +36,7 @@ public class Answer extends Posts {
      * @param comment_count Número de comentários
      */
     public Answer(long user_id, long post_id, LocalDate pd, long parent_id, int score, int comment_count) {
-        super(user_id, post_id, pd);
+        super(user_id, post_id, pd, 2);
         this.parent_id = parent_id;
         this.score = score;
         this.comment_count = comment_count;
