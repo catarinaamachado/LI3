@@ -15,6 +15,8 @@ public class NumeroRespostasPergunta implements Comparator<Question> {
    
   /**
    * Método que ordena as perguntas por ordem decrescente do número de respostas.
+   * Caso duas perguntas tenham o mesmo número de respostas ordena as perguntas
+   * por ordem decrescente do número de identificador das mesmas.
    * 
    * @param q1 uma pergunta;
    * @param q2 uma pergunta;
@@ -24,7 +26,7 @@ public class NumeroRespostasPergunta implements Comparator<Question> {
     public int compare(Question q1, Question q2) {
     int result = (q2.getNAnswers() - q1.getNAnswers());
     
-    return result;
+    return (result != 0)? result : ((int)q2.getPostId() - (int)q1.getPostId());
   }
     
 }

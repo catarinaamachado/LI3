@@ -1,5 +1,14 @@
 package common;
 
+/**
+ * Classe que compara a reputação dos users.
+ *
+ * @author A81047
+ * @author A34900
+ * @author A82339
+ * @version 20180610
+ */
+
 import java.util.Comparator;
 
 public class PostComparator implements Comparator<Posts> {

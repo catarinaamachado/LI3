@@ -87,7 +87,6 @@ public class SAXParsePosts extends DefaultHandler {
 
         if (length != 0) {
 
-
             //se o post não for nem uma pergunta, nem uma resposta
             if (!atts.getValue(post_type_id).equals("1") && !atts.getValue(post_type_id).equals("2"))
                 return;
