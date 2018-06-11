@@ -654,13 +654,9 @@ public class TCD_Community implements TADCommunity {
     }
 
     private boolean participateAnswers(Question q, long id) {
-        int size = q.getNAnswers();
-
-        for(int i = 0; i < size; i++)
-            if (id == q.getAnswers().get(i).getUserId())
-                return true;
-
-        return false;
+        return q.getAnswers()
+                .stream()
+                .anyMatch(quest -> quest.getUserId() == id);
     }
 
     // Query 9
