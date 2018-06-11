@@ -8,6 +8,7 @@
 \usepackage{float}
 \usepackage{graphicx}
 \usepackage{indentfirst}
+\usepackage[small]{caption}
 
 
 \begin{document}
@@ -145,10 +146,13 @@ Para desenvolvermos este trabalho adotamos as seguintes estruturas de dados:
 
 \begin{verbatim}
 public class TCD_Community implements TADCommunity {
-   private Map<Long, Users> users;
-   private Map<Long, Question> questions;
-   private Map<Long, Answers> answers;
-   private Map<String, Tags> tags;
+    private Map<Long, Users> users;
+    private Map<Long, Posts> posts;
+    private Set<Question> questionsSet;
+    private Set<Users> usersSet;
+    private List<Long> usersPostList;
+    private Map<LocalDate, Day> days;
+    private Map<String, Long> tags;
 \end{verbatim}
 
 \vspace{0.2cm}
@@ -159,9 +163,8 @@ estruturas de dados do nosso trabalho, bem como os métodos necessários para ac
 a essa mesma classe de forma a garantir o encapsulamento dos dados.
 
 
-Em primeiro lugar, \textbf{users}, \textbf{questions},
-\textbf{answers} e \textbf{tags}
-utilizamos a interface map para armazenar os dados,
+Em primeiro lugar, \textbf{users}, \textbf{posts},
+e \textbf{tags} utilizamos a interface map para armazenar os dados,
 o que nos permite implementar quer uma HashMap quer uma TreeMap. \par
 A razão para essa escolha deve-se ao facto de tantos os IDs dos users, como os
 IDs das questions, answers e tags não estarem armazenados nos ficheiros de forma
@@ -184,6 +187,10 @@ na ordem natural. Assim, tendo em conta que a nossa tarefa se centra na performa
 do nosso programa, priorizamos o desempenho em detrimento do consumo de memória,
 pelo que a HashMap é a melhor escolha.
 
+Os sets \textbf{questionsSet} e \textbf{usersSet} e a \textbf{usersPostList} foram
+especialmente criados por razões de eficiência, que passaremos a explicar em
+~\ref{sec:desempenho}, para auxiliar nas respostas às queries 8 e 9, o primeiro set,
+11, o segundo set, e 2, a referida lista.
 
 Na estrutura \textbf{day} utilizamos .....
 
@@ -213,17 +220,19 @@ public abstract class Posts implements Comparable<Posts> {
     private long user_id;
     private long post_id;
     private LocalDate pd;
+    private int postType;
 \end{verbatim}
 
 A estrutura de dados \texttt{Posts} é uma classe abstrata que contém três variáveis
 de instância, user\_id, que se refere ao ID do utilizador que publicou a pergunta,
-post\_id, número identificador do post, e pd que se refere à data do post.
+post\_id, número identificador do post, pd que se refere à data do post e o
+postType que identifica o tipo de post, 1 se é uma pergunta e 2 se é uma resposta.
 Estas informações são comuns quer às instâncias da classe
 \textit{Questions} quer às da classe \textit{Answers}, daí que esta classe seja
 hierarquicamente superior a estas duas. Convém notar que a classe \texttt{Posts} é uma
 classe abstrata, para que não se possa instanciar e para que, no futuro,
-caso seja necessário, se torne mais fácil criar novas classes de posts.
-
+caso seja necessário, se torne mais fácil criar novas classes de posts com o
+mínimo de modificações no código.
 
 
 \begin{verbatim}
@@ -368,13 +377,13 @@ tendo em mente as seguintes preocupações:
 do ``exterior'' conhecer a sua implementação. Efetivamente, apenas se conhecem os
 métodos que definem o comportamento de um objeto daquela classe, o qual é somente
 acessível através de uma API.\end{item}
+\begin{item} Somente na classe Main temos código Input/Output.\end{item}
 \end{itemize}
 Desta forma, a nossa estrutura de dados passa a ser opaca ao utilizador, tendo
 subjacente a ideia de \textit{Data Hiding}, a qual foi implementada pelo acesso
 aos atributos somente por intermédio de métodos de instância e pela definição do
 método clone (deep clone) em cada uma das classes, que é chamado sempre que é
 necessário devolver uma cópia dos objetos e não um apontador para os mesmos.
-
 
 
 
@@ -396,18 +405,19 @@ da pergunta correspondente.”} \par
 \vspace{0.1cm}
 
 Na resposta a esta query, começamos por verificar se o ID do post passado como
-parâmetro  para o método identifica uma pergunta. No caso da resposta ser negativa
-verificamos se esse ID identifica alguma resposta contida
-na HashMap \texttt{answers}. Caso isso também não aconteça é lançada uma exceção
-\texttt{NoPostIdException}. \par
-Na hipótese de ser uma pergunta, verificamos qual o Id do utilizador que fez aquela
+parâmetro  para o método identifica um post, pois caso isso não aconteça é lançada
+uma exceção, \texttt{NoPostIdException}. \par
+Caso o ID identifique um objeto da classe Posts, então verificamos que tipo de post
+é, ou seja, se é uma resposta ou uma pergunta.
+Na hipótese de ser uma pergunta, verificamos qual o ID do utilizador que fez aquela
 pergunta para o procurar na HashMap correspondente, de forma a conseguirmos obter
 o seu nome. Se o usuário não existir na HashMap \texttt{users} o método devolve um
 par nulo. Caso o usuário exista, extrai-se o nome deste, bem como o título do
-post. Se o título do post e o nome do usuário forem ambos diferentes de nulo, o
-método devolve o respetivo par, caso contrário devolve um par nulo. \par
-No caso do ID passado como parâmetro para o método identificar uma resposta, determinamos
-a que pergunta esta se refere e seguimos o procedimento descrito no parágrafo anterior.
+post. Se o título do post e o nome do usuário existirem ambos, o método devolve o
+respetivo par, caso contrário devolve um par nulo. \par
+No caso do ID passado como parâmetro para o método identificar uma resposta,
+determinamos a que pergunta esta se refere e seguimos o procedimento descrito
+no parágrafo anterior.
 
 
 \subsubsection*{Query 2}
@@ -420,12 +430,19 @@ quanto respostas dadas pelo respectivo utilizador.”}
 \vspace{0.1cm}
 
 Para respondermos a esta query criamos a classe \texttt{NumeroPostsComparador}, a
-qual define um critério de ordenação por ordem decrescente de número total de posts
-que o usuário publicou e, na possibilidade de dois usuários terem o mesmo número
-de posts, estabelce a ordem crescente de id dos usuários.\par
-Por questões de eficiência, utilizamos um iterador interno para percorrer todos os
-usuários e ordená-los com base na classe acima referida e devolvemos os N
-usuários que têm mais posts através de uma lista que contem os seus ids.
+qual define um critério de ordenação dos utilizadores por ordem decrescente do
+número total de posts publicados e, na possibilidade de dois usuários terem o mesmo número
+de posts, estabelece a ordem crescente de IDs dos usuários.\par
+Ademais, criamos uma lista, \texttt{usersPostList}, onde armazenamos os utilizadores
+pela ordem estabelecida pela classe \texttt{NumeroPostsComparador}. Esta lista é
+preenchida aquando da primeira vez que é preciso utilizá-la, sendo que as respostas
+posteriores a esta query apenas têm de a limitar às N primeiras posições,
+aumentando-se assim a performance desta query.
+Este processo é feito através do método \texttt{initUsersPostsList}, o qual
+preenche devidamente a referida lista, caso esta esteja vazia.
+Por último, resta mencionar que, por questões de eficiência, utilizamos sempre
+iteradores internos para percorrer todos os usuários e ordená-los, bem como para
+para devolver os IDs dos N usuários com mais posts.
 
 
 
@@ -508,7 +525,7 @@ Para isso, deverá usar a função de média ponderada abaixo: (score da respost
 
 Antes de mais convém ressaltar que esta query lança duas exceções:
 \texttt{NoAnswersException}, quando a pergunta não tem nenhuma resposta, e
-\texttt{NoQuestionIdException}, quando o ID passado como parâmetro não identificar
+\texttt{NoQuestionIdException}, quando o ID passado como parâmetro não identifica
 uma pergunta.\par
 No caso de o ID ser válido, averiguamos quantas respostas tem essa mesma pergunta,
 através do método getNAnswers, e calculamos para cada resposta a sua média ponderada.
@@ -538,10 +555,56 @@ de vezes em que a tag foi usada."}
 \subsection{Estratégias para melhorar o desempenho}
 \label{sec:desempenho}
 
+Para melhorarmos o desempenho do nosso programa, uma das estratégias utilizadas foi
+a utilização de coleções que nos permitem aumentar a eficiência do nosso programa, na
+medida em que preenchemos cada uma das coleções somente na primeira vez que é preciso
+utilizar:
+\begin{itemize}
+\begin{item} usuários ordenados por número de posts, conforme o método \texttt{initUsersPostsList};\end{item}
+\begin{item} perguntas ordenadas por datas, conforme o método \texttt{initQSet};\end{item}
+\begin{item} usuários ordenados por reputação , conforme o método \texttt{initUSet}.\end{item}
+\end{itemize}
 
 
+O \texttt{questionsSet} é utilizado nas queries 8 e 9, já o \texttt{usersSet} é
+usado na query 11 e, finalmente, a \texttt{usersPostList} guarda os dados para dar
+resposta à query 2.
+Assim, sempre que estas coleções se encontrem devidamente preenchidas
+a resposta às referidas queries terá uma complexidade de O(1). \par
+Para determinar que coleção seria mais eficiente em cada caso concreto analisamos
+o tempo de execução do programa com a utilização de TreeSets e ArrayList nos diferentes
+casos. \par
+Antes de nos decidirmos pela nossa implementação, testamos outras possibilidade
+para termos a certeza de que esta solução seria a que obteria melhor desempenho.
+No que se refere à query 2, testamos a possibilidade de termos uma TreeSet a armazenar
+os usuários por ordem decrescente de posts e um ArrayList, corremos a query 100 vezes
+para cada uma das referidas hipótese obtivemos os tempos descritos nos gráficos
+infra.\footnote{A máquina utilizada para medir os tempos de execução foi um
+MacBook Air com Processador 1,6 GHz Intel Core i5}.
 
+\begin{figure}[H]
+    \centering
+    \begin{minipage}[b]{0.4\textwidth}
+    \includegraphics[scale=0.7]{Query2_Set}
+    \caption{Resultados da implementação da query 2 com usersPostsSet}
+    \label{figRotulo}
+  \end{minipage}
+ \hfill
+   \begin{minipage}[b]{0.5\textwidth}
+      \includegraphics[scale=0.7]{Query2_List}
+      \caption{Resultados da implementação da query 2 com usersPostsList}
+      \label{figRotulo}
+      \end{minipage}
+    \end{figure}
 
+    \vspace{0.4cm}
+
+Conforme podemos observar a partir dos gráficos, a implementação da query 2 utilizando
+uma TreeSet de usuários ordenada por ordem decrescente de número de posts,
+é menos eficiente, já que em média leva 198,76 milissegundos(ms) a preencher
+devidamente a TreeSet e a responder à query 2, ao passo que com uma lista,
+o mesmo processo, leva em média 144,45 ms,o que equivale a um ganho de cerca de
+50 ms, pelo que optamos pela implementação da query 2 descrita na secção Queries.
 
 \section{Conclusões}
 \label{sec:conclusao}
