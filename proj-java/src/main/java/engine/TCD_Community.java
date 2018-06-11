@@ -430,7 +430,7 @@ public class TCD_Community implements TADCommunity {
                 pergunta = (Question) post;
         }
  
-        userId = post.getUserId();
+        userId = pergunta.getUserId();
 
         Users user = lookUser(userId);
 
