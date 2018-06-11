@@ -645,18 +645,12 @@ public class TCD_Community implements TADCommunity {
     public List<Long> containsWord(int N, String word) {
         initQSet();
 
-        List<Long> ret = new ArrayList<>(N);
-        Iterator<Question> it = questionsSet.iterator();
-
-        for (int i = 0; i < N && it.hasNext();) {
-            Question q = it.next();
-            if (q.getTitle().contains(word)) {
-                ret.add(q.getPostId());
-                i++;
-            }
-        }
-
-        return ret;
+        return questionsSet
+                .stream()
+                .filter(q -> q.getTitle().contains(word))
+                .limit(N)
+                .map(Question::getPostId)
+                .collect(Collectors.toList());
     }
 
     private boolean participateAnswers(Question q, long id) {
