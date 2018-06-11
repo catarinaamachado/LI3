@@ -529,26 +529,30 @@ public class TCD_Community implements TADCommunity {
         return resp;
     }
 
-    // Query 5
-    public Pair<String, List<Long>> getUserInfo(long id) {
+    /**
+     * QUERY 5
+     *
+     * Dado um ID de utilizador, devolver a informação do
+     * seu perfil (short bio) e os IDs dos seus 10 últimos posts,
+     * ordenados por cronologia inversa;
+     *
+     * @param id - User id
+     *
+     * @returns List<Long> - IDs das perguntas
+     */
+    public Pair<String, List<Long>> getUserInfo(long id) throws NoUserIdException {
         if(!users.containsKey(id))
-            return new Pair<>("",new ArrayList<>());
+            throw new NoUserIdException(Long.toString(id));
 
         Users u = users.get(id);
         String shortBio = u.getUserBio();
 
-        List<Long> ids = new ArrayList<>();
-        Set<Posts> s = u.getPosts();
-
-        Iterator<Posts> it = s.iterator();
-
-        int i = 0;
-
-        while (i < 10 && it.hasNext()) {
-            Posts p = it.next();
-            ids.add(p.getPostId());
-            i++;
-        }
+        List<Long> ids = u.getPosts()
+                .stream()
+                .sorted(new PostComparator())
+                .limit(10)
+                .map(q -> q.getPostId())
+                .collect(Collectors.toList());
 
         return new Pair<>(shortBio,ids);
     }
@@ -641,35 +645,47 @@ public class TCD_Community implements TADCommunity {
        return ids;
     }
 
-    // Query 8
+    /**
+     * QUERY 8
+     *
+     * Dado uma palavra, devolver uma lista com os IDs de
+     * N perguntas cujos títulos a contenham, ordenados por cronologia inversa
+     *
+     * @param N - número de perguntas
+     * @param word - palavra a verificar
+     *
+     * @return List<Long> - IDs das perguntas
+     */
     public List<Long> containsWord(int N, String word) {
         initQSet();
 
-        List<Long> ret = new ArrayList<>(N);
-        Iterator<Question> it = questionsSet.iterator();
-
-        for (int i = 0; i < N && it.hasNext();) {
-            Question q = it.next();
-            if (q.getTitle().contains(word)) {
-                ret.add(q.getPostId());
-                i++;
-            }
-        }
-
-        return ret;
+        return questionsSet
+                .stream()
+                .filter(q -> q.getTitle().contains(word))
+                .limit(N)
+                .map(Question::getPostId)
+                .collect(Collectors.toList());
     }
 
     private boolean participateAnswers(Question q, long id) {
-        int size = q.getNAnswers();
-
-        for(int i = 0; i < size; i++)
-            if (id == q.getAnswers().get(i).getUserId())
-                return true;
-
-        return false;
+        return q.getAnswers()
+                .stream()
+                .anyMatch(quest -> quest.getUserId() == id);
     }
 
-    // Query 9
+    /**
+     * QUERY 9
+     *
+     * Dados os IDs de dois utilizadores, devolver as últimas
+     * N perguntas (cronologia inversa) em que participaram dois utilizadores
+     * específicos.
+     *
+     * @param N - número de ocorrências
+     * @param id1 - utilizador 1
+     * @param id2 - utilizador 2
+     *
+     * @return List<Long> - IDs das perguntas
+     */
     public List<Long> bothParticipated(int N, long id1, long id2) {
         initQSet();
 
