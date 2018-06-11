@@ -1,6 +1,7 @@
 package common;
 
-import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
@@ -20,7 +21,7 @@ public class Users {
     private String username;
     private int reputation;
     private int n_posts;
-    private Set<Posts> posts;
+    private List<Posts> posts;
 
     /**
      * Construtor por omissão de Users.
@@ -31,7 +32,7 @@ public class Users {
         this.username = "";
         this.reputation = 0;
         this.n_posts = 0;
-        this.posts = new TreeSet<>();
+        this.posts = new ArrayList<>();
     }
 
     /**
@@ -45,7 +46,7 @@ public class Users {
      * @param posts Lista de posts do user
      */
     public Users(long user_id, String shortbio, String username,
-                int reputation, int n_posts, Set<Posts> posts) {
+                int reputation, int n_posts, List<Posts> posts) {
         this.user_id = user_id;
         this.shortbio = shortbio;
         this.username = username;
@@ -161,29 +162,25 @@ public class Users {
     /**
      * Função que devolve o conjunto de posts do utilizador.
      *
-     * @return TreeSet<Posts> - Lista de posts do user.
+     * @return List<Posts> - Lista de posts do user.
      */
-    public Set<Posts> getPosts() {
-        Set<Posts> pp = new TreeSet<>(new PostComparator());
-
-        Iterator<Posts> it = posts.iterator();
-
-        while (it.hasNext()) {
-            Posts p = it.next();
-            pp.add(p);
-        }
-
-        return pp;
+    public List<Posts> getPosts() {
+        return posts
+                .stream()
+                .map(Posts::clone)
+                .collect(Collectors.toList());
     }
 
     /**
      * Função que estabelece o conjunto de posts do utilizador.
      *
-     * @param Set<Posts> - Lista de posts do user.
+     * @param List<Posts> - Lista de posts do user.
      */
-    public void setPosts(Set<Posts> posts) {
-        this.posts = posts.stream().map(Posts::clone).collect(Collectors.toSet());
-
+    public void setPosts(List<Posts> posts) {
+        this.posts = posts
+                .stream()
+                .map(Posts::clone)
+                .collect(Collectors.toList());
     }
 
     /**
