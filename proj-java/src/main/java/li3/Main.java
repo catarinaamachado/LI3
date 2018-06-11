@@ -1,15 +1,11 @@
 package li3;
 
-import common.MyLog;
-import common.Pair;
+import common.*;
 import engine.TCD_Community;
 
 import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import common.NoPostIdException;
-import common.NoAnswersException;
-import common.NoQuestionIdException;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -19,7 +15,7 @@ import java.util.ArrayList;
 public class Main {
 
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
 
 
         /*
@@ -35,31 +31,27 @@ public class Main {
         /*
             LOAD PHASE
          */
-        
+
         boolean loadComplete = false;
-        
+
         try {
             before = System.currentTimeMillis();
             qe.load(args[0]);
             after = System.currentTimeMillis();
-            logtime.writeLog("LOAD -> "+(after-before)+" ms");
+            logtime.writeLog("LOAD -> " + (after - before) + " ms");
             loadComplete = true;
-        }
-        catch(IndexOutOfBoundsException e) {
+        } catch (IndexOutOfBoundsException e) {
             System.out.println("Error: " + e.getMessage());
-        }
-        catch (SAXException e) {
+        } catch (SAXException e) {
             System.out.println("SAXException: " + e.getMessage());
-        }
-        catch (ParserConfigurationException e) {
+        } catch (ParserConfigurationException e) {
             System.out.println("ParserConfigurationException: " + e.getMessage());
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("IOException: " + e.getMessage());
         }
-        
+
         //verifica se o load foi completado com sucesso
-        if(!loadComplete) {
+        if (!loadComplete) {
             return;
         }
         
@@ -68,15 +60,15 @@ public class Main {
            Query 1
         */
         before = System.currentTimeMillis();
-        Pair<String,String> q1 = new Pair("null", "null");
-        try{
+        Pair<String, String> q1 = new Pair("null", "null");
+        try {
             q1 = qe.infoFromPost(801049);
             System.out.println("1. Title e username: " + q1);
         } catch (NoPostIdException e) {
-          System.out.println("1." + e.getMessage());
+            System.out.println("1." + e.getMessage());
         }
         after = System.currentTimeMillis();
-        logtime.writeLog("Query 1 -> "+(after-before)+" ms");
+        logtime.writeLog("Query 1 -> " + (after - before) + " ms");
         log.writeLog("Query 1 -> " + q1);
 
         /*
@@ -86,27 +78,27 @@ public class Main {
         List<Long> q2 = qe.topMostActive(100);
         System.out.println("2. Lista de Utilizadores com mais posts: " + q2);
         after = System.currentTimeMillis();
-        logtime.writeLog("Query 2 -> "+(after-before)+" ms");
-        log.writeLog("Query 2 -> "+q2);
+        logtime.writeLog("Query 2 -> " + (after - before) + " ms");
+        log.writeLog("Query 2 -> " + q2);
 
         /*
            Query 3
         */
         before = System.currentTimeMillis();
-        Pair<Long,Long> q3 = qe.totalPosts(LocalDate.of(2016, Month.JULY,1),
-                LocalDate.of(2016,Month.JULY,31));
-        System.out.println("3. Nº de perguntas e respostas: " + q3);        
+        Pair<Long, Long> q3 = qe.totalPosts(LocalDate.of(2016, Month.JULY, 1),
+                LocalDate.of(2016, Month.JULY, 31));
+        System.out.println("3. Nº de perguntas e respostas: " + q3);
         after = System.currentTimeMillis();
-        logtime.writeLog("Query 3 -> "+(after-before)+" ms");
-        log.writeLog("Query 3 -> "+q3);
+        logtime.writeLog("Query 3 -> " + (after - before) + " ms");
+        log.writeLog("Query 3 -> " + q3);
 
         /*
            Query 4
         */
         before = System.currentTimeMillis();
         List<Long> q4 = qe.questionsWithTag("package-management", LocalDate.of(2013, Month.MARCH, 1),
-                LocalDate.of(2013, Month.MARCH,31));
-        System.out.println("4. IDS perguntas com tag: " + q4);         
+                LocalDate.of(2013, Month.MARCH, 31));
+        System.out.println("4. IDS perguntas com tag: " + q4);
         after = System.currentTimeMillis();
         logtime.writeLog("Query 4 -> " + (after - before) + " ms");
         log.writeLog("Query 4 -> " + q4);
@@ -115,13 +107,21 @@ public class Main {
            Query 5
         */
         before = System.currentTimeMillis();
-        Pair<String, List<Long>> q51 = qe.getUserInfo(15811);
-        System.out.println("5. informacoes Utilizador: " + q51);
-        Pair<String, List<Long>> q5 = qe.getUserInfo(449);
+        Pair<String, List<Long>>
+                q5 = new Pair<>("", new ArrayList<>()),
+                q51 = new Pair<>("", new ArrayList<>());
+        try {
+            q51 = qe.getUserInfo(15811);
+            System.out.println("5. informacoes Utilizador: " + q51);
+            q5 = qe.getUserInfo(449);
+        } catch (NoUserIdException e) {
+            System.out.println("5. User não existe: " + e.getMessage());
+        }
+
         after = System.currentTimeMillis();
-        logtime.writeLog("Query 5 -> "+(after-before)+" ms");
-        log.writeLog("Query 5 -> "+q51);
-        log.writeLog("Query 5 -> "+q5);
+        logtime.writeLog("Query 5 -> " + (after - before) + " ms");
+        log.writeLog("Query 5 -> " + q51);
+        log.writeLog("Query 5 -> " + q5);
 
         /*
            Query 6
