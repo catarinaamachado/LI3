@@ -454,6 +454,19 @@ obter o número total de posts (identificando perguntas e respostas separadament
 
 \vspace{0.1cm}
 
+Uma vez que na nossa estrutura de dados \texttt{day} já temos uma variável
+que nos diz o número total de perguntas
+e o número total de respostas efetuadas num determinado dia, para sabermos o
+número total de cada uma delas durante um intervalo de tempo criámos duas novas
+variáveis na nossa função da query 3: \textsf{'number\_q'} e \textsf{'number\_p'},
+e incrementámo-las com o valor das perguntas e respostas efetuadas, respetivamente,
+durante os dias passados como parâmetro.
+
+No final de percorridos todos os dias, criamos um objeto \texttt{Pai} com as duas
+variáveis da nossa função, e retornamo-lo.
+
+
+
 \subsubsection*{Query 4}
 \label{sec:query4}
 
@@ -462,6 +475,17 @@ O retorno da função deverá ser uma lista com os IDs das perguntas ordenadas e
 
 \vspace{0.1cm}
 
+Para esta query, tirando partido da nossa estrutura de dados \texttt{day},
+que tem uma \textsf{List} com as perguntas do dia em questão,
+começamos por percorrer cada pergunta desse array
+da última data passada como parâmetro e comparamos as suas tags com a tag passada como argumento.
+Deste modo, se a pergunta tiver a tag desejada inserimos o seu ID num \texttt{ArrayList}.
+Vamos percorrendo os dias da LocalDate “begin” para a “end”.
+
+No final de consultarmos todas as perguntas do intervalo de tempo temos o
+ArrayList preenchido, e retornamo-lo.
+Este ArrayList já tem os IDs das perguntas ordenadas por cronologia inversa uma vez que
+fomos preenchendo-o do dia mais recente para o dia mais antigo.
 
 
 
@@ -484,6 +508,27 @@ ser obtido pela diferença entre Up Votes (UpMod) e Down Votes (DownMod)."}
 
 \vspace{0.1cm}
 
+Nesta query utilizamos um \texttt{ArrayList} auxiliar. Ao percorrer os
+dias do intervalo de tempo fornecido como parâmetro inserimos
+no ArrayList auxiliar \textbf{as} as
+respostas que iam aparecendo.
+
+Depois de percorrer todos os dias temos um ArrayList com todas as respostas
+efetuadas nesse intervalo de tempo. Consequentemente, ordenamos o array pelo número
+de votos (no inicio do array está a resposta com mais votos e no fim a resposta
+com menos votos), com recurso à classe \texttt{NumeroVotosRespostas}.
+
+Através do método 'subList', selecionamos somente as N primeiras respostas
+que aparecem.
+
+Depois disso, inserimos no ArrayList \textbf{ids} somente os
+IDs nas respostas e retornamo-lo.
+
+É de referir que no caso das duas respostas terem o mesmo número
+de votos o critério de desempate a ordenação decrescente dos IDs.
+
+
+
 \subsubsection*{Query 7}
 \label{sec:query7}
 
@@ -491,6 +536,17 @@ ser obtido pela diferença entre Up Votes (UpMod) e Down Votes (DownMod)."}
 com mais respostas, em ordem decrescente do número de respostas."}
 
 \vspace{0.1cm}
+
+Utilizamos o mesmo raciocínio da query 6, mas agora fomos percorrendo o intervalo
+de tempo e adicionando ao nosso \texttt{ArrayList} auxiliar as perguntas.
+No fim do array preenchido, ordenamo-lo segundo o critério de maior número
+de respostas, e em caso de empate, utilizamos o critério de ordenação decrescente dos IDs.
+Para a ordenação, recorremos ao Comparator da classe \texttt{NumeroRespostasPergunta}.
+
+Retiramos os primeiros N elementos do ArrayList e devolvemos os respetivos IDs
+num \texttt{ArrayList}, que se encontra então ordenado
+decrescentemente segundo o número de respostas.
+
 
 
 \subsubsection*{Query 8}
@@ -551,6 +607,41 @@ mais usadas pelos N utilizadores com melhor reputação. Em ordem decrescente do
 de vezes em que a tag foi usada."}
 
 \vspace{0.1cm}
+
+Para a resolução desta query consideramos os N utilizadores com maior reputação no geral.
+
+Tirando partido do Set \texttt{usersSet}, presente na nossa classe
+\texttt{TCD\_community},
+que possui os users ordenados consoante a sua reputação (da maior
+para a menor), selecionamos somente os N primeiros elementos e
+criamos um \texttt{Map} chamado "users_rep". Este Map possui como
+chave o Id do user, e como valor o "apontador" para o utilizador.
+
+Depois disso, percorremos todos os dias do intervalo
+de tempo tendo em atenção as perguntas, mais precisamente as suas tags.
+Se a pergunta tiver sido efetuada por um user com melhor reputação (ver se existe
+no map "users_rep" um user com a chave (Id) do utilizador que fez a pergunta),
+pegamos nas tags dessa pergunta (ainda todas juntas numa só string) e separamo-las
+de modo a termos todas as tags individuais.
+
+Assim, adicionamos os IDs dessas tags a um \texttt{ArrayList} chamado ident_tags.
+(Temos um map "tags" na nossa classe \texttt{TCD\_community} em que ao nome da tag
+corresponde o respetivo identificador, o que nos ajuda agora a colecionar esses
+Ids).
+
+No final de percorridos todos os dias, todas as perguntas e respetivas tags
+temos um ArrayList "ident_tags", com todos os identificadores das tags
+(com repitação) que foram aparecendo durante
+esse intervalo de tempo e que foram feitas por algum dos N users com melhor reputação).
+
+Deste modo, criamos um novo \texttt{Map}, chamado "maptags", onde a cada um dos
+identificadores das tags (presentes no ArrayList "ident_tags") corresponderá o
+número de repetições da tag.
+
+Por último, ordenamos esse map consoante o número de repetições das tags, e
+devolvemos os identificadores das N primeiras tags do map ordenado.
+
+
 
 \subsection{Estratégias para melhorar o desempenho}
 \label{sec:desempenho}

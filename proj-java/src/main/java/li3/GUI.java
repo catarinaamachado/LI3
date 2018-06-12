@@ -367,7 +367,7 @@ public class GUI extends Application {
             try {
                 List<Long> q8 = qe.containsWord(n, pal);
                 
-                Text title = new Text(n + "perguntas com a palavra " + pal +  " no título: ");
+                Text title = new Text(n + " perguntas com a palavra " + pal +  " no título: ");
                 title.wrappingWidthProperty().set(215);
                 title.setFont(Font.font("Verdana", FontWeight.BOLD, 13));
                 title.setTextAlignment(TextAlignment.JUSTIFY);

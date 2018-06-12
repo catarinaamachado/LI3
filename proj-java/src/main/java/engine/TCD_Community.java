@@ -816,7 +816,6 @@ public class TCD_Community implements TADCommunity {
     public List<Long> mostUsedBestRep(int N, LocalDate begin, LocalDate end) throws IllegalArgumentException, IndexOutOfBoundsException {
         initUSet();
         List<Long> ident_tags = new ArrayList<>();
-        List<Question> qs = new ArrayList<Question>();
         Day d;
         Map<Long, Users> users_rep = usersSet.stream()
                                         .limit(N)
@@ -848,7 +847,8 @@ public class TCD_Community implements TADCommunity {
             return ident_tags;       
        
        Map<Long, Long> maptags =
-            ident_tags.stream().collect(Collectors.groupingBy(e -> e, Collectors.counting()));
+            ident_tags.stream()
+                      .collect(Collectors.groupingBy(e -> e, Collectors.counting()));
             
        return maptags.entrySet().stream()
                  .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
