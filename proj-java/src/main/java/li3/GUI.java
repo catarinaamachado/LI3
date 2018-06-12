@@ -10,6 +10,20 @@ package li3;
  */
 
 import engine.TCD_Community;
+<<<<<<< HEAD
+import java.time.LocalDate;
+import java.time.Month;
+import common.NoPostIdException;
+import common.NoAnswersException;
+import common.NoQuestionIdException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import common.Pair;
+
+import javafx.application.Application;
+import static javafx.geometry.HPos.RIGHT;
+=======
 
 import common.NoPostIdException;
 import common.NoAnswersException;
@@ -23,6 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.application.Application;
+>>>>>>> cbf6d32b5392f7fb5546343d3c1fd3e39cd57db3
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -38,8 +53,31 @@ import javafx.stage.Stage;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+<<<<<<< HEAD
+import javafx.scene.shape.Line;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.CheckMenuItem;
+import javafx.event.EventHandler;
+import javafx.event.ActionEvent;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableCell;
+import javafx.util.Callback;
+import javafx.scene.control.Alert.AlertType;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.math.BigDecimal;
+import org.xml.sax.SAXException;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
+=======
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+>>>>>>> cbf6d32b5392f7fb5546343d3c1fd3e39cd57db3
 import javafx.scene.text.TextFlow;
 import javafx.scene.text.TextAlignment;
 
@@ -1211,7 +1249,11 @@ public class GUI extends Application {
         grid.setHgap(20);
         grid.setVgap(20);
         grid.setPadding(new Insets(25, 25, 25, 25));
+<<<<<<< HEAD
+
+=======
         
+>>>>>>> cbf6d32b5392f7fb5546343d3c1fd3e39cd57db3
         Image img = new Image("imgs/logo.png");
         ImageView imgView = new ImageView(img);
         imgView.setFitWidth(300);
@@ -1224,6 +1266,8 @@ public class GUI extends Application {
         TextField nomeField = new TextField();
         grid.add(nomeField, 1, 2);
         
+<<<<<<< HEAD
+=======
         Label path = new Label("Path Completo:");
         grid.add(path, 0, 3);
 
@@ -1231,15 +1275,26 @@ public class GUI extends Application {
         grid.add(pathField, 1, 3);     
           
            
+>>>>>>> cbf6d32b5392f7fb5546343d3c1fd3e39cd57db3
         Button login = new Button("Entrar");
         HBox hbLogin = new HBox(10);
         hbLogin.setAlignment(Pos.CENTER);
         hbLogin.getChildren().add(login);
+<<<<<<< HEAD
+        grid.add(hbLogin, 1, 4);
+=======
         grid.add(hbLogin, 1, 5);
+>>>>>>> cbf6d32b5392f7fb5546343d3c1fd3e39cd57db3
 
         login.setOnAction(e -> {
             String nome_utilizador = nomeField.getText();
             this.nome_utilizador = nome_utilizador;
+<<<<<<< HEAD
+            loadQueries();
+            screen.setScene(this.queries);
+        });
+
+=======
                     this.qe = new TCD_Community();
 
             boolean loadComplete = false;
@@ -1274,6 +1329,7 @@ public class GUI extends Application {
             screen.setScene(this.queries);
         });
         
+>>>>>>> cbf6d32b5392f7fb5546343d3c1fd3e39cd57db3
         Button sair = new Button("Sair");
         HBox hbSair = new HBox(10);
         hbSair.setAlignment(Pos.CENTER);
@@ -1299,6 +1355,44 @@ public class GUI extends Application {
         this.screen.setWidth(800);
         this.screen.setHeight(600);
 
+<<<<<<< HEAD
+        this.qe = new TCD_Community();
+
+        boolean loadComplete = false;
+        
+        final Parameters params = getParameters();
+        final List<String> parameters = params.getRaw();
+System.out.println(parameters.toString());
+
+        
+        
+        try {
+            long before_load = System.currentTimeMillis();
+            qe.load("/Users/cam/Desktop/Grupo1/proj-java/dump/ubuntu");
+            long after_load = System.currentTimeMillis();
+            time_load = after_load - before_load;
+            loadComplete = true;
+        }
+        catch (IndexOutOfBoundsException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        catch (SAXException e) {
+            System.out.println("SAXException: " + e.getMessage());
+        }
+        catch (ParserConfigurationException e) {
+            System.out.println("ParserConfigurationException: " + e.getMessage());
+        }
+        catch (IOException e) {
+            System.out.println("IOException: " + e.getMessage());
+        }
+        
+        //verifica se o load foi completado com sucesso
+        if(!loadComplete) {
+            return;
+        }
+
+=======
+>>>>>>> cbf6d32b5392f7fb5546343d3c1fd3e39cd57db3
         this.loadMain();
 
         this.screen.setScene(this.main);

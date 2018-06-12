@@ -1,5 +1,9 @@
 package common;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * Classe que define um utilizador.
  *
@@ -8,10 +12,6 @@ package common;
  * @author A82339
  * @version 20180519
  */
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class Users {
     private long user_id;
@@ -242,7 +242,7 @@ public class Users {
     public Users clone() {
         return new Users(this);
     }
-    
+
     /**
      * Método adiciona um post ao utilizador.
      *

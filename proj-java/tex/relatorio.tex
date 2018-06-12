@@ -304,6 +304,13 @@ as situações em que o id em causa não representa nenhum post.\end{item}
 as situações em que o id em causa não representa uma pergunta.\end{item}
 \begin{item} \textit{NoAnswersException} - Classe de exceção criada para sinalizar
 as situações em que determinada pergunta não tem associada a si nenhuma resposta.\end{item}
+\begin{item} \textit{NoUserIdException} - Classe de exceção criada para
+    sinalizar as situações em que determinada id não tem associada a si
+    nenhum User.
+\end{item}
+\begin{item} \textit{PostsComparator} - Classe que estabelece
+    ordem de comparação de Posts.
+\end{item}
 \end{itemize}
 
 Por seu turno, no pacote engine agrupamos as classes que fazem o parse dos
@@ -498,6 +505,15 @@ ordenados por cronologia inversa.”}
 
 \vspace{0.1cm}
 
+Em primeiro lugar, verifica-se se a HashTable possui o User com id passado como
+argumento, em caso negativo é lançada uma exceção em como esse utilizador não
+existe.
+Em caso afirmativo, copia-se o objeto da HashTable ao qual se retira a
+biografia e os posts. Em seguida, usa-se o método stream nos posts que serão
+ordenados recorrendo ao uso do PostComparator, dos quais se retiram os primeiros
+10. Faz-se um map a esses 10 resultados para retirar os seus PostId e
+coleciona-se tudo para um List.
+
 
 \subsubsection*{Query 6}
 \label{sec:query6}
@@ -557,6 +573,12 @@ N perguntas cujos títulos a contenham, ordenados por cronologia inversa"}
 
 \vspace{0.1cm}
 
+É criada uma estrutura de posts auiliar ordenada caso a mesma ainda não tenha
+sido criada.
+Sobre essa estrutura é feito um stream, ao qual se filtram as perguntas
+que não tenham as palavras passadas como argumento. Retiram-se os 10 primeiros
+elementos, e usa-se um map para retirar os POstId que se guardam para uma List.
+
 
 
 \subsubsection*{Query 9}
@@ -568,6 +590,10 @@ Note que os utilizadores podem ter participado via pergunta ou respostas"}
 
 \vspace{0.1cm}
 
+É criada uma estrutura de posts auiliar ordenada caso a mesma ainda não tenha
+sido criada.
+É criado um iterator que percorre essa estrutura para verificar os N primeiros
+posts em que ambos os utilizadores criaram ou participaram num post.
 
 \subsubsection*{Query 10}
 \label{sec:query10}
