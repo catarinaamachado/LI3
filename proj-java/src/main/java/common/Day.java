@@ -32,17 +32,13 @@ public class Day {
     /**
      * Construtor parametrizado de Day.
      *
-     * @param post_id Identificador do post
-     * @param user_id Identificador do user
-     * @param title Título da pergunta
-     * @param tags Tags da pergunta
      * @param n_questions Número de perguntas
      * @param n_answers Número de respostas
      * @param questions Perguntas do dia
      * @param answers Respostas do dia
      */
-    public Day(int day, int month, int year, int n_questions, 
-                    int n_answers, List questions, List answers) {
+    public Day(int n_questions, int n_answers,
+                        List questions, List answers) {
         this.n_questions = n_questions;
         this.n_answers = n_answers;
         setQuestions(questions);
@@ -74,7 +70,7 @@ public class Day {
     /**
      * Método que estabelece o número de perguntas da data.
      *
-     * @param int número de perguntas.
+     * @param n_questions número de perguntas.
      */
     public void setN_questions(int n_questions) {
         this.n_questions = n_questions;
@@ -93,7 +89,7 @@ public class Day {
     /**
      * Método que estabelece o número de respostas da data.
      *
-     * @param int número de respostas.
+     * @param n_answers número de respostas.
      */
     public void setN_answers(int n_answers) {
         this.n_answers = n_answers;

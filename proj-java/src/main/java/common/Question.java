@@ -134,7 +134,7 @@ public class Question extends Posts {
     /**
      * Método que estabelece o número total de votos das respostas de uma pergunta.
      *
-     * @param n_answers Número total de votos das respostas de uma pergunta.
+     * @param n_answer_votes Número total de votos das respostas de uma pergunta.
      */
     public void setNAnswerVotes(int n_answer_votes) {
         this.n_answer_votes = n_answer_votes;
