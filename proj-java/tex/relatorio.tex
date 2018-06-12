@@ -205,13 +205,12 @@ public class Users {
     private String username;
     private int reputation;
     private int n_posts;
-    private TreeSet<Posts> posts;
+    private List<Posts> posts;
 \end{verbatim}
 
 A estrutura de dados \texttt{Users} contém o ID do utilizador, a sua short bio, o seu nome,
 a sua reputação, o número total de posts desse utilizador (i.e. perguntas e respostas),
-bem como um conjunto que contém todos os posts do utilizador (perguntas e respostas)
-ordenados por data. A escolha recaiu sobre uma TreeSet porque .... FALTA!!!!!
+bem como uma lista que contém todos os posts do utilizador (perguntas e respostas).
 Esta estrutura encerra informações necessárias para responder às interrogações 1,
 5, 8 e 10.
 
@@ -335,11 +334,15 @@ para fazer o parse dos dados que serão imprescindíveis para a classe
 \textit{Users}\end{item}
 \end{itemize}
 
-Finalmente, no pacote li3 estão presentes a classe Main e o interface \textit{TADCommunity}.
+
+Finalmente, no pacote li3 estão presentes a classe Main, o interface do sistema de
+queries, a classe de testes e a classe que implementa a nossa interface gráfica.
 \begin{itemize}
 \begin{item} \textit{Main} - Main do programa.\end{item}
 \begin{item} \textit{TADCommunity} - Interface que dispõe dos métodos para carregar
 os ficheiros xml e dar resposta a cada uma das queries.\end{item}
+\begin{item} \textit{QueriesTests} - Classe para testar todas as queries.\end{item}
+\begin{item} \textit{GUI} - Uma classe que implementa o interface gráfico do nosso programa.\end{item}
 \end{itemize}
 
 
@@ -364,9 +367,6 @@ Contudo, apesar de haver uma interdependência entre as classes, elas estão
 fracamente ligadas na medida em que a única ligação entre estas é através dos
 diferentes métodos disponibilizados em cada uma, ou seja, o acesso às variáveis de
 instância é sempre privado, apenas podendo ser feito recorrendo a métodos.
-
-
-
 
 
 
@@ -640,28 +640,28 @@ Tirando partido do Set \texttt{usersSet}, presente na nossa classe
 \texttt{TCD\_community},
 que possui os users ordenados consoante a sua reputação (da maior
 para a menor), selecionamos somente os N primeiros elementos e
-criamos um \texttt{Map} chamado "users_rep". Este Map possui como
+criamos um \texttt{Map} chamado "users\_rep". Este Map possui como
 chave o Id do user, e como valor o "apontador" para o utilizador.
 
 Depois disso, percorremos todos os dias do intervalo
 de tempo tendo em atenção as perguntas, mais precisamente as suas tags.
 Se a pergunta tiver sido efetuada por um user com melhor reputação (ver se existe
-no map "users_rep" um user com a chave (Id) do utilizador que fez a pergunta),
+no map "users\_rep" um user com a chave (Id) do utilizador que fez a pergunta),
 pegamos nas tags dessa pergunta (ainda todas juntas numa só string) e separamo-las
 de modo a termos todas as tags individuais.
 
-Assim, adicionamos os IDs dessas tags a um \texttt{ArrayList} chamado ident_tags.
+Assim, adicionamos os IDs dessas tags a um \texttt{ArrayList} chamado ident\_tags.
 (Temos um map "tags" na nossa classe \texttt{TCD\_community} em que ao nome da tag
 corresponde o respetivo identificador, o que nos ajuda agora a colecionar esses
 Ids).
 
 No final de percorridos todos os dias, todas as perguntas e respetivas tags
-temos um ArrayList "ident_tags", com todos os identificadores das tags
+temos um ArrayList "ident\_tags", com todos os identificadores das tags
 (com repitação) que foram aparecendo durante
 esse intervalo de tempo e que foram feitas por algum dos N users com melhor reputação).
 
 Deste modo, criamos um novo \texttt{Map}, chamado "maptags", onde a cada um dos
-identificadores das tags (presentes no ArrayList "ident_tags") corresponderá o
+identificadores das tags (presentes no ArrayList "ident\_tags") corresponderá o
 número de repetições da tag.
 
 Por último, ordenamos esse map consoante o número de repetições das tags, e
@@ -697,7 +697,8 @@ No que se refere à query 2, testamos a possibilidade de termos uma TreeSet a ar
 os usuários por ordem decrescente de posts e um ArrayList, corremos a query 100 vezes
 para cada uma das referidas hipótese obtivemos os tempos descritos nos gráficos
 infra.\footnote{A máquina utilizada para medir os tempos de execução foi um
-MacBook Air com Processador 1,6 GHz Intel Core i5}.
+MacBook Air com Processador 1,6 GHz Intel Core i5, Memória 8 GB 1600 MHz DDR3 e
+disco flash de 121 GB}.
 
 \begin{figure}[H]
     \centering

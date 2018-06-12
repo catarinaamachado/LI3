@@ -30,7 +30,7 @@ public class Question extends Posts {
         this.tags = "";
         this.n_answers = 0;
         this.n_answer_votes = 0;
-        this.answers = new ArrayList();
+        this.answers = new ArrayList<>();
     }
 
     /**

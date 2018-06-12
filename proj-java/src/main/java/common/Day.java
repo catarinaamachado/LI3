@@ -25,8 +25,8 @@ public class Day {
     public Day() {
         this.n_questions = 0;
         this.n_answers = 0;
-        this.questions = new ArrayList();
-        this.answers = new ArrayList();
+        this.questions = new ArrayList<>();
+        this.answers = new ArrayList<>();
     }
     
     /**
