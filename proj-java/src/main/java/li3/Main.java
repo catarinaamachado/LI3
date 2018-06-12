@@ -59,7 +59,7 @@ public class Main {
            Query 1
         */
         before = System.currentTimeMillis();
-        Pair<String, String> q1 = new Pair("null", "null");
+        Pair<String, String> q1 = new Pair<>("null", "null");
         try {
             q1 = qe.infoFromPost(801049);
             //System.out.println(" System.out.println("1. Title e username: " + q1);

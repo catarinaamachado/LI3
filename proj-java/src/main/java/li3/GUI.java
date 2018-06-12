@@ -982,7 +982,7 @@ package li3;
          resultado.setOnAction(e -> {
              long id_post = Long.parseLong(nomeField.getText());
              before = System.currentTimeMillis();
-             Pair<String,String> q1 = new Pair("null", "null");
+             Pair<String,String> q1 = new Pair<>("null", "null");
              try {
                  q1 = qe.infoFromPost(id_post);
 

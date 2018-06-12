@@ -38,7 +38,7 @@ public class Day {
      * @param answers Respostas do dia
      */
     public Day(int n_questions, int n_answers,
-                        List questions, List answers) {
+                        List<Question> questions, List<Answer> answers) {
         this.n_questions = n_questions;
         this.n_answers = n_answers;
         setQuestions(questions);

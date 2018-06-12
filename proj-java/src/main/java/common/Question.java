@@ -45,7 +45,7 @@ public class Question extends Posts {
      * @param answers Respostas da pergunta
      */
     public Question(long post_id, long user_id, LocalDate pd, String title,
-            String tags, int n_answers, int n_answer_votes, List answers) {
+            String tags, int n_answers, int n_answer_votes, List<Answer> answers) {
         super(post_id, user_id, pd, 1);
         this.title = title;
         this.tags = tags;

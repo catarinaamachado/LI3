@@ -437,7 +437,7 @@ public class TCD_Community implements TADCommunity {
         Users user = lookUser(userId);
 
         if (user == null) {
-            return new Pair("null","null");
+            return new Pair<>("null","null");
         }
 
         title = pergunta.getTitle();
@@ -448,7 +448,7 @@ public class TCD_Community implements TADCommunity {
         }
 
         
-        return new Pair("null","null");
+        return new Pair<>("null","null");
     }
 
     /**
@@ -518,7 +518,7 @@ public class TCD_Community implements TADCommunity {
      * @returns List<Long> - IDs das perguntas
      */
     public List<Long> questionsWithTag(String tag, LocalDate begin, LocalDate end) {
-        List resp = new ArrayList<>();
+        List<Long> resp = new ArrayList<>();
         Day d;
         
         if(begin.isBefore(end.plusDays(1))){        
@@ -581,7 +581,7 @@ public class TCD_Community implements TADCommunity {
      * @returns List<Long> - IDs das respostas
      */
     public List<Long> mostVotedAnswers(int N, LocalDate begin, LocalDate end) throws IndexOutOfBoundsException {
-       List as = new ArrayList<Answer>();
+       List<Answer> as = new ArrayList<>();
        List<Long> ids = new ArrayList<>();
        Day d;
         
@@ -598,7 +598,7 @@ public class TCD_Community implements TADCommunity {
             }
         }    
         else
-            return as;
+            return ids;
           
        as.sort(new NumeroVotosRespostas());
        as = as.subList(0, N);
@@ -627,7 +627,7 @@ public class TCD_Community implements TADCommunity {
      * @returns List<Long> - IDs das perguntas
      */
     public List<Long> mostAnsweredQuestions(int N, LocalDate begin, LocalDate end) {
-       List qs = new ArrayList<Question>();
+       List<Question> qs = new ArrayList<>();
        List<Long> ids = new ArrayList<>();
        Day d;
         
@@ -644,7 +644,7 @@ public class TCD_Community implements TADCommunity {
             }
         }    
         else
-            return qs;
+            return ids;
           
        qs.sort(new NumeroRespostasPergunta());
        qs = qs.subList(0, N);

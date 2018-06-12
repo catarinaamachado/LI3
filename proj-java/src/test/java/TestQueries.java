@@ -71,12 +71,12 @@ public class TestQueries {
      * Método que testa a query 1.
      */
     public void infoFromPostTest() throws NoPostIdException {
-        Pair<String,String> q1 = new Pair("null", "null");
-        Pair<String,String> q2 = new Pair("null", "null");
-        Pair<String,String> q3 = new Pair("null", "null");
-        Pair<String,String> q1Expected = new Pair("Is there a system-wide equalizer for PulseAudio or ALSA?", "jfoucher");
-        Pair<String,String> q2Expected = new Pair("uninstall init.d update-rc.d remove", "ton.yeung");
-        Pair<String,String> q3Expected = new Pair("Is there a real name policy in the Ubuntu community?", "martin001");
+        Pair<String,String> q1 = new Pair<>("null", "null");
+        Pair<String,String> q2 = new Pair<>("null", "null");
+        Pair<String,String> q3 = new Pair<>("null", "null");
+        Pair<String,String> q1Expected = new Pair<>("Is there a system-wide equalizer for PulseAudio or ALSA?", "jfoucher");
+        Pair<String,String> q2Expected = new Pair<>("uninstall init.d update-rc.d remove", "ton.yeung");
+        Pair<String,String> q3Expected = new Pair<>("Is there a real name policy in the Ubuntu community?", "martin001");
 
         q1 = com.infoFromPost(94);
         q2 = com.infoFromPost(327524);
@@ -93,8 +93,8 @@ public class TestQueries {
      */
     @Test(expected = NoPostIdException.class)
     public void testNoPostIdException() throws NoPostIdException{
-       Pair<String,String> q1 = new Pair("null", "null");
-       Pair<String,String> q1Expected = new Pair("null", "null");
+       Pair<String,String> q1 = new Pair<>("null", "null");
+       Pair<String,String> q1Expected = new Pair<>("null", "null");
 
        q1 = com.infoFromPost(-94);
 
@@ -130,7 +130,7 @@ public class TestQueries {
         LocalDate begin = LocalDate.of(2016, 7, 1);
         LocalDate end = LocalDate.of(2016, 7, 31);
         Pair<Long,Long> qtasPergResp = com.totalPosts(begin, end);
-        Pair<Long,Long> qtasPergRespExpected = new Pair (3667L, 4102L);
+        Pair<Long,Long> qtasPergRespExpected = new Pair<>(3667L, 4102L);
 
        assertEquals("Quantas perguntas e respostas", qtasPergRespExpected, qtasPergResp);
 
