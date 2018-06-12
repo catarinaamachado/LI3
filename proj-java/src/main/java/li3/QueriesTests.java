@@ -15,11 +15,12 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import java.util.*;
+import java.time.LocalDate;
 
 /**
  * Classe de testes das queries.
  *
- * * @author A81047
+ * @author A81047
  * @author A34900
  * @author A82339
  * @version 20180611
@@ -122,6 +123,93 @@ public class QueriesTests {
         maisPublicam = com.topMostActive(50);
         
         assertEquals("Lista de users mais ativos", maisPublicamExpected, maisPublicam);
+    }
+    
+    /**
+     * Método que testa a query 3.
+     */
+    @Test
+    public void totalPostsTest() {
+        LocalDate begin = LocalDate.of(2016, 7, 1);
+        LocalDate end = LocalDate.of(2016, 7, 31);
+        Pair<Long,Long> qtasPergResp = com.totalPosts(begin, end);
+        Pair<Long,Long> qtasPergRespExpected = new Pair (3667L, 4102L);
+        
+       assertEquals("Quantas perguntas e respostas", qtasPergRespExpected, qtasPergResp);
+        
+    }
+    
+    /**
+     * Método que testa a query 4.
+     */
+    @Test
+    public void questionsWithTagTest() {
+        LocalDate begin = LocalDate.of(2013, 3, 1);
+        LocalDate end = LocalDate.of(2013, 3, 31);
+        String tag = "package-management";
+        
+        List<Long> questionsWithTagExpected = Arrays.asList(276029L, 276174L, 274316L, 274324L, 274462L, 
+                                               272937L, 274100L, 274141L, 272565L, 272666L, 
+                                               272754L, 272813L, 272313L, 272450L, 271816L, 
+                                               271647L, 271683L, 270853L, 270188L, 270488L, 
+                                               270528L, 270608L, 269781L, 269876L, 270014L, 
+                                               269095L, 268501L, 268155L, 267625L, 267656L, 
+                                               267746L, 266742L, 266335L, 266016L, 265347L, 
+                                               265443L, 265483L, 265531L, 265028L, 265067L, 
+                                               265104L, 264525L, 264616L, 264762L, 264764L, 
+                                               264292L, 263740L, 263816L, 263378L, 263405L, 
+                                               263460L, 263253L, 262574L, 262733L);
+                              
+        
+        List<Long> questionsWithTag = com.questionsWithTag(tag, begin, end);
+        
+       assertEquals("Lista de Tags", questionsWithTagExpected, questionsWithTag);
+        
+    }
+    
+    /**
+     * Método que testa a query 5.
+     */
+    @Test
+    public void getUserInfoTest() throws NoUserIdException {
+        Pair<String, List<Long>> usersInfoExpected = new Pair<>(
+        
+        "<p>Coder. JS, Perl, Python, Basic<br>Books/movies: SF+F.<br>Dead: "
+        + "dell 9300<br>Dead: dell 1720 as of may 10th 2011.</p>"
+        + "\n"
+        + "\n"
+        + "<p>Current system: Acer Aspire 7750G.<br>"
+        + "\n"
+        + "Works OOTB as of Ubuntu 12.04.<br></p>" 
+        + "\n",
+        Arrays.asList(982507L, 982455L, 
+        980877L, 980197L, 980189L, 976713L, 974412L, 974359L, 973895L, 973838L));
+        
+        Pair<String, List<Long>> usersInfo = new Pair<>("", new ArrayList<>());
+        
+        usersInfo = com.getUserInfo(15811);
+        
+        
+        
+       assertEquals("Informações Utilizador", usersInfoExpected, usersInfo);
+        
+    }
+    
+    /**
+     * Método que testa a query 6.
+     */
+    @Test
+    public void mostVotedAnswersTest() throws IndexOutOfBoundsException {
+        LocalDate begin = LocalDate.of(2015, 11, 1);
+        LocalDate end = LocalDate.of(2015, 11,30);
+        int N = 5;
+        List<Long> maisVotada = new ArrayList<>();                    
+        List<Long> maisVotadaExpected = Arrays.asList(701775L, 697197L, 694560L, 696641L, 704208L);
+        
+        maisVotada = com.mostVotedAnswers(N, begin, end);
+        
+       assertEquals("Lista de Tags", maisVotadaExpected, maisVotada);
+        
     }
     
     
