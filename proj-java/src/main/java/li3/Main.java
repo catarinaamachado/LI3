@@ -54,7 +54,6 @@ public class Main {
         if (!loadComplete) {
             return;
         }
-        
 
         /*
            Query 1
@@ -63,7 +62,7 @@ public class Main {
         Pair<String, String> q1 = new Pair("null", "null");
         try {
             q1 = qe.infoFromPost(801049);
-            System.out.println("1. Title e username: " + q1);
+            //System.out.println(" System.out.println("1. Title e username: " + q1);
         } catch (NoPostIdException e) {
             System.out.println("1." + e.getMessage());
         }
@@ -76,7 +75,7 @@ public class Main {
         */
         before = System.currentTimeMillis();
         List<Long> q2 = qe.topMostActive(100);
-        System.out.println("2. Lista de Utilizadores com mais posts: " + q2);
+        //System.out.println("2. Lista de Utilizadores com mais posts: " + q2);
         after = System.currentTimeMillis();
         logtime.writeLog("Query 2 -> " + (after - before) + " ms");
         log.writeLog("Query 2 -> " + q2);
@@ -87,7 +86,7 @@ public class Main {
         before = System.currentTimeMillis();
         Pair<Long, Long> q3 = qe.totalPosts(LocalDate.of(2016, Month.JULY, 1),
                 LocalDate.of(2016, Month.JULY, 31));
-        System.out.println("3. Nº de perguntas e respostas: " + q3);
+        //System.out.println("3. Nº de perguntas e respostas: " + q3);
         after = System.currentTimeMillis();
         logtime.writeLog("Query 3 -> " + (after - before) + " ms");
         log.writeLog("Query 3 -> " + q3);
@@ -98,7 +97,7 @@ public class Main {
         before = System.currentTimeMillis();
         List<Long> q4 = qe.questionsWithTag("package-management", LocalDate.of(2013, Month.MARCH, 1),
                 LocalDate.of(2013, Month.MARCH, 31));
-        System.out.println("4. IDS perguntas com tag: " + q4);
+        //System.out.println("4. IDS perguntas com tag: " + q4);
         after = System.currentTimeMillis();
         logtime.writeLog("Query 4 -> " + (after - before) + " ms");
         log.writeLog("Query 4 -> " + q4);
@@ -108,19 +107,16 @@ public class Main {
         */
         before = System.currentTimeMillis();
         Pair<String, List<Long>>
-                q5 = new Pair<>("", new ArrayList<>()),
-                q51 = new Pair<>("", new ArrayList<>());
+                q5 = new Pair<>("", new ArrayList<>());
         try {
-            q51 = qe.getUserInfo(15811);
-            System.out.println("5. informacoes Utilizador: " + q51);
-            q5 = qe.getUserInfo(449);
+            q5 = qe.getUserInfo(15811);
+            //System.out.println("5. informacoes Utilizador: " + q51);
         } catch (NoUserIdException e) {
             System.out.println("5. User não existe: " + e.getMessage());
         }
 
         after = System.currentTimeMillis();
         logtime.writeLog("Query 5 -> " + (after - before) + " ms");
-        log.writeLog("Query 5 -> " + q51);
         log.writeLog("Query 5 -> " + q5);
 
         /*
@@ -132,10 +128,10 @@ public class Main {
         try{
             q6 = qe.mostVotedAnswers(N6, LocalDate.of(2015, Month.NOVEMBER, 1),
                 LocalDate.of(2015, Month.NOVEMBER,30));
-            System.out.println("6. IDS respostas com mais votos: " + q6);
+            //System.out.println("6. IDS respostas com mais votos: " + q6);
         } catch (IndexOutOfBoundsException e) {
             System.out.println("6. " + e.getMessage() + ": " + "não existem " + N6 + " respostas.");
-        }        
+        }
         after = System.currentTimeMillis();
         logtime.writeLog("Query 6 -> " + (after - before) + " ms");
         log.writeLog("Query 6 -> " + q6);
@@ -146,7 +142,7 @@ public class Main {
         before = System.currentTimeMillis();
         List<Long> q7 = qe.mostAnsweredQuestions(10, LocalDate.of(2014,Month.AUGUST,1),
                 LocalDate.of(2014,Month.AUGUST,11));
-        System.out.println("7. IDS perguntas com mais respostas: " + q7);        
+        //System.out.println("7. IDS perguntas com mais respostas: " + q7);
         after = System.currentTimeMillis();
         logtime.writeLog("Query 7 -> "+(after-before)+" ms");
         log.writeLog("Query 7 -> "+q7);
@@ -156,7 +152,7 @@ public class Main {
         */
         before = System.currentTimeMillis();
         List<Long> q8 = qe.containsWord(10, "kde");
-        System.out.println("8. Contem palavra: " + q8);
+        //System.out.println("8. Contem palavra: " + q8);
         after = System.currentTimeMillis();
         logtime.writeLog("Query 8 -> " + (after - before) + " ms");
         log.writeLog("Query 8 -> " + q8);
@@ -166,7 +162,7 @@ public class Main {
         */
         before = System.currentTimeMillis();
         List<Long> q9 = qe.bothParticipated(10, 87, 5691);
-        System.out.println("9. Both Participated: " + q9);
+        //System.out.println("9. Both Participated: " + q9);
         after = System.currentTimeMillis();
         logtime.writeLog("Query 9 -> " + (after - before) + " ms");
         log.writeLog("Query 9 -> " + q9);
@@ -183,7 +179,7 @@ public class Main {
         } catch (NoAnswersException e) {
             System.out.println(e.getMessage());
         }
-        System.out.println("10. Melhor Resposta: " + q10);
+        //System.out.println("10. Melhor Resposta: " + q10);
         after = System.currentTimeMillis();
         logtime.writeLog("Query 10 -> "+(after-before)+" ms");
         log.writeLog("Query 10 -> "+q10);
@@ -201,9 +197,9 @@ public class Main {
         } catch(IndexOutOfBoundsException e) {
             System.out.println("11. " + e.getMessage());
         }
-        
-        
-        System.out.println("11. IDS tags: " + q11);         
+
+
+        //System.out.println("11. IDS tags: " + q11);
         after = System.currentTimeMillis();
         logtime.writeLog("Query 11 -> "+(after-before)+" ms");
         log.writeLog("Query 11 -> "+q11);
@@ -215,8 +211,8 @@ public class Main {
         qe.clear();
         after = System.currentTimeMillis();
         logtime.writeLog("CLEAN -> "+(after-before)+" ms");
-       
-    }    
+
+    }
 }
 
 
