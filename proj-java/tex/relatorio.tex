@@ -336,6 +336,9 @@ as situações em que o id em causa não representa nenhum post.\end{item}
 as situações em que o id em causa não representa uma pergunta.\end{item}
 \begin{item} \textit{NoAnswersException} - Classe de exceção criada para sinalizar
 as situações em que determinada pergunta não tem associada a si nenhuma resposta.\end{item}
+\begin{item} \textit{NoUserIdException} - Classe de exceção criada para
+sinalizar as situações em que determinada id não tem associada a si
+nenhum User.\end{item}
 \end{itemize}
 
 Por seu turno, no pacote engine agrupamos as classes que fazem o parse dos
@@ -497,7 +500,7 @@ variáveis na nossa função da query 3: \textsf{'number\_q'} e \textsf{'number\
 e incrementámo-las com o valor das perguntas e respostas efetuadas, respetivamente,
 durante os dias passados como parâmetro.
 
-No final de percorridos todos os dias, criamos um objeto \texttt{Pai} com as duas
+No final de percorridos todos os dias, criamos um objeto \texttt{Pair} com as duas
 variáveis da nossa função, e retornamo-lo.
 
 
@@ -532,6 +535,16 @@ seu perfil (short bio) e os IDs dos seus 10 últimos posts (perguntas ou respost
 ordenados por cronologia inversa.”}
 
 \vspace{0.1cm}
+
+Em primeiro lugar, verifica-se se a HashTable possui o User com id passado como
+argumento, em caso negativo é lançada uma exceção em como esse utilizador não
+existe.
+Em caso afirmativo, copia-se o objeto da HashTable ao qual se retira a
+biografia e os posts. Em seguida, usa-se o método stream nos posts que serão
+ordenados recorrendo ao uso do PostComparator, dos quais se retiram os primeiros
+10. Faz-se um map a esses 10 resultados para retirar os seus PostId e
+coleciona-se tudo para um List.
+
 
 
 \subsubsection*{Query 6}
@@ -592,6 +605,12 @@ N perguntas cujos títulos a contenham, ordenados por cronologia inversa"}
 
 \vspace{0.1cm}
 
+É criada uma estrutura de posts auiliar ordenada caso a mesma ainda não tenha
+sido criada.
+Sobre essa estrutura é feito um stream, ao qual se filtram as perguntas
+que não tenham as palavras passadas como argumento. Retiram-se os 10 primeiros
+elementos, e usa-se um map para retirar os POstId que se guardam para uma List.
+
 
 
 \subsubsection*{Query 9}
@@ -602,6 +621,12 @@ N perguntas (cronologia inversa) em que participaram dois utilizadores específi
 Note que os utilizadores podem ter participado via pergunta ou respostas"}
 
 \vspace{0.1cm}
+
+É criada uma estrutura de posts auiliar ordenada caso a mesma ainda não tenha
+sido criada.
+É criado um iterator que percorre essa estrutura para verificar os N primeiros
+posts em que ambos os utilizadores criaram ou participaram num post.
+
 
 
 \subsubsection*{Query 10}
@@ -659,15 +684,15 @@ no map "users\_rep" um user com a chave (Id) do utilizador que fez a pergunta),
 pegamos nas tags dessa pergunta (ainda todas juntas numa só string) e separamo-las
 de modo a termos todas as tags individuais.
 
-Assim, adicionamos os IDs dessas tags a um \texttt{ArrayList} chamado ident\_tags.
-(Temos um map "tags" na nossa classe \texttt{TCD\_community} em que ao nome da tag
+Assim, adicionamos os IDs dessas tags a um \texttt{ArrayList} chamado ident\_tags
+(temos um map "tags" na nossa classe \texttt{TCD\_community} em que ao nome da tag
 corresponde o respetivo identificador, o que nos ajuda agora a colecionar esses
 Ids).
 
 No final de percorridos todos os dias, todas as perguntas e respetivas tags
 temos um ArrayList "ident\_tags", com todos os identificadores das tags
 (com repitação) que foram aparecendo durante
-esse intervalo de tempo e que foram feitas por algum dos N users com melhor reputação).
+esse intervalo de tempo e que foram feitas por algum dos N users com melhor reputação.
 
 Deste modo, criamos um novo \texttt{Map}, chamado "maptags", onde a cada um dos
 identificadores das tags (presentes no ArrayList "ident\_tags") corresponderá o
