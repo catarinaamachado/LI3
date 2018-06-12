@@ -212,6 +212,61 @@ public class QueriesTests {
         
     }
     
+    /**
+     * Método que testa a query 7.
+     */
+    @Test
+    public void mostAnsweredQuestionsTest() {
+        LocalDate begin = LocalDate.of(2014,8,1);
+        LocalDate end = LocalDate.of(2014,8,11);
+        int N = 10;
+        List<Long> maisRespondida = new ArrayList<>();                    
+        List<Long> maisRespondidaExpected = Arrays.asList(510014L, 510011L, 510009L, 510006L, 510005L, 
+                                                          510001L, 509992L, 509991L, 509989L, 509983L);
+        
+        maisRespondida = com.mostAnsweredQuestions(N, begin, end);
+        
+       assertEquals("Mais respondidas", maisRespondidaExpected, maisRespondida);
+        
+    }
+    
+    /**
+     * Método que testa a query 8.
+     */
+    @Test
+    public void containsWordTest() {
+        String word = "kde";
+        int Nperguntas = 10;
+        
+        List<Long> idsPerguntas =  new ArrayList<>();
+        
+        List<Long> idsPerguntasExpected = Arrays.asList(980835L, 979082L, 974117L, 974105L, 
+                                                        973832L, 971812L, 971056L, 968451L, 
+                                                        964999L, 962770L);
+                                                        
+        idsPerguntas = com.containsWord(Nperguntas, word);
+        
+        assertEquals("Contem a palavra", idsPerguntasExpected, idsPerguntas);
+    }
+    
+    /**
+     * Método que testa a query 9.
+     */
+    @Test
+    public void bothParticipatedTest() {
+        Long id1 = 87L;
+        Long id2 = 5691L;
+        int NOcorrencias = 10;
+        
+        List<Long> idsPerguntas =  new ArrayList<>();
+        
+        List<Long> idsPerguntasExpected = Arrays.asList(594L);
+                                                        
+        idsPerguntas = com.bothParticipated(NOcorrencias, id1, id2);
+        
+        assertEquals("Contem a palavra", idsPerguntasExpected, idsPerguntas);
+    }
+    
     
     /**
      * Método que testa a query 10.
