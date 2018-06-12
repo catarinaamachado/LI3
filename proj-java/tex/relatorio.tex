@@ -270,8 +270,19 @@ que esta obteve.
 Esta estrutura encerra informações necessárias para responder às interrogações 1,
 6, 7, 9 e 10.
 
+\begin{verbatim}
+public class Day {
+    private int n_questions;
+    private int n_answers;
+    private List<Question> questions;
+    private List<Answer> answers;
+\end{verbatim}
 
-....
+A classe day foi criada com quatro variáveis de instância, n\_questions e n\_answers
+que se referem à quantidade de perguntas e respostas feitas naquela data, uma lista
+de perguntas e uma lista de respostas de determinada data. Esta classe foi assim
+desenhada de forma a conseguirmos obter, de forma célere, as informações necessárias
+para responder às queries 3,4,6,7 e 11.
 
 
 \section{Implementação}
