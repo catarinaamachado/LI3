@@ -1,5 +1,5 @@
 #BlueJ package file
-editor.fx.0.height=824
+editor.fx.0.height=827
 editor.fx.0.width=1440
 editor.fx.0.x=0
 editor.fx.0.y=23
@@ -9,8 +9,8 @@ package.divider.horizontal=0.6
 package.divider.vertical=0.685672514619883
 package.editor.height=462
 package.editor.width=971
-package.editor.x=335
-package.editor.y=105
+package.editor.x=193
+package.editor.y=83
 package.frame.height=742
 package.frame.width=1097
 package.numDependencies=0
@@ -34,7 +34,7 @@ target2.height=62
 target2.name=engine
 target2.type=PackageTarget
 target2.width=80
-target2.x=10
+target2.x=70
 target2.y=90
 target3.height=62
 target3.name=li3

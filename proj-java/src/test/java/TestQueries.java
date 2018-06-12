@@ -3,7 +3,6 @@ package li3;
 import engine.TCD_Community;
 import common.*;
 
-
 import org.xml.sax.SAXException;
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
@@ -25,7 +24,7 @@ import java.time.LocalDate;
  * @author A82339
  * @version 20180611
  */
-public class QueriesTests {
+public class TestQueries {
     private static TCD_Community com;
     
     
@@ -36,16 +35,14 @@ public class QueriesTests {
     static public void setUpClass() throws SAXException, ParserConfigurationException, IOException {
         if (com == null) {
           com = new TCD_Community();
-         
-
-          com.load("../../../../dump/ubuntu");
+          com.load(System.getProperty("path"));
         }
     }
     
     /**
      * Default constructor for test class QueriesTests
      */
-    public QueriesTests()
+    public TestQueries()
     {
     }
     

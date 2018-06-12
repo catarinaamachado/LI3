@@ -2,7 +2,7 @@
 
 rm -rf *.txt target/
 
-mvn clean package
+mvn clean package -Dpath=$@
 
 mycommand="java -jar target/project2-1.0-SNAPSHOT-jar-with-dependencies.jar "$@
 echo $mycommand
