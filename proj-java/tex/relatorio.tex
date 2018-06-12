@@ -189,15 +189,15 @@ pelo que a HashMap é a melhor escolha.
 
 Os sets \textbf{questionsSet} e \textbf{usersSet} e a \textbf{usersPostList} foram
 especialmente criados por razões de eficiência, que passaremos a explicar em
-~\ref{sec:desempenho}, para auxiliar nas respostas às queries 8 e 9, o primeiro set,
+Secção~\ref{sec:desempenho}, para auxiliar nas respostas às queries 8 e 9, o primeiro set,
 11, o segundo set, e 2, a referida lista.
 
 Na estrutura \textbf{days} também utilizamos a interface map para armazenar
 os dados do dia. Neste map, a chave é o dia em questão no formato LocalDate
-e o valor é um objeto da classe \textbf{Day}. Na classe Day estão armazenados
-dois inteiros, um que guarda o número de perguntas efetuadas naquele
-dia e outro que guarda o número de respostas. Possui ainda duas "List", onde estão
-armazenadas as perguntas e as respostas efetuadas naquele dia.
+e o valor é um objeto da classe \textbf{Day}. Na Secção~\ref{sec:desempenho}
+explicaremos também o motivo desta decisão. Esta estrutura é utilizada para
+as queries que têm como parâmetros intervalos de tempo, nomeadamente a query 3,
+4, 6, 7 e 11.
 
 
 \subsection{Estruturas de Dados Complementares}
@@ -210,12 +210,13 @@ public class Users {
     private String username;
     private int reputation;
     private int n_posts;
-    private List<Posts> posts;
+    private TreeSet<Posts> posts;
 \end{verbatim}
 
 A estrutura de dados \texttt{Users} contém o ID do utilizador, a sua short bio, o seu nome,
 a sua reputação, o número total de posts desse utilizador (i.e. perguntas e respostas),
-bem como uma lista que contém todos os posts do utilizador (perguntas e respostas).
+bem como um conjunto que contém todos os posts do utilizador (perguntas e respostas)
+ordenados por data. A escolha recaiu sobre uma TreeSet porque .... FALTA!!!!!
 Esta estrutura encerra informações necessárias para responder às interrogações 1,
 5, 8 e 10.
 
@@ -282,7 +283,7 @@ A classe day foi criada com quatro variáveis de instância, n\_questions e n\_a
 que se referem à quantidade de perguntas e respostas feitas naquela data, uma lista
 de perguntas e uma lista de respostas de determinada data. Esta classe foi assim
 desenhada de forma a conseguirmos obter, de forma célere, as informações necessárias
-para responder às queries 3,4,6,7 e 11.
+para responder às queries 3, 4, 6, 7 e 11.
 
 
 \section{Implementação}
@@ -301,13 +302,29 @@ os alicerces, o sustentáculo do nosso programa. Aí definimos as seguintes clas
  utilizador.\end{item}
 \begin{item} \textit{NumeroPostsComparador} - classe que estabelece uma ordem de
 comparação para a classe Users.\end{item}
+\begin{item} \textit{NumeroVotosRespostas} - classe que estabelece uma ordem de
+comparação para as Respostas, tendo em conta o critério da ordem decrescente
+do número de votos. Em caso de empate, prevalece a resposta que tenha um ID maior.
+\end{item}
+\begin{item} \textit{NumeroRespostasPergunta} - classe que estabelece uma ordem de
+comparação para as Perguntas, tendo em conta o critério da ordem decrescente
+do número de respostas. Em caso de empate, prevalece a pergunta que tenha um ID maior.
+\end{item}
+\begin{item} \textit{UsersComparator} - classe que estabelece uma ordem de
+comparação para os Utilizadores, tendo em conta o critério da ordem
+decrescente da reputação. Em caso de empate, prevalece o user que tenha um ID maior.
+\end{item}
+\begin{item} \textit{PostComparator} - classe que estabelece uma ordem de
+comparação para os Posts, tendo em conta o critério da ordem decrescente
+da data dos mesmos. Em caso de empate, prevalece o post que tenha um ID maior.
+\end{item}
 \begin{item} \textit{Posts} - classe abstrata que define as variáveis de instância
 comuns a uma instância de \textit{Answers} ou \textit{Question}.\end{item}
 \begin{item} \textit{Question} - classe que descreve o estado e o comportamento de
 uma pergunta.\end{item}
-\begin{item} \textit{Answers} - classe que descreve o estado e o comportamento de
+\begin{item} \textit{Answer} - classe que descreve o estado e o comportamento de
 uma resposta.\end{item}
-\begin{item} \textit{Tags} - classe que descreve o estado e o comportamento de
+\begin{item} \textit{Tag} - classe que descreve o estado e o comportamento de
 uma tag.\end{item}
 \begin{item} \textit{MyLog} - classe criada para gerar instâncias que irão
 identificar os resultados e os tempos obtidos pelas queries.\end{item}
@@ -319,6 +336,9 @@ as situações em que o id em causa não representa nenhum post.\end{item}
 as situações em que o id em causa não representa uma pergunta.\end{item}
 \begin{item} \textit{NoAnswersException} - Classe de exceção criada para sinalizar
 as situações em que determinada pergunta não tem associada a si nenhuma resposta.\end{item}
+\begin{item} \textit{NoUserIdException} - Classe de exceção criada para
+sinalizar as situações em que determinada id não tem associada a si
+nenhum User.\end{item}
 \end{itemize}
 
 Por seu turno, no pacote engine agrupamos as classes que fazem o parse dos
@@ -343,7 +363,6 @@ para fazer o parse dos dados que serão imprescindíveis para a classe
 \textit{Users}\end{item}
 \end{itemize}
 
-
 Finalmente, no pacote li3 estão presentes a classe Main, o interface do sistema de
 queries, a classe de testes e a classe que implementa a nossa interface gráfica.
 \begin{itemize}
@@ -351,9 +370,9 @@ queries, a classe de testes e a classe que implementa a nossa interface gráfica
 \begin{item} \textit{TADCommunity} - Interface que dispõe dos métodos para carregar
 os ficheiros xml e dar resposta a cada uma das queries.\end{item}
 \begin{item} \textit{QueriesTests} - Classe para testar todas as queries.\end{item}
-\begin{item} \textit{GUI} - Uma classe que implementa o interface gráfico do nosso programa.\end{item}
+\begin{item} \textit{GUI} - Classe que implementa uma interface gráfica
+para o nosso programa.\end{item}
 \end{itemize}
-
 
 Os packages por nós criados podem ser vistos como unidades interdependentes que se
 complementam, cada um com objetivos específicos, que interagem e que estão ligados
@@ -376,6 +395,9 @@ Contudo, apesar de haver uma interdependência entre as classes, elas estão
 fracamente ligadas na medida em que a única ligação entre estas é através dos
 diferentes métodos disponibilizados em cada uma, ou seja, o acesso às variáveis de
 instância é sempre privado, apenas podendo ser feito recorrendo a métodos.
+
+
+
 
 
 
@@ -478,7 +500,7 @@ variáveis na nossa função da query 3: \textsf{'number\_q'} e \textsf{'number\
 e incrementámo-las com o valor das perguntas e respostas efetuadas, respetivamente,
 durante os dias passados como parâmetro.
 
-No final de percorridos todos os dias, criamos um objeto \texttt{Pai} com as duas
+No final de percorridos todos os dias, criamos um objeto \texttt{Pair} com as duas
 variáveis da nossa função, e retornamo-lo.
 
 
@@ -513,6 +535,16 @@ seu perfil (short bio) e os IDs dos seus 10 últimos posts (perguntas ou respost
 ordenados por cronologia inversa.”}
 
 \vspace{0.1cm}
+
+Em primeiro lugar, verifica-se se a HashTable possui o User com id passado como
+argumento, em caso negativo é lançada uma exceção em como esse utilizador não
+existe.
+Em caso afirmativo, copia-se o objeto da HashTable ao qual se retira a
+biografia e os posts. Em seguida, usa-se o método stream nos posts que serão
+ordenados recorrendo ao uso do PostComparator, dos quais se retiram os primeiros
+10. Faz-se um map a esses 10 resultados para retirar os seus PostId e
+coleciona-se tudo para um List.
+
 
 
 \subsubsection*{Query 6}
@@ -573,6 +605,12 @@ N perguntas cujos títulos a contenham, ordenados por cronologia inversa"}
 
 \vspace{0.1cm}
 
+É criada uma estrutura de posts auiliar ordenada caso a mesma ainda não tenha
+sido criada.
+Sobre essa estrutura é feito um stream, ao qual se filtram as perguntas
+que não tenham as palavras passadas como argumento. Retiram-se os 10 primeiros
+elementos, e usa-se um map para retirar os POstId que se guardam para uma List.
+
 
 
 \subsubsection*{Query 9}
@@ -583,6 +621,12 @@ N perguntas (cronologia inversa) em que participaram dois utilizadores específi
 Note que os utilizadores podem ter participado via pergunta ou respostas"}
 
 \vspace{0.1cm}
+
+É criada uma estrutura de posts auiliar ordenada caso a mesma ainda não tenha
+sido criada.
+É criado um iterator que percorre essa estrutura para verificar os N primeiros
+posts em que ambos os utilizadores criaram ou participaram num post.
+
 
 
 \subsubsection*{Query 10}
@@ -640,15 +684,15 @@ no map "users\_rep" um user com a chave (Id) do utilizador que fez a pergunta),
 pegamos nas tags dessa pergunta (ainda todas juntas numa só string) e separamo-las
 de modo a termos todas as tags individuais.
 
-Assim, adicionamos os IDs dessas tags a um \texttt{ArrayList} chamado ident\_tags.
-(Temos um map "tags" na nossa classe \texttt{TCD\_community} em que ao nome da tag
+Assim, adicionamos os IDs dessas tags a um \texttt{ArrayList} chamado ident\_tags
+(temos um map "tags" na nossa classe \texttt{TCD\_community} em que ao nome da tag
 corresponde o respetivo identificador, o que nos ajuda agora a colecionar esses
 Ids).
 
 No final de percorridos todos os dias, todas as perguntas e respetivas tags
 temos um ArrayList "ident\_tags", com todos os identificadores das tags
 (com repitação) que foram aparecendo durante
-esse intervalo de tempo e que foram feitas por algum dos N users com melhor reputação).
+esse intervalo de tempo e que foram feitas por algum dos N users com melhor reputação.
 
 Deste modo, criamos um novo \texttt{Map}, chamado "maptags", onde a cada um dos
 identificadores das tags (presentes no ArrayList "ident\_tags") corresponderá o
@@ -667,9 +711,12 @@ a utilização de coleções que nos permitem aumentar a eficiência do nosso pr
 medida em que preenchemos cada uma das coleções somente na primeira vez que é preciso
 utilizar:
 \begin{itemize}
-\begin{item} usuários ordenados por número de posts, conforme o método \texttt{initUsersPostsList};\end{item}
-\begin{item} perguntas ordenadas por datas, conforme o método \texttt{initQSet};\end{item}
-\begin{item} usuários ordenados por reputação , conforme o método \texttt{initUSet}.\end{item}
+\begin{item} usuários ordenados por número de posts,
+    conforme o método \texttt{initUsersPostsList};\end{item}
+\begin{item} perguntas ordenadas por datas,
+    conforme o método \texttt{initQSet};\end{item}
+\begin{item} usuários ordenados por reputação,
+    conforme o método \texttt{initUSet}.\end{item}
 \end{itemize}
 
 
@@ -694,25 +741,71 @@ disco flash de 121 GB}.
     \centering
     \begin{minipage}[b]{0.4\textwidth}
     \includegraphics[scale=0.7]{imgs/Query2_Set}
-    \caption{Resultados da implementação da query 2 com usersPostsSet}
+    \caption{Resultados da implementação da query 2 com usersPostsSet.}
     \label{figRotulo}
   \end{minipage}
  \hfill
    \begin{minipage}[b]{0.5\textwidth}
       \includegraphics[scale=0.7]{imgs/Query2_List}
-      \caption{Resultados da implementação da query 2 com usersPostsList}
+      \caption{Resultados da implementação da query 2 com usersPostsList.}
       \label{figRotulo}
       \end{minipage}
     \end{figure}
 
-    \vspace{0.4cm}
+    \vspace{0.3cm}
 
 Conforme podemos observar a partir dos gráficos, a implementação da query 2 utilizando
 uma TreeSet de usuários ordenada por ordem decrescente de número de posts,
 é menos eficiente, já que em média leva 198,76 milissegundos(ms) a preencher
 devidamente a TreeSet e a responder à query 2, ao passo que com uma lista,
 o mesmo processo, leva em média 144,45 ms,o que equivale a um ganho de cerca de
-50 ms, pelo que optamos pela implementação da query 2 descrita na secção Queries.
+50 ms, pelo que optamos pela implementação da query 2
+descrita na Secção~~\ref{sec:queries}.
+
+Assim como para a query 2, fizemos o mesmo teste para a query 11, tendo como
+fator diferenciador o \texttt{usersSet} implementado, averiguando se seria
+mais vantajoso recorrer ao uso de um TreeSet ou de um ArrayList. Deste modo,
+utilizando o mesmo procedimento de correr o programa 100 vezes e guardando os
+respetivos resultados construimos os gráficos em seguida:
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}[b]{0.4\textwidth}
+    \includegraphics[scale=0.3]{imgs/Query11_Set}
+    \caption{Resultados da implementação da query 11 com usersSet.}
+    \label{fig2Rotulo}
+  \end{minipage}
+ \hfill
+   \begin{minipage}[b]{0.5\textwidth}
+      \includegraphics[scale=0.3]{imgs/Query11_List}
+      \caption{Resultados da implementação da query 11 com usersList.}
+      \label{fig2Rotulo}
+      \end{minipage}
+    \end{figure}
+
+    \vspace{0.2cm}
+
+Deste modo, concluimos que, no caso da query 11, ao contrário da query 2, é
+mais vantajoso recorrermos ao uso de Sets ao invés de Lists.
+
+\vspace{0.4cm}
+
+Outro solução que implementamos para melhorar o desempenho do nosso programa
+foi o uso da classe \texttt{Day}. Esta classe, que armaneza o número de perguntas,
+o número de respostas e duas listas, uma com as perguntas e outra com as respostas
+efetuadas naquele dia, permite-nos percorrer o intervalo de tempo passado
+como parâmetro nas queries que se referem a tempo, nomeadamente a query 3, 4, 6, 7
+e 11, de uma forma muito rápida e eficaz.
+
+Isso deve se ao facto de possuirmos um Map (o map \textbf{days}), onde a cada LocalDate
+corresponde um objeto da classe \texttt{Day}. Assim, partindo da data inicial
+passada como parâmetro conseguimos obter de forma imediata as informações
+relativas a esse dia, variando de acordo com o pedido na query e, somando 1 dia
+à data, até chegar à data final passada como argumento, vamos obtendo todas
+as informações necessárias, de todos dias do intervalo de tempo,
+para responder à query com uma complexidade de O(1), uma
+vez que sabemos sempre qual é a chave desejada no map \textbf{days}.
+
 
 
 \section{Interface Gráfica}
@@ -727,7 +820,7 @@ XML.
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.40]{imgs/inicio.png}
+\includegraphics[scale=0.3]{imgs/inicio.png}
 \caption{Stack Overflow Information Processing.}
 \label{img:iniciolasdk}
 \end{figure}
@@ -738,7 +831,7 @@ a query que pretende correr. Em baixo, à esquerda, aparece o tempo
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.40]{imgs/inicio2.png}
+\includegraphics[scale=0.3]{imgs/inicio2.png}
 \caption{Stack Overflow Information Processing-  Queries.}
 \label{img:iniciolasdk}
 \end{figure}
@@ -748,21 +841,22 @@ da Query 7:
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.40]{imgs/query7img.png}
+\includegraphics[scale=0.3]{imgs/query7img.png}
 \caption{Query 7.}
 \label{img:query7img}
 \end{figure}
 
 O utilizador deverá preencher os dados dos argumentos necessários
-e clicar em "Obter resultado".
+e clicar em "Obter resultado" de modo a obter os resultados desejados.
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.40]{imgs/query7result.png}
+\includegraphics[scale=0.3]{imgs/query7result.png}
 \caption{Query 7- resultado.}
 \label{img:query7rest}
 \end{figure}
 
+\vspace{0.3cm}
 
 A interface gráfica foi implementada separadamente ao programa, pelo que
 o programa pode ser corrido tanto pelo main do programa fornecido pelos

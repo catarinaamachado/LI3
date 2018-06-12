@@ -366,7 +366,8 @@ public class TCD_Community implements TADCommunity {
     }
     
     /**
-     * Método que preenche o usersPostsList (de identificadores de users) ordenado por número de posts.
+     * Método que preenche o usersPostsList (de identificadores de users) 
+     * ordenado por número de posts.
      *
      */
     public void initUsersPostsList() {
@@ -855,7 +856,10 @@ public class TCD_Community implements TADCommunity {
                  .map(Map.Entry::getKey)
                  .collect(Collectors.toList()).subList(0,N);                   
     }
-
+    
+    /**
+     * Limpa a memória utilizada.
+     */
     public void clear(){
 
     }

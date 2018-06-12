@@ -155,7 +155,15 @@ public abstract class Posts implements Comparable<Posts> {
      * Método abstrato que obriga à implementação do método clone nas subclasses.
      */
     public abstract Posts clone();
-
+    
+    
+    /**
+     * Método que compara dois posts.
+     *
+     * @param a post a ser comparado
+     *
+     * @return int indicando qual dos dois posts é mais recente.
+     */
     public int compareTo(Posts a) {
         if(pd.isAfter(a.getPd()))
             return -1;

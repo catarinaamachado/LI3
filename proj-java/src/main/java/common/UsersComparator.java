@@ -15,7 +15,7 @@ public class UsersComparator implements Comparator<Users> {
   /**
    * Método que ordena os utilizadores por ordem decrescente da reputação.
    * Caso dois utilizadores terem a mesma reputação ordena os utlizadores
-   * por ordem decrescente do id dos mesmo.
+   * por ordem decrescente do id dos mesmos.
    * 
    * @param u1 um utilizador;
    * @param u2 um utilizador;
