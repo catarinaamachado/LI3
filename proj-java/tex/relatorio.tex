@@ -25,7 +25,7 @@
   \begin{minipage}{0.75\linewidth}
       \centering
   %engenharia logo
-      \includegraphics[width=0.4\textwidth]{eng.jpeg}\par\vspace{1cm}
+      \includegraphics[width=0.4\textwidth]{imgs/eng.jpeg}\par\vspace{1cm}
       \vspace{1.5cm}
   %titulos
       \href{https://www.uminho.pt/PT}{\scshape\LARGE Universidade do Minho} \par
@@ -107,7 +107,7 @@ do post (ID); o tipo de post (PostTypeId); o utilizador que publicou o post
 ser uma resposta, o número da pergunta a que se refere (ParentId) e, finalmente,
 a sua data de criação (CreationDate).
 
-\subsection{Concepção da Solução}
+\subsection{Conceção da Solução}
 \label{sec:solucao}
 
 Para resolvermos este problema foram cruciais três momentos. Numa primeira fase,
@@ -192,7 +192,12 @@ especialmente criados por razões de eficiência, que passaremos a explicar em
 ~\ref{sec:desempenho}, para auxiliar nas respostas às queries 8 e 9, o primeiro set,
 11, o segundo set, e 2, a referida lista.
 
-Na estrutura \textbf{day} utilizamos .....
+Na estrutura \textbf{days} também utilizamos a interface map para armazenar
+os dados do dia. Neste map, a chave é o dia em questão no formato LocalDate
+e o valor é um objeto da classe \textbf{Day}. Na classe Day estão armazenados
+dois inteiros, um que guarda o número de perguntas efetuadas naquele
+dia e outro que guarda o número de respostas. Possui ainda duas "List", onde estão
+armazenadas as perguntas e as respostas efetuadas naquele dia.
 
 
 \subsection{Estruturas de Dados Complementares}
@@ -303,13 +308,6 @@ as situações em que o id em causa não representa nenhum post.\end{item}
 as situações em que o id em causa não representa uma pergunta.\end{item}
 \begin{item} \textit{NoAnswersException} - Classe de exceção criada para sinalizar
 as situações em que determinada pergunta não tem associada a si nenhuma resposta.\end{item}
-\begin{item} \textit{NoUserIdException} - Classe de exceção criada para
-    sinalizar as situações em que determinada id não tem associada a si
-    nenhum User.
-\end{item}
-\begin{item} \textit{PostsComparator} - Classe que estabelece
-    ordem de comparação de Posts.
-\end{item}
 \end{itemize}
 
 Por seu turno, no pacote engine agrupamos as classes que fazem o parse dos
@@ -505,15 +503,6 @@ ordenados por cronologia inversa.”}
 
 \vspace{0.1cm}
 
-Em primeiro lugar, verifica-se se a HashTable possui o User com id passado como
-argumento, em caso negativo é lançada uma exceção em como esse utilizador não
-existe.
-Em caso afirmativo, copia-se o objeto da HashTable ao qual se retira a
-biografia e os posts. Em seguida, usa-se o método stream nos posts que serão
-ordenados recorrendo ao uso do PostComparator, dos quais se retiram os primeiros
-10. Faz-se um map a esses 10 resultados para retirar os seus PostId e
-coleciona-se tudo para um List.
-
 
 \subsubsection*{Query 6}
 \label{sec:query6}
@@ -573,12 +562,6 @@ N perguntas cujos títulos a contenham, ordenados por cronologia inversa"}
 
 \vspace{0.1cm}
 
-É criada uma estrutura de posts auiliar ordenada caso a mesma ainda não tenha
-sido criada.
-Sobre essa estrutura é feito um stream, ao qual se filtram as perguntas
-que não tenham as palavras passadas como argumento. Retiram-se os 10 primeiros
-elementos, e usa-se um map para retirar os POstId que se guardam para uma List.
-
 
 
 \subsubsection*{Query 9}
@@ -590,10 +573,6 @@ Note que os utilizadores podem ter participado via pergunta ou respostas"}
 
 \vspace{0.1cm}
 
-É criada uma estrutura de posts auiliar ordenada caso a mesma ainda não tenha
-sido criada.
-É criado um iterator que percorre essa estrutura para verificar os N primeiros
-posts em que ambos os utilizadores criaram ou participaram num post.
 
 \subsubsection*{Query 10}
 \label{sec:query10}
@@ -703,13 +682,13 @@ disco flash de 121 GB}.
 \begin{figure}[H]
     \centering
     \begin{minipage}[b]{0.4\textwidth}
-    \includegraphics[scale=0.7]{Query2_Set}
+    \includegraphics[scale=0.7]{imgs/Query2_Set}
     \caption{Resultados da implementação da query 2 com usersPostsSet}
     \label{figRotulo}
   \end{minipage}
  \hfill
    \begin{minipage}[b]{0.5\textwidth}
-      \includegraphics[scale=0.7]{Query2_List}
+      \includegraphics[scale=0.7]{imgs/Query2_List}
       \caption{Resultados da implementação da query 2 com usersPostsList}
       \label{figRotulo}
       \end{minipage}
@@ -723,6 +702,61 @@ uma TreeSet de usuários ordenada por ordem decrescente de número de posts,
 devidamente a TreeSet e a responder à query 2, ao passo que com uma lista,
 o mesmo processo, leva em média 144,45 ms,o que equivale a um ganho de cerca de
 50 ms, pelo que optamos pela implementação da query 2 descrita na secção Queries.
+
+
+\section{Interface Gráfica}
+\label{sec:interfacegrafica}
+
+Implementamos também uma interface gráfica, presente na classe GUI,
+com a ajuda da biblioteca JavaFX.
+
+Quando o programa é aberto aparece a imagem em seguida, e o utilizador deverá
+colocar o seu nome e o path (completo) onde se encontra a pasta com os ficheiros
+XML.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.40]{imgs/inicio.png}
+\caption{Stack Overflow Information Processing.}
+\label{img:iniciolasdk}
+\end{figure}
+
+Depois disso aparece a seguinte dashboard, onde o utilizador deverá escolher
+a query que pretende correr. Em baixo, à esquerda, aparece o tempo
+(em milissegundos) que o load demorou.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.40]{imgs/inicio2.png}
+\caption{Stack Overflow Information Processing-  Queries.}
+\label{img:iniciolasdk}
+\end{figure}
+
+Assim, selecionando a query pretendida, abre a seguinte dashboard, por exemplo
+da Query 7:
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.40]{imgs/query7img.png}
+\caption{Query 7.}
+\label{img:query7img}
+\end{figure}
+
+O utilizador deverá preencher os dados dos argumentos necessários
+e clicar em "Obter resultado".
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.40]{imgs/query7result.png}
+\caption{Query 7- resultado.}
+\label{img:query7rest}
+\end{figure}
+
+
+A interface gráfica foi implementada separadamente ao programa, pelo que
+o programa pode ser corrido tanto pelo main do programa fornecido pelos
+professores como através da classe GUI.
+
 
 \section{Conclusões}
 \label{sec:conclusao}
