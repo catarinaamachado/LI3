@@ -50,7 +50,7 @@ public class TCD_Community implements TADCommunity {
      *
      * @param users - HashMap que armazena os utilizadores.
      * @param posts - HashMap que armazena os posts.
-     * @param questionSet - Set que armazena perguntas.
+     * @param questionsSet - Set que armazena perguntas.
      * @param usersSet - Set que armazena utilizadores.
      * @param usersPostList - Lista que armazena os identificadors dos Users.
      * @param tags - HashMap que armazena as tags.
@@ -133,7 +133,7 @@ public class TCD_Community implements TADCommunity {
     /**
      * Função que estabelece o apontador para o Set questionsSet
      *
-     * @param Set<Question> - o set das perguntas
+     * @param questionsSet - o set das perguntas
      */
     public void setQuestionsSet(Set<Question> questionsSet) {
         this.questionsSet = questionsSet.stream().
@@ -153,7 +153,7 @@ public class TCD_Community implements TADCommunity {
     /**
      * Função que estabelece o apontador para o Set usersSet
      *
-     * @param Set<Users> - set dos utilizadores
+     * @param usersSet - set dos utilizadores
      */
     public void setUsersSet(Set<Users> usersSet) {
         this.usersSet = usersSet.stream().
@@ -172,7 +172,7 @@ public class TCD_Community implements TADCommunity {
     /**
      * Função que estabelece o apontador para a lista de usersPostList.
      *
-     * @param List<Long> - lista dos ids dos utilizadores
+     * @param usersPostList- lista dos ids dos utilizadores
      */
     public void setUsersPostList(List<Long> usersPostList) {
         this.usersPostList = usersPostList.stream().collect(Collectors.toList());
@@ -212,7 +212,7 @@ public class TCD_Community implements TADCommunity {
      *
      * @param days - Map days
      */
-    public void setDays(Map<LocalDate, Day> tags) {
+    public void setDays(Map<LocalDate, Day> days) {
         this.days = days.entrySet().stream().
                 collect(Collectors.toMap(k -> k.getKey(), t -> t.getValue().clone()));
     }
@@ -329,7 +329,8 @@ public class TCD_Community implements TADCommunity {
     /**
      * Método que insere uma tag numa HashMap.
      *
-     * @param t - Tag.
+     * @param name_tag - nome da Tag.
+     * @param id_tag - identificador da Tag.
      *
      */
     public void insertTag(String name_tag, long id_tag) {

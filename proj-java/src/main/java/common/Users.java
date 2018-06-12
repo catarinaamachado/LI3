@@ -2,8 +2,6 @@ package common;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 /**
@@ -81,7 +79,7 @@ public class Users {
     /**
      * Função que estabelece o id do utilizador.
      *
-     * @param long - Id do user.
+     * @param user_id - Id do user.
      */
     public void setUserId(long user_id) {
         this.user_id = user_id;
@@ -99,7 +97,7 @@ public class Users {
     /**
      * Função que estabelece o nome do utilizador.
      *
-     * @param String - Nome do user.
+     * @param username - Nome do user.
      */
     public void setUserName(String username) {
         this.username = username;
@@ -117,7 +115,7 @@ public class Users {
     /**
      * Função que estabelece a biografia do utilizador.
      *
-     * @param String - Biografia do user.
+     * @param shortbio - Biografia do user.
      */
     public void setUserBio(String shortbio) {
         this.shortbio = shortbio;
@@ -135,7 +133,7 @@ public class Users {
     /**
      * Função que estabelece a reputação do utilizador.
      *
-     * @param int - Reputação do user.
+     * @param reputation - Reputação do user.
      */
     public void setReputation(int reputation) {
         this.reputation = reputation;
@@ -153,7 +151,7 @@ public class Users {
     /**
      * Função que estabelece o numero de posts do utilizador.
      *
-     * @param int - Numero de posts do user.
+     * @param n_posts - Numero de posts do user.
      */
     public void setNPosts(int n_posts) {
         this.n_posts = n_posts;
@@ -174,7 +172,7 @@ public class Users {
     /**
      * Função que estabelece o conjunto de posts do utilizador.
      *
-     * @param List<Posts> - Lista de posts do user.
+     * @param posts - Lista de posts do user.
      */
     public void setPosts(List<Posts> posts) {
         this.posts = posts
@@ -244,7 +242,7 @@ public class Users {
     public Users clone() {
         return new Users(this);
     }
-    
+
     /**
      * Método adiciona um post ao utilizador.
      *

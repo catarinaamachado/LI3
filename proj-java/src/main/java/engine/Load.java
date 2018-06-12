@@ -1,10 +1,5 @@
 package engine;
 
-import java.io.IOException;
-import javax.xml.parsers.*;
-import org.xml.sax.*;
-
-
 /**
  * Classe que carrega dados do dump xml.
  *
@@ -13,6 +8,10 @@ import org.xml.sax.*;
  * @author A82339
  * @version 20180519
  */
+
+import java.io.IOException;
+import javax.xml.parsers.*;
+import org.xml.sax.*;
 
 public class Load {
 
