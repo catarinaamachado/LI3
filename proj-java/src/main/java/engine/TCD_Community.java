@@ -487,8 +487,12 @@ public class TCD_Community implements TADCommunity {
         if(begin.isBefore(end.plusDays(1))){
             while(!begin.equals(end.plusDays(1))){
                 d = days.get(begin);
-                number_q += d.getN_questions();
-                number_p += d.getN_answers();
+                
+                if(d != null){
+                    number_q += d.getN_questions();
+                    number_p += d.getN_answers();
+                }
+                
                 begin = begin.plusDays(1);
             }
         }
@@ -518,10 +522,14 @@ public class TCD_Community implements TADCommunity {
         if(begin.isBefore(end.plusDays(1))){        
             while(!end.equals(begin.plusDays(-1))){
                 d = days.get(end);
-                for(Question q: d.getQuestions()){
-                    if(q.getTags().contains(tag))
-                        resp.add(q.getPostId());
+                
+                if(d != null){
+                    for(Question q: d.getQuestions()){
+                        if(q.getTags().contains(tag))
+                            resp.add(q.getPostId());
+                    }
                 }
+                
                 end = end.plusDays(-1);
             }
         }
@@ -575,9 +583,11 @@ public class TCD_Community implements TADCommunity {
             while(!begin.equals(end.plusDays(1))){
                 d = days.get(begin);
                 
-                for(Answer a: d.getAnswers())
-                    as.add(a);     
-                    
+                if(d != null){
+                    for(Answer a: d.getAnswers())
+                        as.add(a);     
+                }
+                
                 begin = begin.plusDays(1);
             }
         }    
@@ -619,8 +629,10 @@ public class TCD_Community implements TADCommunity {
             while(!begin.equals(end.plusDays(1))){
                 d = days.get(begin);
                 
-                for(Question q: d.getQuestions())
-                    qs.add(q);     
+                if(d != null){
+                    for(Question q: d.getQuestions())
+                        qs.add(q);     
+                }
                     
                 begin = begin.plusDays(1);
             }
@@ -723,7 +735,7 @@ public class TCD_Community implements TADCommunity {
         Posts post = lookPost(id);
 
         if(post == null || (post.getPostType() != 1)) {
-            throw new NoQuestionIdException("O id " + id + " não pertence a uma pergunta");
+            throw new NoQuestionIdException("O id " + id + " não pertence a uma pergunta.");
         }
         
         pergunta = (Question)post;
@@ -731,7 +743,7 @@ public class TCD_Community implements TADCommunity {
         total_answers = pergunta.getNAnswers();
         
         if(total_answers == 0) {
-            throw new NoAnswersException("A pergunta não tem nenhuma resposta");
+            throw new NoAnswersException("A pergunta não tem nenhuma resposta.");
             }
 
         for(i = 0; i < total_answers; i++) {
@@ -787,18 +799,21 @@ public class TCD_Community implements TADCommunity {
             while(!begin.equals(end.plusDays(1))){
                 d = days.get(begin);
                 
-                for(Question q: d.getQuestions()){
-                    if(users_rep.get(q.getUserId()) != null){
-                        String tag = q.getTags();
-                        String[] parts = tag.split("[><]");
+                if(d != null){
+                    for(Question q: d.getQuestions()){
+                        if(users_rep.get(q.getUserId()) != null){
+                            String tag = q.getTags();
+                            String[] parts = tag.split("[><]");
                         
-                        for(int i = 1; i < parts.length; i++){
-                            if(tags.get(parts[i]) != null)     
-                                ident_tags.add(tags.get(parts[i]));
-                            i++;
-                        }   
-                    }
-                }   
+                            for(int i = 1; i < parts.length; i++){
+                                if(tags.get(parts[i]) != null)     
+                                    ident_tags.add(tags.get(parts[i]));
+                                i++;
+                            }   
+                        }
+                    }   
+                }
+                
                 begin = begin.plusDays(1);
             }
         }    
