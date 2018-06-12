@@ -360,16 +360,16 @@ para fazer o parse dos dados que serão imprescindíveis para a classe
 \textit{Users}\end{item}
 \end{itemize}
 
-Finalmente, no pacote li3 estão presentes a classe Main, o interface \textit{TADCommunity}
-e a classe GUI.
+Finalmente, no pacote li3 estão presentes a classe Main, o interface do sistema de
+queries, a classe de testes e a classe que implementa a nossa interface gráfica.
 \begin{itemize}
 \begin{item} \textit{Main} - Main do programa.\end{item}
 \begin{item} \textit{TADCommunity} - Interface que dispõe dos métodos para carregar
 os ficheiros xml e dar resposta a cada uma das queries.\end{item}
+\begin{item} \textit{QueriesTests} - Classe para testar todas as queries.\end{item}
 \begin{item} \textit{GUI} - Classe que implementa uma interface gráfica
 para o nosso programa.\end{item}
 \end{itemize}
-
 
 Os packages por nós criados podem ser vistos como unidades interdependentes que se
 complementam, cada um com objetivos específicos, que interagem e que estão ligados
@@ -709,7 +709,8 @@ No que se refere à query 2, testamos a possibilidade de termos uma TreeSet a ar
 os usuários por ordem decrescente de posts e um ArrayList, corremos a query 100 vezes
 para cada uma das referidas hipótese obtivemos os tempos descritos nos gráficos
 infra.\footnote{A máquina utilizada para medir os tempos de execução foi um
-MacBook Air com Processador 1,6 GHz Intel Core i5}.
+MacBook Air com Processador 1,6 GHz Intel Core i5, Memória 8 GB 1600 MHz DDR3 e
+disco flash de 121 GB}.
 
 \begin{figure}[H]
     \centering
