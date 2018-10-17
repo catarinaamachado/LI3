@@ -1,15 +1,14 @@
-# reference_repo
-Repositório com ficheiros comuns a todos os projetos. 
+# XML Parser
 
-Estrutura do repositório:
+This project has two versions, one done in C and another in Java.
 
-- pasta `include`: contém todos os ficheiros `.h`
-- pasta `src`: contém o código realizado pelo grupo (ficheiros `.c`)
-- pasta `src/lib`: contém as definições dos tipos que constam na definição da interface do programa
-- pastas `src/obj` e `src/obj/lib`: conterão os ficheiros `.o` quando o programa for compilado
+It was done in the 2nd semester of our 2nd year in the Computer Software Engineering course.
 
 
-* **Catarina Machado** - [catarinamachado](https://github.com/catarinamachado)
-* **Cecília Soares** - [soaresCecilia](https://github.com/soaresCecilia)
-* **João Vilaça** - [machadovilaca](https://github.com/machadovilaca)
+## Contributing
 
+[Catarina Machado](https://github.com/catarinamachado)
+
+[João Vilaça](https://github.com/machadovilaca)
+
+[Cecília Soares](https://github.com/soaresCecilia)
