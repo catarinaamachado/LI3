@@ -1,7 +1,6 @@
-# reference_repo
-Repositório com ficheiros comuns a todos os projetos. 
+# Stackoverflow metadata parser in C
 
-Estrutura do repositório:
+## Estrutura do repositório:
 
 - pasta `include`: contém todos os ficheiros `.h`
 - pasta `src`: contém o código realizado pelo grupo (ficheiros `.c`)
