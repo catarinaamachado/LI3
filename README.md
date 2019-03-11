@@ -1,6 +1,6 @@
 # XML Parser
 
-This project has two versions, one done in [C](https://github.com/catarinamachado/LI3/tree/master/proj-c) and the another in [Java](https://github.com/catarinamachado/LI3/tree/master/proj-java).
+This project has two versions, one done in [C](https://github.com/catarinamachado/LI3/tree/master/proj-c) ([report](https://github.com/catarinamachado/LI3/blob/master/proj-c/tex/relatorio.pdf)) and the another in [Java](https://github.com/catarinamachado/LI3/tree/master/proj-java) ([report](https://github.com/catarinamachado/LI3/blob/master/proj-java/tex/relatorio.pdf)).
 
 Check the project statement [here](https://github.com/catarinamachado/LI3/blob/master/statement.pdf).
 
